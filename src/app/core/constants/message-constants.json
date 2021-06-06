@@ -1,0 +1,10 @@
+{
+    "__comment__" : {
+        "title": "Untranslated messages, string constants",
+        "link" : "https://www.techiediaries.com/angular-local-json-files",
+        "note" : "remember to set resolveJsonModule: true in tsconfig.json file, import needs it"
+    },
+    
+    "CONTENT_TYPE": "Content-Type",
+    "BEARER": "Bearer"
+}

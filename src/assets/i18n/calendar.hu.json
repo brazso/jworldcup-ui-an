@@ -1,0 +1,12 @@
+{
+	"firstDayOfWeek": 1,
+	"dayNames": ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"],
+	"dayNamesShort": ["Vas", "Hét", "Ked", "Sze", "Csü", "Pén", "Szo"],
+	"dayNamesMin": ["V", "H", "K", "Sz", "Cs", "P", "Sz"],
+	"monthNames": ["Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"],
+	"monthNamesShort": ["Jan", "Feb", "Már", "Ápr", "Máj", "Jún", "Júl", "Aug", "Szep", "Okt", "Nov", "Dec"],
+	"today": "Ma",
+	"clear": "Törlés",
+	"dateFormat": "yyyy.mm.dd",
+	"weekHeader": "Hét"
+}

@@ -1,0 +1,593 @@
+{
+	"hello": "transloco en",
+	"dynamic": "transloco {{value}}",
+
+	"GLOBAL": {
+		"FIGYELMEZTETES": "WARNING!",
+		"RELOAD": "Reload Page",
+		"HIBA": "Error!",
+		"SEVERITY": {
+			"SUCCESS": "Success",
+			"INFO": "Info",
+			"WARN": "Warning",
+			"ERROR": "Error"
+		},
+		"IGEN": "Yes",
+		"NEM": "No",
+		"MSG_INVALID_NUMBER": "Might be only positive integer!"
+	},
+	
+	"no-permission": {
+		"view-page": "You do not have permission to view this page."
+	},
+	"SZOLGALTATAS_NEM_ELERHETO": "The service is not available.",
+	"errorCode": "Error code: {{errorStatus}} - \n {{errorMessage}}",
+	"backend_version_load_failed": "Backend version load failed!",
+	"user_load_failed": "User load failed!",
+
+	"______________________________________": "",
+
+	"__Available translations__": "",
+	"language" : {
+		"english": "English",
+		"hungarian": "Magyar"
+	},
+
+	"__General messages__": "",
+	"general": {
+		"email": {
+			"registration": "Confirmation of your registration to JWorldcup",
+			"changeEmail": "Confirmation of your email modification in JWorldcup",
+			"resetPassword": "Confirmation of your password reset in JWorldcup"
+		},
+		"label": {
+			"menu": "Menu",
+			"application": "Application",
+			"welcome": "Good bet and luck!",
+			"id": "Id",
+			"nr": "#",
+			"startTime": "Start time",
+			"confirmation": "Confirmation",
+			"message": "Message",
+			"alert": "Alert",
+			"printInProgress": "Printing is in progress...",
+			"pleaseWait": "Please wait!"
+		},
+		"button": {
+			"cancel": "Cancel",
+			"save": "Save",
+			"modify": "Modify",
+			"delete": "Delete",
+			"back": "Back",
+			"insert": "Insert",
+			"add": "Add",
+			"remove": "Remove",
+			"yes": "Yes",
+			"no": "No",
+			"close": "Close",
+			"print": "Print",
+			"import": "Import",
+			"create": "Create",
+			"refresh": "Refresh",
+			"send": "Send"
+		},
+		"error.missingRequestParameter": "Bad request. Missing {0} parameter."
+	},
+
+	"__Menu messages__": "",
+	"menu": {
+		"view": "View",
+		"matches": "Matches",
+		"groups_standing": "Groups standing",
+		"point_race": "Scores",
+		"bet": "Bet",
+		"bets": "Bets",
+		"favourite_team": "Favourite team",
+		"settings": "Settings",
+		"modify_user": "Modify user",
+		"user_groups": "User groups",
+		"admin": "Admin",
+		"reset_all_passwords": "Reset all passwords",
+		"logout": "Log out",
+		"namecard": "Info",
+		"gameRule": "Game rule",
+		"certificate": "Certificate",
+		"topUsers": "Top players",
+		"chat": "Chat"
+	},
+
+	"__Validation messages__": "",
+	"validator.constraints.Email.message": "not a well-formed email address",
+	
+	"__Service messages__": "",
+	"DB_SAVE_FAILED": "Database save operation failed!",
+	"DISALLOWED_TO_CALL_WS": "Not authorized to call WS, please ask an application key before!",
+	"GIVEN_EMAIL_ADDRESS_INVALID": "The given email address {0} is not acceptable. Please modify it!",
+	"GIVEN_EMAIL_ADDRESS_OCCUPIED": "The given email address {0} is already occupied, add a new one!",
+	"GIVEN_EMAIL_ADDRESS_NOT_EXIST": "There is no user registered with the given email address.",
+	"GIVEN_NEW_PASSWORDS_MISMATCH": "The given new passwords do mismatch. Please correct them!",
+	"GIVEN_PASSWORDS_MISMATCH": "The given passwords do mismatch. Please correct them!",
+	"GIVEN_USER_NOT_EXIST": "The given user {0} does not exist!",
+	"MISSING_USER": "Missing user, please add it!",
+	"MISSING_USER_FULL_NAME": "Missing user full name. Please add it!",
+	"MISSING_USER_OLD_PASSWORD_FULL_NAME_OR_EMAIL_ADDRESS": "Missing user, old password, full name or email address. Please add them!",
+	"MISSING_USER_OR_PASSWORD": "Missing user or password parameters. Please add them!",
+	"MISSING_USER_PASSWORD_FULL_NAME_OR_EMAIL_ADDRESS": "Missing user, password, full name or email address. Please add them!",
+	"MISSING_PASSWORDS": "In case of password modification, actual, new and repeated new passwords must be given! Please add them!",
+	"MISSING_RESET_PASSWORD_EMAIL": "In case of unknown user name or password, the email address of the user must be given. Please add it!",
+	"MISSING_EMAILS": "In case of email modification, new and repeated new email addresses must be given! Please add them!",
+	"MISSING_EMAIL_AGAIN": "In case of email modification, the repeated email address must be also given!",
+	"MISSING_USER_ZONE_ID": "Missing user time zone. Please add it!",
+	"OLD_PASSWORD_INVALID": "The old password is incorrect, please enter it again!",
+	"USER_DISALLOWED_TO_LOGIN": "User login is not authorized! User {0} does not exist or its password is wrong.",
+	"USER_DEPRECATED_PASSWORD_TO_LOGIN": "User login failed because of new security rules, your old password is deprecated. Ask a new password as if it were forgotten.",
+	"USER_CANDIDATE_DISALLOWED_TO_LOGIN": "Your first login must be initiated from the url sent to your email account. Request a new email if necessary!",
+	"USER_CANDIDATE_LOGIN": "Your first login must be initiated from the url sent to your email account. Check your email account!",
+	"USER_LOCKED_DISALLOWED_TO_LOGIN": "Sorry, your account is locked. Send an email to the contact address if you want to login again.",
+	"USER_EXIST_OR_EMAIL_ADDRESS_OCCUPIED": "User already exist or the email address is occupied. Try to use other data for the registration!",
+	"EMAIL_SEND_RECEIPENT_FAILED": "Email has not been sent because email adress {0} is not acceptable.",
+	"EMAIL_SEND_FAILED": "Email has not been sent to {0}.",
+	"TEMPLATE_GENERATION_FAILED": "Template generation of {0} failed.",
+	"REGISTRATION_TOKEN_UNKNOWN": "Registration token is unknown.",
+	"REGISTRATION_TOKEN_LOCKED": " Registration token belongs to a locked user.",
+	"REGISTRATION_TOKEN_ACKNOWLEDGED": "Registration token has been accepted. Please sign in.",
+	"REGISTRATION_TOKEN_UNNECESSARY": "Sending registration token in email is unnecessary and not done.",
+	"USER_TOKEN_UNKNOWN": "User token is unknown.",
+	"USER_TOKEN_NOT_NORMAL": "User token must belong to a normal user.",
+	"USER_STATUS_INADEQUATE": "Operation cannot be done because of the inadequate user status.",
+	"CHANGE_EMAIL_ACKNOWLEDGED": "Earlier email modification has been confirmed and done. Please sign in.",
+	"ENTER_MATCH_RESULTS": "Enter results of matches",
+	"VIEW_MATCH_RESULTS": "View results of matches",
+	"B_ENTER_RESULT": "Enter result",
+	"MISSING_MATCH": "Missing match, please add it!",
+	"MATCH_NOT_FINISHED_YET": "The match has not finished yet, its result cannot be recorded!",
+	"MISSING_MATCH_RESULT": "Missing match result, please add it!",
+	"MISSING_MATCH_AFTER_90_RESULT": "Missing after 90 minutes match result, please add it!",
+	"NUMERIC_VALUE_INVALID": "Not numerical data has been entered, please correct it!",
+	"NOT_POSITIVE_VALUE_INVALID": "Not positive value has been entered, please correct it!",
+	"GROUP_MATCH_WITH_OVERTIME": "Group match cannot have overtime result!",
+	"GROUP_MATCH_WITH_PENALTY": "Group match cannot have penalty result!",
+	"KNOCKOUT_MATCH_WITH_DISALLOWED_OVERTIME": "Knockout match cannot have overtime result, because its round disallows it!",
+	"MATCH_FINISHED_AFTER_90_MIN_NO_OVERTIME": "The match ended after 90 minutes, overtime is not possible!",
+	"MATCH_FINISHED_AFTER_90_MIN_NO_PENALTY": "The match ended after 90 minutes, penalties are not possible!",
+	"ENTER_RESULT_AFTER_OVERTIME": "Please enter the result after overtime!",
+	"PARTIAL_RESULT_AFTER_OVERTIME": "Partially given result after overtime, please complete it!",
+	"MATCH_FINISHED_AFTER_OVERTIME": "The match ended after overtime, penalties cannot be recorded!",
+	"ENTER_RESULT_AFTER_PENALTIES": "Please enter the result after the penalties!",
+	"PARTIAL_RESULT_AFTER_PENALTIES": "Incomplete result after the penalties, please enter it!",
+	"PENALTIES_RESULT_CANNOT_BE_DRAWN": "Result after penalties cannot be drawn, please correct it!",
+	"MISSING_TIP": "Tip has not been entered, please add it!",
+	"MATCH_ALREADY_STARTED": "The match has already started, tip cannot be laid for it!",
+	"ENTER_TIP": "Enter tip",
+	"MODIFY_TIP": "Modify tip",
+	"USER_GROUP_NAME_EMPTY": "Given user group name cannot be empty.",
+	"USER_GROUP_NAME_ALREADY_EXIST": "Given user group name already exists.",
+	"USER_GROUP_NAME_NOT_EXIST": "Given user group name does not exist.",
+	"USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT": "Given user group name already exists on {0} event.",
+	"USER_GROUP_NAME_OCCUPIED": "Given user group name already belongs to another user.",
+	"USER_GROUP_FIELDS_EMPTY": "Given user group member fields cannot be empty. At least one of them must be filled.",
+	"USER_GROUP_EVERYBODY_CANNOT_BE_MODIFIED": "Everybody user group cannot be modified.",
+	"NO_USER_BELONGS_TO_USER_GROUP": "No user belongs to the given user group member fields.",
+	"USER_IS_ALREADY_IN_USER_GROUP": "User is already member of the user group.",
+	"RESET_PASSWORD_INFO": "An email is sent to your address containing instructions about how to log with a new password in. Check your email account!",
+	"RESET_PASSWORD_ACKNOWLEDGED": "Earlier password reset has been confirmed and done. Please sign in with the new password located in the sent email.",
+	"NO_ACTIVE_WEBSERVICE_FOR_EVENT": "There is no active web service configured for event #{0}.",
+	"WEBSERVICE_CALL_FAILED_FOR_METHOD": "Webservice {0} method call failed.",
+	"SCHEDULER_DISABLED": "Scheduler is disabled in the application configuration.",
+	"MISSING_SCHEDULED_RETRIEVAL_MATCH_RESULTS_JOB": "There is no running scheduled job for retrieval of missing results of matches.",
+	"NO_INCOMPLETE_MATCH": "There is no missing incomplete match which should be complete by now.",
+	"SCHEDULED_RMRJ_RELAUNCH_DONE": "Scheduled retrieval of missing results of matches job has been relaunched. Check it out later.",
+	"SCHEDULED_RMRJ_RELAUNCH_FAILED": "Scheduled retrieval of missing results of matches job could not be relaunched.",
+	"MISSING_MESSAGE": "Missing message, please enter it!",
+
+	"__Events__": "",
+	"event": {
+		"description": {
+			"World Cup": "World Cup",
+			"Euro Cup": "Euro Cup",
+			"Copa America": "Copa America",
+			"Asian Cup": "Asian Cup",
+			"Africa Cup of Nations": "Africa Cup of Nations"
+		},
+		"label.finishedMatches": "Finished matches"
+	},
+
+	"__Rounds__": "",
+	"round": {
+		"1st round": "1st round",
+		"2nd round": "2nd round",
+		"3rd round": "3rd round",
+		"Round of 16": "Round of 16",
+		"Quarter-finals": "Quarter-finals",
+		"Semi-finals": "Semi-finals",
+		"Third place play-off": "Third place play-off",
+		"Final": "Final"
+	},
+
+	"__Teams__": "",
+	"team": {
+		"Albania": "Albania",
+		"Algeria": "Algeria",
+		"Angola": "Angola",
+		"Argentina": "Argentina",
+		"Australia": "Australia",
+		"Austria": "Austria",
+		"Bahrain": "Bahrain",
+		"Belgium": "Belgium",
+		"Benin": "Benin",
+		"Bolivia": "Bolivia",
+		"Bosnia and Herzegovina": "Bosnia and Herzegovina",
+		"Brazil": "Brazil",
+		"Burundi": "Burundi",
+		"Cameroon": "Cameroon",
+		"Chile": "Chile",
+		"China": "China",
+		"Colombia": "Colombia",
+		"Costa Rica": "Costa Rica",
+		"Croatia": "Croatia",
+		"Czech Republic": "Czech Republic",
+		"Democratic Republic of the Congo": "Democratic Republic of the Congo",
+		"Denmark": "Denmark",
+		"Ecuador": "Ecuador",
+		"Egypt": "Egyipt",
+		"England": "England",
+		"France": "France",
+		"Germany": "Germany",
+		"Ghana": "Ghana",
+		"Greece": "Greece",
+		"Guinea": "Guinea",
+		"Guinea-Bissau": "Guinea-Bissau",
+		"Haiti": "Haiti",
+		"Honduras": "Honduras",
+		"Hungary": "Hungary",
+		"Iceland": "Iceland",
+		"India": "India",
+		"Iran": "Iran",
+		"Iraq": "Iraq",
+		"Italy": "Italy",
+		"Ivory Coast": "Ivory Coast",
+		"Jamaica": "Jamaica",
+		"Japan": "Japan",
+		"Jordan": "Jordan",
+		"Kenya": "Kenya",
+		"Kyrgyzstan": "Kyrgyzstan",
+		"Lebanon": "Lebanon",
+		"Madagascar": "Madagascar",
+		"Mali": "Mali",
+		"Mauritania": "Mauritania",
+		"Mexico": "Mexico",
+		"Morocco": "Morocco",
+		"Namibia": "Namibia",
+		"Netherlands": "Netherlands",
+		"Nigeria": "Nigeria",
+		"North Korea": "North Korea",
+		"Northern Ireland": "Northern Ireland",
+		"Oman": "Oman",
+		"Palestine": "Palestine",
+		"Panama": "Panama",
+		"Paraguay": "Paraguay",
+		"Peru": "Peru",
+		"Philippines": "Philippines",
+		"Portugal": "Portugal",
+		"Poland": "Poland",
+		"Qatar": "Qatar",
+		"Republic of Ireland": "Republic of Ireland",
+		"Romania": "Romania",
+		"Russia": "Russia",
+		"Saudi Arabia": "Saudi Arabia",
+		"Senegal": "Senegal",
+		"Serbia": "Serbia",
+		"Slovakia": "Slovakia",
+		"South Africa": "South Africa",
+		"South Korea": "South Korea",
+		"Spain": "Spain",
+		"Sweden": "Sweden",
+		"Switzerland": "Switzerland",
+		"Syria": "Syria",
+		"Tanzania": "Tanzania",
+		"Thailand": "Thailand",
+		"Tunisia": "Tunisia",
+		"Turkey": "Turkey",
+		"Turkmenistan": "Turkmenistan",
+		"Uganda": "Uganda",
+		"Ukraine": "Ukraine",
+		"Uruguay": "Uruguay",
+		"United Arab Emirates": "United Arab Emirates",
+		"United States": "United States",
+		"Uzbekistan": "Uzbekistan",
+		"Venezuela": "Venezuela",
+		"Vietnam": "Vietnam",
+		"Wales": "Wales",
+		"Yemen": "Yemen",
+		"Zimbabwe": "Zimbabwe"
+	},
+
+	"__About dialog__": "",
+	"about": {
+		"title": "About",
+		"label": {
+			"corporation": "Zematix Corp.",
+			"version": "Version",
+			"contactEmail": "Contact email"
+		}
+	},
+
+	"__Game rule dialog__": "",
+	"gameRule": {
+		"title": "Game rule",
+		"info": [ 
+			"<p><strong>Game rule</strong></p>",
+			"<p>Registered users can play with each other with this exciting soccer betting game. A bet to be staked is simple, the exact result of the match must be entered before its starting time. Each game belongs to an international football tournament, for example a world cup. A tournament consists of matches and those results must be tipped. Each user may select an favourite teams for the group stage and another one for the knockout stage. Player gets double score if her bet wins on a match where her favourite team is involved. The results of the players can be checked during the tournament, after the event a certificate of merit can be printed to prove the player's result. Any user can create an user group where her buddies can be added to. The results also can be viewed of these user groups, so smaller companies can be played isolated from the others. There is a top players list where the best performances of all tournaments are displayed globally. Based on an balanced calculation, the player's results of all finished events are sorted and the best ones are shown here.</p>",
+			"<p><strong>How a bet on a match is evaluated</strong></p>",
+			"<p>After a match is over, its result is compared to the player's bet, and the following score is added to the player's sum. Only the first matching rule takes into account.</p>",
+			"<ul>",
+			"<li>exact result (e.g. match is 1:0, bet is also 1:0): <strong>3 points</strong></li>",
+			"<li>exact (signed) goal difference (e.g. match is 1:0, bet is 2:1): <strong>2 points</strong></li>",
+			"<li>approximately result (e.g. match is 1:0, bet is 2:0): <strong>1 points</strong></li>",
+			"</ul>",
+			"<p>The order of the teams are important. No points are gained if in your bet, except the draw bet, the participant teams are in reversed order. A draw bet may gain 0, 2 or 3 points but never 1 point, because the goal difference is always constant 0 value at draws.</p>",
+			"<ul>",
+			"<li>favorite team is participant: <strong>double multiplier</strong> on the gained points</li>",
+			"</ul>",
+			"<p>If a favorite team is one of the participants of the match, double score is gained. In this case a player can get 0, 2, 4 or 6 points after a bet. Favourite team might be selected for the group stage, any team of the tournament can be choosen, but it must be done before the starting time of the first match. When the group stage is over, a new favourite team should be selected for the knockout stage.&nbsp; It can be done before the starting time of the first match of the knockout stage. Bear in mind, that knockout favourite team also should be chosen if the group favourite team gets into the knockout stage. Ther latter one is not placed automatically to the knockout favourite team.</p>",
+			"<p><strong>FAQ</strong></p>",
+			"<ul>",
+			"<li>email is sent only from the application when a function is initiated by the user where email confirmation is needed</li>",
+			"<li>if you never want to change your email address and/or passwords later, you may use easily temporarily created email address given by 3rd parties</li>",
+			"<li>mobile application client development is in progress. For the time being the game can be played only in browsers.</li>",
+			"</ul>",
+			"<p><strong>Have fun!</strong></p>"
+		] 
+	},
+
+	"__Login form__": "",
+	"login": {
+		"title": "User Login",
+		"label": {
+			"loginName": "Username",
+			"loginPassword": "Password",
+			"event": "Event",
+			"language": "Language",
+			"rememberMe": "Remember Me"
+		},
+		"button": {
+			"login": "Login",
+			"sendRegistrationMail": "Send email",
+			"register": "Sign up",
+			"forgottenPassword": "Forgotten password"
+		},
+		"error": {
+			"unknownAccount": "Unknown account or Wrong password",
+			"lockedAccount": "Locked account",
+			"unknownError": "Unknown error: {0}"
+		}
+	},
+
+	"__Register (sign up) form__": "",
+	"register": {
+		"title": "User Registration",
+		"label": {
+			"loginName": "Username",
+			"loginPassword": "Password",
+			"loginPasswordAgain": "Password again",
+			"fullName": "Full name",
+			"emailAddr": "Email address",
+			"zoneId": "Local time zone"
+		},
+		"button.register": "Register"
+	},
+
+	"__Forgotten password (reset password by email) form__": "",
+	"forgottenPassword": {
+		"title": "Forgotten Username or Password",
+		"label.emailAddr": "Email address",
+		"button.resetPassword": "Reset Password"
+	},
+
+	"__Matches form__": "",
+	"matches": {
+		"title": "Enter result",
+		"label": {
+			"id": "Id",
+			"startTime": "Start time",
+			"team": "Team",
+			"scoredPenalties": "Scored penalties",
+			"scoredPenalties_": "Goals of<br/>penalties",
+			"scoredAfterOvertime": "Goals after overtime",
+			"scoredAfterOvertime_": "Goals<br/>overt",
+			"scoredGoals": "Scored goals",
+			"scoredGoals_": "Goals",
+			"scoredAfter90Minutes": "Goals after 90 minutes",
+			"scoredAfter90Minutes_": "Goals 90<br/>minutes",
+			"triggerStartTime": "Scheduled retrieval time values of match results"
+		},
+		"button": {
+			"enterResult": "Enter result",
+			"resetScheduler": "Reset scheduler"
+		},
+		"tooltip": {
+			"triggerStartTime": "History of updating attempts of match results. Last time value in the list is used next.",
+			"resetScheduler": "Scheduled retrieval of results of matches job is triggered at once"
+		}
+	},
+
+	"__Match detail form__": "",
+	"matchDetail": {
+		"title": "Enter match result",
+		"label": {
+			"teams": "Teams",
+			"finalResult": "Final result",
+			"after90minutes": "After 90 minutes",
+			"afterOvertime": "After overtime",
+			"afterPenalties": "After penalties"
+		}
+	},
+
+	"__Bets form__": "",
+	"bets": {
+		"title": "Enter tips",
+		"label": {
+			"goalTip": "Goal tip",
+			"score": "Score"
+		}
+	},
+
+	"__Bet detail form__": "",
+	"betDetail": {
+		"title": "Enter tip",
+		"label": {
+			"teams": "Teams",
+			"goalTip": "Goal tip"
+		}
+	},
+
+	"__Group standings form__": "",
+	"groupStandings": {
+		"title": "Group stage result",
+		"label": {
+			"groupTitle": "Group {0}",
+			"positionInsideGroup": "Position inside group",
+			"positionInsideGroup_": "Pos",
+			"team": "Team",
+			"played": "Played",
+			"played_": "Pld",
+			"won": "Won",
+			"won_": "W",
+			"draw": "Draw",
+			"draw_": "D",
+			"lost": "Lost",
+			"lost_": "L",
+			"goalsFor": "Goals for",
+			"goalsFor_": "GF",
+			"goalsAgainst": "Goals against",
+			"goalsAgainst_": "GA",
+			"goalDifference": "Goal difference",
+			"goalDifference_": "GD",
+			"points": "Points",
+			"points_": "Pts"
+		}
+	},
+
+	"__Favourite team detail form__": "",
+	"favouriteTeamDetail": {
+		"title": "Enter favourite teams",
+		"label": {
+			"favouriteTeamDuringGroupMatches": "Favorite team during group-matches",
+			"favouriteTeamDuringKnockoutMatches": "Favorite team during knockout-matches"
+		}
+	},
+
+	"__Scores form__": "",
+	"scores": {
+		"title": "Standing of competition",
+		"label": {
+			"userGroup": "User group",
+			"standing": "Standing",
+			"user": "User",
+			"points": "Points"
+		},
+		"chart": {
+			"title": "Scores gained by users on each day of the event where bet is placed",
+			"axis": {
+				"x.label": "Match days",
+				"y.label": "Score"
+			}
+		}
+	},
+
+	"__User Groups form__": "",
+	"userGroups": {
+		"title": "Maintenance of user groups",
+		"label": {
+			"userGroups": "User groups",
+			"userGroup": "User group",
+			"owner": "Owner",
+			"userGroupMembers": "Members of '{0}' user group",
+			"loginName": "Username",
+			"fullName": "Full name",
+			"name": "Name"
+		},
+		"button": {
+			"insert": "Insert",
+			"delete": "Delete"
+		},
+		"confirmation": {
+			"deleteUserGroup": "Do you really want to delete the selected user group?",
+			"deleteUserGroupWithMembers": "Do you really want to delete the selected user group with its members?",
+			"removeMemberFromUserGroup": "Do you really want to remove the selected member from the user group?"
+		},
+		"name.Everybody": "Everybody"
+	},
+
+	"__User Detail form__": "",
+	"userDetail": {
+		"title": "User configuration",
+		"label": {
+			"general": "General",
+			"zoneId": "Local time zone",
+			"deleteUser": "Delete account",
+			"loginPassword": "Login Password",
+			"loginPasswordActual": "Actual password",
+			"loginPasswordNew": "New password",
+			"loginPasswordAgain": "New password again",
+			"email": "Email",
+			"emailAddr": "Actual email address",
+			"emailNew": "New email address",
+			"emailNewAgain": "New email address again"
+		},
+		"button": {
+			"update": "Update",
+			"deleteUser": "Delete user"
+		},
+		"popup": {
+			"sendChangeEmail": "Please follow the instructions sent in an email to your new address to commit the email modification. Check your email account!",
+			"confirm.deleteUser": "All of your bets and registration data will be erased. You cannot log in again without new registration. Are you sure to delete your account?"
+		}
+	},
+
+	"__Certificate form__": "",
+	"certificates": {
+		"title": "Certificate of merit",
+		"label": {
+			"achievedScore": "Achieved score",
+			"userGroup": "User group",
+			"standing": "Standing",
+			"userGroupName": "Group name",
+			"maximumScoreByEvent": "Reachable<br/>score",
+			"firstUserScore": "Best<br/>score",
+			"userScore": "User<br/>score",
+			"numberOfMembers": "Number of<br/>members",
+			"numberOfEverybodyMembers": "Number of<br/>everybody members",
+			"userGroupPosition": "Group<br/>position",
+			"userGroupLastPosition": "Group<br/>last position",
+			"score": "Calculated<br/>score"
+		}
+	},
+
+	"__TopUsers form__": "",
+	"topUsers": {
+		"title": "Top players of all events",
+		"label": {
+			"standing": "Standing",
+			"userLoginName": "Username",
+			"userFullName": "Full user name",
+			"eventShortDescWithYear": "Event",
+			"userScore": "User<br/>score",
+			"firstUserScore": "Best<br/>score",
+			"maximumScoreByEvent": "Reachable<br/>score",
+			"numberOfMembers": "Number of<br/>members",
+			"numberOfEverybodyMembers": "Maximum number of<br/>everybody members",
+			"userGroupPosition": "Group<br/>position",
+			"userGroupLastPosition": "Group<br/>last position",
+			"score": "Calculated<br/>score"
+		}
+	},
+
+	"__Chat form__": "",
+	"chat": {
+		"title": "Chat",
+		"label.sendMessage": "Message",
+		"tooltip.refresh": "Refreshes the chat messages of the actual user group"
+	}
+
+}

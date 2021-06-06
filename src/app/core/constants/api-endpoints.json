@@ -1,0 +1,14 @@
+{
+    "__comment__" : {
+        "title": "Api endpoints without base path"
+    },
+
+    "LOGIN": "/login",
+    "LOGOUT" : "/logout",
+    "SIGNUP" : "/signup",
+    "BACKEND_VERSION" : "/backend-version",
+    
+    "USERS" : {
+        "WHOAMI" : "/users/whoami"
+    }
+}

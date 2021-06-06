@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  be_root: "http://localhost:8090/jworldcup",
+  with_credentials: true
 };
 
 /*

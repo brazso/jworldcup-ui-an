@@ -1,0 +1,13 @@
+{
+	"__comment__" : {
+        "title": "Router nagivation links"
+    },
+	
+	"ROOT": "",
+	"FORBIDDEN": "error/403",
+	"SERVICE_UNAVAILABLE": "error/503",
+	"LOGIN": "login",
+
+	"EXAMPLE_PAGE": "example",
+	"USERS_PAGE": "search-users"
+}
