@@ -5,12 +5,16 @@ JWorldcup soccer bet game user interface on HTML5/TypeScript/Angular (depends on
 
 ```
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt install -y nodejs
+nodejs --version
 ```
 
 ## Install (update) npm
 
-`sudo npm install -g npm`
+```
+sudo npm install -g npm
+npm --version
+```
 
 ## Install Angular CLI
 
@@ -19,6 +23,7 @@ sudo npm uninstall -g angular-cli
 sudo npm uninstall -g @angular/cli
 npm cache clean --force
 sudo npm install -g @angular/cli
+ng --version
 ```
 
 ## Create Angular application

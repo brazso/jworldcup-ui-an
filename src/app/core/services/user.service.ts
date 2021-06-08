@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { User } from 'src/app/core/models/user/user.model';
-import { MenuElement } from 'src/app/core/models/menuElement';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { TranslocoService } from '@ngneat/transloco';
-import { GenericListResponse } from 'src/app/core/models/common';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 
 @Injectable({
@@ -19,7 +17,7 @@ export class UserService {
   ) {
   }
 
-  loadUser(): Observable<User> {
+  private loadUser(): Observable<User> {
     try {
       let lang: string = this.translocoService.getActiveLang();
       console.log('lang='+lang);
@@ -40,10 +38,10 @@ export class UserService {
         },
         err => {
           if (err.url) {
-            console.log('sso bejelentkezésre navigálás', err.url);
-            window.location.href = err.url;
+            // console.log('forward to login', err.url);
+            // window.location.href = err.url;
           } else {
-            console.log('Tovább dobom a hibát, user service-ből', err);
+            console.log('Rolls further the error from user service', err);
             throw new Error(err);
           }
           reject(err);
@@ -60,14 +58,8 @@ export class UserService {
     return this.user.authorities!;
   }
 
-  getVisibleMenuItems(): Observable<GenericListResponse<MenuElement>> {
-    try {
-      return this.apiService.get<GenericListResponse<MenuElement>>(
-        '/getLathatoMenuElemekSzerepkorAlapjan'
-      );
-    } catch (error) {
-      throw new Error(this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO"));
-    }
+  isAuthenticated(): boolean {
+    return !!this.user;
   }
 
   /**

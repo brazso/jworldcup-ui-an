@@ -38,7 +38,6 @@ export class ApiService {
   }
 
   public get<T>(url: string, config?: object): Observable<T> {
-    console.log('get: url='+url);
     const configuration = this.mergeWithDefaultConfig(config);
     return this.http.get<T>(this.basePath + url, configuration);
   }

@@ -12,6 +12,7 @@ import { HttpConfigInterceptor } from './core/interceptors/http-config.intercept
 import { DateParserInterceptor } from './core/interceptors/date-parser.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import { AuthModule } from './feature/auth/auth.module';
 
 export function initUser(userService: UserService) {
   return (): Promise<any>  => {
@@ -34,12 +35,13 @@ export function initUser(userService: UserService) {
     TranslocoRootModule,
     BrowserAnimationsModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    AuthModule
   ],
   // for Services (Guards can be considered to Services)
   providers: [
     UserService,
-    { provide: APP_INITIALIZER, useFactory: initUser, deps: [UserService], multi: true },
+    // { provide: APP_INITIALIZER, useFactory: initUser, deps: [UserService], multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true }
   ],

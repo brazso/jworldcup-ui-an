@@ -62,16 +62,18 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 		return next.handle(request).pipe(
 			map((event: HttpEvent<any>) => {
 				if (event instanceof HttpResponse) {
-					// console.log('event--->>>', event);
+					console.log('event--->>>', event);
 					this.onEnd();
 				}
 				return event;
 			}),
 			catchError((error: HttpErrorResponse, caught) => {
+				console.log('error--->>>', error);
 				this.onEnd();
 				this.modal.closeAll();
 				if (error.status === 401) {
 					// Unauthorized, go to login
+					console.log('hello');
 					this.authService.unauthenticate()
 					this.router.navigate([RouterUrls.LOGIN]);
 				}

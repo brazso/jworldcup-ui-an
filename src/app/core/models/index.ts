@@ -1,4 +1,4 @@
 export * from './common';
 export * from './enum';
-export * from './menuElement';
+export * from './modal';
 export * from './user';

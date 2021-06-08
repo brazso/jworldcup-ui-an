@@ -1,6 +1,6 @@
 import {LOCALE_ID, ModuleWithProviders, NgModule} from '@angular/core';
 // import localeHU from '@angular/common/locales/hu';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, CommonModule } from '@angular/common';
 
 // import { TranslateModule } from '@ngx-translate/core';
@@ -47,6 +47,7 @@ import { CalendarLocaleService } from './services/calendar-locale.service';
 import { LoaderService } from './services/loader.service';
 import { ModalService } from './services/modal.service';
 import { CoreModule } from '../core';
+import { ListErrorsComponent } from './list-errors';
 
 // import { InputTextComponent } from './input-text/input-text.component';
 // import { InputTextAreaComponent } from './input-textarea/input-textarea.component';
@@ -64,6 +65,7 @@ import { CoreModule } from '../core';
 const ANGULAR_MODULES = [
   CommonModule,
   FormsModule,
+  ReactiveFormsModule,
   TranslocoModule
 ];
 
@@ -98,9 +100,9 @@ const PRIMENG_MODULES = [
   TreeTableModule
 ];
 
-// const SHARED_COMPONENTS = [
-//   InputTextComponent,
-// ];
+ const SHARED_COMPONENTS = [
+  ListErrorsComponent
+ ];
 
 const SHARED_DIRECTIVES = [
    AutoFocusDirective,
@@ -145,13 +147,13 @@ const SHARED_SERVICES = [
     ANGULAR_MODULES,
     PRIMENG_MODULES,
     // BOOTSTRAP_MODULES,
-    // SHARED_COMPONENTS,
+    SHARED_COMPONENTS,
     SHARED_PIPES,
     SHARED_DIRECTIVES,
   ],
   declarations: [
     // DIALOGS,
-    // SHARED_COMPONENTS,
+    SHARED_COMPONENTS,
     SHARED_PIPES,
     SHARED_DIRECTIVES,
   ],

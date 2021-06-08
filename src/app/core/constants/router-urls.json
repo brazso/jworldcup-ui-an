@@ -7,7 +7,9 @@
 	"FORBIDDEN": "error/403",
 	"SERVICE_UNAVAILABLE": "error/503",
 	"LOGIN": "login",
+	"REGISTER": "register",
 
+	"HOME_PAGE": "home",
 	"EXAMPLE_PAGE": "example",
 	"USERS_PAGE": "search-users"
 }
