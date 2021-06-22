@@ -111,3 +111,4 @@ ng --version
 
 - [Angular: Core and Shared Modules](https://medium.com/@joao.aguas/angular-core-and-shared-modules-efe072bc9645)
 - [Fully fledged example Angular application](https://github.com/gothinkster/angular-realworld-example-app)
+- [Login/Register form sample](https://codepen.io/gstorbeck/embed/gbNEOr?height=530&theme-id=0&slug-hash=gbNEOr&default-tab=css%2Cresult&user=gstorbeck&pen-title=Login%20Form&name=cp_embed_93)
