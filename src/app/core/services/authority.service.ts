@@ -10,8 +10,8 @@ import { User, JwtRequest, JwtResponse } from '../models/user';
   })
 export class AuthorityService {
 
-	user: User | null;
-	token: string | null; // Jason Web Token
+	token: string | undefined; // JSON Web Token
+	user: User | undefined;
 
 	constructor(
 		private readonly apiService: ApiService,
@@ -28,8 +28,7 @@ export class AuthorityService {
 						this.user = user;
 						// sessionStorage.setItem('username', user.loginName!);
 					} else {
-						this.user = null;
-						this.token = null;
+						this.unauthenticate();
 					}
 
 					return;
@@ -60,8 +59,10 @@ export class AuthorityService {
 	}
 
 	unauthenticate() {
-		this.token = null;
-		this.user = null;
+		//this.token = undefined;
+		delete(this.token);
+		//this.user = undefined;
+		delete(this.user);
 	}
 
 	logout(): any {

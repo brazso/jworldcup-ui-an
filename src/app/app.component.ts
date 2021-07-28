@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
     let msg: string = this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO");
     console.log('msg0='+msg);
     this.translocoService.selectTranslate('SZOLGALTATAS_NEM_ELERHETO').subscribe((msg: string) => {
@@ -40,7 +39,6 @@ export class AppComponent implements OnInit {
     });
     this.loadAndStoreUser();
     this.setupBackendVersionNumberText();
-
   }
 
   title = 'jworldcup-ui-an';

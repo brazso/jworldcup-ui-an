@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
 	HttpInterceptor,
 	HttpRequest,
@@ -8,7 +8,7 @@ import {
 	HttpErrorResponse
 } from '@angular/common/http';
 
-import { Observable, throwError, of, pipe } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthorityService } from 'src/app/core/services/authority.service';
@@ -73,8 +73,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 				this.modal.closeAll();
 				if (error.status === 401) {
 					// Unauthorized, go to login
-					console.log('hello');
-					this.authService.unauthenticate()
+					console.log('navigate to login');
+					this.authService.unauthenticate();
 					this.router.navigate([RouterUrls.LOGIN]);
 				}
 				if (error.status === 403) {
@@ -101,12 +101,15 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 				return throwError(error);
 			}));
 	}
+
 	private onEnd(): void {
 		this.hideLoader();
 	}
+
 	private showLoader(): void {
 		this.loader.show();
 	}
+	
 	private hideLoader(): void {
 		this.loader.hide();
 	}

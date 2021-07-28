@@ -34,6 +34,11 @@ ng --version
 
 > ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
 
+## Start Angular application
+```
+ng serve
+```
+
 ### Role of package-lock.json
 
 - Add the _package-lock.json_ you to your version control repository
