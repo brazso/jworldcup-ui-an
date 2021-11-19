@@ -13,6 +13,7 @@ import { DateParserInterceptor } from './core/interceptors/date-parser.intercept
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 export function initUser(userService: UserService) {
   return (): Promise<any>  => {
@@ -36,7 +37,8 @@ export function initUser(userService: UserService) {
     BrowserAnimationsModule,
     CoreModule,
     SharedModule,
-    AuthModule
+    AuthModule,
+    FlexLayoutModule
   ],
   // for Services (Guards can be considered to Services)
   providers: [

@@ -34,6 +34,31 @@ ng --version
 
 > ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
 
+### PrimeNG
+Follow install tutorial [ https://primefaces.org/primeng/showcase/#/setup ]
+
+```
+npm install primeng --save
+npm install primeicons --save
+```
+
+In angular.json file add new css files to styles block:
+
+    "styles": [
+        "src/styles.scss",
+        "node_modules/primeicons/primeicons.css",
+        "node_modules/primeng/resources/themes/saga-blue/theme.css",
+        "node_modules/primeng/resources/primeng.min.css"
+    ],
+
+### Layout
+
+npm install --save @angular/flex-layout
+
+### Translation
+
+npm install --save @ngneat/transloco
+
 ## Start Angular application
 ```
 ng serve

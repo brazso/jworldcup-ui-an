@@ -6,7 +6,8 @@ import { Errors, UserService } from 'src/app/core';
 
 @Component({
   selector: 'app-auth-page',
-  templateUrl: './auth.component.html'
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
   authType: String = '';
