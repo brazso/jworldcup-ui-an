@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,10 +11,9 @@ import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpConfigInterceptor } from './core/interceptors/http-config.interceptor';
 import { DateParserInterceptor } from './core/interceptors/date-parser.interceptor';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule, FooterComponent, HeaderComponent } from './shared';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 export function initUser(userService: UserService) {
   return (): Promise<any>  => {
@@ -26,7 +26,7 @@ export function initUser(userService: UserService) {
   // for Components, Directives & Pipes
   // Component cannot belong to more than one module
   declarations: [
-    AppComponent
+    AppComponent, FooterComponent, HeaderComponent
   ],
   // used Modules
   imports: [
