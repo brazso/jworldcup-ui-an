@@ -9,7 +9,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
-
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { AccordionModule } from 'primeng/accordion';
 import { PanelModule } from 'primeng/panel';
@@ -39,7 +38,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TreeTableModule } from 'primeng/treetable';
 import { FieldsetModule } from 'primeng/fieldset';
-
 
 /* own components */
 import { DynamicDatePipe } from './pipes/dynamic-date.pipe';

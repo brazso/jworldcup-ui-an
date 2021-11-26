@@ -14,11 +14,10 @@ export class HeaderComponent implements OnInit {
   currentUser: User;
 
   ngOnInit() {
-    /*this.userService.currentUser.subscribe(
-      (userData) => {
-        this.currentUser = userData;
+    this.userService.user.subscribe(
+      (user) => {
+        this.currentUser = user;
       }
-    );*/
-    this.currentUser = this.userService.user;
+    );
   }
 }

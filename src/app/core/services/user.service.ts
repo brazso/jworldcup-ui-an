@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from 'src/app/core/models/user/user.model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
@@ -9,7 +9,8 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
   providedIn: 'root'
 })
 export class UserService {
-  public user: User = {};
+  private userSubject = new BehaviorSubject<User>({} as User);
+  public user: Observable<User> = this.userSubject.asObservable();
 
   constructor(
     private readonly translocoService: TranslocoService,
@@ -33,8 +34,8 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.loadUser().subscribe(
         res => {
-          this.user = res;
-          resolve(this.user);
+          this.userSubject.next(res);
+          resolve(res);
         },
         err => {
           if (err.url) {
@@ -51,15 +52,15 @@ export class UserService {
   }
 
   getUser(): User {
-    return this.user;
+    return this.userSubject.value;
   }
 
   getAuthorities(): string[] {
-    return this.user.authorities!;
+    return this.getUser().authorities!;
   }
 
   isAuthenticated(): boolean {
-    return !!this.user;
+    return !!this.getUser();
   }
 
   /**
@@ -68,7 +69,7 @@ export class UserService {
 	 * @param role role to be checked, e.g. "felh_karbantartas"
 	 */
 	isUserInRole(role: string): boolean {
-    return this.user.authorities?.includes(role) ?? false;
+    return this.getAuthorities()?.includes(role) ?? false;
   }
 
   isUserAdmin(): boolean {
