@@ -4,7 +4,7 @@ JWorldcup soccer bet game user interface on HTML5/TypeScript/Angular (depends on
 ## Install (Active LTS) Node.js (and npm) on Ubuntu
 
 ```
-curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt install -y nodejs
 nodejs --version
 ```
