@@ -7,6 +7,7 @@ import { User } from './core/models/user/user.model';
 import { BackendService } from './core/services/backend.service';
 import { UserService } from './core/services/user.service';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
+import pkg from 'package.json';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   // navLinks: MenuElemek[];
   // public navFelhasznalo: string;
   // public navFelhasznaloTaszSzam: string;
+  public frontendVersion: string;
   public backendVersion: string;
 
   constructor(
@@ -32,6 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.frontendVersion = pkg.version;
     let msg: string = this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO");
     console.log('msg0='+msg);
     this.translocoService.selectTranslate('SZOLGALTATAS_NEM_ELERHETO').subscribe((msg: string) => {

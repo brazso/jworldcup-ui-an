@@ -48,6 +48,7 @@ import { LoaderService } from './services/loader.service';
 import { ModalService } from './services/modal.service';
 import { CoreModule } from '../core';
 import { ListErrorsComponent } from './list-errors';
+import { ShowAuthedDirective } from './directives/show-authed.directive';
 
 // import { InputTextComponent } from './input-text/input-text.component';
 // import { InputTextAreaComponent } from './input-textarea/input-textarea.component';
@@ -107,7 +108,8 @@ const PRIMENG_MODULES = [
 
 const SHARED_DIRECTIVES = [
    AutoFocusDirective,
-   CustomValidator
+   CustomValidator,
+   ShowAuthedDirective
 ];
 
 const ANGULAR_PIPES = [

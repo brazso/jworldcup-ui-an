@@ -1,10 +1,16 @@
 <footer>
-  <div class="container">
-    <a class="logo-font" routerLink="/">JWorldcup</a>
-    <span class="attribution">
-      &copy; {{ today | date: 'yyyy' }}.
-      A soccer bet game from <a href="https://zematix.hu">Zematix</a>.
-      Code licensed under MIT.
-    </span>
+  <div fxLayout="row" class="footerDiv" fxLayoutAlign="space-around">
+    <div>
+      <a class="logo-font" routerLink="/">JWorldcup</a>
+      <span class="attribution">
+        &copy; {{ today | date: 'yyyy' }}.
+        A soccer bet game from <a href="https://zematix.hu/">Zematix</a>
+      </span>  
+    </div>
+    <div>
+      <span class="attribution">
+        Frontend version: {{ frontendVersion }} | Backend version: {{ backendVersion }}
+      </span>
+    </div>
   </div>
 </footer>
