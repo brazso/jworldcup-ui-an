@@ -13,16 +13,16 @@ export class AutoFocusDirective implements AfterContentInit {
 	/**
 	 * Dinamikusan kikapcsolható a direktíva.
 	 */
-	@Input() public autoFocusDisabled: boolean = false;
+	@Input() autoFocusDisabled: boolean = false;
 
 	/**
 	 * A click metódust használja inkább az elemen a default focus helyett.
 	 */
-	@Input() public autoFocusClicked: boolean = false;
+	@Input() autoFocusClicked: boolean = false;
 
-	public constructor(private el: ElementRef) { }
+	constructor(private el: ElementRef) { }
 
-	public ngAfterContentInit() {
+	ngAfterContentInit() {
 		if (!this.autoFocusDisabled) {
 			setTimeout(() => {
 				if (this.autoFocusClicked) {

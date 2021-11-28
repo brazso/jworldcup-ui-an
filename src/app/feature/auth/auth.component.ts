@@ -10,8 +10,8 @@ import { Errors, UserService } from 'src/app/core';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  authType: String = '';
-  title: String = '';
+  authType: string = '';
+  title: string = '';
   errors: Errors = {errors: {}};
   isSubmitting = false;
   authForm: FormGroup;
@@ -47,14 +47,16 @@ export class AuthComponent implements OnInit {
     this.errors = {errors: {}};
 
     const credentials = this.authForm.value;
-    // this.userService
-    // .attemptAuth(this.authType, credentials)
-    // .subscribe(
-    //   data => this.router.navigateByUrl('/'),
-    //   err => {
-    //     this.errors = err;
-    //     this.isSubmitting = false;
-    //   }
-    // );
+    console.log(`credentials: ${JSON.stringify(credentials)}`)
+    this.userService
+      .attemptAuth(this.authType, credentials)
+      .subscribe({
+        next: data => this.router.navigateByUrl('/'),
+        error: err => {
+          console.log(`err: ${JSON.stringify(err)}`);
+          this.errors = err;
+          this.isSubmitting = false;
+        }
+      });
   }
 }

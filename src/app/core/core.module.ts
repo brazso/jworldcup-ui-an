@@ -4,11 +4,10 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TranslocoRootModule } from '../transloco/transloco-root.module';
-import { DateParserInterceptor, HttpConfigInterceptor, HttpTokenInterceptor } from './interceptors';
+import { DateParserInterceptor, HttpTokenInterceptor } from './interceptors';
 import { ApiService, 
   BackendService,
   AuthorityGuard, 
-  AuthorityService,
   JwtService, 
   UserService } from './services';
  
@@ -18,12 +17,10 @@ import { ApiService,
     TranslocoRootModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true },
     ApiService,
     AuthorityGuard,
-    AuthorityService,
     BackendService,
     JwtService,
     UserService,

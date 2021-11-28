@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@ngneat/transloco';
 import { GenericResponse } from './core/models/common';
 import { User } from './core/models/user/user.model';
 import { BackendService } from './core/services/backend.service';
@@ -20,8 +20,8 @@ export class AppComponent implements OnInit {
   // navLinks: MenuElemek[];
   // public navFelhasznalo: string;
   // public navFelhasznaloTaszSzam: string;
-  public frontendVersion: string;
-  public backendVersion: string;
+  frontendVersion: string;
+  backendVersion: string;
 
   constructor(
     private readonly router: Router,
@@ -34,38 +34,37 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.frontendVersion = pkg.version;
-    let msg: string = this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO");
-    console.log('msg0='+msg);
-    this.translocoService.selectTranslate('SZOLGALTATAS_NEM_ELERHETO').subscribe((msg: string) => {
-      console.log('msg1='+msg);
+    // after the translation was being loaded start app initialization
+    this.translocoService.selectTranslation().subscribe((translation: Translation) => {
+      this.setupFrontendBackendVersions();
+      this.loadAndStoreUser();
     });
-    this.loadAndStoreUser();
-    this.setupBackendVersionNumberText();
   }
 
   title = 'jworldcup-ui-an';
 
-  private setupBackendVersionNumberText() {
-    this.backendService.getBackendVersion().subscribe(
-      (res: GenericResponse<string>) => {
-        this.backendVersion = res.data as string;
-      }, err => {
+  private setupFrontendBackendVersions(): void {
+    this.frontendVersion = pkg.version;
+    this.backendService.getBackendVersion().subscribe({
+      next: (v: GenericResponse<string>) => {
+        this.backendVersion = v.data as string;
+      },
+      error: (e) => {
         // this.toastMessageService.displayMessage(ToastMessageSeverity.ERROR, this.translocoService.translate('backend_version_load_failed'));
       }
-    );
+    });
   }
 
   private loadAndStoreUser(): void {
-    this.userService.loadAndStoreUser().
-      then(
-        (user: User) => {
-          console.log('user=' + user.loginName);
-          this.goToDefaultPage();
-        }
-      ).catch((err) => {
+    this.userService.loadAndStoreUser().subscribe({
+      next: (user: User) => {
+        console.log('user=' + user.loginName);
+        this.goToDefaultPage();
+      },
+      error: (err) => {
         console.log('not authenticated yet');
-      });
+      }
+    });
   }
 
   private goToDefaultPage(): void {
@@ -76,7 +75,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  public logout() {
+  logout() {
     this.userService.logout();
   }
 }

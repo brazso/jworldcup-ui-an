@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { User } from 'src/app/core/models/user/user.model';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiService } from 'src/app/core/services/api.service';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { ApiService, JwtService } from 'src/app/core/services';
 import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
+import { JwtRequest } from 'src/app/core/models/user/jwtRequest.model';
+import { JwtResponse } from '..';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private userSubject = new BehaviorSubject<User>({} as User);
-  public user: Observable<User> = this.userSubject.asObservable();
+  user: Observable<User> = this.userSubject.asObservable();
 
   constructor(
+    private readonly jwtService: JwtService,
     private readonly translocoService: TranslocoService,
     private readonly apiService: ApiService
   ) {
@@ -20,24 +23,24 @@ export class UserService {
 
   private loadUser(): Observable<User> {
     try {
-      let lang: string = this.translocoService.getActiveLang();
-      console.log('lang='+lang);
-      let msg: string = this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO");
-      console.log('msg='+msg);
+      // let lang: string = this.translocoService.getActiveLang();
+      // console.log('lang='+lang);
+      // let msg: string = this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO");
+      // console.log('msg='+msg);
       return this.apiService.get<User>(ApiEndpoints.USERS.WHOAMI);
     } catch (error) {
       throw new Error(this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO"));
     }
   }
 
-  loadAndStoreUser(): Promise<User> {
-    return new Promise((resolve, reject) => {
-      this.loadUser().subscribe(
-        res => {
-          this.userSubject.next(res);
-          resolve(res);
+  loadAndStoreUser(): Observable<User> {
+    return new Observable<User>((observer) => {
+      this.loadUser().subscribe({
+        next: (user: User) => {
+          this.authenticate(user);
+          observer.next(user);
         },
-        err => {
+        error: err => {
           if (err.url) {
             // console.log('forward to login', err.url);
             // window.location.href = err.url;
@@ -45,11 +48,58 @@ export class UserService {
             console.log('Rolls further the error from user service', err);
             throw new Error(err);
           }
-          reject(err);
+          observer.error(err);
         }
-      );
+      });
     });
   }
+
+  authenticate(user: User) {
+    // Save JWT sent from server in localstorage
+    if (user.token) {
+      this.jwtService.saveToken(user.token);
+    }
+    // Set current user data into observable
+    this.userSubject.next(user);
+  }
+
+  unauthenticate(): void {
+    // Remove JWT from localstorage
+    this.jwtService.destroyToken();
+    // Set current user to an empty object
+    if (this.isAuthenticated()) {
+      this.userSubject.next({} as User);
+    }
+  }
+
+  attemptAuth(type: string, credentials: JwtRequest): Observable<User> {
+    // const route = (type === 'login') ? '/login' : '';
+    return this.apiService.post<JwtResponse>('/login', {user: credentials})
+      .pipe(map(
+      data => {
+        // this.authenticate(data.user);
+        return data;
+      }
+    ));
+  }
+
+  logout(): void {
+    window.location.href = `${location.origin}${ApiEndpoints.LOGOUT}`;
+		this.apiService.post<void>(ApiEndpoints.LOGOUT)
+			.subscribe({
+				next: response => {
+					this.unauthenticate();
+				},
+				error: error => {
+					this.unauthenticate();
+				},
+				complete: () => {
+					this.unauthenticate();
+					// Get a new JWT token
+					this.loadUser();
+				}
+			});
+	}
 
   getUser(): User {
     return this.userSubject.value;
@@ -60,7 +110,8 @@ export class UserService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getUser();
+    // return !!this.getUser();
+    return Object.keys(this.getUser()).length !== 0; // object is not empty?
   }
 
   /**
@@ -78,9 +129,5 @@ export class UserService {
 
   isUserUser(): boolean {
     return this.isUserInRole('ROLE_USER');
-  }
-
-  public logout() {
-    window.location.href = `${location.origin}${ApiEndpoints.LOGOUT}`;
   }
 }

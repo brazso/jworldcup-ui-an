@@ -12,7 +12,7 @@ export class AuthorityGuard implements CanActivate {
   rolesAllowed: string[] = [];
 
   constructor(
-    private readonly userServiceService: UserService,
+    private readonly userService: UserService,
     // private readonly toastMessageService: ToastMessageService,
     private readonly translocoService: TranslocoService
     ) {
@@ -20,7 +20,7 @@ export class AuthorityGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     const roles: Array<string> = route.data.rolesAllowed /*as Array<string>*/;
-    let v = roles ? roles.some(role => this.userServiceService.isUserInRole(role)) : false;
+    let v = roles ? roles.some(role => this.userService.isUserInRole(role)) : false;
     if (!v) {
       // this.toastMessageService.displayMessage(ToastMessageSeverity.ERROR, 'no-permission.view-page');
     }

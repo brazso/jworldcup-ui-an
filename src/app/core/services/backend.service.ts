@@ -13,7 +13,6 @@ export class BackendService {
   }
 
   getBackendVersion(): Observable<GenericResponse<string>> {
-    console.log('getBackendVersion');
     return this.apiService.get<GenericResponse<string>>(ApiEndpoints.BACKEND_VERSION);
   }
 

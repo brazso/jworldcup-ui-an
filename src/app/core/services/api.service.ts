@@ -42,22 +42,22 @@ export class ApiService {
     return this.http.get<T>(this.basePath + url, configuration);
   }
 
-  public post<T>(url: string, body?: object, config?: object): Observable<T> {
+  post<T>(url: string, body?: object, config?: object): Observable<T> {
     const configuration = this.mergeWithDefaultConfig(config);
     return this.http.post<T>(this.basePath + url, body, configuration);
   }
 
-  public patch<T>(url: string, body?: object, config?: object): Observable<T> {
+  patch<T>(url: string, body?: object, config?: object): Observable<T> {
     const configuration = this.mergeWithDefaultConfig(config);
     return this.http.patch<T>(this.basePath + url, body, configuration);
   }
 
-  public put<T>(url: string, body?: object, config?: object): Observable<T> {
+  put<T>(url: string, body?: object, config?: object): Observable<T> {
     const configuration = this.mergeWithDefaultConfig(config);
     return this.http.put<T>(this.basePath + url, body, configuration);
   }
 
-  public delete<T>(url: string, config?: object): Observable<T> {
+  delete<T>(url: string, config?: object): Observable<T> {
     const configuration = this.mergeWithDefaultConfig(config);
     return this.http.delete<T>(this.basePath + url, configuration);
   }

@@ -1,5 +1,11 @@
-<app-layout-header></app-layout-header>
-
-<router-outlet></router-outlet>
-
-<app-layout-footer [frontendVersion]="frontendVersion" [backendVersion]="backendVersion"></app-layout-footer>
+<div fxLayout="column" fxLayoutGap="16px" class="fixVertical">
+  <div>
+    <app-layout-header></app-layout-header>
+  </div>
+  <div fxFlex fxFlexFill>
+    <router-outlet></router-outlet>
+  </div>
+  <div>
+    <app-layout-footer [frontendVersion]="frontendVersion" [backendVersion]="backendVersion"></app-layout-footer>
+  </div>
+</div>
