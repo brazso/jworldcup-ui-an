@@ -1,8 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Errors, UserService } from 'src/app/core';
+import { Errors, UiError, UserService } from 'src/app/core';
 
 @Component({
   selector: 'app-auth-page',
@@ -12,7 +13,7 @@ import { Errors, UserService } from 'src/app/core';
 export class AuthComponent implements OnInit {
   authType: string = '';
   title: string = '';
-  errors: Errors = {errors: {}};
+  errors: UiError = new UiError({});
   isSubmitting = false;
   authForm: FormGroup;
 
@@ -24,7 +25,7 @@ export class AuthComponent implements OnInit {
   ) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
-      'email': ['', Validators.required],
+      'username': ['', Validators.required],
       'password': ['', Validators.required]
     });
   }
@@ -37,14 +38,14 @@ export class AuthComponent implements OnInit {
       this.title = (this.authType === 'login') ? 'Sign in' : 'Sign up';
       // add form control for username if this is the register page
       if (this.authType === 'register') {
-        this.authForm.addControl('username', new FormControl());
+        this.authForm.addControl('email', new FormControl());
       }
     });
   }
 
   submitForm() {
     this.isSubmitting = true;
-    this.errors = {errors: {}};
+    this.errors = new UiError({});
 
     const credentials = this.authForm.value;
     console.log(`credentials: ${JSON.stringify(credentials)}`)
@@ -52,9 +53,9 @@ export class AuthComponent implements OnInit {
       .attemptAuth(this.authType, credentials)
       .subscribe({
         next: data => this.router.navigateByUrl('/'),
-        error: err => {
+        error: (err: HttpErrorResponse) => {
           console.log(`err: ${JSON.stringify(err)}`);
-          this.errors = err;
+          this.errors = new UiError(Object.assign(err));
           this.isSubmitting = false;
         }
       });

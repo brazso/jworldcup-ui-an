@@ -1,4 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Translation, TranslocoService } from '@ngneat/transloco';
+import { BackendService } from 'src/app/core/services';
+import { GenericResponse } from 'src/app/core/models/common';
+import pkg from 'package.json';
 
 @Component({
   selector: 'app-layout-footer',
@@ -7,11 +11,30 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FooterComponent implements OnInit {
   today: number = Date.now();
 
-  @Input() frontendVersion: string;
-  @Input() backendVersion: string;
+  frontendVersion: string;
+  backendVersion: string;
 
-  ngOnInit(): void {
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly backendService: BackendService
+    ) {
   }
 
+  ngOnInit(): void {
+    // wait until translation is being loaded
+    this.translocoService.selectTranslation().subscribe(
+      (translation: Translation) => {
+        this.setupFrontendBackendVersions();
+      }
+    );
+  }
 
+  private setupFrontendBackendVersions(): void {
+    this.frontendVersion = pkg.version;
+    this.backendService.getBackendVersion().subscribe(
+      (value: GenericResponse<string>) => {
+        this.backendVersion = value.data as string;
+      }
+    );
+  }
 }

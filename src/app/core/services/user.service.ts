@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from 'src/app/core/models/user/user.model';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import { ApiService, JwtService } from 'src/app/core/services';
 import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
@@ -20,6 +21,19 @@ export class UserService {
     private readonly apiService: ApiService
   ) {
   }
+
+  setupUser(): Observable<User> {
+    // try {
+      return this.apiService.get<User>(ApiEndpoints.USERS.WHOAMI)
+      .pipe(map(user => {
+        this.authenticate(user);
+        return user;
+      }));
+    // } catch (error) {
+    //   throw new Error(this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO"));
+    // }
+  }
+
 
   private loadUser(): Observable<User> {
     try {
@@ -54,10 +68,10 @@ export class UserService {
     });
   }
 
-  authenticate(user: User) {
+  authenticate(user: User, token?: string) {
     // Save JWT sent from server in localstorage
-    if (user.token) {
-      this.jwtService.saveToken(user.token);
+    if (token) {
+      this.jwtService.saveToken(token);
     }
     // Set current user data into observable
     this.userSubject.next(user);
@@ -74,29 +88,40 @@ export class UserService {
 
   attemptAuth(type: string, credentials: JwtRequest): Observable<User> {
     // const route = (type === 'login') ? '/login' : '';
-    return this.apiService.post<JwtResponse>('/login', {user: credentials})
+    return this.apiService.post<JwtResponse>('/login', credentials)
       .pipe(map(
-      data => {
-        // this.authenticate(data.user);
-        return data;
-      }
-    ));
+        response => {
+          if (response.token) {
+            this.jwtService.saveToken(response.token);
+          }
+          // this.authenticate(data.user);
+          return response;
+        }
+      )).pipe(mergeMap(
+        response => { 
+          return this.setupUser();
+        }
+      ));
   }
 
   logout(): void {
-    window.location.href = `${location.origin}${ApiEndpoints.LOGOUT}`;
+    console.log('logout');
+    // window.location.href = `${location.origin}${ApiEndpoints.LOGOUT}`;
 		this.apiService.post<void>(ApiEndpoints.LOGOUT)
 			.subscribe({
 				next: response => {
+          console.log('unauthenticate1');
 					this.unauthenticate();
 				},
 				error: error => {
+          console.log('unauthenticate2');
 					this.unauthenticate();
 				},
 				complete: () => {
+          console.log('unauthenticate3');
 					this.unauthenticate();
 					// Get a new JWT token
-					this.loadUser();
+					this.setupUser();
 				}
 			});
 	}

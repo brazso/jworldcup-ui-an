@@ -29,6 +29,21 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link"
+          routerLink="/logout2"
+          routerLinkActive="active">
+          <!--<img [src]="currentUser.image" *ngIf="currentUser.image" class="user-pic" />-->
+          Logout
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link"
+          (click)="logout()">
+          Logout2
+        </a>
+      </li>
     </ul>
 
     <!-- Show this for logged in users -->
@@ -69,6 +84,21 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link"
+          routerLink="/logout"
+          routerLinkActive="active">
+          <!--<img [src]="currentUser.image" *ngIf="currentUser.image" class="user-pic" />-->
+          Logout
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link"
+          (click)="logout()">
+          Logout2
+        </a>
+      </li>
     </ul>
 
   </div>

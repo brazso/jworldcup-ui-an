@@ -33,7 +33,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 	) { }
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		this.showLoader();
+		 this.showLoader();
 
 		// request = request.clone({ headers: request.headers.set('X-Requested-With', 'XMLHttpRequest') });
 		if (this.jwtService.getToken()) {
@@ -69,7 +69,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 				return event;
 			}),
 			catchError((error: HttpErrorResponse, caught) => {
-				console.log('error--->>>', error);
+				console.log('error--->>>', JSON.stringify(error));
 				this.onEnd();
 				this.modal.closeAll();
 				if (error.status === 401) {

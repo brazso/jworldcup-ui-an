@@ -6,3 +6,4 @@ export * from './errors.model';
 export * from './genericListResponse.model';
 export * from './genericResponse.model';
 export * from './types';
+export * from './ui-error.model';

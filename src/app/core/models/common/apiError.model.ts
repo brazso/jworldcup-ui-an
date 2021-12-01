@@ -7,3 +7,9 @@ export interface ApiError {
     exceptionClassName: string;
     items?: ApiErrorItem[];
 }
+
+export function isApiError(object: any): object is ApiError {
+    return Object.prototype.hasOwnProperty.call(object, "status")
+        && Object.prototype.hasOwnProperty.call(object, "timestamp")
+        && Object.prototype.hasOwnProperty.call(object, "exceptionClassName");
+}
