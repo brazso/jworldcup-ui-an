@@ -7,6 +7,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { JwtRequest } from 'src/app/core/models/user/jwtRequest.model';
 import { JwtResponse } from '..';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class UserService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly translocoService: TranslocoService,
-    private readonly apiService: ApiService
+    private readonly apiService: ApiService,
+    private router: Router
   ) {
   }
 
@@ -32,40 +34,6 @@ export class UserService {
     // } catch (error) {
     //   throw new Error(this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO"));
     // }
-  }
-
-
-  private loadUser(): Observable<User> {
-    try {
-      // let lang: string = this.translocoService.getActiveLang();
-      // console.log('lang='+lang);
-      // let msg: string = this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO");
-      // console.log('msg='+msg);
-      return this.apiService.get<User>(ApiEndpoints.USERS.WHOAMI);
-    } catch (error) {
-      throw new Error(this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO"));
-    }
-  }
-
-  loadAndStoreUser(): Observable<User> {
-    return new Observable<User>((observer) => {
-      this.loadUser().subscribe({
-        next: (user: User) => {
-          this.authenticate(user);
-          observer.next(user);
-        },
-        error: err => {
-          if (err.url) {
-            // console.log('forward to login', err.url);
-            // window.location.href = err.url;
-          } else {
-            console.log('Rolls further the error from user service', err);
-            throw new Error(err);
-          }
-          observer.error(err);
-        }
-      });
-    });
   }
 
   authenticate(user: User, token?: string) {
@@ -106,8 +74,7 @@ export class UserService {
 
   logout(): void {
     console.log('logout');
-    // window.location.href = `${location.origin}${ApiEndpoints.LOGOUT}`;
-		this.apiService.post<void>(ApiEndpoints.LOGOUT)
+ 		this.apiService.post<void>(ApiEndpoints.LOGOUT)
 			.subscribe({
 				next: response => {
           console.log('unauthenticate1');
@@ -121,7 +88,7 @@ export class UserService {
           console.log('unauthenticate3');
 					this.unauthenticate();
 					// Get a new JWT token
-					this.setupUser();
+          this.router.navigateByUrl('/login');
 				}
 			});
 	}

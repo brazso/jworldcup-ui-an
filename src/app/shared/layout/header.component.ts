@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
     this.userService.user.subscribe(
       (user: User) => {
         this.currentUser = user;
+        console.log(`currentUser: ${JSON.stringify(user)}`);
       }
     );
   }

@@ -30,14 +30,13 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // wait until translation is being loaded
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
-      this.loadAndStoreUser();
+      this.setupUser();
     });
   }
 
   title = 'jworldcup-ui-an';
 
-  private loadAndStoreUser(): void {
-    //this.userService.loadAndStoreUser().subscribe({
+  private setupUser(): void {
       this.userService.setupUser().subscribe({
       next: (user: User) => {
         console.log('user=' + user.loginName);
@@ -55,9 +54,5 @@ export class AppComponent implements OnInit {
     } else if (this.userService.isUserInRole('ROLE_USER')) {
       this.router.navigate([RouterUrls.HOME_PAGE]);
     }
-  }
-
-  logout() {
-    this.userService.logout();
   }
 }
