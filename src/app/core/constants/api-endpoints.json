@@ -1,14 +1,18 @@
 {
-    "__comment__" : {
+    "__comment__": {
         "title": "Api endpoints without base path"
     },
 
     "LOGIN": "/login",
-    "LOGOUT" : "/logout",
-    "SIGNUP" : "/signup",
-    "BACKEND_VERSION" : "/backend-version",
+    "LOGOUT": "/logout",
+    "SIGNUP": "/signup",
+    "BACKEND_VERSION": "/backend-version",
     
-    "USERS" : {
+    "USERS": {
         "WHOAMI" : "/users/whoami"
+    },
+
+    "EVENTS": {
+        "FIND_EVENT_BY_USER": "/events/find-event-by-user"
     }
 }

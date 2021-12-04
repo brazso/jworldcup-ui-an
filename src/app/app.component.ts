@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
   title = 'jworldcup-ui-an';
 
   private setupUser(): void {
-      this.userService.setupUser().subscribe({
+      this.userService.initUser().subscribe({
       next: (user: User) => {
         console.log('user=' + user.loginName);
         this.goToDefaultPage();

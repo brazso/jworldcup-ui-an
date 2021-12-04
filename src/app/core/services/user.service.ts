@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/core/models/user/user.model';
+import { JwtRequest, JwtResponse, User } from 'src/app/core/models/user';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { ApiService, JwtService } from 'src/app/core/services';
+import { ApiService, EventService, JwtService } from 'src/app/core/services';
 import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
-import { JwtRequest } from 'src/app/core/models/user/jwtRequest.model';
-import { JwtResponse } from '..';
 import { Router } from '@angular/router';
+import { GenericResponse } from '../models/common';
 
 @Injectable({
   providedIn: 'root'
@@ -20,20 +19,17 @@ export class UserService {
     private readonly jwtService: JwtService,
     private readonly translocoService: TranslocoService,
     private readonly apiService: ApiService,
+    private readonly eventService: EventService,
     private router: Router
   ) {
   }
 
-  setupUser(): Observable<User> {
-    // try {
-      return this.apiService.get<User>(ApiEndpoints.USERS.WHOAMI)
-      .pipe(map(user => {
-        this.authenticate(user);
-        return user;
+  initUser(): Observable<User> {
+      return this.apiService.get<GenericResponse<User>>(ApiEndpoints.USERS.WHOAMI)
+      .pipe(map(response => {
+        this.authenticate(response.data);
+        return response.data;
       }));
-    // } catch (error) {
-    //   throw new Error(this.translocoService.translate("SZOLGALTATAS_NEM_ELERHETO"));
-    // }
   }
 
   authenticate(user: User, token?: string) {
@@ -42,7 +38,7 @@ export class UserService {
       this.jwtService.saveToken(token);
     }
     // Set current user data into observable
-    this.userSubject.next(user);
+    this.setUser(user);
   }
 
   unauthenticate(): void {
@@ -50,7 +46,7 @@ export class UserService {
     this.jwtService.destroyToken();
     // Set current user to an empty object
     if (this.isAuthenticated()) {
-      this.userSubject.next({} as User);
+      this.setUser({} as User);
     }
   }
 
@@ -62,12 +58,11 @@ export class UserService {
           if (response.token) {
             this.jwtService.saveToken(response.token);
           }
-          // this.authenticate(data.user);
           return response;
         }
       )).pipe(mergeMap(
         response => { 
-          return this.setupUser();
+          return this.initUser();
         }
       ));
   }
@@ -95,6 +90,11 @@ export class UserService {
 
   getUser(): User {
     return this.userSubject.value;
+  }
+
+  setUser(user: User): void {
+    this.userSubject.next(user);
+    this.eventService.initEventByUser(user).subscribe();
   }
 
   getAuthorities(): string[] {
