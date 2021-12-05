@@ -5,6 +5,7 @@ import { mergeMap } from 'rxjs/operators';
 import { ApiService, EventService, JwtService } from 'src/app/core/services';
 import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
+import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { Router } from '@angular/router';
 import { GenericResponse } from '../models/common';
 
@@ -25,7 +26,7 @@ export class UserService {
   }
 
   initUser(): Observable<User> {
-      return this.apiService.get<GenericResponse<User>>(ApiEndpoints.USERS.WHOAMI)
+    return this.apiService.get<GenericResponse<User>>(ApiEndpoints.USERS.WHOAMI)
       .pipe(map(response => {
         this.authenticate(response.data);
         return response.data;
@@ -83,7 +84,8 @@ export class UserService {
           console.log('unauthenticate3');
 					this.unauthenticate();
 					// Get a new JWT token
-          this.router.navigateByUrl('/login');
+          // this.router.navigateByUrl('/login');
+          this.router.navigate([RouterUrls.LOGIN]);
 				}
 			});
 	}

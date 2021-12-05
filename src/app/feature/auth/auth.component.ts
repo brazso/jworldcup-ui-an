@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Errors, UiError, UserService } from 'src/app/core';
+import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 
 @Component({
   selector: 'app-auth-page',
@@ -52,7 +53,10 @@ export class AuthComponent implements OnInit {
     this.userService
       .attemptAuth(this.authType, credentials)
       .subscribe({
-        next: data => this.router.navigateByUrl('/'),
+        next: user => {
+          // this.router.navigateByUrl('/');
+          this.router.navigate([RouterUrls.HOME_PAGE]);
+        },
         error: (err: HttpErrorResponse) => {
           console.log(`err: ${JSON.stringify(err)}`);
           this.errors = new UiError(Object.assign(err));
