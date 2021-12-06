@@ -9,7 +9,7 @@
 	"LOGIN": "login",
 	"REGISTER": "register",
 
-	"HOME_PAGE": "home",
+	"HOME_PAGE": "",
 	"EXAMPLE_PAGE": "example",
 	"USERS_PAGE": "search-users"
 }

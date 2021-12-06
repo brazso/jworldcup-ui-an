@@ -20,7 +20,6 @@ export class UserService {
     private readonly jwtService: JwtService,
     private readonly translocoService: TranslocoService,
     private readonly apiService: ApiService,
-    private readonly eventService: EventService,
     private router: Router
   ) {
   }
@@ -96,7 +95,6 @@ export class UserService {
 
   setUser(user: User): void {
     this.userSubject.next(user);
-    this.eventService.initEventByUser(user).subscribe();
   }
 
   getAuthorities(): string[] {

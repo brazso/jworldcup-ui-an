@@ -54,7 +54,6 @@ export class AuthComponent implements OnInit {
       .attemptAuth(this.authType, credentials)
       .subscribe({
         next: user => {
-          // this.router.navigateByUrl('/');
           this.router.navigate([RouterUrls.HOME_PAGE]);
         },
         error: (err: HttpErrorResponse) => {

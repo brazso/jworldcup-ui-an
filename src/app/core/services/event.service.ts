@@ -6,7 +6,7 @@ import { ApiService, JwtService } from 'src/app/core/services';
 import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { JwtRequest } from 'src/app/core/models/user/jwtRequest.model';
-import { JwtResponse } from '..';
+import { GenericResponse, JwtResponse } from '..';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -28,10 +28,10 @@ export class EventService {
     if (!user) {
         return of({} as Event);
     }
-    return this.apiService.get<Event>(ApiEndpoints.EVENTS.FIND_EVENT_BY_USER+`?userId=${user.userId}`)
-    .pipe(map(event => {
-      this.setEvent(event);
-      return event;
+    return this.apiService.get<GenericResponse<Event>>(ApiEndpoints.EVENTS.FIND_EVENT_BY_USER+`?userId=${user.userId}`)
+    .pipe(map(response => {
+      this.setEvent(response.data);
+      return response.data;
     }));
   }
 
