@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/core/models/user/user.model';
+import { Event, User } from 'src/app/core/models';
 import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ApiService, JwtService } from 'src/app/core/services';
@@ -33,6 +33,10 @@ export class EventService {
       this.setEvent(response.data);
       return response.data;
     }));
+  }
+
+  destroy(): void {
+    this.setEvent({} as Event);
   }
 
   getEvent(): Event {

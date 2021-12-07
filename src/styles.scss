@@ -3,6 +3,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+body {
+	background-image: url('assets/images/background.jpg');
+}
+
 // https://github.com/angular/flex-layout/issues/162
 .fixVertical  {
   flex: 1 1 100%;

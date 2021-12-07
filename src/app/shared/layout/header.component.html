@@ -1,4 +1,33 @@
-<div fxLayout="row" class="headerDiv" fxLayoutAlign="start stretch">
-  <img src="/assets/images/logos/ABC2021.png" width="100" height="100" alt="My Company Name" title="My Company Name">
-  <a *appShowAuthed="true" class="nav-link" (click)="logout()"> Logout</a>
-</div>
+<header class="header" *transloco="let t;">
+  <div fxLayout="row" fxLayoutAlign="start stretch">
+    <img [src]="getLogoFileName()" width="85" height="85">
+    <div *ngIf="currentEvent.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
+      <div fxLayout="row" fxLayoutAlign="center">
+        {{ currentEvent.year }} {{ t('event.description.' + currentEvent.description) }} ({{ t('team.' + currentEvent.location) }})
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center">
+        {{ currentEvent.startTime | date: 'yyyy-MM-dd' }} - {{ currentEvent.endTime | date: 'yyyy-MM-dd' }}
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center">
+        TODO - Progress bar with label
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center">
+        TODO - Scrolled chat
+      </div>
+    </div>
+    <div *appShowAuthed="true" fxLayout="column" fxLayoutAlign="space-around">
+      <div fxLayout="row" fxLayoutAlign="space-around">
+        <div *ngIf="currentEvent.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
+          {{ currentUser.loginName }}
+        </div>
+        <a class="nav-link" (click)="logout()"><i class="pi pi-sign-out"></i></a>
+      </div>
+      <div fxLayout="row">
+        TODO - Menu
+      </div>
+      <div fxLayout="row">
+        TODO - Actual time
+      </div>
+    </div>
+  </div>
+</header>
