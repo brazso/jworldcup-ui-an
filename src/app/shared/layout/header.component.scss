@@ -1,5 +1,16 @@
 .header
 { 
 	background: url('/assets/images/bgFWC2.jpg');
+}
 
+#yourMenuId
+{
+	background: url('/assets/images/bgFWC2.jpg');
+}
+
+:host ::ng-deep
+#menuId .p-submenu-list 
+{
+	right: 100%;
+	left: unset;
 }

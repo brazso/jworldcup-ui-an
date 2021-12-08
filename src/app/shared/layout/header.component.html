@@ -23,7 +23,8 @@
         <a class="nav-link" (click)="logout()"><i class="pi pi-sign-out"></i></a>
       </div>
       <div fxLayout="row">
-        TODO - Menu
+        <p-tieredMenu #menu id="menuId" [model]="menuItems" [popup]="true"></p-tieredMenu>
+        <button #btn type="button" pButton icon="pi pi-fw pi-list" [label]="t('general.label.menu')" (click)="menu.toggle($event)"></button>
       </div>
       <div fxLayout="row">
         TODO - Actual time

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Translation, TranslocoService } from '@ngneat/transloco';
+import { MenuItem } from 'primeng/api';
 
 import { Event, EventService, User, UserService } from '../../core';
 
@@ -9,12 +11,14 @@ import { Event, EventService, User, UserService } from '../../core';
 })
 export class HeaderComponent implements OnInit {
   constructor(
+    private translocoService: TranslocoService,
     private userService: UserService,
     private eventService: EventService
   ) {}
 
   currentUser: User;
   currentEvent: Event;
+  menuItems: MenuItem[];
 
   ngOnInit(): void {
     this.userService.user.subscribe(
@@ -30,6 +34,85 @@ export class HeaderComponent implements OnInit {
         console.log(`currentEvent: ${JSON.stringify(event)}`);
       }
     );
+
+    // wait until translation is being loaded
+    this.translocoService.selectTranslation().subscribe((translation: Translation) => {
+      this.menuItems = [
+        {
+          label: this.translocoService.translate('menu.view'),
+          items: [
+            {
+              label: this.translocoService.translate('menu.matches'),
+              disabled: true
+            },
+            {
+              label: this.translocoService.translate('menu.groups_standing'),
+              disabled: true
+            },
+            {
+              label: this.translocoService.translate('menu.point_race'),
+              disabled: true
+            },
+            {
+              label: this.translocoService.translate('menu.certificate'),
+              disabled: true
+            },
+            {
+              label: this.translocoService.translate('menu.topUsers'),
+              disabled: true
+            },
+            {
+              label: this.translocoService.translate('menu.chat'),
+              disabled: true
+            },
+            {
+              label: this.translocoService.translate('menu.gameRule'),
+              disabled: true
+            }
+          ]
+        },
+        {
+          label: this.translocoService.translate('menu.bet'),
+          visible: false,
+          items: [
+            {
+              label: this.translocoService.translate('menu.bets'),
+              disabled: true
+            },
+            {
+              label: this.translocoService.translate('menu.favourite_team'),
+              disabled: true
+            }
+          ]
+        },
+        {
+          label: this.translocoService.translate('menu.settings'),
+          items: [
+            {
+              label: this.translocoService.translate('menu.modify_user'),
+              disabled: true
+            },
+            {
+              label: this.translocoService.translate('menu.user_groups'),
+              disabled: true
+            }
+          ]
+        },
+        {
+          label: this.translocoService.translate('menu.namecard'),
+          disabled: true
+        },
+        {
+          label: this.translocoService.translate('menu.logout'),
+          icon: 'pi pi-sign-out', 
+          command: (event) => {
+            //event.originalEvent: Browser event
+            //event.item: menuitem metadata
+            this.logout();
+          }
+        }
+      ];
+    });
   }
 
   logout() {

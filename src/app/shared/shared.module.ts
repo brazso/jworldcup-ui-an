@@ -38,6 +38,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TreeTableModule } from 'primeng/treetable';
 import { FieldsetModule } from 'primeng/fieldset';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 
 /* own components */
 import { DynamicDatePipe } from './pipes/dynamic-date.pipe';
@@ -99,7 +100,8 @@ const PRIMENG_MODULES = [
   ListboxModule,
   MultiSelectModule,
   TreeTableModule,
-  FieldsetModule
+  FieldsetModule,
+  TieredMenuModule
 ];
 
  const SHARED_COMPONENTS = [
