@@ -1,12 +1,12 @@
 <header class="header" *transloco="let t;">
   <div fxLayout="row" fxLayoutAlign="start stretch">
     <img [src]="getLogoFileName()" width="85" height="85">
-    <div *ngIf="currentEvent.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
+    <div *ngIf="event.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
       <div fxLayout="row" fxLayoutAlign="center">
-        {{ currentEvent.year }} {{ t('event.description.' + currentEvent.description) }} ({{ t('team.' + currentEvent.location) }})
+        {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }})
       </div>
       <div fxLayout="row" fxLayoutAlign="center">
-        {{ currentEvent.startTime | date: 'yyyy-MM-dd' }} - {{ currentEvent.endTime | date: 'yyyy-MM-dd' }}
+        {{ event.startTime | date: 'yyyy-MM-dd' }} - {{ event.endTime | date: 'yyyy-MM-dd' }}
       </div>
       <div fxLayout="row" fxLayoutAlign="center">
         TODO - Progress bar with label
@@ -17,8 +17,8 @@
     </div>
     <div *appShowAuthed="true" fxLayout="column" fxLayoutAlign="space-around">
       <div fxLayout="row" fxLayoutAlign="space-around">
-        <div *ngIf="currentEvent.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
-          {{ currentUser.loginName }}
+        <div *ngIf="event.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
+          {{ user.loginName }}
         </div>
         <a class="nav-link" (click)="logout()"><i class="pi pi-sign-out"></i></a>
       </div>

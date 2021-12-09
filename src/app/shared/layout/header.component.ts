@@ -16,103 +16,112 @@ export class HeaderComponent implements OnInit {
     private eventService: EventService
   ) {}
 
-  currentUser: User;
-  currentEvent: Event;
+  user: User = {};
+  event: Event = {};
   menuItems: MenuItem[];
 
   ngOnInit(): void {
     this.userService.user.subscribe(
       (user: User) => {
-        this.currentUser = user;
-        console.log(`currentUser: ${JSON.stringify(user)}`);
+        this.user = user;
+        console.log(`user: ${JSON.stringify(user)}`);
         this.eventService.initEventByUser(user).subscribe();
+        this.setupMenuItems();
       }
     );
     this.eventService.event.subscribe(
       (event: Event) => {
-        this.currentEvent = event;
-        console.log(`currentEvent: ${JSON.stringify(event)}`);
+        this.event = event;
+        console.log(`event: ${JSON.stringify(event)}`);
+        this.setupMenuItems();
       }
     );
 
     // wait until translation is being loaded
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
-      this.menuItems = [
-        {
-          label: this.translocoService.translate('menu.view'),
-          items: [
-            {
-              label: this.translocoService.translate('menu.matches'),
-              disabled: true
-            },
-            {
-              label: this.translocoService.translate('menu.groups_standing'),
-              disabled: true
-            },
-            {
-              label: this.translocoService.translate('menu.point_race'),
-              disabled: true
-            },
-            {
-              label: this.translocoService.translate('menu.certificate'),
-              disabled: true
-            },
-            {
-              label: this.translocoService.translate('menu.topUsers'),
-              disabled: true
-            },
-            {
-              label: this.translocoService.translate('menu.chat'),
-              disabled: true
-            },
-            {
-              label: this.translocoService.translate('menu.gameRule'),
-              disabled: true
-            }
-          ]
-        },
-        {
-          label: this.translocoService.translate('menu.bet'),
-          visible: false,
-          items: [
-            {
-              label: this.translocoService.translate('menu.bets'),
-              disabled: true
-            },
-            {
-              label: this.translocoService.translate('menu.favourite_team'),
-              disabled: true
-            }
-          ]
-        },
-        {
-          label: this.translocoService.translate('menu.settings'),
-          items: [
-            {
-              label: this.translocoService.translate('menu.modify_user'),
-              disabled: true
-            },
-            {
-              label: this.translocoService.translate('menu.user_groups'),
-              disabled: true
-            }
-          ]
-        },
-        {
-          label: this.translocoService.translate('menu.namecard'),
-          disabled: true
-        },
-        {
-          label: this.translocoService.translate('menu.logout'),
-          icon: 'pi pi-sign-out', 
-          command: (event) => {
-            //event.originalEvent: Browser event
-            //event.item: menuitem metadata
-            this.logout();
-          }
-        }
-      ];
+      this.setupMenuItems();
     });
+  }
+
+  private setupMenuItems(): void {
+    this.menuItems = [
+      {
+        label: this.translocoService.translate('menu.view'),
+        items: [
+          {
+            label: this.translocoService.translate('menu.matches'),
+            disabled: true
+          },
+          {
+            label: this.translocoService.translate('menu.groups_standing'),
+            disabled: true
+          },
+          {
+            label: this.translocoService.translate('menu.point_race'),
+            disabled: true
+          },
+          {
+            label: this.translocoService.translate('menu.certificate'),
+            visible: this.userService.isUserUser() /* TODO and applicationBean.eventFinished */,
+            disabled: true
+          },
+          {
+            label: this.translocoService.translate('menu.topUsers'),
+            visible: this.userService.isUserUser() /* TODO and not empty applicationBean.completedEventIds */,
+            disabled: true
+          },
+          {
+            label: this.translocoService.translate('menu.chat'),
+            visible: this.userService.isUserUser(),
+            disabled: true
+          },
+          {
+            label: this.translocoService.translate('menu.gameRule'),
+            disabled: true
+          }
+        ]
+      },
+      {
+        label: this.translocoService.translate('menu.bet'),
+        visible: this.userService.isUserUser(),
+        items: [
+          {
+            label: this.translocoService.translate('menu.bets'),
+            disabled: true
+          },
+          {
+            label: this.translocoService.translate('menu.favourite_team'),
+            disabled: true
+          }
+        ]
+      },
+      {
+        label: this.translocoService.translate('menu.settings'),
+        items: [
+          {
+            label: this.translocoService.translate('menu.modify_user'),
+            disabled: true
+          },
+          {
+            label: this.translocoService.translate('menu.user_groups'),
+            disabled: true
+          }
+        ]
+      },
+      {
+        label: this.translocoService.translate('menu.namecard'),
+        disabled: true
+      },
+      {
+        label: this.translocoService.translate('menu.logout'),
+        icon: 'pi pi-sign-out', 
+        command: (event) => {
+          //event.originalEvent: Browser event
+          //event.item: menuitem metadata
+          this.logout();
+        }
+      }
+    ];
   }
 
   logout() {
@@ -122,8 +131,8 @@ export class HeaderComponent implements OnInit {
 
   getLogoFileName(): string {
     let name = '/assets/images/jworldcup.png';
-    if (this.currentEvent.eventId) {
-      name = `/assets/images/logos/${this.currentEvent.shortDesc}${this.currentEvent.year}.png`;
+    if (this.event.eventId) {
+      name = `/assets/images/logos/${this.event.shortDesc}${this.event.year}.png`;
     }
     return name;
   }

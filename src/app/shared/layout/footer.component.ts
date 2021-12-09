@@ -16,8 +16,8 @@ export class FooterComponent implements OnInit {
   backendVersion: string;
 
   constructor(
-    private readonly translocoService: TranslocoService,
-    private readonly backendService: BackendService
+    private translocoService: TranslocoService,
+    private backendService: BackendService
     ) {
   }
 
