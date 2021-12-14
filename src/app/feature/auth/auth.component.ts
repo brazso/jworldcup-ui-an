@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Errors, UiError, UserService } from 'src/app/core';
+import { Errors, SessionService, UiError } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 
 @Component({
@@ -21,7 +21,7 @@ export class AuthComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
+    private sessionService: SessionService,
     private fb: FormBuilder
   ) {
     // use FormBuilder to create a form group
@@ -50,10 +50,10 @@ export class AuthComponent implements OnInit {
 
     const credentials = this.authForm.value;
     console.log(`credentials: ${JSON.stringify(credentials)}`)
-    this.userService
+    this.sessionService
       .attemptAuth(this.authType, credentials)
       .subscribe({
-        next: user => {
+        next: session => {
           this.router.navigate([RouterUrls.HOME_PAGE]);
         },
         error: (err: HttpErrorResponse) => {

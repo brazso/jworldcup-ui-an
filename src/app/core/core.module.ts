@@ -9,7 +9,7 @@ import { ApiService,
   BackendService,
   AuthorityGuard, 
   JwtService, 
-  UserService } from './services';
+  SessionService } from './services';
  
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { ApiService,
     AuthorityGuard,
     BackendService,
     JwtService,
-    UserService,
+    SessionService,
 
     // MessageService and its DialogService dependecy from primeng are used in core, search for "this.messageService"
     MessageService,

@@ -14,5 +14,9 @@
 
     "EVENTS": {
         "FIND_EVENT_BY_USER": "/events/find-event-by-user"
+    },
+
+    "SESSION": {
+        "SESSION_INFO" : "/session/find-session-info"
     }
 }

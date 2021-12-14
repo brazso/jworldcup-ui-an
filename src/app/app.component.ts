@@ -3,8 +3,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { User } from './core/models/user/user.model';
-import { UserService } from './core/services/user.service';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
+import { SessionInfo } from './core/models';
+import { SessionService } from './core/services';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
-    private readonly userService: UserService,
+    private readonly sessionService: SessionService,
     // private readonly enumService: EnumService,
     // private readonly toastMessageService: ToastMessageService
     ) {
@@ -30,16 +31,29 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // wait until translation is being loaded
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
-      this.setupUser();
+      // this.setupUser();
+      this.setupSession();
     });
   }
 
   title = 'jworldcup-ui-an';
 
-  private setupUser(): void {
-    this.userService.initUser().subscribe({
-      next: (user: User) => {
-        console.log('user=' + user.loginName);
+  // private setupUser(): void {
+  //   this.userService.initUser().subscribe({
+  //     next: (user: User) => {
+  //       console.log('user=' + user.loginName);
+  //       this.goToDefaultPage();
+  //     },
+  //     error: (err) => {
+  //       console.log('not authenticated yet');
+  //     }
+  //   });
+  // }
+
+  private setupSession(): void {
+    this.sessionService.initSession().subscribe({
+      next: (session: SessionInfo) => {
+        console.log('session.user=' + session.user?.loginName);
         this.goToDefaultPage();
       },
       error: (err) => {
@@ -49,9 +63,9 @@ export class AppComponent implements OnInit {
   }
 
   private goToDefaultPage(): void {
-    if (this.userService.isUserInRole('ROLE_ADMIN')) {
+    if (this.sessionService.isUserInRole('ROLE_ADMIN')) {
       this.router.navigate([RouterUrls.HOME_PAGE]);
-    } else if (this.userService.isUserInRole('ROLE_USER')) {
+    } else if (this.sessionService.isUserInRole('ROLE_USER')) {
       this.router.navigate([RouterUrls.HOME_PAGE]);
     }
   }

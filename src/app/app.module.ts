@@ -5,13 +5,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { UserService } from 'src/app/core/services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule, FooterComponent, HeaderComponent } from './shared';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
+import { SessionService } from './core/services';
 
 // export function initUser(userService: UserService) {
 //   return (): Promise<any>  => {
@@ -40,7 +40,7 @@ import { AuthModule } from './feature/auth/auth.module';
   ],
   // for Services (Guards can be considered to Services)
   providers: [
-    UserService,
+    SessionService,
     // { provide: APP_INITIALIZER, useFactory: initUser, deps: [UserService], multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true }

@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Event, User } from 'src/app/core/models';
+import { Event, GenericResponse, User } from 'src/app/core/models';
 import { BehaviorSubject, map, Observable, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-import { ApiService, JwtService } from 'src/app/core/services';
+import { ApiService } from 'src/app/core/services';
 import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
-import { JwtRequest } from 'src/app/core/models/user/jwtRequest.model';
-import { GenericResponse, JwtResponse } from '..';
 import { Router } from '@angular/router';
+import { isObjectEmpty } from 'src/app/shared/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +23,7 @@ export class EventService {
 
   initEventByUser(user: User): Observable<Event> {
     console.log(`user: ${JSON.stringify(user)}`);
-    if (!user) {
+    if (isObjectEmpty(user)) {
         return of({} as Event);
     }
     return this.apiService.get<GenericResponse<Event>>(ApiEndpoints.EVENTS.FIND_EVENT_BY_USER+`?userId=${user.userId}`)
@@ -35,16 +33,16 @@ export class EventService {
     }));
   }
 
-  destroy(): void {
-    this.setEvent({} as Event);
-  }
-
   getEvent(): Event {
     return this.eventSubject.value;
   }
 
   setEvent(event: Event): void {
     this.eventSubject.next(event);
+  }
+
+  destroy(): void {
+    this.setEvent({} as Event);
   }
 
 }

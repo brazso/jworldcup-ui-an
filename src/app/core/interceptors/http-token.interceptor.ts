@@ -17,14 +17,14 @@ import { LoaderService } from 'src/app/shared/services/loader.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as MessageConstants } from 'src/app/core/constants/message-constants.json';
-import { JwtService, UserService } from 'src/app/core/services';
+import { JwtService, SessionService } from 'src/app/core/services';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
 	constructor(
 		private jwtService: JwtService,
-		private userService: UserService,
+		private sessionService: SessionService,
 		private loader: LoaderService,
 		private messageService: MessageService,
 		private translocoService: TranslocoService,
@@ -74,7 +74,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 				this.modal.closeAll();
 				if (error.status === 401) {
 					// Unauthorized, go to login
-					this.userService.unauthenticate();
+					this.sessionService.unauthenticate();
 					this.router.navigate([RouterUrls.LOGIN]);
 				}
 				if (error.status === 403) {

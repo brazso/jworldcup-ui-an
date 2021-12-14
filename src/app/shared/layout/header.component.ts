@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { MenuItem } from 'primeng/api';
 
-import { Event, EventService, User, UserService } from '../../core';
+import { Event, User, SessionService } from 'src/app/core';
 
 @Component({
   selector: 'app-layout-header',
@@ -12,8 +12,7 @@ import { Event, EventService, User, UserService } from '../../core';
 export class HeaderComponent implements OnInit {
   constructor(
     private translocoService: TranslocoService,
-    private userService: UserService,
-    private eventService: EventService
+    private sessionService: SessionService
   ) {}
 
   user: User = {};
@@ -21,26 +20,29 @@ export class HeaderComponent implements OnInit {
   menuItems: MenuItem[];
 
   ngOnInit(): void {
-    this.userService.user.subscribe(
+    this.sessionService.user.subscribe(
       (user: User) => {
         this.user = user;
         console.log(`user: ${JSON.stringify(user)}`);
-        this.eventService.initEventByUser(user).subscribe();
-        this.setupMenuItems();
+        this.setupMenuItemsAfterTranlationLoaded();
       }
     );
-    this.eventService.event.subscribe(
+    this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
         console.log(`event: ${JSON.stringify(event)}`);
-        this.setupMenuItems();
+        this.setupMenuItemsAfterTranlationLoaded();
       }
     );
 
+    this.setupMenuItemsAfterTranlationLoaded();
+  }
+
+  private setupMenuItemsAfterTranlationLoaded() : void {
     // wait until translation is being loaded
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       this.setupMenuItems();
-    });
+    });    
   }
 
   private setupMenuItems(): void {
@@ -62,17 +64,17 @@ export class HeaderComponent implements OnInit {
           },
           {
             label: this.translocoService.translate('menu.certificate'),
-            visible: this.userService.isUserUser() /* TODO and applicationBean.eventFinished */,
+            visible: this.sessionService.isUserUser() /* TODO and applicationBean.eventFinished */,
             disabled: true
           },
           {
             label: this.translocoService.translate('menu.topUsers'),
-            visible: this.userService.isUserUser() /* TODO and not empty applicationBean.completedEventIds */,
+            visible: this.sessionService.isUserUser() /* TODO and not empty applicationBean.completedEventIds */,
             disabled: true
           },
           {
             label: this.translocoService.translate('menu.chat'),
-            visible: this.userService.isUserUser(),
+            visible: this.sessionService.isUserUser(),
             disabled: true
           },
           {
@@ -83,7 +85,7 @@ export class HeaderComponent implements OnInit {
       },
       {
         label: this.translocoService.translate('menu.bet'),
-        visible: this.userService.isUserUser(),
+        visible: this.sessionService.isUserUser(),
         items: [
           {
             label: this.translocoService.translate('menu.bets'),
@@ -125,8 +127,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logout();
-    this.eventService.destroy();
+    this.sessionService.logout();
   }
 
   getLogoFileName(): string {
