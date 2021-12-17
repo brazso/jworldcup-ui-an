@@ -2,7 +2,6 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Translation, TranslocoService } from '@ngneat/transloco';
-import { User } from './core/models/user/user.model';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { SessionInfo } from './core/models';
 import { SessionService } from './core/services';
@@ -14,11 +13,6 @@ import { SessionService } from './core/services';
 })
 export class AppComponent implements OnInit {
 
-  // public version: string = version;
-  // navLinks: MenuElemek[];
-  // public navFelhasznalo: string;
-  // public navFelhasznaloTaszSzam: string;
-
   constructor(
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
@@ -29,26 +23,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let availableLangs = this.translocoService.getAvailableLangs();
+    console.log(`availableLangs: ${JSON.stringify(availableLangs)}`);
+
     // wait until translation is being loaded
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
-      // this.setupUser();
       this.setupSession();
     });
   }
 
   title = 'jworldcup-ui-an';
-
-  // private setupUser(): void {
-  //   this.userService.initUser().subscribe({
-  //     next: (user: User) => {
-  //       console.log('user=' + user.loginName);
-  //       this.goToDefaultPage();
-  //     },
-  //     error: (err) => {
-  //       console.log('not authenticated yet');
-  //     }
-  //   });
-  // }
 
   private setupSession(): void {
     this.sessionService.initSession().subscribe({
