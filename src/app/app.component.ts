@@ -1,9 +1,9 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { getBrowserLang, Translation, TranslocoService } from '@ngneat/transloco';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
-import { SessionInfo } from './core/models';
+import { SessionData } from './core/models';
 import { SessionService } from './core/services';
 
 @Component({
@@ -23,9 +23,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let availableLangs = this.translocoService.getAvailableLangs();
-    console.log(`availableLangs: ${JSON.stringify(availableLangs)}`);
-
     // wait until translation is being loaded
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       this.setupSession();
@@ -36,7 +33,7 @@ export class AppComponent implements OnInit {
 
   private setupSession(): void {
     this.sessionService.initSession().subscribe({
-      next: (session: SessionInfo) => {
+      next: (session: SessionData) => {
         console.log('session.user=' + session.user?.loginName);
         this.goToDefaultPage();
       },

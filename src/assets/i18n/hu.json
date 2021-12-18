@@ -350,7 +350,11 @@
 			"loginPassword": "Jelszó",
 			"event": "Esemény",
 			"language": "Nyelv",
-			"rememberMe": "Maradok bejelentkezve"
+			"rememberMe": "Maradok bejelentkezve",
+			"haveAccount": "Regisztrált?",
+			"needAccount": "Regisztrálna?",
+			"login": "Bejelentkezés",
+			"register": "Regisztrálás"
 		},
 		"button": {
 			"login": "Belépés",

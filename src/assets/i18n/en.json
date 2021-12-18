@@ -350,7 +350,11 @@
 			"loginPassword": "Password",
 			"event": "Event",
 			"language": "Language",
-			"rememberMe": "Remember Me"
+			"rememberMe": "Remember Me",
+			"haveAccount": "Have an account?",
+			"needAccount": "Need an account?",
+			"login": "Sign in",
+			"register": "Sign up"
 		},
 		"button": {
 			"login": "Login",

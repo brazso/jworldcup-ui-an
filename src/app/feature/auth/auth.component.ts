@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AvailableLangs, Translation, TranslocoService } from '@ngneat/transloco';
 
 import { Errors, SessionService, UiError } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
@@ -17,30 +18,42 @@ export class AuthComponent implements OnInit {
   errors: UiError = new UiError({});
   isSubmitting = false;
   authForm: FormGroup;
+  availableLangs: AvailableLangs;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private translocoService: TranslocoService,
     private sessionService: SessionService,
     private fb: FormBuilder
   ) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
       'username': ['', Validators.required],
-      'password': ['', Validators.required]
+      'password': ['', Validators.required],
+      'language': ['']
     });
   }
 
   ngOnInit() {
+    this.availableLangs = this.translocoService.getAvailableLangs();
+    console.log(`availableLangs: ${JSON.stringify(this.availableLangs)}`);
+    this.authForm.controls['language'].setValue(this.translocoService.getActiveLang());
+    console.log(`activeLang: ${JSON.stringify(this.translocoService.getActiveLang())}`);
+
     this.route.url.subscribe(data => {
       // Get the last piece of the URL (it's either 'login' or 'register')
       this.authType = data[data.length - 1].path;
-      // Set a title for the page accordingly
-      this.title = (this.authType === 'login') ? 'Sign in' : 'Sign up';
       // add form control for username if this is the register page
       if (this.authType === 'register') {
         this.authForm.addControl('email', new FormControl());
       }
+
+      // wait until translation is being loaded
+      this.translocoService.selectTranslation().subscribe((translation: Translation) => {
+        // Set a title for the page accordingly
+        this.title = this.translocoService.translate(`login.label.${this.authType}`);
+      });
     });
   }
 
@@ -62,5 +75,12 @@ export class AuthComponent implements OnInit {
           this.isSubmitting = false;
         }
       });
+  }
+
+  onLanguageChange(event: any): void {
+    const lang: string = event.value;
+    this.sessionService.getSession().localeId = lang;
+    console.log(`session: ${JSON.stringify(this.sessionService.getSession())}`);
+    this.translocoService.setActiveLang(lang);
   }
 }

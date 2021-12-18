@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewContainerRef
 } from '@angular/core';
-import { User, SessionInfo } from 'src/app/core/models';
+import { User, SessionData } from 'src/app/core/models';
 import { SessionService } from 'src/app/core/services';
 
 @Directive({ selector: '[appShowAuthed]' })
@@ -20,7 +20,7 @@ export class ShowAuthedDirective implements OnInit {
 
   ngOnInit() {
     this.sessionService.session.subscribe(
-      (session: SessionInfo) => {
+      (session: SessionData) => {
         console.log(`session: ${JSON.stringify(session)}`);
         if (this.sessionService.isAuthenticated() && this.condition || !this.sessionService.isAuthenticated() && !this.condition) {
           this.viewContainer.createEmbeddedView(this.templateRef);

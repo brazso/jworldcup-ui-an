@@ -1,1 +1,1 @@
-export * from './session-info.model';
+export * from './session-data.model';

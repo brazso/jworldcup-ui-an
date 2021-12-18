@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Event, JwtRequest, JwtResponse, SessionInfo, User } from 'src/app/core/models';
+import { Event, JwtRequest, JwtResponse, SessionData, User } from 'src/app/core/models';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ApiService, JwtService } from 'src/app/core/services';
-import { TranslocoService } from '@ngneat/transloco';
+import { getBrowserLang, TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { Router } from '@angular/router';
@@ -14,8 +14,8 @@ import { isObjectEmpty } from 'src/app/shared/utils';
   providedIn: 'root'
 })
 export class SessionService {
-  private sessionSubject = new BehaviorSubject<SessionInfo>({} as SessionInfo);
-  session: Observable<SessionInfo> = this.sessionSubject.asObservable();
+  private sessionSubject = new BehaviorSubject<SessionData>({} as SessionData);
+  session: Observable<SessionData> = this.sessionSubject.asObservable();
   
   private userSubject = new BehaviorSubject<User>({} as User);
   user: Observable<User> = this.userSubject.asObservable();
@@ -25,22 +25,29 @@ export class SessionService {
 
   constructor(
     private jwtService: JwtService,
-    // private translocoService: TranslocoService,
+    private translocoService: TranslocoService,
     private apiService: ApiService,
     private router: Router
   ) {
   }
 
-  getSession(): SessionInfo {
+  getSession(): SessionData {
     return this.sessionSubject.value;
   }
 
-  setSession(session: SessionInfo): void {
+  setSession(session: SessionData): void {
     this.sessionSubject.next(session);
   }
 
-  initSession(): Observable<SessionInfo> {
-    return this.apiService.get<GenericResponse<SessionInfo>>(ApiEndpoints.SESSION.SESSION_INFO)
+  initSession(): Observable<SessionData> {
+    // if there is no language set in the session yet then store the browser used one
+    if (!this.getSession().localeId) {
+      const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
+      console.log(`defaultLang: ${defaultLang}`);
+      this.getSession().localeId = defaultLang;
+      this.translocoService.setActiveLang(defaultLang);
+    }
+    return this.apiService.put<GenericResponse<SessionData>>(ApiEndpoints.SESSION.SESSION_DATA, this.getSession())
       .pipe(map(response => {
         if (response.data.user) {
           this.authenticate(response.data.user);
@@ -57,7 +64,7 @@ export class SessionService {
     this.unauthenticate();
     this.destroyEvent();
     if (!isObjectEmpty(this.getSession())) {
-      this.setSession({} as SessionInfo);
+      this.setSession({} as SessionData);
     }
   }
 
@@ -126,7 +133,7 @@ export class SessionService {
   /**
    * Checks if the autheticated user has the given role
    * Returns false if there is no authenticated user.
-   * @param role role to be checked, e.g. "felh_karbantartas"
+   * @param role role to be checked, e.g. ROLE_USER
    */
   isUserInRole(role: string): boolean {
     return this.getAuthorities()?.includes(role) ?? false;
@@ -140,7 +147,7 @@ export class SessionService {
     return this.isUserInRole('ROLE_USER');
   }
 
-  attemptAuth(type: string, credentials: JwtRequest): Observable<SessionInfo> {
+  attemptAuth(type: string, credentials: JwtRequest): Observable<SessionData> {
     // const route = (type === 'login') ? '/login' : '';
     return this.apiService.post<JwtResponse>('/login', credentials)
       .pipe(map(

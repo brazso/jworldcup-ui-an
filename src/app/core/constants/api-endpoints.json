@@ -17,6 +17,6 @@
     },
 
     "SESSION": {
-        "SESSION_INFO" : "/session/find-session-info"
+        "SESSION_DATA" : "/session/refresh-session-data"
     }
 }

@@ -1,32 +1,31 @@
-<div class="auth-page">
+<div class="auth-page" *transloco="let t;">
   <div class="container page">
     <div fxLayout="row" fxLayoutAlign="center" fxLayoutAlign.xs="start">
 
       <div fxLayout="column">
         <h1 fxLayoutAlign="center">{{ title }}</h1>
         <p fxLayoutAlign="center">
-          <a [routerLink]="['/login']" *ngIf="authType == 'register'">Have an account?</a>
-          <a [routerLink]="['/register']" *ngIf="authType == 'login'">Need an account?</a>
+          <a [routerLink]="['/login']" *ngIf="authType == 'register'">{{ t('login.label.haveAccount') }}</a>
+          <a [routerLink]="['/register']" *ngIf="authType == 'login'">{{ t('login.label.needAccount') }}</a>
         </p>
         <app-list-errors [errors]="errors"></app-list-errors>
         <form fxLayoutAlign="center" [formGroup]="authForm" (ngSubmit)="submitForm()">
           <fieldset [disabled]="isSubmitting">
             <fieldset class="form-group" *ngIf="authType == 'register'">
-              <input
-                formControlName="email"
-                placeholder="Email"
-                pInputText />
+              <input formControlName="email" placeholder="Email" pInputText />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                formControlName="username"
-                placeholder="Username"
-                pInputText />
+              <input formControlName="username" [placeholder]="t('login.label.loginName')" pInputText />
             </fieldset>
             <fieldset class="form-group">
-              <p-password formControlName="password" placeholder="Password" [toggleMask]="true"></p-password>
+              <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [toggleMask]="true"></p-password>
             </fieldset>
-            <p-button fxLayoutAlign="end" [disabled]="!authForm.valid"  type="submit" label="{{ title }}" ></p-button>
+            <fieldset class="form-group">
+              <p-dropdown formControlName="language" [placeholder]="t('login.label.language')" [options]="availableLangs" optionLabel="label" optionValue="id"
+                (onChange)='onLanguageChange($event)'>
+              </p-dropdown>
+            </fieldset>
+            <p-button fxLayoutAlign="end" [disabled]="!authForm.valid" type="submit" label="{{ title }}" ></p-button>
           </fieldset>
         </form>
       </div>
