@@ -12,4 +12,5 @@ export interface SessionData {
     event?:	Event;
     userOfEvent?: UserOfEvent;
     newsLine?: string;
+    eventCompletionPercent?: number;
 }
