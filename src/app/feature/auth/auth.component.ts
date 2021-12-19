@@ -79,8 +79,7 @@ export class AuthComponent implements OnInit {
 
   onLanguageChange(event: any): void {
     const lang: string = event.value;
-    this.sessionService.getSession().localeId = lang;
-    console.log(`session: ${JSON.stringify(this.sessionService.getSession())}`);
+    console.log(`setActiveLang: ${lang}`);
     this.translocoService.setActiveLang(lang);
   }
 }

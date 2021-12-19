@@ -23,22 +23,25 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // wait until translation is being loaded
-    this.translocoService.selectTranslation().subscribe((translation: Translation) => {
-      this.setupSession();
-    });
+    this.setupSession();
   }
 
   title = 'jworldcup-ui-an';
 
   private setupSession(): void {
+    console.log('setupSession');
+
+    const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
+    console.log(`setActiveLang: ${defaultLang}`);
+    this.translocoService.setActiveLang(defaultLang);
+
     this.sessionService.initSession().subscribe({
       next: (session: SessionData) => {
         console.log('session.user=' + session.user?.loginName);
         this.goToDefaultPage();
       },
       error: (err) => {
-        console.log('not authenticated yet');
+        console.log('session.user is not authenticated yet');
       }
     });
   }

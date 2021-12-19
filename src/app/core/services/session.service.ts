@@ -40,13 +40,8 @@ export class SessionService {
   }
 
   initSession(): Observable<SessionData> {
-    // if there is no language set in the session yet then store the browser used one
-    if (!this.getSession().localeId) {
-      const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
-      console.log(`defaultLang: ${defaultLang}`);
-      this.getSession().localeId = defaultLang;
-      this.translocoService.setActiveLang(defaultLang);
-    }
+    console.log('initSession');
+    this.getSession().localeId = this.translocoService.getActiveLang();
     return this.apiService.put<GenericResponse<SessionData>>(ApiEndpoints.SESSION.SESSION_DATA, this.getSession())
       .pipe(map(response => {
         if (response.data.user) {
@@ -61,9 +56,13 @@ export class SessionService {
   }
 
   destroySession() {
+    console.log('destroySession');
     this.unauthenticate();
     this.destroyEvent();
+
+    delete this.getSession().localeId;
     if (!isObjectEmpty(this.getSession())) {
+      console.log('emptySession');
       this.setSession({} as SessionData);
     }
   }
@@ -81,8 +80,8 @@ export class SessionService {
           this.destroySession();
         },
         complete: () => {
-          console.log('destroySession3');
-          this.destroySession();
+          // console.log('destroySession3');
+          // this.destroySession();
           // Get a new JWT token
           // this.router.navigateByUrl('/login');
           this.router.navigate([RouterUrls.LOGIN]);
@@ -148,6 +147,7 @@ export class SessionService {
   }
 
   attemptAuth(type: string, credentials: JwtRequest): Observable<SessionData> {
+    console.log('attemptAuth');
     // const route = (type === 'login') ? '/login' : '';
     return this.apiService.post<JwtResponse>('/login', credentials)
       .pipe(map(
