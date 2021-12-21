@@ -1,6 +1,8 @@
 <header class="header" *transloco="let t;">
-  <div fxLayout="row" fxLayoutAlign="start stretch">
-    <img [src]="getLogoFileName()" width="85" height="85">
+  <div fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+    <div>
+      <img [src]="getLogoFileName()" width="85" height="85">
+    </div>
     <div *ngIf="event.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
       <div fxLayout="row" fxLayoutAlign="center">
         <p-dropdown [options]="events" [(ngModel)]="event" [placeholder]="t('header.label.event')"
@@ -13,9 +15,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div fxLayout="row" fxLayoutAlign="center">
-        TODO - Progress bar with label
-      </div>
+      <p-progressBar [value]="eventCompletionPercent"></p-progressBar>
       <div fxLayout="row" fxLayoutAlign="center">
         TODO - Scrolled chat
       </div>

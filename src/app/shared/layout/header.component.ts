@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { MenuItem } from 'primeng/api';
 
-import { Event, User, SessionService, ApiService, GenericListResponse } from 'src/app/core';
+import { Event, User, SessionService, ApiService, GenericListResponse, SessionData } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { isObjectEmpty } from '../utils';
 
@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   event: Event = {};
   menuItems: MenuItem[];
   events: Event[] = [];
+  eventCompletionPercent: number | undefined;
 
   ngOnInit(): void {
     this.sessionService.user.subscribe(
@@ -147,8 +148,16 @@ export class HeaderComponent implements OnInit {
   onEventChange(event_: any): void {
     console.log('onEventChange');
     // const event: Event = event_.value;
+    
     this.sessionService.getSession().event = this.event;
-    this.sessionService.setEvent(this.event);
+
+    // eventCompletionPercent must be refreshed
+    this.sessionService.initSession().subscribe(
+      (session: SessionData) => {
+        console.log('session.eventCompletionPercent=' + session.eventCompletionPercent);
+        this.eventCompletionPercent = session.eventCompletionPercent;
+      }
+    );
   }
 
   logout() {

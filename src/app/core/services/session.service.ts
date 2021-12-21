@@ -3,12 +3,13 @@ import { Event, JwtRequest, JwtResponse, SessionData, User } from 'src/app/core/
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ApiService, JwtService } from 'src/app/core/services';
-import { getBrowserLang, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { Router } from '@angular/router';
 import { GenericResponse } from '../models/common';
 import { isObjectEmpty } from 'src/app/shared/utils';
+import equal from 'fast-deep-equal';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,7 @@ export class SessionService {
     return this.apiService.put<GenericResponse<SessionData>>(ApiEndpoints.SESSION.SESSION_DATA, this.getSession())
       .pipe(map(response => {
         if (response.data.user) {
-          this.authenticate(response.data.user);
+          this.setUser(response.data.user);
         }
         if (response.data.event) {
           this.setEvent(response.data.event);
@@ -57,7 +58,7 @@ export class SessionService {
 
   destroySession() {
     console.log('destroySession');
-    this.unauthenticate();
+    this.destroyUser();
     this.destroyEvent();
 
     delete this.getSession().localeId;
@@ -94,29 +95,16 @@ export class SessionService {
   }
 
   setUser(user: User): void {
-    this.userSubject.next(user);
+    if (!equal(this.getUser(), user)) {
+      this.userSubject.next(user);
+    }
   }
 
   destroyUser(): void {
-    if (!isObjectEmpty(this.getUser())) {
-      this.setUser({} as User);
-    }
-  }
-
-  authenticate(user: User, token?: string) {
-    // Save JWT sent from server in localstorage
-    if (token) {
-      this.jwtService.saveToken(token);
-    }
-    // Set current user data into observable
-    this.setUser(user);
-  }
-
-  unauthenticate(): void {
     // Remove JWT from localstorage
     this.jwtService.destroyToken();
-    // Set current user to an empty object
-    if (this.isAuthenticated()) {
+
+    if (!isObjectEmpty(this.getUser())) {
       this.setUser({} as User);
     }
   }
@@ -148,7 +136,6 @@ export class SessionService {
 
   attemptAuth(type: string, credentials: JwtRequest): Observable<SessionData> {
     console.log('attemptAuth');
-    // const route = (type === 'login') ? '/login' : '';
     return this.apiService.post<JwtResponse>('/login', credentials)
       .pipe(map(
         response => {
@@ -169,7 +156,9 @@ export class SessionService {
   }
 
   setEvent(event: Event): void {
-    this.eventSubject.next(event);
+    if (!equal(this.getEvent(), event)) {
+      this.eventSubject.next(event);
+    }
   }
 
   destroyEvent(): void {

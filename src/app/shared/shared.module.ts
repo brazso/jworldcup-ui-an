@@ -39,6 +39,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TreeTableModule } from 'primeng/treetable';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TieredMenuModule } from 'primeng/tieredmenu';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 /* own components */
 import { DynamicDatePipe } from './pipes/dynamic-date.pipe';
@@ -101,7 +102,8 @@ const PRIMENG_MODULES = [
   MultiSelectModule,
   TreeTableModule,
   FieldsetModule,
-  TieredMenuModule
+  TieredMenuModule,
+  ProgressBarModule
 ];
 
  const SHARED_COMPONENTS = [
