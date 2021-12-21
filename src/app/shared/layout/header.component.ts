@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { MenuItem } from 'primeng/api';
 
-import { Event, User, SessionService } from 'src/app/core';
+import { Event, User, SessionService, ApiService, GenericListResponse } from 'src/app/core';
+import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
+import { isObjectEmpty } from '../utils';
 
 @Component({
   selector: 'app-layout-header',
@@ -12,12 +14,14 @@ import { Event, User, SessionService } from 'src/app/core';
 export class HeaderComponent implements OnInit {
   constructor(
     private translocoService: TranslocoService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private apiService: ApiService
   ) {}
 
   user: User = {};
   event: Event = {};
   menuItems: MenuItem[];
+  events: Event[] = [];
 
   ngOnInit(): void {
     this.sessionService.user.subscribe(
@@ -25,6 +29,7 @@ export class HeaderComponent implements OnInit {
         this.user = user;
         console.log(`user: ${JSON.stringify(user)}`);
         this.setupMenuItemsAfterTranlationLoaded();
+        this.setupAllEvents();
       }
     );
     this.sessionService.event.subscribe(
@@ -126,6 +131,26 @@ export class HeaderComponent implements OnInit {
     ];
   }
 
+  private setupAllEvents() {
+    if (isObjectEmpty(this.user)) {
+      this.events = [];
+      return;
+    }
+
+    this.apiService.get<GenericListResponse<Event>>(ApiEndpoints.EVENTS.FIND_ALL_EVENTS).subscribe(
+      (value: GenericListResponse<Event>) => {
+        this.events = value.data;
+      }
+    );
+  }
+
+  onEventChange(event_: any): void {
+    console.log('onEventChange');
+    // const event: Event = event_.value;
+    this.sessionService.getSession().event = this.event;
+    this.sessionService.setEvent(this.event);
+  }
+
   logout() {
     this.sessionService.logout();
   }
@@ -137,4 +162,5 @@ export class HeaderComponent implements OnInit {
     }
     return name;
   }
+
 }

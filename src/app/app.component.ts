@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { getBrowserLang, Translation, TranslocoService } from '@ngneat/transloco';
+import { AvailableLangs, getBrowserLang, LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { SessionData } from './core/models';
 import { SessionService } from './core/services';
@@ -23,17 +23,24 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setupActiveLang();
     this.setupSession();
   }
 
   title = 'jworldcup-ui-an';
 
+  private setupActiveLang(): void {
+    const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
+    console.log(`defaultLang: ${defaultLang}`);
+    const availableLangs = this.translocoService.getAvailableLangs() as LangDefinition[]; // e.g. // [{"id":"en","label":"English"},{"id":"hu","label":"Magyar"}]
+    console.log(`availableLangs: ${JSON.stringify(availableLangs)}`);
+    const activeLang = availableLangs.map(e => e.id).includes(defaultLang) ? defaultLang : this.translocoService.getDefaultLang();
+    console.log(`setActiveLang: ${activeLang}`);
+    this.translocoService.setActiveLang(activeLang);
+  }
+
   private setupSession(): void {
     console.log('setupSession');
-
-    const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
-    console.log(`setActiveLang: ${defaultLang}`);
-    this.translocoService.setActiveLang(defaultLang);
 
     this.sessionService.initSession().subscribe({
       next: (session: SessionData) => {

@@ -13,7 +13,8 @@
     },
 
     "EVENTS": {
-        "FIND_EVENT_BY_USER": "/events/find-event-by-user"
+        "FIND_EVENT_BY_USER": "/events/find-event-by-user",
+        "FIND_ALL_EVENTS": "/events/find-all-events"
     },
 
     "SESSION": {

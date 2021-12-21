@@ -342,6 +342,13 @@
 		] 
 	},
 
+	"__header__": "",
+	"header": {
+		"label": {
+			"event" : "Event"
+		}
+	},
+
 	"__Login form__": "",
 	"login": {
 		"title": "User Login",

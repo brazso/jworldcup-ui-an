@@ -3,10 +3,15 @@
     <img [src]="getLogoFileName()" width="85" height="85">
     <div *ngIf="event.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
       <div fxLayout="row" fxLayoutAlign="center">
-        {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }})
-      </div>
-      <div fxLayout="row" fxLayoutAlign="center">
-        {{ event.startTime | date: 'yyyy-MM-dd' }} - {{ event.endTime | date: 'yyyy-MM-dd' }}
+        <p-dropdown [options]="events" [(ngModel)]="event" [placeholder]="t('header.label.event')"
+          (onChange)='onEventChange($event)'>
+          <ng-template pTemplate="selectedItem">
+            {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }}) {{ event.startTime | date: 'yyyy-MM-dd' }} - {{ event.endTime | date: 'yyyy-MM-dd' }}
+          </ng-template>
+          <ng-template let-event pTemplate="item">
+            {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }})
+          </ng-template>
+        </p-dropdown>
       </div>
       <div fxLayout="row" fxLayoutAlign="center">
         TODO - Progress bar with label

@@ -342,6 +342,13 @@
 		]
 	},
 
+	"__header__": "",
+	"header": {
+		"label": {
+			"event" : "Esemény"
+		}
+	},
+
 	"__Login form__": "",
 	"login": {
 		"title": "Felhasználó bejelentkezése",

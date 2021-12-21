@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AvailableLangs, Translation, TranslocoService } from '@ngneat/transloco';
+import { AvailableLangs, LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
 
 import { Errors, SessionService, UiError } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
   errors: UiError = new UiError({});
   isSubmitting = false;
   authForm: FormGroup;
-  availableLangs: AvailableLangs;
+  availableLangs: LangDefinition[];
 
   constructor(
     private route: ActivatedRoute,
@@ -36,8 +36,9 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.availableLangs = this.translocoService.getAvailableLangs();
-    console.log(`availableLangs: ${JSON.stringify(this.availableLangs)}`);
+    this.availableLangs = (this.translocoService.getAvailableLangs() as LangDefinition[])
+      .sort((a, b) => a.label.localeCompare(b.label, this.translocoService.getActiveLang()));
+    console.log(`this.availableLangs: ${JSON.stringify(this.availableLangs)}`);
     this.authForm.controls['language'].setValue(this.translocoService.getActiveLang());
     console.log(`activeLang: ${JSON.stringify(this.translocoService.getActiveLang())}`);
 
