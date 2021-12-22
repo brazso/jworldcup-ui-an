@@ -18,13 +18,24 @@ export class HeaderComponent implements OnInit {
     private apiService: ApiService
   ) {}
 
+  session: SessionData = {};
   user: User = {};
   event: Event = {};
   menuItems: MenuItem[];
   events: Event[] = [];
-  eventCompletionPercent: number | undefined;
+
+  // session fields
+  // eventCompletionPercent: number | undefined;
+  // newsLine: string;
+  
 
   ngOnInit(): void {
+    this.sessionService.session.subscribe(
+      (session: SessionData) => {
+        this.session = session;
+        console.log(`session: ${JSON.stringify(session)}`);
+      }
+    );    
     this.sessionService.user.subscribe(
       (user: User) => {
         this.user = user;
@@ -152,12 +163,7 @@ export class HeaderComponent implements OnInit {
     this.sessionService.getSession().event = this.event;
 
     // eventCompletionPercent must be refreshed
-    this.sessionService.initSession().subscribe(
-      (session: SessionData) => {
-        console.log('session.eventCompletionPercent=' + session.eventCompletionPercent);
-        this.eventCompletionPercent = session.eventCompletionPercent;
-      }
-    );
+    this.sessionService.initSession().subscribe();
   }
 
   logout() {

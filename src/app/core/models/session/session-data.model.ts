@@ -1,7 +1,7 @@
 import { Event, User, UserOfEvent } from "src/app/core/models";
 
 export interface SessionData {
-    id: string;
+    id?: string;
     appShortName?: string;
     appVersionNumber?: string;
     appVersionDate?: Date;

@@ -15,9 +15,9 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <p-progressBar [value]="eventCompletionPercent"></p-progressBar>
-      <div fxLayout="row" fxLayoutAlign="center">
-        TODO - Scrolled chat
+      <p-progressBar [value]="session.eventCompletionPercent"></p-progressBar>
+      <div fxLayout="row" fxLayoutAlign="start stretch" class="scroll-left">
+			  <p>{{ session.newsLine }}</p>
       </div>
     </div>
     <div *appShowAuthed="true" fxLayout="column" fxLayoutAlign="space-around">
