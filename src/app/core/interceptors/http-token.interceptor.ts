@@ -18,6 +18,7 @@ import { ModalService } from 'src/app/shared/services/modal.service';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as MessageConstants } from 'src/app/core/constants/message-constants.json';
 import { JwtService, SessionService } from 'src/app/core/services';
+import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
@@ -26,7 +27,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 		private jwtService: JwtService,
 		private sessionService: SessionService,
 		private loader: LoaderService,
-		private messageService: MessageService,
+		private toastMessageService: ToastMessageService,
 		private translocoService: TranslocoService,
 		private modal: ModalService,
 		private router: Router
@@ -85,20 +86,10 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 					// Gateway timeout, server unavailable
 					this.router.navigate([RouterUrls.SERVICE_UNAVAILABLE]);
 				}
-				// Modal service can show a popup here
-				if (error.error.userMessage) {
-					this.translocoService.selectTranslate('GLOBAL.HIBA').subscribe((res: string) => {
-						const msg = {
-							severity: 'warn',
-							summary: res,
-							detail: error.error.userMessage,
-							life: 10000
-						};
-						this.messageService.add(msg);
-					});
-				}
 
-				return throwError(error);
+				// this.toastMessageService.displayNativeMessage(ToastMessageSeverity.WARN, error.error.userMessage); // TODO - native message should not be displayed
+
+				return throwError(() => error);
 			}));
 	}
 
