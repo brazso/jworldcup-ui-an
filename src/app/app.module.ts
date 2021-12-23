@@ -12,6 +12,7 @@ import { SharedModule, FooterComponent, HeaderComponent } from './shared';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
 import { SessionService } from './core/services';
+import { MatchModule } from './feature/match/match.module';
 
 // export function initUser(userService: UserService) {
 //   return (): Promise<any>  => {
@@ -36,7 +37,8 @@ import { SessionService } from './core/services';
     CoreModule,
     SharedModule,
     AuthModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatchModule
   ],
   // for Services (Guards can be considered to Services)
   providers: [

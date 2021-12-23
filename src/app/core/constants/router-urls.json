@@ -8,6 +8,7 @@
 	"SERVICE_UNAVAILABLE": "error/503",
 	"LOGIN": "login",
 	"REGISTER": "register",
+	"MATCHES": "matches",
 
 	"HOME_PAGE": "",
 	"EXAMPLE_PAGE": "example",

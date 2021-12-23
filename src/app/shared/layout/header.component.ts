@@ -6,6 +6,8 @@ import { Event, User, SessionService, ApiService, GenericListResponse, SessionDa
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { isObjectEmpty } from '../utils';
 
+import RouterUrls from 'src/app/core/constants/router-urls.json';
+
 @Component({
   selector: 'app-layout-header',
   templateUrl: './header.component.html',
@@ -63,13 +65,14 @@ export class HeaderComponent implements OnInit {
   }
 
   private setupMenuItems(): void {
+    console.log('setupMenuItems');
     this.menuItems = [
       {
         label: this.translocoService.translate('menu.view'),
         items: [
           {
             label: this.translocoService.translate('menu.matches'),
-            disabled: true
+            routerLink: [RouterUrls.MATCHES]
           },
           {
             label: this.translocoService.translate('menu.groups_standing'),
