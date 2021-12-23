@@ -10,7 +10,7 @@ const routes: Routes = [
     path: RouterUrls.MATCHES,
     component: MatchesComponent,
     canActivate: [AuthorityGuard],
-    data: { rolesAllowed: [/*'ROLE_USER', 'ROLE_ADMIN'*/] }
+    data: { rolesAllowed: ['ROLE_USER', 'ROLE_ADMIN'] }
   }
 ];
 
