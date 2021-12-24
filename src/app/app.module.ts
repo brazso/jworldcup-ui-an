@@ -37,8 +37,8 @@ import { MatchModule } from './feature/match/match.module';
     CoreModule,
     SharedModule,
     AuthModule,
-    FlexLayoutModule,
-    MatchModule
+    MatchModule,
+    FlexLayoutModule
   ],
   // for Services (Guards can be considered to Services)
   providers: [

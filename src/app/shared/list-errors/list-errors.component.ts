@@ -24,7 +24,7 @@ export class ListErrorsComponent {
         this.formattedErrors = error.items.map(e => this.msgFormat(e));
       }
       else if (uiError.status === 0) {
-        this.translocoService.selectTranslate('SZOLGALTATAS_NEM_ELERHETO').subscribe((res: string) => {
+        this.translocoService.selectTranslate<string>('SZOLGALTATAS_NEM_ELERHETO').subscribe((res: string) => {
           this.formattedErrors.push(res);
         });
       }

@@ -19,5 +19,10 @@
 
     "SESSION": {
         "SESSION_DATA" : "/session/refresh-session-data"
+    },
+
+    "MATCHES": {
+        "RETRIEVE_ROUNDS_BY_EVENT_ID": "/matches/rounds-by-event-id",
+        "MATCHES_BY_EVENT": "/matches/matches-by-event"
     }
 }

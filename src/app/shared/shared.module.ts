@@ -1,9 +1,7 @@
-import {LOCALE_ID, ModuleWithProviders, NgModule} from '@angular/core';
-// import localeHU from '@angular/common/locales/hu';
+import { ModuleWithProviders, NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, CommonModule } from '@angular/common';
 
-// import { TranslateModule } from '@ngx-translate/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 /* Prime NG */

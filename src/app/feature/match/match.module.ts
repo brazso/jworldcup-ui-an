@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { MatchRoutingModule } from './match-routing.module';
 import { MatchesComponent } from './matches/matches.component';
+import { SharedModule } from 'src/app/shared';
 
 
 @NgModule({
+  imports: [
+    SharedModule,
+    MatchRoutingModule
+  ],
   declarations: [
     MatchesComponent
-  ],
-  imports: [
-    CommonModule,
-    MatchRoutingModule
   ]
 })
 export class MatchModule { }

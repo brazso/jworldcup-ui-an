@@ -8,4 +8,7 @@ export interface Event {
 	startTime?: Date;
 	endTime?: Date;
 }
-  
+
+export function getShortDescWithYearByEvent(event: Event): string {
+    return event.shortDesc! + event.year!;
+}

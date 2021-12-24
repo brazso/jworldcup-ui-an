@@ -1,1 +1,5 @@
-<p>matches works!</p>
+<p-panel [header]="title">
+    <li *ngFor="let round of rounds">
+        {{ round.roundId }}
+      </li>
+</p-panel>
