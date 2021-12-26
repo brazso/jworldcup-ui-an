@@ -1,4 +1,4 @@
-import { Round } from "src/app/core/models";
+import { Round, Team } from "src/app/core/models";
 
 export interface Match {
     matctId?: number;
@@ -12,4 +12,6 @@ export interface Match {
     participantsRule?: string;
     startTime?: Date;
     round?: Round;
+    team1?: Team;
+    team2?: Team;
 }

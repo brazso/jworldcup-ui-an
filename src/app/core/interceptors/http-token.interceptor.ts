@@ -87,10 +87,10 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 					this.router.navigate([RouterUrls.SERVICE_UNAVAILABLE]);
 				}
 
-				if (error.status >= 500) {
+				// if (error.status >= 500) {
 					let msg = error.error?.message ?? error.message;
 					this.toastMessageService.displayNativeMessage(ToastMessageSeverity.WARN, msg); // TODO - native message should not be displayed
-				}
+				// }
 
 				return throwError(() => error);
 			}));

@@ -42,7 +42,7 @@ import { MatchModule } from './feature/match/match.module';
   ],
   // for Services (Guards can be considered to Services)
   providers: [
-    SessionService,
+    // SessionService
     // { provide: APP_INITIALIZER, useFactory: initUser, deps: [UserService], multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true }

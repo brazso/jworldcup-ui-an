@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, CommonModule } from '@angular/common';
 
 import { TranslocoModule } from '@ngneat/transloco';
+// import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -38,6 +39,7 @@ import { TreeTableModule } from 'primeng/treetable';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ImageModule } from 'primeng/image';
 
 /* own components */
 import { DynamicDatePipe } from './pipes/dynamic-date.pipe';
@@ -101,7 +103,8 @@ const PRIMENG_MODULES = [
   TreeTableModule,
   FieldsetModule,
   TieredMenuModule,
-  ProgressBarModule
+  ProgressBarModule,
+  ImageModule
 ];
 
  const SHARED_COMPONENTS = [
@@ -162,12 +165,15 @@ const SHARED_SERVICES = [
     SHARED_PIPES,
     SHARED_DIRECTIVES,
   ],
+  providers: [
+    ANGULAR_PIPES
+  ],
   // entryComponents: [
   //   DIALOGS,
   // ],
 })
 
-export class SharedModule {
+export class SharedModule {/*
   static forRoot(): ModuleWithProviders<SharedModule> {
     return {
         ngModule: SharedModule,
@@ -177,5 +183,5 @@ export class SharedModule {
           SHARED_SERVICES
         ]
     };
-  }
+  }*/
 }

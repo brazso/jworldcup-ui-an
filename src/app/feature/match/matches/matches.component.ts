@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Event, GenericListResponse, getShortDescWithYearByEvent, Match, Round } from 'src/app/core/models';
+import { Event, GenericListResponse, getShortDescWithYearByEvent, Match, Round, SessionData } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
 import { Translation, TranslocoService } from '@ngneat/transloco';
+import equal from 'fast-deep-equal';
 
 @Component({
   selector: 'app-matches',
@@ -15,10 +16,11 @@ export class MatchesComponent implements OnInit {
   event: Event = {};
   matches: Match[] = [];
   rounds: Round[] = [];
+  eventTriggerStartTimes: Date[] = [];
 
   constructor(
     private apiService: ApiService,
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     private translocoService: TranslocoService
   ) { }
 
@@ -52,6 +54,15 @@ export class MatchesComponent implements OnInit {
       }
     );
 
+    this.sessionService.session.subscribe(
+      (session: SessionData) => {
+        this.eventTriggerStartTimes = session.eventTriggerStartTimes ?? [];
+      }
+    );
   }
 
+  filterMatchesByRound(round: Round): Match[] {
+    // return this.matches.filter(e => equal(e.round, round));
+    return this.matches.filter(e => e.round!.roundId === round.roundId);
+  }
 }

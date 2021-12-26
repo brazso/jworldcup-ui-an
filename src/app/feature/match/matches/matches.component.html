@@ -1,5 +1,51 @@
-<p-panel [header]="title">
-    <li *ngFor="let round of rounds">
-        {{ round.roundId }}
-      </li>
-</p-panel>
+<ng-container *transloco="let t">
+  <p-panel [header]="title">
+  </p-panel>
+
+  <p-panel *ngIf="sessionService.isUserAdmin() && eventTriggerStartTimes">
+  TODO
+  </p-panel>
+
+  <ng-container *ngFor="let round of rounds">
+    <p-table [value]="filterMatchesByRound(round)" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+      <ng-template pTemplate="caption">
+        {{ t('round.' + round.name) }}
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+            <th>#</th>
+            <th>{{ t('matches.label.startTime') }}</th>
+            <th colspan="2">{{ t('matches.label.team') }} #1</th>
+            <th *ngIf="!round.isGroupmatch">{{ t('matches.label.scoredPenalties') }} #1</th>
+            <th *ngIf="!round.isGroupmatch && round.isOvertime">{{ t('matches.label.scoredAfterOvertime') }} #1</th>
+            <th *ngIf="round.isGroupmatch">{{ t('matches.label.scoredGoals') }} #1</th>
+            <th *ngIf="!round.isGroupmatch">{{ t('matches.label.scoredAfter90Minutes') }} #1</th>
+            <th *ngIf="round.isGroupmatch">{{ t('matches.label.scoredGoals') }} #2</th>
+            <th *ngIf="!round.isGroupmatch">{{ t('matches.label.scoredAfter90Minutes') }} #2</th>
+            <th *ngIf="!round.isGroupmatch && round.isOvertime">{{ t('matches.label.scoredAfterOvertime') }} #2</th>
+            <th *ngIf="!round.isGroupmatch">{{ t('matches.label.scoredPenalties') }} #2</th>
+            <th colspan="2">{{ t('matches.label.team') }} #2</th>
+            <th *ngIf="sessionService.isUserAdmin()"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-match>
+        <tr>
+            <td>{{ match.matchN }}</td>
+            <td>{{ match.startTime | dynamicDate:'short' }}</td>
+            <td><ng-container *ngIf="match.team1">{{ t('team.' + match.team1.name) }}</ng-container></td>
+            <td><p-image *ngIf="match.team1" src="assets/images/flags/{{match.team1.flag}}.png" alt="Image"></p-image></td>
+            <td *ngIf="!round.isGroupmatch">{{ match.goalPenaltyByTeam1 }}</td>
+            <td *ngIf="!round.isGroupmatch && round.isOvertime">{{ match.goalExtraByTeam1 }}</td>
+            <td>{{ match.goalNormalByTeam1 }}</td>
+            <td>{{ match.goalNormalByTeam2 }}</td>
+            <td *ngIf="!round.isGroupmatch && round.isOvertime">{{ match.goalExtraByTeam2 }}</td>
+            <td *ngIf="!round.isGroupmatch">{{ match.goalPenaltyByTeam2 }}</td>
+            <td><p-image *ngIf="match.team2" src="assets/images/flags/{{match.team2.flag}}.png" alt="Image"></p-image></td>
+            <td><ng-container *ngIf="match.team2">{{ t('team.' + match.team2.name) }}</ng-container></td>
+            <td *ngIf="sessionService.isUserAdmin()">TODO - edit</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <br/>
+  </ng-container>
+</ng-container>

@@ -1,10 +1,12 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AvailableLangs, getBrowserLang, LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
+import localeHu from '@angular/common/locales/hu';
+import { getBrowserLang, LangDefinition, TranslocoService } from '@ngneat/transloco';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { SessionData } from './core/models';
 import { SessionService } from './core/services';
+import { registerLocaleData } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -23,11 +25,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.registerLocales();
     this.setupActiveLang();
     this.setupSession();
   }
 
   title = 'jworldcup-ui-an';
+
+  private registerLocales(): void {
+    registerLocaleData(localeHu, 'hu');
+  }
 
   private setupActiveLang(): void {
     const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
