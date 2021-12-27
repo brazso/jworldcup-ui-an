@@ -1,1 +1,1 @@
-export * from './dynamic-date.pipe';
+export * from './transloco-ex-date.pipe';

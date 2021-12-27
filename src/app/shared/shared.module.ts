@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, CommonModule } from '@angular/common';
 
 import { TranslocoModule } from '@ngneat/transloco';
-// import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { TranslocoDatePipe, TranslocoLocaleModule } from '@ngneat/transloco-locale';
 
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -42,7 +42,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ImageModule } from 'primeng/image';
 
 /* own components */
-import { DynamicDatePipe } from './pipes/dynamic-date.pipe';
+import { TranslocoExDatePipe } from './pipes/transloco-ex-date.pipe';
 import { CustomValidator } from './directives/custom-validator.directive';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { CalendarLocaleService } from './services/calendar-locale.service';
@@ -69,7 +69,8 @@ const ANGULAR_MODULES = [
   CommonModule,
   FormsModule,
   ReactiveFormsModule,
-  TranslocoModule
+  TranslocoModule,
+  TranslocoLocaleModule
 ];
 
 const PRIMENG_MODULES = [
@@ -118,10 +119,11 @@ const SHARED_DIRECTIVES = [
 ];
 
 const ANGULAR_PIPES = [
-  DatePipe
+  DatePipe,
+  TranslocoDatePipe
 ];
 const SHARED_PIPES = [
-  DynamicDatePipe
+  TranslocoExDatePipe,
   // EnumPipe,
   // MinuteSecondsPipe
 ];

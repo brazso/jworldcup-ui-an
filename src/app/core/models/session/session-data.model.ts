@@ -5,7 +5,7 @@ export interface SessionData {
     appShortName?: string;
     appVersionNumber?: string;
     appVersionDate?: Date;
-    appCheatDateTime?: Date;
+    actualDateTime?: Date;
     appEmailAddr?: string;
     localeId?: string;
     user?: User;

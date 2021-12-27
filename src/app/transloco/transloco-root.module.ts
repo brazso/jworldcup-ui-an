@@ -7,6 +7,7 @@ import {
   translocoConfig,
   TranslocoModule
 } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { Injectable, NgModule } from '@angular/core';
 import { environment } from '../../environments/environment';
 
@@ -22,6 +23,13 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 
 @NgModule({
   exports: [ TranslocoModule ],
+  imports: [ 
+    TranslocoLocaleModule.forRoot({
+      langToLocaleMapping: {
+        en: 'en-US',
+        hu: 'hu-HU'      }      
+    })
+  ],
   providers: [
     {
       provide: TRANSLOCO_CONFIG,

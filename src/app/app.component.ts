@@ -37,6 +37,8 @@ export class AppComponent implements OnInit {
   }
 
   private setupActiveLang(): void {
+    const browserLang = getBrowserLang();
+    console.log(`browserLang: ${browserLang}`);
     const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
     console.log(`defaultLang: ${defaultLang}`);
     const availableLangs = this.translocoService.getAvailableLangs() as LangDefinition[]; // e.g. // [{"id":"en","label":"English"},{"id":"hu","label":"Magyar"}]

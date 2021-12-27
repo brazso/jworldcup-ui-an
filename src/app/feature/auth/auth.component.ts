@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AvailableLangs, LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
+import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
 
-import { Errors, SessionService, UiError } from 'src/app/core';
+import { SessionService, UiError } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 
 @Component({

@@ -51,7 +51,7 @@ import { MatchModule } from './feature/match/match.module';
 })
 export class AppModule { 
   constructor() {
-    this.overrideDate();
+    // this.overrideDate();
   }
 
   overrideDate() {
@@ -61,8 +61,10 @@ export class AppModule {
      * DST usage. Example for the output: 2021-04-22T14:48:00.000Z
      */
     Date.prototype.toJSON = function (key) {
+      // console.log(`overrideDate this.toISOString: ${this.toISOString()}`);
       const thisUTC = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(),
         this.getMinutes(), this.getSeconds()));
+      // console.log(`overrideDate thisUTC.toISOString: ${thisUTC.toISOString()}`);
       return thisUTC.toISOString();
     };
   }  

@@ -31,7 +31,7 @@
       <ng-template pTemplate="body" let-match>
         <tr>
             <td>{{ match.matchN }}</td>
-            <td>{{ match.startTime | dynamicDate:'short' }}</td>
+            <td>{{ match.startTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
             <td><ng-container *ngIf="match.team1">{{ t('team.' + match.team1.name) }}</ng-container></td>
             <td><p-image *ngIf="match.team1" src="assets/images/flags/{{match.team1.flag}}.png" alt="Image"></p-image></td>
             <td *ngIf="!round.isGroupmatch">{{ match.goalPenaltyByTeam1 }}</td>
