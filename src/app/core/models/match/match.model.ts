@@ -14,4 +14,6 @@ export interface Match {
     round?: Round;
     team1?: Team;
     team2?: Team;
+	resultByTeam1?: number;
+    resultByTeam2?: number;
 }
