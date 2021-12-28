@@ -65,4 +65,27 @@ export class MatchesComponent implements OnInit {
     // return this.matches.filter(e => equal(e.round, round));
     return this.matches.filter(e => e.round!.roundId === round.roundId);
   }
+
+  /**
+   * 
+   * @param match returns a css style class calculated from the result of the given match by the given team side [1, 2]
+   * @param side 
+   */
+  getMatchStyleClass(match: Match, side: number): string {
+    let styleClass = '';
+
+    if (match.resultSignByTeam1 == null) {
+      return styleClass;
+    }
+
+    const resultSignByTeamSide: number = match.resultSignByTeam1 * (side === 2 ? -1 : 1);
+    if (resultSignByTeamSide === 1) {
+			styleClass += "bold ";
+		}
+		if (!match.round?.isGroupmatch && resultSignByTeamSide === -1) {
+			styleClass += "overstriked ";
+		}
+    
+    return styleClass;
+  }
 }
