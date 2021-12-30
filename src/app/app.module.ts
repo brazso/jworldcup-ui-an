@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +10,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule, FooterComponent, HeaderComponent } from './shared';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
-import { SessionService } from './core/services';
 import { MatchModule } from './feature/match/match.module';
 
 // export function initUser(userService: UserService) {
@@ -19,6 +17,12 @@ import { MatchModule } from './feature/match/match.module';
 //     return userService.loadAndStoreUser();
 //   };
 // }
+
+declare global {
+  interface String {
+    format(...args: string[]): string;
+  }
+}
 
 // app (root) module
 @NgModule({
@@ -37,8 +41,7 @@ import { MatchModule } from './feature/match/match.module';
     CoreModule,
     SharedModule,
     AuthModule,
-    MatchModule,
-    FlexLayoutModule
+    MatchModule
   ],
   // for Services (Guards can be considered to Services)
   providers: [
@@ -52,9 +55,10 @@ import { MatchModule } from './feature/match/match.module';
 export class AppModule { 
   constructor() {
     // this.overrideDate();
+    this.addStringFormat();
   }
 
-  overrideDate() {
+  overrideDate(): void {
     /**
      * Overwritten Date.toJson method, so that the backend do receive the local datetime at HTTP REST API calls in the requests.
      * Otherwise there might be 1-2 hours offset owning to UTC (backend) and CET (browser) timezones's difference and the possible 
@@ -67,5 +71,17 @@ export class AppModule {
       // console.log(`overrideDate thisUTC.toISOString: ${thisUTC.toISOString()}`);
       return thisUTC.toISOString();
     };
-  }  
+  }
+
+  addStringFormat(): void {
+    String.prototype.format = function() {
+      var args = arguments;
+      return this.replace(/{(\d+)}/g, function(match, number) { 
+        return typeof args[number] != 'undefined'
+          ? args[number]
+          : match
+        ;
+      });
+    };
+  }
 }

@@ -1,0 +1,70 @@
+<ng-container *transloco="let t">
+    <!--<p-panel [header]="config.header!">
+    </p-panel>-->
+
+    <table class="p-datatable">
+        <tr>
+            <td>{{ t('general.label.id') }}</td>
+            <td colspan="5">{{ match.matchId }}</td>
+        </tr>
+        <tr>
+            <td>{{ t('general.label.nr') }}</td>
+            <td colspan="5">{{ match.matchN }}</td>
+        </tr>
+        <tr>
+            <td>{{ t('general.label.startTime') }}</td>
+            <td colspan="5">{{ match.startTime! | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
+        </tr>
+        <tr>
+            <td>{{ t('matchDetail.label.teams') }}</td>
+            <td><span>{{ t('team.' + match.team1?.name) }}</span></td>
+            <td><p-image src="assets/images/flags/{{match.team1?.flag}}.png" alt="Image" [title]="t('team.' + match.team1?.name)"></p-image></td>
+            <td></td>
+            <td>{{ t('team.' + match.team2?.name) }}</td>
+            <td><p-image src="assets/images/flags/{{match.team2?.flag}}.png" alt="Image" [title]="t('team.' + match.team2?.name)"></p-image></td>
+        </tr>
+        <tr>
+            <td>{{ t(match.round?.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</td>
+            <td colspan="2"><p-inputNumber [(ngModel)]="match.goalNormalByTeam1"></p-inputNumber></td>
+            <td></td>
+            <td colspan="2"><p-inputNumber [(ngModel)]="match.goalNormalByTeam2"></p-inputNumber></td>
+        </tr>
+    </table>
+
+<!--    <div fxLayout="column">
+        <div fxLayout="row">
+            <div fxLayout="column">
+                <span>{{ t('general.label.id') }}</span>
+                <span>{{ t('general.label.nr') }}</span>
+                <span>{{ t('general.label.startTime') }}</span>
+                <span>{{ t('matchDetail.label.teams') }}</span>
+                <span>{{ t(match.round!.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</span>
+                <span>{{ t('matchDetail.label.afterOvertime') }}</span>
+                <span>{{ t('matchDetail.label.afterPenalties') }}</span>
+            </div>
+            <div fxLayout="column">
+                <span>{{ match.matchId }}</span>
+                <span>{{ match.matchN }}</span>
+                <span>{{ match.startTime! | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</span>
+                <span>{{ t('team.' + match.team1!.name) }}</span>
+                <span><p-image src="assets/images/flags/{{match.team1!.flag}}.png" alt="Image" [title]="t('team.' + match.team1!.name)"></p-image></span>
+                <span>e</span>
+                <span>f</span>
+            </div>
+            <div fxLayout="column">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span>{{ t('team.' + match.team1!.name) }}</span>
+                <span><p-image src="assets/images/flags/{{match.team1!.flag}}.png" alt="Image" [title]="t('team.' + match.team1!.name)"></p-image></span>
+                <span>e</span>
+                <span>f</span>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-around">
+            <span>a</span>
+            <span>b</span>
+        </div>
+    </div>-->
+  
+</ng-container>

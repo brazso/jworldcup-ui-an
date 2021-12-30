@@ -23,6 +23,7 @@
 
     "MATCHES": {
         "RETRIEVE_ROUNDS_BY_EVENT_ID": "/matches/rounds-by-event-id",
-        "MATCHES_BY_EVENT": "/matches/matches-by-event"
+        "MATCHES_BY_EVENT": "/matches/matches-by-event",
+        "MATCH": "/matches/match/{0}"
     }
 }

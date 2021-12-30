@@ -1,4 +1,6 @@
 <ng-container *transloco="let t">
+  <p-contextMenu #cm [model]="cmItems"></p-contextMenu>
+
   <p-panel [header]="title">
   </p-panel>
 
@@ -7,11 +9,13 @@
   </p-panel>
 
   <ng-container *ngFor="let round of rounds">
-    <p-table [value]="filterMatchesByRound(round)" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+    <p-table [value]="filterMatchesByRound(round)" styleClass="p-datatable-gridlines p-datatable-striped" [rowHover]="true"
+      responsiveLayout="scroll" [contextMenu]="cm"
+      [(contextMenuSelection)]="selectedMatch">
       <ng-template pTemplate="caption">
         {{ t('round.' + round.name) }}
       </ng-template>
-      <ng-template pTemplate="header">
+      <ng-template pTemplate="header" let-match>
         <tr>
             <th>#</th>
             <th>{{ t('matches.label.startTime') }}</th>
@@ -29,20 +33,20 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-match>
-        <tr>
+        <tr [pContextMenuRow]="match" [pContextMenuRowDisabled]="!isMatchEditable(match)">
             <td>{{ match.matchN }}</td>
             <td>{{ match.startTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
             <td><span *ngIf="match.team1" [ngClass]="getMatchStyleClass(match, 1)">{{ t('team.' + match.team1.name) }}</span></td>
-            <td><p-image *ngIf="match.team1" src="assets/images/flags/{{match.team1.flag}}.png" alt="Image"></p-image></td>
+            <td><p-image *ngIf="match.team1" src="assets/images/flags/{{match.team1.flag}}.png" alt="Image" [title]="t('team.' + match.team1.name)"></p-image></td>
             <td *ngIf="!round.isGroupmatch">{{ match.goalPenaltyByTeam1 }}</td>
             <td *ngIf="!round.isGroupmatch && round.isOvertime">{{ match.goalExtraByTeam1 }}</td>
             <td>{{ match.goalNormalByTeam1 }}</td>
             <td>{{ match.goalNormalByTeam2 }}</td>
             <td *ngIf="!round.isGroupmatch && round.isOvertime">{{ match.goalExtraByTeam2 }}</td>
             <td *ngIf="!round.isGroupmatch">{{ match.goalPenaltyByTeam2 }}</td>
-            <td><p-image *ngIf="match.team2" src="assets/images/flags/{{match.team2.flag}}.png" alt="Image"></p-image></td>
+            <td><p-image *ngIf="match.team2" src="assets/images/flags/{{match.team2.flag}}.png" alt="Image" [title]="t('team.' + match.team2.name)"></p-image></td>
             <td><span *ngIf="match.team2" [ngClass]="getMatchStyleClass(match, 2)">{{ t('team.' + match.team2.name) }}</span></td>
-            <td *ngIf="sessionService.isUserAdmin()">TODO - edit</td>
+            <td *ngIf="sessionService.isUserAdmin()"><p-button *ngIf="isMatchEditable(match)" icon="pi pi-pencil" [pTooltip]="t('general.button.edit')" (onClick)="editMatch(match)"></p-button></td>
         </tr>
       </ng-template>
     </p-table>

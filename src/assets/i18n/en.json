@@ -69,7 +69,9 @@
 			"import": "Import",
 			"create": "Create",
 			"refresh": "Refresh",
-			"send": "Send"
+			"send": "Send",
+			"edit": "Edit",
+			"reset": "Reset"
 		},
 		"error.missingRequestParameter": "Bad request. Missing {0} parameter."
 	},

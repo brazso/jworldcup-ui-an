@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatchRoutingModule } from './match-routing.module';
 import { MatchesComponent } from './matches/matches.component';
 import { SharedModule } from 'src/app/shared';
+import { MatchComponent } from './match.component';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SharedModule } from 'src/app/shared';
     MatchRoutingModule
   ],
   declarations: [
-    MatchesComponent
+    MatchesComponent,
+    MatchComponent,
   ]
 })
 export class MatchModule { }

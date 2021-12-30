@@ -69,7 +69,9 @@
 			"import": "Importálás",
 			"create": "Létrehozás",
 			"refresh": "Újrafrissítés",
-			"send": "Elküldés"
+			"send": "Elküldés",
+			"edit": "Szerkesztás",
+			"reset": "Visszaállítás"
 		},
 		"error.missingRequestParameter": "Rossz kérés. Hiányzó {0} paraméter."
 	},

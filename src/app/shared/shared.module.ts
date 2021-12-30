@@ -40,6 +40,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ImageModule } from 'primeng/image';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 /* own components */
 import { TranslocoExDatePipe } from './pipes/transloco-ex-date.pipe';
@@ -51,6 +52,8 @@ import { ModalService } from './services/modal.service';
 import { CoreModule } from '../core';
 import { ListErrorsComponent } from './list-errors';
 import { ShowAuthedDirective } from './directives/show-authed.directive';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 // import { InputTextComponent } from './input-text/input-text.component';
 // import { InputTextAreaComponent } from './input-textarea/input-textarea.component';
@@ -70,7 +73,8 @@ const ANGULAR_MODULES = [
   FormsModule,
   ReactiveFormsModule,
   TranslocoModule,
-  TranslocoLocaleModule
+  TranslocoLocaleModule,
+  FlexLayoutModule
 ];
 
 const PRIMENG_MODULES = [
@@ -105,7 +109,9 @@ const PRIMENG_MODULES = [
   FieldsetModule,
   TieredMenuModule,
   ProgressBarModule,
-  ImageModule
+  ImageModule,
+  ContextMenuModule,
+  InputNumberModule
 ];
 
  const SHARED_COMPONENTS = [

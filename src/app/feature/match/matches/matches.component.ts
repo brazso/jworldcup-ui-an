@@ -4,7 +4,9 @@ import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
 import { Translation, TranslocoService } from '@ngneat/transloco';
-import equal from 'fast-deep-equal';
+import { MenuItem } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { MatchComponent } from '../match.component';
 
 @Component({
   selector: 'app-matches',
@@ -17,11 +19,14 @@ export class MatchesComponent implements OnInit {
   matches: Match[] = [];
   rounds: Round[] = [];
   eventTriggerStartTimes: Date[] = [];
+  selectedMatch: Match;
+  cmItems: MenuItem[]; // contextMenu
 
   constructor(
     private apiService: ApiService,
-    public sessionService: SessionService,
-    private translocoService: TranslocoService
+    public sessionService: SessionService, // it is public because there is reference to sessionService from html
+    private translocoService: TranslocoService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +34,11 @@ export class MatchesComponent implements OnInit {
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       // Set a title for the page accordingly
       this.title = this.translocoService.translate(this.sessionService.isUserAdmin() ? 'ENTER_MATCH_RESULTS' : 'VIEW_MATCH_RESULTS');
+
+      this.cmItems = [
+        {label: this.translocoService.translate('general.button.edit'), icon: 'pi pi-fw pi-pencil', command: () => this.editMatch(this.selectedMatch)},
+        {label: this.translocoService.translate('general.button.reset'), icon: 'pi pi-fw pi-times', command: () => this.resetMatch(this.selectedMatch)}
+      ];
     });
 
     this.sessionService.event.subscribe(
@@ -87,5 +97,34 @@ export class MatchesComponent implements OnInit {
 		}
     
     return styleClass;
+  }
+
+  editMatch(match: Match) {
+    console.log('editMatch');
+
+    const ref = this.dialogService.open(MatchComponent, {
+      data: {
+        matchId: match.matchId
+      },
+      header: this.translocoService.translate('matchDetail.title'),
+      // closable: false,
+      // showHeader: false, // header and closeable are ignored
+      // width: '70%'
+    });
+
+    ref.onClose.subscribe((match: Match) => {
+      console.log(`onClose match: ${JSON.stringify(match)}`);
+      if (match) {
+      }
+    });
+  }
+
+  resetMatch(match: Match) {
+    console.log('resetMatch');
+    // this.messageService.add({severity: 'info', summary: 'Product Selected', detail: product.name });
+  }
+
+  isMatchEditable(match: Match): boolean {
+    return this.sessionService.isUserAdmin() && (!!match.team1 && !!match.team2);
   }
 }

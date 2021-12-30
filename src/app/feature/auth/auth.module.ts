@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AuthComponent } from './auth.component';
 import { NoAuthGuard } from './no-auth-guard.service';
@@ -9,8 +8,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 @NgModule({
   imports: [
     SharedModule,
-    AuthRoutingModule,
-    FlexLayoutModule
+    AuthRoutingModule
   ],
   declarations: [
     AuthComponent
