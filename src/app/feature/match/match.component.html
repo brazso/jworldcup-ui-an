@@ -2,34 +2,65 @@
     <!--<p-panel [header]="config.header!">
     </p-panel>-->
 
-    <table class="p-datatable">
-        <tr>
-            <td>{{ t('general.label.id') }}</td>
-            <td colspan="5">{{ match.matchId }}</td>
-        </tr>
-        <tr>
-            <td>{{ t('general.label.nr') }}</td>
-            <td colspan="5">{{ match.matchN }}</td>
-        </tr>
-        <tr>
-            <td>{{ t('general.label.startTime') }}</td>
-            <td colspan="5">{{ match.startTime! | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
-        </tr>
-        <tr>
-            <td>{{ t('matchDetail.label.teams') }}</td>
-            <td><span>{{ t('team.' + match.team1?.name) }}</span></td>
-            <td><p-image src="assets/images/flags/{{match.team1?.flag}}.png" alt="Image" [title]="t('team.' + match.team1?.name)"></p-image></td>
-            <td></td>
-            <td>{{ t('team.' + match.team2?.name) }}</td>
-            <td><p-image src="assets/images/flags/{{match.team2?.flag}}.png" alt="Image" [title]="t('team.' + match.team2?.name)"></p-image></td>
-        </tr>
-        <tr>
-            <td>{{ t(match.round?.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</td>
-            <td colspan="2"><p-inputNumber [(ngModel)]="match.goalNormalByTeam1"></p-inputNumber></td>
-            <td></td>
-            <td colspan="2"><p-inputNumber [(ngModel)]="match.goalNormalByTeam2"></p-inputNumber></td>
-        </tr>
-    </table>
+    <fieldset [disabled]="isSubmitting">
+        <div fxLayout="column" fxLayoutAlign="space-between">
+            <table class="p-datatable">
+                <tr>
+                    <td>{{ t('general.label.id') }}</td>
+                    <td colspan="5">{{ match.matchId }}</td>
+                </tr>
+                <tr>
+                    <td>{{ t('general.label.nr') }}</td>
+                    <td colspan="5">{{ match.matchN }}</td>
+                </tr>
+                <tr>
+                    <td>{{ t('general.label.startTime') }}</td>
+                    <td colspan="5">{{ match.startTime! | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
+                </tr>
+                <tr>
+                    <td>{{ t('matchDetail.label.teams') }}</td>
+                    <td><span>{{ t('team.' + match.team1?.name) }}</span></td>
+                    <td><p-image src="assets/images/flags/{{match.team1?.flag}}.png" alt="Image" [title]="t('team.' + match.team1?.name)"></p-image></td>
+                    <td></td>
+                    <td>{{ t('team.' + match.team2?.name) }}</td>
+                    <td><p-image src="assets/images/flags/{{match.team2?.flag}}.png" alt="Image" [title]="t('team.' + match.team2?.name)"></p-image></td>
+                </tr>
+                <tr>
+                    <td>{{ t(match.round?.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</td>
+                    <td colspan="2">
+                        <p-inputNumber [(ngModel)]="match.goalNormalByTeam1" [required]="true" #goalNormalByTeam1="ngModel"></p-inputNumber>
+                        <!--<div class="alert alert-info" role="alert">
+                            <strong>Valid ? </strong>{{goalNormalByTeam1.valid}} <br>
+                            <strong>Invalid ? </strong>{{goalNormalByTeam1.invalid}}<br>
+                            <strong>Touched ? </strong>{{goalNormalByTeam1.touched}}<br>
+                            <strong>Untouched ? </strong>{{goalNormalByTeam1.untouched}}<br>
+                            <strong>Dirty ? </strong>{{goalNormalByTeam1.dirty}}<br>
+                            <strong>Pristine ? </strong>{{goalNormalByTeam1.pristine}}<br>
+                        </div>-->
+                    </td>
+                    <td></td>
+                    <td colspan="2"><p-inputNumber [(ngModel)]="match.goalNormalByTeam2" [required]="true"></p-inputNumber></td>
+                </tr>
+                <tr *ngIf="!match.round?.isGroupmatch && match.round?.isOvertime">
+                    <td>{{ t('matchDetail.label.afterOvertime') }}</td>
+                    <td colspan="2"><p-inputNumber [(ngModel)]="match.goalExtraByTeam1"></p-inputNumber></td>
+                    <td></td>
+                    <td colspan="2"><p-inputNumber [(ngModel)]="match.goalExtraByTeam2"></p-inputNumber></td>
+                </tr>
+                <tr *ngIf="!match.round?.isGroupmatch">
+                    <td>{{ t('matchDetail.label.afterPenalties') }}</td>
+                    <td colspan="2"><p-inputNumber [(ngModel)]="match.goalPenaltyByTeam1"></p-inputNumber></td>
+                    <td></td>
+                    <td colspan="2"><p-inputNumber [(ngModel)]="match.goalPenaltyByTeam2"></p-inputNumber></td>
+                </tr>
+            </table>
+            <app-list-errors [errors]="errors"></app-list-errors>
+            <div fxLayout="row" fxLayoutAlign="space-around" class="buttons">
+                <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
+                <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
+            </div>
+        </div>
+    </fieldset>
 
 <!--    <div fxLayout="column">
         <div fxLayout="row">

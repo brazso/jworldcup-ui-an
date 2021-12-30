@@ -1,7 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ApiService, GenericListResponse, GenericResponse, Match } from 'src/app/core';
+import { ApiService, GenericListResponse, GenericResponse, Match, UiError } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 
 @Component({
@@ -11,6 +12,8 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
 })
 export class MatchComponent implements OnInit {
   match: Match = {};
+  isSubmitting = false;
+  errors: UiError = new UiError({});
 
   constructor(
     public ref: DynamicDialogRef, 
@@ -39,5 +42,35 @@ export class MatchComponent implements OnInit {
 
   selectMatch() {
     this.ref.close(this.match);
+  }
+
+  doSave(event_: any): void {
+    this.submitForm();
+  }
+
+  doCancel(event_: any): void {
+    this.ref.close();
+  }
+
+  submitForm() {
+    this.isSubmitting = true;
+    this.errors = new UiError({});
+
+    this.apiService.put<GenericResponse<Match>>(ApiEndpoints.MATCHES.SAVE_MATCH, this.match).subscribe({
+      next: value => {
+        console.log('saved');
+        this.match = value.data;
+        this.ref.close(this.match);
+        this.isSubmitting = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
   }
 }

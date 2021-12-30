@@ -1,0 +1,12 @@
+fieldset {
+    border: 0px;
+}
+
+.buttons {
+    margin-top: 10px;
+}
+
+// :host does not work with p-dynamicdialog. Perhaps because the latter one is indirect element.
+/*:host*/ ::ng-deep .p-dialog .p-dialog-content {
+    padding-bottom: 1rem;
+}
