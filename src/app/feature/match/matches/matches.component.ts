@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Event, GenericListResponse, getShortDescWithYearByEvent, Match, Round, SessionData } from 'src/app/core/models';
+import { Event, GenericListResponse, GenericResponse, getShortDescWithYearByEvent, Match, Round, SessionData } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
@@ -7,6 +7,7 @@ import { Translation, TranslocoService } from '@ngneat/transloco';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MatchComponent } from '../match.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-matches',
@@ -115,6 +116,12 @@ export class MatchesComponent implements OnInit {
     ref.onClose.subscribe((match: Match) => {
       console.log(`onClose match: ${JSON.stringify(match)}`);
       if (match) {
+        // replace selectedMatch inside matches to the incoming match
+        const index = this.matches.findIndex(e => e.matchId === match.matchId);
+        if (index !== -1) {
+          this.matches[index] = match;
+          this.selectedMatch = match;
+        }
       }
     });
   }
@@ -122,6 +129,25 @@ export class MatchesComponent implements OnInit {
   resetMatch(match: Match) {
     console.log('resetMatch');
     // this.messageService.add({severity: 'info', summary: 'Product Selected', detail: product.name });
+
+    this.apiService.put<GenericResponse<Match>>(ApiEndpoints.MATCHES.RESET_MATCH.format(match.matchId)).subscribe({
+      next: value => {
+        const match = value.data;
+        // replace selectedMatch inside matches to the incoming match
+        const index = this.matches.findIndex(e => e.matchId === match.matchId);
+        if (index !== -1) {
+          this.matches[index] = match;
+          this.selectedMatch = match;
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`err: ${JSON.stringify(err)}`);
+        // this.errors = new UiError(Object.assign(err));
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
   }
 
   isMatchEditable(match: Match): boolean {

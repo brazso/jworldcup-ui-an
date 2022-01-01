@@ -20,7 +20,7 @@ import { MatchModule } from './feature/match/match.module';
 
 declare global {
   interface String {
-    format(...args: string[]): string;
+    format(...args: any[]): string;
   }
 }
 

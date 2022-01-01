@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ApiService, GenericListResponse, GenericResponse, Match, UiError } from 'src/app/core';
+import { ApiService, GenericResponse, Match, UiError } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 
 @Component({
@@ -38,10 +38,6 @@ export class MatchComponent implements OnInit {
         this.match = value.data;
       }
     );
-  }
-
-  selectMatch() {
-    this.ref.close(this.match);
   }
 
   doSave(event_: any): void {

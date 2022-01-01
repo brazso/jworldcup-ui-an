@@ -25,6 +25,7 @@
         "RETRIEVE_ROUNDS_BY_EVENT_ID": "/matches/rounds-by-event-id",
         "MATCHES_BY_EVENT": "/matches/matches-by-event",
         "MATCH": "/matches/match/{0}",
-        "SAVE_MATCH": "/matches/save-match"
+        "SAVE_MATCH": "/matches/save-match",
+        "RESET_MATCH": "/matches/reset-match/{0}"
     }
 }
