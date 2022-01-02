@@ -61,7 +61,7 @@ export class MatchesComponent implements OnInit {
 
             // retrieve rounds from loaded matches
             this.rounds = distinctArrayByPropertyName<Round>(this.matches.map(e => e.round as Round), 'roundId').sort((a, b) => a.roundId! - b.roundId!);
-            console.log(`rounds: ${JSON.stringify(this.rounds)}`)
+            console.log(`rounds: ${JSON.stringify(this.rounds)}`);
           }
         );
       }

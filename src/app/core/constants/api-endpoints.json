@@ -27,5 +27,12 @@
         "MATCH": "/matches/match/{0}",
         "SAVE_MATCH": "/matches/save-match",
         "RESET_MATCH": "/matches/reset-match/{0}"
+    },
+
+    "BETS": {
+        "BETS_BY_EVENT_AND_USER": "/bets/bets-by-event-and-user",
+        "BET": "/bets/bet/{0}",
+        "SAVE_BET": "/bets/save-bet",
+        "DELETE_BET": "/bets/delete-bet/{0}"
     }
 }

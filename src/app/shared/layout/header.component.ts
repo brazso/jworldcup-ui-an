@@ -109,7 +109,7 @@ export class HeaderComponent implements OnInit {
         items: [
           {
             label: this.translocoService.translate('menu.bets'),
-            disabled: true
+            routerLink: [RouterUrls.BETS]
           },
           {
             label: this.translocoService.translate('menu.favourite_team'),

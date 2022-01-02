@@ -1,3 +1,4 @@
+export * from './bet';
 export * from './common';
 export * from './enum';
 export * from './event';

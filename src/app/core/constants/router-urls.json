@@ -9,6 +9,7 @@
 	"LOGIN": "login",
 	"REGISTER": "register",
 	"MATCHES": "matches",
+	"BETS": "bets",
 
 	"HOME_PAGE": "",
 	"EXAMPLE_PAGE": "example",

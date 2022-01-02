@@ -1,0 +1,44 @@
+<ng-container *transloco="let t">
+    <!--<p-panel [header]="config.header!">
+    </p-panel>-->
+
+    <fieldset [disabled]="isSubmitting">
+        <div fxLayout="column" fxLayoutAlign="space-between">
+            <table class="p-datatable">
+                <tr>
+                    <td>{{ t('general.label.id') }}</td>
+                    <td colspan="5">{{ bet.match?.matchId }}</td>
+                </tr>
+                <tr>
+                    <td>{{ t('general.label.nr') }}</td>
+                    <td colspan="5">{{ bet.match?.matchN }}</td>
+                </tr>
+                <tr>
+                    <td>{{ t('general.label.startTime') }}</td>
+                    <td colspan="5">{{ bet.match?.startTime! | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
+                </tr>
+                <tr>
+                    <td>{{ t('matchDetail.label.teams') }}</td>
+                    <td><span>{{ t('team.' + bet.match?.team1?.name) }}</span></td>
+                    <td><p-image src="assets/images/flags/{{bet.match?.team1?.flag}}.png" alt="Image" [title]="t('team.' + bet.match?.team1?.name)"></p-image></td>
+                    <td></td>
+                    <td>{{ t('team.' + bet.match?.team2?.name) }}</td>
+                    <td><p-image src="assets/images/flags/{{bet.match?.team2?.flag}}.png" alt="Image" [title]="t('team.' + bet.match?.team2?.name)"></p-image></td>
+                </tr>
+                <tr>
+                    <td>{{ t(bet.match?.round?.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</td>
+                    <td colspan="2">
+                        <p-inputNumber [(ngModel)]="bet.goalNormalByTeam1" [required]="true" #goalNormalByTeam1="ngModel"></p-inputNumber>
+                    </td>
+                    <td></td>
+                    <td colspan="2"><p-inputNumber [(ngModel)]="bet.goalNormalByTeam2" [required]="true"></p-inputNumber></td>
+                </tr>
+            </table>
+            <app-list-errors [errors]="errors"></app-list-errors>
+            <div fxLayout="row" fxLayoutAlign="space-around" class="buttons">
+                <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
+                <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
+            </div>
+        </div>
+    </fieldset>
+</ng-container>
