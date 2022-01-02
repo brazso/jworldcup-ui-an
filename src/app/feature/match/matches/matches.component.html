@@ -4,8 +4,12 @@
   <p-panel [header]="title">
   </p-panel>
 
-  <p-panel *ngIf="sessionService.isUserAdmin() && eventTriggerStartTimes">
-  TODO
+  <p-panel *ngIf="sessionService.isUserAdmin() && eventTriggerStartTimes.length">
+      <span class="p-float-label">
+        <p-dropdown id="eventTriggerStartTime" [options]="eventTriggerStartTimes" [(ngModel)]="selectedEventTriggerStartTime" 
+          [pTooltip]="t('matches.tooltip.triggerStartTime')" (onChange)='onEventTriggerStartTimeChange($event)'></p-dropdown>
+        <label for="eventTriggerStartTime">{{ t('matches.label.triggerStartTime') }}</label>
+      </span>
   </p-panel>
 
   <ng-container *ngFor="let round of rounds">
@@ -46,7 +50,7 @@
             <td *ngIf="!round.isGroupmatch">{{ match.goalPenaltyByTeam2 }}</td>
             <td><p-image *ngIf="match.team2" src="assets/images/flags/{{match.team2.flag}}.png" alt="Image" [title]="t('team.' + match.team2.name)"></p-image></td>
             <td><span *ngIf="match.team2" [ngClass]="getMatchStyleClass(match, 2)">{{ t('team.' + match.team2.name) }}</span></td>
-            <td *ngIf="sessionService.isUserAdmin()"><p-button *ngIf="isMatchEditable(match)" icon="pi pi-pencil" [pTooltip]="t('general.button.edit')" (onClick)="editMatch(match)"></p-button></td>
+            <td *ngIf="sessionService.isUserAdmin()"><p-button *ngIf="isMatchEditable(match)" icon="pi pi-pencil" [pTooltip]="t('matches.button.enterResult')" (onClick)="editMatch(match)"></p-button></td>
         </tr>
       </ng-template>
     </p-table>

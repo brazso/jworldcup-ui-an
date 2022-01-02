@@ -8,6 +8,7 @@ import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MatchComponent } from '../match.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { isArrayEmpty } from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-matches',
@@ -22,6 +23,7 @@ export class MatchesComponent implements OnInit {
   eventTriggerStartTimes: Date[] = [];
   selectedMatch: Match;
   cmItems: MenuItem[]; // contextMenu
+  selectedEventTriggerStartTime: Date;
 
   constructor(
     private apiService: ApiService,
@@ -152,5 +154,11 @@ export class MatchesComponent implements OnInit {
 
   isMatchEditable(match: Match): boolean {
     return this.sessionService.isUserAdmin() && (!!match.team1 && !!match.team2);
+  }
+
+  onEventTriggerStartTimeChange(event_: any): void {
+    const eventTriggerStartTime: Date = event_.value;
+    console.log(`eventTriggerStartTime: ${eventTriggerStartTime}`);
+    // TODO doResetScheduler
   }
 }
