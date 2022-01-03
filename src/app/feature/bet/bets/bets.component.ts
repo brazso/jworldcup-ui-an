@@ -83,7 +83,8 @@ export class BetsComponent implements OnInit {
               //   this.betByMatchIdMap[bet.match?.matchId!] = match;
               // }
               const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
-              if (index) {
+              console.log(`index: ${index}`);
+              if (index !== -1) {
                 this.bets[index] = bet;
               }
             });
@@ -145,7 +146,8 @@ export class BetsComponent implements OnInit {
       console.log(`onClose bet: ${JSON.stringify(bet)}`);
       if (bet) {
         // replace selectedBet inside bets to the incoming one
-        const index = this.bets.findIndex(e => e.betId === bet.betId);
+        const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
+        console.log(`index: ${index}`);
         if (index !== -1) {
           this.bets[index] = bet;
           this.selectedBet = bet;
@@ -161,7 +163,7 @@ export class BetsComponent implements OnInit {
       return;
     }
 
-    this.apiService.put<CommonResponse>(ApiEndpoints.BETS.DELETE_BET.format(bet.betId)).subscribe({
+    this.apiService.delete<CommonResponse>(ApiEndpoints.BETS.DELETE_BET.format(bet.betId)).subscribe({
       next: value => {
         // empty selectedBet inside bets
         const index = this.bets.findIndex(e => e.betId === bet.betId);
