@@ -18,7 +18,7 @@
               <input formControlName="username" [placeholder]="t('login.label.loginName')" pInputText />
             </fieldset>
             <fieldset class="form-group">
-              <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [toggleMask]="true"></p-password>
+              <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [feedback]="false" [toggleMask]="true"></p-password>
             </fieldset>
             <fieldset class="form-group">
               <p-dropdown formControlName="language" [placeholder]="t('login.label.language')" [options]="availableLangs" optionLabel="label" optionValue="id"
