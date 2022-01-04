@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
 import { MatchModule } from './feature/match/match.module';
 import { BetModule } from './feature/bet/bet.module';
+import { FavouriteTeamModule } from './feature/favourite-team/favourite-team.module';
 
 // export function initUser(userService: UserService) {
 //   return (): Promise<any>  => {
@@ -43,7 +44,8 @@ declare global {
     SharedModule,
     AuthModule,
     MatchModule,
-    BetModule
+    BetModule,
+    FavouriteTeamModule
   ],
   // for Services (Guards can be considered to Services)
   providers: [

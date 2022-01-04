@@ -10,6 +10,7 @@
 	"REGISTER": "register",
 	"MATCHES": "matches",
 	"BETS": "bets",
+	"FAVOURITE_TEAM": "favourite-team",
 
 	"HOME_PAGE": "",
 	"EXAMPLE_PAGE": "example",

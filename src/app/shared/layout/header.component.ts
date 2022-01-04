@@ -113,7 +113,7 @@ export class HeaderComponent implements OnInit {
           },
           {
             label: this.translocoService.translate('menu.favourite_team'),
-            disabled: true
+            routerLink: [RouterUrls.FAVOURITE_TEAM]
           }
         ]
       },
