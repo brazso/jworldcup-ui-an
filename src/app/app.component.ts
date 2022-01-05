@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
     this.sessionService.initSession().subscribe({
       next: (session: SessionData) => {
         console.log('session.user=' + session.user?.loginName);
-        this.goToDefaultPage();
+        this.sessionService.goToDefaultPage();
       },
       error: (err) => {
         console.log('session.user is not authenticated yet');
@@ -62,11 +62,4 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private goToDefaultPage(): void {
-    if (this.sessionService.isUserInRole('ROLE_ADMIN')) {
-      this.router.navigate([RouterUrls.HOME_PAGE]);
-    } else if (this.sessionService.isUserInRole('ROLE_USER')) {
-      this.router.navigate([RouterUrls.HOME_PAGE]);
-    }
-  }
 }

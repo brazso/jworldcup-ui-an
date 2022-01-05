@@ -167,4 +167,11 @@ export class SessionService {
     }
   }
 
+  goToDefaultPage(): void {
+    if (this.isUserInRole('ROLE_ADMIN')) {
+      this.router.navigate([RouterUrls.HOME_PAGE]);
+    } else if (this.isUserInRole('ROLE_USER')) {
+      this.router.navigate([RouterUrls.HOME_PAGE]);
+    }
+  }
 }

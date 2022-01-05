@@ -18,7 +18,7 @@ import { ApiService,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true },
     ApiService,
     AuthorityGuard,
     BackendService,
