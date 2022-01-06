@@ -34,5 +34,10 @@
         "BET": "/bets/bet/{0}",
         "SAVE_BET": "/bets/save-bet",
         "DELETE_BET": "/bets/delete-bet/{0}"
+    },
+
+    "TEAMS": {
+        "FIND_FAVOURITE_KNOCK_OUT_TEAMS_BY_EVENT": "/teams/find-favourite-knock-out-teams-by-event",
+        "FIND_FAVOURITE_GROUP_TEAMS_BY_EVENT": "/teams/find-favourite-group-teams-by-event"
     }
 }

@@ -1,24 +1,33 @@
 <ng-container *transloco="let t">
     <p-panel [header]="t('favouriteTeamDetail.title')">
-    </p-panel>
-
-    <fieldset [disabled]="isSubmitting">
-        <div fxLayout="column" fxLayoutAlign="space-between">
-            <table class="p-datatable">
-                <tr>
-                    <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringGroupMatches') }}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringKnockoutMatches') }}</td>
-                    <td></td>
-                </tr>
-            </table>
-            <app-list-errors [errors]="errors"></app-list-errors>
-            <div fxLayout="row" fxLayoutAlign="space-around" class="buttons">
-                <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
-                <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
-            </div>
+        <div fxLayout="row" fxLayoutGap="10px">
+            <fieldset [disabled]="isSubmitting">
+                <div fxLayout="column" fxLayoutAlign="space-between">
+                    <table class="p-datatable">
+                        <tr>
+                            <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringGroupMatches') }}</td>
+                            <td>
+                                <p-dropdown [options]="groupTeams" [(ngModel)]="selectedGroupTeam" optionLabel="name"
+                                    [autoDisplayFirst]="false">
+                                </p-dropdown>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringKnockoutMatches') }}</td>
+                            <td>
+                                <p-dropdown [options]="knockOutTeams" [(ngModel)]="selectedKnockOutTeam" optionLabel="name"
+                                    [autoDisplayFirst]="false">
+                                </p-dropdown>
+                            </td>
+                        </tr>
+                    </table>
+                    <app-list-errors [errors]="errors"></app-list-errors>
+                    <div fxLayout="row" fxLayoutAlign="space-around" class="buttons">
+                        <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
+                        <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
+                    </div>
+                </div>
+            </fieldset>
         </div>
-    </fieldset>
+    </p-panel>
 </ng-container>
