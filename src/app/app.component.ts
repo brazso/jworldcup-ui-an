@@ -2,11 +2,12 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import localeHu from '@angular/common/locales/hu';
-import { getBrowserLang, LangDefinition, TranslocoService } from '@ngneat/transloco';
+import { getBrowserLang, LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { SessionData } from './core/models';
 import { SessionService } from './core/services';
 import { registerLocaleData } from '@angular/common';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly sessionService: SessionService,
+    private primeNGConfig: PrimeNGConfig
     // private readonly enumService: EnumService,
     // private readonly toastMessageService: ToastMessageService
     ) {
@@ -44,8 +46,13 @@ export class AppComponent implements OnInit {
     const availableLangs = this.translocoService.getAvailableLangs() as LangDefinition[]; // e.g. // [{"id":"en","label":"English"},{"id":"hu","label":"Magyar"}]
     console.log(`availableLangs: ${JSON.stringify(availableLangs)}`);
     const activeLang = availableLangs.map(e => e.id).includes(defaultLang) ? defaultLang : this.translocoService.getDefaultLang();
-    console.log(`setActiveLang: ${activeLang}`);
+    console.log(`setActiveLang1: ${activeLang}`);
     this.translocoService.setActiveLang(activeLang);
+
+    this.translocoService.selectTranslateObject('primeng').subscribe(res => {
+      console.log(`primeng: ${JSON.stringify(res)}`);
+      this.primeNGConfig.setTranslation(res);
+    });
   }
 
   private setupSession(): void {

@@ -17,9 +17,9 @@ export class FavouriteTeamComponent implements OnInit {
   errors: UiError = new UiError({});
   session: SessionData;
   groupTeams: Team[];
-  selectedGroupTeam: Team | undefined;
+  selectedGroupTeam: Team | null;
   knockOutTeams: Team[];
-  selectedKnockOutTeam: Team | undefined;
+  selectedKnockOutTeam: Team | null;
   
   constructor(
     // private readonly router: Router,
@@ -34,8 +34,8 @@ export class FavouriteTeamComponent implements OnInit {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
 
-        this.selectedGroupTeam = session.userOfEvent?.favouriteGroupTeam;
-        this.selectedKnockOutTeam = session.userOfEvent?.favouriteKnockoutTeam;
+        this.selectedGroupTeam = session.userOfEvent?.favouriteGroupTeam ?? null;
+        this.selectedKnockOutTeam = session.userOfEvent?.favouriteKnockoutTeam ?? null;
 
         forkJoin([
           this.apiService.get<GenericListResponse<Team>>(`${ApiEndpoints.TEAMS.FIND_FAVOURITE_GROUP_TEAMS_BY_EVENT}?eventId=${session.event?.eventId}`),
@@ -50,6 +50,8 @@ export class FavouriteTeamComponent implements OnInit {
   }
 
   doSave(event_: any): void {
+    console.log(`selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
+    console.log(`selectedKnockOutTeam: ${JSON.stringify(this.selectedKnockOutTeam)}`);
   }
 
   doCancel(event_: any): void {

@@ -54,6 +54,7 @@ import { ListErrorsComponent } from './list-errors';
 import { ShowAuthedDirective } from './directives/show-authed.directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { DropdownPipe } from './pipes/dropdown.pipe';
 
 // import { InputTextComponent } from './input-text/input-text.component';
 // import { InputTextAreaComponent } from './input-textarea/input-textarea.component';
@@ -129,7 +130,8 @@ const ANGULAR_PIPES = [
   TranslocoDatePipe
 ];
 const SHARED_PIPES = [
-  TranslocoExDatePipe,
+  DropdownPipe,
+  TranslocoExDatePipe
   // EnumPipe,
   // MinuteSecondsPipe
 ];

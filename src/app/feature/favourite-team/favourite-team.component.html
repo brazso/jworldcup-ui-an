@@ -7,17 +7,20 @@
                         <tr>
                             <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringGroupMatches') }}</td>
                             <td>
-                                <p-dropdown [options]="groupTeams" [(ngModel)]="selectedGroupTeam" optionLabel="name"
-                                    [autoDisplayFirst]="false">
+                                <p-dropdown [options]="groupTeams | dropdownPipe" [(ngModel)]="selectedGroupTeam">
+                                    <ng-template pTemplate="selectedItem">
+                                        {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="item">
+                                        {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
+                                    </ng-template>-->
                                 </p-dropdown>
                             </td>
                         </tr>
                         <tr>
                             <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringKnockoutMatches') }}</td>
                             <td>
-                                <p-dropdown [options]="knockOutTeams" [(ngModel)]="selectedKnockOutTeam" optionLabel="name"
-                                    [autoDisplayFirst]="false">
-                                </p-dropdown>
+                                <p-dropdown [options]="knockOutTeams" [(ngModel)]="selectedKnockOutTeam"></p-dropdown>
                             </td>
                         </tr>
                     </table>
