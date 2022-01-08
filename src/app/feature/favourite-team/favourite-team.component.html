@@ -7,7 +7,8 @@
                         <tr>
                             <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringGroupMatches') }}</td>
                             <td>
-                                <p-dropdown [options]="groupTeams | dropdownPipe" [(ngModel)]="selectedGroupTeam">
+                                <p-dropdown [options]="groupTeams | dropdownPipe" [(ngModel)]="selectedGroupTeam"
+                                    [disabled]="isGroupTeamSelectItemListDisabled()">
                                     <ng-template pTemplate="selectedItem">
                                         {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
                                     </ng-template>
@@ -20,7 +21,8 @@
                         <tr>
                             <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringKnockoutMatches') }}</td>
                             <td>
-                                <p-dropdown [options]="knockOutTeams" [(ngModel)]="selectedKnockOutTeam"></p-dropdown>
+                                <p-dropdown [options]="knockOutTeams" [(ngModel)]="selectedKnockOutTeam"
+                                    [disabled]="isKnockoutTeamSelectItemListDisabled()"></p-dropdown>
                             </td>
                         </tr>
                     </table>

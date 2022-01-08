@@ -9,7 +9,8 @@
     "BACKEND_VERSION": "/backend-version",
     
     "USERS": {
-        "WHOAMI" : "/users/whoami"
+        "WHOAMI": "/users/whoami",
+        "SAVE_USER_OF_EVENT": "/users/save-user-of-event"
     },
 
     "EVENTS": {

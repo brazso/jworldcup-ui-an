@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { ApiService, SessionService } from 'src/app/core/services';
-import { GenericListResponse, SessionData, Team, UiError } from 'src/app/core/models';
+import { Event, GenericListResponse, GenericResponse, SessionData, Team, UiError, UserOfEvent } from 'src/app/core/models';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { forkJoin } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   // selector: 'app-favourite-team',
@@ -20,6 +21,7 @@ export class FavouriteTeamComponent implements OnInit {
   selectedGroupTeam: Team | null;
   knockOutTeams: Team[];
   selectedKnockOutTeam: Team | null;
+  event: Event;
   
   constructor(
     // private readonly router: Router,
@@ -47,14 +49,59 @@ export class FavouriteTeamComponent implements OnInit {
         );
       }
     );
+
+    this.sessionService.event.subscribe(
+      (event: Event) => {
+        this.event = event;
+        console.log(`event: ${JSON.stringify(event)}`);
+      }
+    );
   }
+
+  isGroupTeamSelectItemListDisabled(): boolean {
+		return this.sessionService.getSession().actualDateTime! > this.event.startTime!;
+	}
+
+  isKnockoutTeamSelectItemListDisabled(): boolean {
+		return this.sessionService.getSession().actualDateTime! > this.event.knockoutStartTime!;
+	}
 
   doSave(event_: any): void {
     console.log(`selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
     console.log(`selectedKnockOutTeam: ${JSON.stringify(this.selectedKnockOutTeam)}`);
+    this.submitForm();
   }
 
   doCancel(event_: any): void {
     this.sessionService.goToDefaultPage();
+  }
+
+  submitForm() {
+    this.isSubmitting = true;
+    this.errors = new UiError({});
+
+    let url = `${ApiEndpoints.USERS.SAVE_USER_OF_EVENT}?userId=${this.session.user?.userId}&eventId=${this.session.event?.eventId}`;
+    if (this.selectedGroupTeam?.teamId) {
+      url += `&favouriteGroupTeamId=${this.selectedGroupTeam?.teamId}`;
+    }
+    if (this.selectedKnockOutTeam?.teamId) {
+      url += `&favouriteKnockoutTeamId=${this.selectedKnockOutTeam?.teamId}`;
+    }
+    this.apiService.post<GenericResponse<UserOfEvent>>(url).subscribe({
+      next: value => {
+        console.log('saved');
+        this.session.userOfEvent = value.data;
+        this.sessionService.setSession(this.session);
+        this.isSubmitting = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
   }
 }

@@ -6,6 +6,7 @@ export interface Event {
 	year?: number;
 	organizer?: string;
 	startTime?: Date;
+	knockoutStartTime?: Date;
 	endTime?: Date;
 }
 
