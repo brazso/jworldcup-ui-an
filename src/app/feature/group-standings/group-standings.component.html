@@ -1,1 +1,45 @@
-<p>group-standings works!</p>
+<ng-container *transloco="let t">
+    <p-panel [header]="t('groupStandings.title')">
+    </p-panel>
+  
+    <ng-container *ngFor="let group of groups">
+      <div fxLayout="row" fxLayoutGap="10px">
+      <p-table [value]="filterGroupTeamsByGroup(group)" styleClass="p-datatable-gridlines p-datatable-striped" [rowHover]="true"
+        responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+          {{ t('groupStandings.label.groupTitle').format(group.name) }}
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+                <th><span [pTooltip]="t('groupStandings.label.positionInsideGroup')" tooltipPosition="top">{{ t('groupStandings.label.positionInsideGroup_') }}</span></th>
+                <th colspan="2">{{ t('groupStandings.label.team') }}</th>
+                <th><span [pTooltip]="t('groupStandings.label.played')" tooltipPosition="top">{{ t('groupStandings.label.played_') }}</span></th>
+                <th><span [pTooltip]="t('groupStandings.label.won')" tooltipPosition="top">{{ t('groupStandings.label.won_') }}</span></th>
+                <th><span [pTooltip]="t('groupStandings.label.draw')" tooltipPosition="top">{{ t('groupStandings.label.draw_') }}</span></th>
+                <th><span [pTooltip]="t('groupStandings.label.lost')" tooltipPosition="top">{{ t('groupStandings.label.lost_') }}</span></th>
+                <th><span [pTooltip]="t('groupStandings.label.goalsFor')" tooltipPosition="top">{{ t('groupStandings.label.goalsFor_') }}</span></th>
+                <th><span [pTooltip]="t('groupStandings.label.goalsAgainst')" tooltipPosition="top">{{ t('groupStandings.label.goalsAgainst_') }}</span></th>
+                <th><span [pTooltip]="t('groupStandings.label.goalDifference')" tooltipPosition="top">{{ t('groupStandings.label.goalDifference_') }}</span></th>
+                <th><span [pTooltip]="t('groupStandings.label.points')" tooltipPosition="top">{{ t('groupStandings.label.points_') }}</span></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-groupTeam>
+          <tr>
+              <td class="td-right">{{ groupTeam.positionInGroup }}</td>
+              <td>{{ t('team.' + groupTeam.team.name) }}</td>
+              <td><p-image src="assets/images/flags/{{groupTeam.team.flag}}.png" alt="Image" [pTooltip]="t('team.' + groupTeam.team.name)"></p-image></td>
+              <td class="td-right">{{ groupTeam.matchesPlayed }}</td>
+              <td class="td-right">{{ groupTeam.won }}</td>
+              <td class="td-right">{{ groupTeam.draw }}</td>
+              <td class="td-right">{{ groupTeam.lost }}</td>
+              <td class="td-right">{{ groupTeam.goalsFor }}</td>
+              <td class="td-right">{{ groupTeam.goalsAgainst }}</td>
+              <td class="td-right">{{ groupTeam.goalDifference }}</td>
+              <td class="td-right">{{ groupTeam.points }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      </div>
+      <br/>
+    </ng-container>
+  </ng-container>

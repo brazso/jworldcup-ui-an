@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
-import { SessionData } from 'src/app/core/models';
+import { GenericListResponse, Group, GroupTeam, SessionData, Team } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
+import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
+import { distinctArrayByPropertyName } from 'src/app/shared/utils';
 
 @Component({
   // selector: 'app-group-standings',
@@ -10,6 +11,8 @@ import { ApiService, SessionService } from 'src/app/core/services';
 })
 export class GroupStandingsComponent implements OnInit {
   session: SessionData;
+  groupTeams: GroupTeam[];
+  groups: Group[];
 
   constructor(
     private readonly sessionService: SessionService,
@@ -22,19 +25,22 @@ export class GroupStandingsComponent implements OnInit {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
 
-        // this.selectedGroupTeam = session.userOfEvent?.favouriteGroupTeam ?? null;
-        // this.selectedKnockOutTeam = session.userOfEvent?.favouriteKnockoutTeam ?? null;
+        this.apiService.get<GenericListResponse<GroupTeam>>(ApiEndpoints.GROUPS.GROUP_TEAMS_BY_EVENT+`?eventId=${this.session.event?.eventId}`).subscribe(
+          (response) => {
+            this.groupTeams = response.data;
+            console.log(`groupTeams: ${JSON.stringify(this.groupTeams)}`);
 
-        // forkJoin([
-        //   this.apiService.get<GenericListResponse<Team>>(`${ApiEndpoints.TEAMS.FIND_FAVOURITE_GROUP_TEAMS_BY_EVENT}?eventId=${session.event?.eventId}`),
-        //   this.apiService.get<GenericListResponse<Team>>(`${ApiEndpoints.TEAMS.FIND_FAVOURITE_KNOCK_OUT_TEAMS_BY_EVENT}?eventId=${session.event?.eventId}`)
-        //   ]).subscribe(([groupTeamsResponse, knockOutTeamsResponse]) => {
-        //     this.groupTeams = groupTeamsResponse.data;
-        //     this.knockOutTeams = knockOutTeamsResponse.data;
-        //   }
-        // );
+            // retrieve groups from loaded groupTeams
+            this.groups = distinctArrayByPropertyName<Group>(this.groupTeams.map(e => e.team?.group as Group), 'groupId').sort((a, b) => a.groupId! - b.groupId!);
+            console.log(`groups: ${JSON.stringify(this.groups)}`);
+          }
+        );
       }
     );
+  }
+
+  filterGroupTeamsByGroup(group: Group): GroupTeam[] {
+    return this.groupTeams.filter(e => e.team?.group?.groupId === group.groupId);
   }
 
 }
