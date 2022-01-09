@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit {
           },
           {
             label: this.translocoService.translate('menu.groups_standing'),
-            disabled: true
+            routerLink: [RouterUrls.GROUP_STANDINGS]
           },
           {
             label: this.translocoService.translate('menu.point_race'),

@@ -13,6 +13,7 @@ import { AuthModule } from './feature/auth/auth.module';
 import { MatchModule } from './feature/match/match.module';
 import { BetModule } from './feature/bet/bet.module';
 import { FavouriteTeamModule } from './feature/favourite-team/favourite-team.module';
+import { GroupStandingsModule } from './feature/group-standings/group-standings.module';
 
 // export function initUser(userService: UserService) {
 //   return (): Promise<any>  => {
@@ -45,7 +46,8 @@ declare global {
     AuthModule,
     MatchModule,
     BetModule,
-    FavouriteTeamModule
+    FavouriteTeamModule,
+    GroupStandingsModule
   ],
   // for Services (Guards can be considered to Services)
   providers: [

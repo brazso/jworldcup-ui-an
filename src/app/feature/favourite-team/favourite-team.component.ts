@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
 import { ApiService, SessionService } from 'src/app/core/services';
-import { Event, GenericListResponse, GenericResponse, SessionData, Team, UiError, UserOfEvent } from 'src/app/core/models';
-import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
+import { GenericListResponse, GenericResponse, SessionData, Team, UiError, UserOfEvent } from 'src/app/core/models';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { forkJoin } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -21,7 +19,6 @@ export class FavouriteTeamComponent implements OnInit {
   selectedGroupTeam: Team | null;
   knockOutTeams: Team[];
   selectedKnockOutTeam: Team | null;
-  event: Event;
   
   constructor(
     // private readonly router: Router,
@@ -49,21 +46,14 @@ export class FavouriteTeamComponent implements OnInit {
         );
       }
     );
-
-    this.sessionService.event.subscribe(
-      (event: Event) => {
-        this.event = event;
-        console.log(`event: ${JSON.stringify(event)}`);
-      }
-    );
   }
 
   isGroupTeamSelectItemListDisabled(): boolean {
-		return this.sessionService.getSession().actualDateTime! > this.event.startTime!;
+		return this.session.actualDateTime! > this.session.event?.startTime!;
 	}
 
   isKnockoutTeamSelectItemListDisabled(): boolean {
-		return this.sessionService.getSession().actualDateTime! > this.event.knockoutStartTime!;
+		return this.session.actualDateTime! > this.session.event?.knockoutStartTime!;
 	}
 
   doSave(event_: any): void {
@@ -91,7 +81,7 @@ export class FavouriteTeamComponent implements OnInit {
       next: value => {
         console.log('saved');
         this.session.userOfEvent = value.data;
-        this.sessionService.setSession(this.session);
+        // this.sessionService.setSession(this.session);
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {

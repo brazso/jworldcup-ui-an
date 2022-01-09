@@ -40,5 +40,9 @@
     "TEAMS": {
         "FIND_FAVOURITE_KNOCK_OUT_TEAMS_BY_EVENT": "/teams/find-favourite-knock-out-teams-by-event",
         "FIND_FAVOURITE_GROUP_TEAMS_BY_EVENT": "/teams/find-favourite-group-teams-by-event"
+    },
+
+    "GROUPS": {
+        "GROUP_TEAMS_BY_EVENT": "/groups/group-teams-by-event"
     }
 }
