@@ -1,1 +1,73 @@
-<p>user-detail works!</p>
+<ng-container *transloco="let t">
+    <p-panel [header]="t('userDetail.title')">
+        <div fxLayout="row" fxLayoutGap="10px">
+            <fieldset [disabled]="isSubmitting">
+                <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px" >
+                    <p-fieldset [legend]="t('userDetail.label.general')">
+                        <table class="p-datatable">
+                            <tr>
+                                <td>{{ t('userDetail.label.zoneId') }}</td>
+                                <td>
+                                    <p-dropdown [options]="zoneIds" [(ngModel)]="user.zoneId">
+                                        <!--<ng-template pTemplate="selectedItem">
+                                            {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
+                                        </ng-template>
+                                        <ng-template let-item pTemplate="item">
+                                            {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
+                                        </ng-template>-->
+                                    </p-dropdown>
+                                </td>
+                            </tr>
+                        </table>
+                    </p-fieldset>
+                    <p-fieldset [legend]="t('userDetail.label.email')">
+                        Content2
+                    </p-fieldset>
+                    <p-fieldset [legend]="t('userDetail.label.loginPassword')">
+                        Content3
+                    </p-fieldset>
+                    <app-list-errors [errors]="errors"></app-list-errors>
+                    <div fxLayout="row" fxLayoutAlign="space-around">
+                        <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
+                        <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <!--<div fxLayout="row" fxLayoutGap="10px">
+            <fieldset [disabled]="isSubmitting">
+                <div fxLayout="column" fxLayoutAlign="space-between">
+                    <table class="p-datatable">
+                        <tr>
+                            <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringGroupMatches') }}</td>
+                            <td>
+                                <p-dropdown [options]="groupTeams | dropdownPipe" [(ngModel)]="selectedGroupTeam"
+                                    [disabled]="isGroupTeamSelectItemListDisabled()">
+                                    <ng-template pTemplate="selectedItem">
+                                        {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="item">
+                                        {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
+                                    </ng-template>
+                                </p-dropdown>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringKnockoutMatches') }}</td>
+                            <td>
+                                <p-dropdown [options]="knockOutTeams" [(ngModel)]="selectedKnockOutTeam"
+                                    [disabled]="isKnockoutTeamSelectItemListDisabled()"></p-dropdown>
+                            </td>
+                        </tr>
+                    </table>
+                    <app-list-errors [errors]="errors"></app-list-errors>
+                    <div fxLayout="row" fxLayoutAlign="space-around" class="buttons">
+                        <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
+                        <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>-->
+    </p-panel>
+</ng-container>
+
