@@ -8,23 +8,21 @@
                             <tr>
                                 <td>{{ t('userDetail.label.zoneId') }}</td>
                                 <td>
-                                    <p-dropdown [options]="zoneIds" [(ngModel)]="user.zoneId">
-                                        <!--<ng-template pTemplate="selectedItem">
-                                            {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
-                                        </ng-template>
-                                        <ng-template let-item pTemplate="item">
-                                            {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
-                                        </ng-template>-->
-                                    </p-dropdown>
+                                    <p-dropdown [options]="zoneIds" [(ngModel)]="user.zoneId"></p-dropdown>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="td-right">
+                                    <p-button [label]="t('userDetail.button.deleteUser')" (onClick)="doDelete($event)"></p-button>
                                 </td>
                             </tr>
                         </table>
                     </p-fieldset>
                     <p-fieldset [legend]="t('userDetail.label.email')">
-                        Content2
+                        Content
                     </p-fieldset>
                     <p-fieldset [legend]="t('userDetail.label.loginPassword')">
-                        Content3
+                        Content
                     </p-fieldset>
                     <app-list-errors [errors]="errors"></app-list-errors>
                     <div fxLayout="row" fxLayoutAlign="space-around">
@@ -69,5 +67,10 @@
             </fieldset>
         </div>-->
     </p-panel>
+    <p-confirmDialog [header]="t('general.label.confirmation')" message="t('userDetail.popup.confirm.deleteUser')" 
+        [acceptLabel]="t('general.button.yes')" [rejectLabel]="t('general.button.no')"
+        icon="pi pi-exclamation-triangle" defaultFocus="reject">
+        Hello
+    </p-confirmDialog>
 </ng-container>
 

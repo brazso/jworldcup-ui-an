@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem } from 'primeng/api';
+import { ConfirmationService, SelectItem } from 'primeng/api';
 import { GenericMapResponse, SessionData, UiError, User } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TranslocoService } from '@ngneat/transloco';
+import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.pipe';
 
 @Component({
   templateUrl: './user-detail.component.html',
@@ -18,7 +20,10 @@ export class UserDetailComponent implements OnInit {
 
   constructor(
     private readonly sessionService: SessionService,
-    private readonly apiService: ApiService
+    private readonly apiService: ApiService,
+    private confirmationService: ConfirmationService,
+    private translocoService: TranslocoService,
+    private replaceLineBreaksPipe: ReplaceLineBreaksPipe
   ) { }
 
   ngOnInit(): void {
@@ -49,6 +54,17 @@ export class UserDetailComponent implements OnInit {
         );
       }
     );
+  }
+
+  doDelete(event_: any): void {
+    // console.log(`selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
+    this.confirmationService.confirm({
+      message: this.replaceLineBreaksPipe.transform(this.translocoService.translate('userDetail.popup.confirm.deleteUser')),
+      accept: () => {
+        console.log('Delete');
+          //Actual logic to perform a confirmation
+      }
+  });
   }
 
   doSave(event_: any): void {

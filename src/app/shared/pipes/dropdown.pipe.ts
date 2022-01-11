@@ -16,7 +16,7 @@ export interface DropdownPipeOptions {
     emptyLabel?: string;
 }
 
-@Pipe({ name: 'dropdownPipe' })
+@Pipe({ name: 'dropdown' })
 export class DropdownPipe implements PipeTransform {
 
 transform(array: any[], options: DropdownPipeOptions = {}): SelectItem[] {

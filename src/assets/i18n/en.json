@@ -610,7 +610,7 @@
 		},
 		"popup": {
 			"sendChangeEmail": "Please follow the instructions sent in an email to your new address to commit the email modification. Check your email account!",
-			"confirm.deleteUser": "All of your bets and registration data will be erased. You cannot log in again without new registration. Are you sure to delete your account?"
+			"confirm.deleteUser": "All of your bets and registration data will be erased. You cannot log in again without new registration.\nAre you sure to delete your account?"
 		}
 	},
 

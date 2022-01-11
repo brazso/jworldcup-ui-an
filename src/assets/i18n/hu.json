@@ -610,7 +610,7 @@
 		},
 		"popup": {
 			"sendChangeEmail": "Az email módosításhoz az új email címre elküldött instrukciókat kell követni. Ellenőrizze a postafiókját!",
-			"confirm.deleteUser": "Az összes fogadása és a regisztrációja törlésre kerül. Nem fog tudni többet bejelentkezni új regisztráció nélkül. Biztos benne, hogy törli a felhasználóját?"
+			"confirm.deleteUser": "Az összes fogadása és a regisztrációja törlésre kerül. Nem fog tudni többet bejelentkezni új regisztráció nélkül.\nBiztos benne, hogy törli a felhasználóját?"
 		}
 	},
 
