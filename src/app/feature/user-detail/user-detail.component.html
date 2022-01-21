@@ -67,10 +67,9 @@
             </fieldset>
         </div>-->
     </p-panel>
-    <p-confirmDialog [header]="t('general.label.confirmation')" message="t('userDetail.popup.confirm.deleteUser')" 
+    <p-confirmDialog [header]="t('general.label.confirmation')" message="t('userDetail.popup.confirm.deleteUser') | replaceLineBreaks" 
         [acceptLabel]="t('general.button.yes')" [rejectLabel]="t('general.button.no')"
         icon="pi pi-exclamation-triangle" defaultFocus="reject">
-        Hello
     </p-confirmDialog>
 </ng-container>
 

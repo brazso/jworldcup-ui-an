@@ -62,7 +62,7 @@ export class UserDetailComponent implements OnInit {
       message: this.replaceLineBreaksPipe.transform(this.translocoService.translate('userDetail.popup.confirm.deleteUser')),
       accept: () => {
         console.log('Delete');
-          //Actual logic to perform a confirmation
+        //Actual logic to perform a confirmation
       }
   });
   }
