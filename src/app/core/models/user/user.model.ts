@@ -1,6 +1,7 @@
 export interface User {
   userId?: number;
   emailAddr?: string;
+  emailNew?: string;
   fullName?: string;
   loginName?: string,
   loginPassword?: string,

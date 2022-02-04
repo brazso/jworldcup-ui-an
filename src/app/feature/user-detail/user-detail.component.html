@@ -1,71 +1,83 @@
 <ng-container *transloco="let t">
     <p-panel [header]="t('userDetail.title')">
         <div fxLayout="row" fxLayoutGap="10px">
-            <fieldset [disabled]="isSubmitting">
-                <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px" >
-                    <p-fieldset [legend]="t('userDetail.label.general')">
-                        <table class="p-datatable">
-                            <tr>
-                                <td>{{ t('userDetail.label.zoneId') }}</td>
-                                <td>
-                                    <p-dropdown [options]="zoneIds" [(ngModel)]="user.zoneId"></p-dropdown>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="td-right">
-                                    <p-button [label]="t('userDetail.button.deleteUser')" (onClick)="doDelete($event)"></p-button>
-                                </td>
-                            </tr>
-                        </table>
-                    </p-fieldset>
-                    <p-fieldset [legend]="t('userDetail.label.email')">
-                        Content
-                    </p-fieldset>
-                    <p-fieldset [legend]="t('userDetail.label.loginPassword')">
-                        Content
-                    </p-fieldset>
-                    <app-list-errors [errors]="errors"></app-list-errors>
-                    <div fxLayout="row" fxLayoutAlign="space-around">
-                        <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
-                        <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
+            <form #ngForm="ngForm">
+                <fieldset [disabled]="isSubmitting">
+                    <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px" >
+                        <p-fieldset [legend]="t('userDetail.label.general')">
+                            <table class="p-datatable">
+                                <tr>
+                                    <td>{{ t('userDetail.label.zoneId') }}</td>
+                                    <td>
+                                        <p-dropdown name="zoneId" [options]="zoneIds" [(ngModel)]="user.zoneId"></p-dropdown>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="td-right">
+                                        <p-button [label]="t('userDetail.button.deleteUser')" (onClick)="doDelete($event)"></p-button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p-fieldset>
+                        <p-fieldset [legend]="t('userDetail.label.email')">
+                            <table class="p-datatable">
+                                <tr>
+                                    <td>{{ t('userDetail.label.emailAddr') }}</td>
+                                    <td>
+                                        <input name="emailAddr" [(ngModel)]="user.emailAddr" [disabled]="true" pInputText />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ t('userDetail.label.emailNew') }}</td>
+                                    <td>
+                                        <input name="emailNew" [(ngModel)]="user.emailNew" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #emailNew="ngModel" pInputText />
+                                        <app-input-validation [control]="emailNew"
+                                            [errDef]="{pattern: t('validator.constraints.Email.message')}" ></app-input-validation>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ t('userDetail.label.emailNewAgain') }}</td>
+                                    <td>
+                                        <input name="emailNewAgain" [(ngModel)]="user.emailNewAgain" #emailNewAgain="ngModel" pInputText />
+                                        <app-input-validation [control]="emailNewAgain" [custom]="validateEmail"
+                                            [errDef]="{custom: t('validator.constraints.Email.message')}" ></app-input-validation>
+                                        <app-input-validation [control]="emailNewAgain" [custom]="validateEmails" [form]="ngForm"
+                                            [errDef]="{custom: t('validator.constraints.email.mismatch')}" ></app-input-validation>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p-fieldset>
+                        <p-fieldset [legend]="t('userDetail.label.loginPassword')">
+                            <table class="p-datatable">
+                                <tr>
+                                    <td>{{ t('userDetail.label.loginPasswordNew') }}</td>
+                                    <td>
+                                        <p-password name="loginPasswordNew" [(ngModel)]="user.loginPasswordNew" minlength="8" [toggleMask]="true" #loginPasswordNew="ngModel"></p-password>
+                                        <app-input-validation [control]="loginPasswordNew"
+                                            [errDef]="{minlength: t('validator.constraints.password.minlength')}" ></app-input-validation>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ t('userDetail.label.loginPasswordAgain') }}</td>
+                                    <td>
+                                        <p-password name="loginPasswordAgain" [(ngModel)]="user.loginPasswordAgain" minlength="8" [toggleMask]="true" [feedback]="false" #loginPasswordAgain="ngModel"></p-password>
+                                        <app-input-validation [control]="loginPasswordAgain"
+                                            [errDef]="{minlength: t('validator.constraints.password.minlength')}" ></app-input-validation>
+                                        <app-input-validation [control]="loginPasswordAgain" [custom]="validatePasswords" [form]="ngForm"
+                                            [errDef]="{custom: t('validator.constraints.password.mismatch')}" ></app-input-validation>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p-fieldset>
+                        <app-list-errors [errors]="errors"></app-list-errors>
+                        <div fxLayout="row" fxLayoutAlign="space-around">
+                            <p-button [label]="t('general.button.save')" (onClick)="doSave($event)" [disabled]="!ngForm.dirty || !ngForm.valid || hasError()" ></p-button>
+                            <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
+                        </div>
                     </div>
-                </div>
-            </fieldset>
+                </fieldset>
+            </form>
         </div>
-        <!--<div fxLayout="row" fxLayoutGap="10px">
-            <fieldset [disabled]="isSubmitting">
-                <div fxLayout="column" fxLayoutAlign="space-between">
-                    <table class="p-datatable">
-                        <tr>
-                            <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringGroupMatches') }}</td>
-                            <td>
-                                <p-dropdown [options]="groupTeams | dropdownPipe" [(ngModel)]="selectedGroupTeam"
-                                    [disabled]="isGroupTeamSelectItemListDisabled()">
-                                    <ng-template pTemplate="selectedItem">
-                                        {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
-                                    </ng-template>
-                                    <ng-template let-item pTemplate="item">
-                                        {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
-                                    </ng-template>
-                                </p-dropdown>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringKnockoutMatches') }}</td>
-                            <td>
-                                <p-dropdown [options]="knockOutTeams" [(ngModel)]="selectedKnockOutTeam"
-                                    [disabled]="isKnockoutTeamSelectItemListDisabled()"></p-dropdown>
-                            </td>
-                        </tr>
-                    </table>
-                    <app-list-errors [errors]="errors"></app-list-errors>
-                    <div fxLayout="row" fxLayoutAlign="space-around" class="buttons">
-                        <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
-                        <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
-                    </div>
-                </div>
-            </fieldset>
-        </div>-->
     </p-panel>
     <p-confirmDialog [header]="t('general.label.confirmation')" message="t('userDetail.popup.confirm.deleteUser') | replaceLineBreaks" 
         [acceptLabel]="t('general.button.yes')" [rejectLabel]="t('general.button.no')"

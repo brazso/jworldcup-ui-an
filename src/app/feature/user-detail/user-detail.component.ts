@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
-import { GenericMapResponse, SessionData, UiError, User } from 'src/app/core/models';
+import { GenericMapResponse, SessionData, UiError, User, UserExtended } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslocoService } from '@ngneat/transloco';
 import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.pipe';
+import { NgForm, NgModel } from '@angular/forms';
+import { InputValidationComponent } from 'src/app/shared/input-validation';
 
 @Component({
   templateUrl: './user-detail.component.html',
@@ -16,7 +18,8 @@ export class UserDetailComponent implements OnInit {
   errors: UiError = new UiError({});
   session: SessionData;
   zoneIds: SelectItem<string>[];
-  user: User; // edited object, it is a shallow copy of session.user
+  user: UserExtended; // edited object, it is a shallow copy of session.user
+  @ViewChildren(InputValidationComponent) private childrenInputValidationComponents: QueryList<InputValidationComponent>;
 
   constructor(
     private readonly sessionService: SessionService,
@@ -77,6 +80,34 @@ export class UserDetailComponent implements OnInit {
     this.sessionService.goToDefaultPage();
   }
 
+  validateEmail(context: NgModel ): boolean {
+    // console.log(`validateEmail context.control.value:${JSON.stringify(context.control.value)}`)
+    const email = context.control.value;
+    return !email || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+  }
+
+  validateEmails(context: NgForm ): boolean {
+    // console.log(`validateEmails context.form.value.emailNew: ${JSON.stringify(context.form.value.emailNew)}`)
+    // console.log(`validateEmails context.form.value.emailNewAgain: ${JSON.stringify(context.form.value.emailNewAgain)}`)
+    const emailNew = context.form.value.emailNew;
+    const emailNewAgain = context.form.value.emailNewAgain;
+    console.log(`validateEmails emailNew: ${emailNew}, emailNewAgain: ${emailNewAgain}`);
+    return emailNew == emailNewAgain;
+  }
+
+  validatePasswords(context: NgForm ): boolean {
+    // console.log(`validateEmails context.form.valid: ${JSON.stringify(context.form.valid)}`)
+    // console.log(`validateEmails context.form.controls['loginPasswordNew'].value: ${JSON.stringify(context.form.controls['loginPasswordNew'].value)}`)
+    const loginPasswordNew = context.form.value.loginPasswordNew;
+    const loginPasswordAgain = context.form.value.loginPasswordAgain;
+    console.log(`validateEmails loginPasswordNew: ${loginPasswordNew}, loginPasswordAgain: ${loginPasswordAgain}`);
+    return loginPasswordNew == loginPasswordAgain;
+  }
+
+  hasError(): boolean {
+    return (this.childrenInputValidationComponents ?? []).some(e => e.hasError());
+  }
+  
   submitForm() {
     this.isSubmitting = true;
     this.errors = new UiError({});

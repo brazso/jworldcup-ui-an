@@ -23,6 +23,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { PasswordModule } from 'primeng/password';
@@ -53,9 +54,9 @@ import { CoreModule } from '../core';
 import { ListErrorsComponent } from './list-errors';
 import { ShowAuthedDirective } from './directives/show-authed.directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownPipe } from './pipes/dropdown.pipe';
 import { ReplaceLineBreaksPipe } from './pipes/replace-line-breaks.pipe';
+import { InputValidationComponent } from './input-validation';
 
 // import { InputTextComponent } from './input-text/input-text.component';
 // import { InputTextAreaComponent } from './input-textarea/input-textarea.component';
@@ -117,7 +118,8 @@ const PRIMENG_MODULES = [
 ];
 
  const SHARED_COMPONENTS = [
-  ListErrorsComponent
+  ListErrorsComponent,
+  InputValidationComponent
  ];
 
 const SHARED_DIRECTIVES = [
