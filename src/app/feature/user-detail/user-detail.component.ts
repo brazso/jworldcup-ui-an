@@ -87,21 +87,11 @@ export class UserDetailComponent implements OnInit {
   }
 
   validateEmails(context: NgForm ): boolean {
-    // console.log(`validateEmails context.form.value.emailNew: ${JSON.stringify(context.form.value.emailNew)}`)
-    // console.log(`validateEmails context.form.value.emailNewAgain: ${JSON.stringify(context.form.value.emailNewAgain)}`)
-    const emailNew = context.form.value.emailNew;
-    const emailNewAgain = context.form.value.emailNewAgain;
-    console.log(`validateEmails emailNew: ${emailNew}, emailNewAgain: ${emailNewAgain}`);
-    return emailNew == emailNewAgain;
+    return (context.form.value.emailNew ?? '') === (context.form.value.emailNewAgain ?? '');
   }
 
   validatePasswords(context: NgForm ): boolean {
-    // console.log(`validateEmails context.form.valid: ${JSON.stringify(context.form.valid)}`)
-    // console.log(`validateEmails context.form.controls['loginPasswordNew'].value: ${JSON.stringify(context.form.controls['loginPasswordNew'].value)}`)
-    const loginPasswordNew = context.form.value.loginPasswordNew;
-    const loginPasswordAgain = context.form.value.loginPasswordAgain;
-    console.log(`validateEmails loginPasswordNew: ${loginPasswordNew}, loginPasswordAgain: ${loginPasswordAgain}`);
-    return loginPasswordNew == loginPasswordAgain;
+    return (context.form.value.loginPasswordNew ?? '') === (context.form.value.loginPasswordAgain ?? '');
   }
 
   hasError(): boolean {

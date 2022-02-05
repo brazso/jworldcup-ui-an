@@ -1,7 +1,9 @@
-import { ModuleWithProviders, NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, CommonModule } from '@angular/common';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
+/* Extra */
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoDatePipe, TranslocoLocaleModule } from '@ngneat/transloco-locale';
 
@@ -43,7 +45,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ImageModule } from 'primeng/image';
 import { ContextMenuModule } from 'primeng/contextmenu';
 
-/* own components */
+/* Own */
 import { TranslocoExDatePipe } from './pipes/transloco-ex-date.pipe';
 import { CustomValidator } from './directives/custom-validator.directive';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
@@ -53,10 +55,10 @@ import { ModalService } from './services/modal.service';
 import { CoreModule } from '../core';
 import { ListErrorsComponent } from './list-errors';
 import { ShowAuthedDirective } from './directives/show-authed.directive';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { DropdownPipe } from './pipes/dropdown.pipe';
 import { ReplaceLineBreaksPipe } from './pipes/replace-line-breaks.pipe';
 import { InputValidationComponent } from './input-validation';
+import { InputTrimDirective } from './directives/input-trim.directive';
 
 // import { InputTextComponent } from './input-text/input-text.component';
 // import { InputTextAreaComponent } from './input-textarea/input-textarea.component';
@@ -75,8 +77,6 @@ const ANGULAR_MODULES = [
   CommonModule,
   FormsModule,
   ReactiveFormsModule,
-  TranslocoModule,
-  TranslocoLocaleModule,
   FlexLayoutModule
 ];
 
@@ -117,6 +117,11 @@ const PRIMENG_MODULES = [
   InputNumberModule
 ];
 
+const EXTRA_MODULES = [
+  TranslocoModule,
+  TranslocoLocaleModule
+];
+
  const SHARED_COMPONENTS = [
   ListErrorsComponent,
   InputValidationComponent
@@ -125,7 +130,8 @@ const PRIMENG_MODULES = [
 const SHARED_DIRECTIVES = [
    AutoFocusDirective,
    CustomValidator,
-   ShowAuthedDirective
+   ShowAuthedDirective,
+   InputTrimDirective
 ];
 
 const ANGULAR_PIPES = [
@@ -163,11 +169,13 @@ const SHARED_SERVICES = [
     CoreModule, // TODO - it should throw error during import
     ANGULAR_MODULES,
     PRIMENG_MODULES,
+    EXTRA_MODULES
     // BOOTSTRAP_MODULES
   ],
   exports: [
     ANGULAR_MODULES,
     PRIMENG_MODULES,
+    EXTRA_MODULES,
     // BOOTSTRAP_MODULES,
     SHARED_COMPONENTS,
     SHARED_PIPES,

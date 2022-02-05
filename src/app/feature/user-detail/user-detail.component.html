@@ -54,7 +54,7 @@
                                     <td>
                                         <p-password name="loginPasswordNew" [(ngModel)]="user.loginPasswordNew" minlength="8" [toggleMask]="true" #loginPasswordNew="ngModel"></p-password>
                                         <app-input-validation [control]="loginPasswordNew"
-                                            [errDef]="{minlength: t('validator.constraints.password.minlength')}" ></app-input-validation>
+                                            [errDef]="{minlength: t('validator.constraints.password.minlength').format(8)}" ></app-input-validation>
                                     </td>
                                 </tr>
                                 <tr>
@@ -62,7 +62,7 @@
                                     <td>
                                         <p-password name="loginPasswordAgain" [(ngModel)]="user.loginPasswordAgain" minlength="8" [toggleMask]="true" [feedback]="false" #loginPasswordAgain="ngModel"></p-password>
                                         <app-input-validation [control]="loginPasswordAgain"
-                                            [errDef]="{minlength: t('validator.constraints.password.minlength')}" ></app-input-validation>
+                                            [errDef]="{minlength: t('validator.constraints.password.minlength').format(8)}" ></app-input-validation>
                                         <app-input-validation [control]="loginPasswordAgain" [custom]="validatePasswords" [form]="ngForm"
                                             [errDef]="{custom: t('validator.constraints.password.mismatch')}" ></app-input-validation>
                                     </td>

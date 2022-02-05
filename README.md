@@ -34,7 +34,9 @@ ng --version
 
 > ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
 
-### PrimeNG
+### Additional packages
+
+#### PrimeNG
 Follow install tutorial [ https://primefaces.org/primeng/showcase/#/setup ]
 
 ```
@@ -51,13 +53,17 @@ In angular.json file add new css files to styles block:
         "node_modules/primeng/resources/primeng.min.css"
     ],
 
-### Layout
+#### Layout
 
 npm install --save @angular/flex-layout
 
-### Translation
+#### Translation
 
 npm install --save @ngneat/transloco
+
+#### Input Trim
+
+npm install --save ng2-trim-directive
 
 ## Start Angular application
 ```
@@ -68,6 +74,7 @@ ng serve
 
 - Add the _package-lock.json_ you to your version control repository
 - Use `npm ci` instead of `npm install` when building your application both locally and in your deployment pipeline.
+- To update a single package use `npm update @angular/flex-layout`
 
 ## Trash
 
@@ -144,3 +151,4 @@ ng serve
 - [Authentication-forms tutorial](https://thinkster.io/tutorials/building-real-world-angular-2-apps/authentication-forms)
 - [Login/Register form sample](https://codepen.io/gstorbeck/embed/gbNEOr?height=530&theme-id=0&slug-hash=gbNEOr&default-tab=css%2Cresult&user=gstorbeck&pen-title=Login%20Form&name=cp_embed_93)
 - [Layout demos](https://tburleson-layouts-demos.firebaseapp.com/)
+- [An input validation message to use with PrimeNG ](https://gist.github.com/sannonaragao/dbf747676016ed0c4054f8abd2e2a4d2)
