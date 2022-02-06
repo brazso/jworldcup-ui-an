@@ -42,10 +42,6 @@ export class ListErrorsComponent {
     console.log(`item: ${JSON.stringify(item)}`);
     let msgBuilt = this.translocoService.translate(item.msgCode);
     if (msgBuilt) {
-        // replace {n} to msgParams[n] in msgBuilt, where n>=0
-        // for (let i=0; i<item.msgParams.length; i++) {
-        //   msgBuilt = msgBuilt.replace("{"+i+"}", item.msgParams[i] as string);
-        // }
         msgBuilt = msgBuilt.format(item.msgParams);
     }
     else {

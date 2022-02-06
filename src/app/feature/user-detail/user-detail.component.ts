@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
-import { GenericMapResponse, SessionData, UiError, User, UserExtended } from 'src/app/core/models';
+import { GenericMapResponse, GenericResponse, SessionData, UiError, User, UserExtended } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -36,18 +36,7 @@ export class UserDetailComponent implements OnInit {
         console.log(`session: ${JSON.stringify(session)}`);
 
         this.user = {...session.user!}; // shallow copy is enough for user object
-
-        // this.selectedGroupTeam = session.userOfEvent?.favouriteGroupTeam ?? null;
-        // this.selectedKnockOutTeam = session.userOfEvent?.favouriteKnockoutTeam ?? null;
-
-        // forkJoin([
-        //   this.apiService.get<GenericListResponse<Team>>(`${ApiEndpoints.TEAMS.FIND_FAVOURITE_GROUP_TEAMS_BY_EVENT}?eventId=${session.event?.eventId}`),
-        //   this.apiService.get<GenericListResponse<Team>>(`${ApiEndpoints.TEAMS.FIND_FAVOURITE_KNOCK_OUT_TEAMS_BY_EVENT}?eventId=${session.event?.eventId}`)
-        //   ]).subscribe(([groupTeamsResponse, knockOutTeamsResponse]) => {
-        //     this.groupTeams = groupTeamsResponse.data;
-        //     this.knockOutTeams = knockOutTeamsResponse.data;
-        //   }
-        // );
+        this.user.languageTag = session.localeId;
 
         this.apiService.get<GenericMapResponse<string>>(ApiEndpoints.USERS.FIND_TIME_ZONE_IDS).subscribe(
           (value) => {
@@ -60,7 +49,6 @@ export class UserDetailComponent implements OnInit {
   }
 
   doDelete(event_: any): void {
-    // console.log(`selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
     this.confirmationService.confirm({
       message: this.replaceLineBreaksPipe.transform(this.translocoService.translate('userDetail.popup.confirm.deleteUser')),
       accept: () => {
@@ -71,7 +59,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   doSave(event_: any): void {
-    // console.log(`selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
+    console.log(`user: ${JSON.stringify(this.user)}`);
     this.submitForm();
   }
 
@@ -102,28 +90,22 @@ export class UserDetailComponent implements OnInit {
     this.isSubmitting = true;
     this.errors = new UiError({});
 
-    // let url = `${ApiEndpoints.USERS.SAVE_USER_OF_EVENT}?userId=${this.session.user?.userId}&eventId=${this.session.event?.eventId}`;
-    // if (this.selectedGroupTeam?.teamId) {
-    //   url += `&favouriteGroupTeamId=${this.selectedGroupTeam?.teamId}`;
-    // }
-    // if (this.selectedKnockOutTeam?.teamId) {
-    //   url += `&favouriteKnockoutTeamId=${this.selectedKnockOutTeam?.teamId}`;
-    // }
-    // this.apiService.post<GenericResponse<UserOfEvent>>(url).subscribe({
-    //   next: value => {
-    //     console.log('saved');
-    //     this.session.userOfEvent = value.data;
-    //     // this.sessionService.setSession(this.session);
-    //     this.isSubmitting = false;
-    //   },
-    //   error: (err: HttpErrorResponse) => {
-    //     console.log(`err: ${JSON.stringify(err)}`);
-    //     this.errors = new UiError(Object.assign(err));
-    //     this.isSubmitting = false;
-    //   },
-    //   complete: () => {
-    //     console.log('complete');
-    //   }
-    // });
+    this.apiService.put<GenericResponse<User>>(ApiEndpoints.USERS.MODIFY_USER, this.user).subscribe({
+      next: value => {
+        console.log('saved');
+        const modifiedUser: User  = value.data;
+        this.sessionService.getSession().user = modifiedUser;
+        this.isSubmitting = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('complete');
+        this.sessionService.goToDefaultPage();
+      }
+    });
   }
 }

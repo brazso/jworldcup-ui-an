@@ -81,7 +81,6 @@ export class FavouriteTeamComponent implements OnInit {
       next: value => {
         console.log('saved');
         this.session.userOfEvent = value.data;
-        // this.sessionService.setSession(this.session);
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {

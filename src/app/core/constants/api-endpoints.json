@@ -11,7 +11,8 @@
     "USERS": {
         "WHOAMI": "/users/whoami",
         "SAVE_USER_OF_EVENT": "/users/save-user-of-event",
-        "FIND_TIME_ZONE_IDS": "/users/find-time-zone-ids"
+        "FIND_TIME_ZONE_IDS": "/users/find-time-zone-ids",
+        "MODIFY_USER": "/users/modify-user"
     },
 
     "EVENTS": {
