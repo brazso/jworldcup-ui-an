@@ -44,6 +44,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ImageModule } from 'primeng/image';
 import { ContextMenuModule } from 'primeng/contextmenu';
+import { DialogModule } from 'primeng/dialog';
 
 /* Own */
 import { TranslocoExDatePipe } from './pipes/transloco-ex-date.pipe';
@@ -114,7 +115,8 @@ const PRIMENG_MODULES = [
   ProgressBarModule,
   ImageModule,
   ContextMenuModule,
-  InputNumberModule
+  InputNumberModule,
+  DialogModule
 ];
 
 const EXTRA_MODULES = [

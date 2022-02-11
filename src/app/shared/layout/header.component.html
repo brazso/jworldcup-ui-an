@@ -36,4 +36,17 @@
       </div>
     </div>
   </div>
+
+  <p-dialog [header]="t('about.title')" [(visible)]="isNamecardDisplayed" (onHide)="onNameCardHide()"
+    [modal]="true" [resizable]="true" [closeOnEscape]="true">
+    <p>{{ session.appShortName }} ({{ t('about.label.corporation') }})</p>
+    <p>{{ t('about.label.version') }} {{ session.appVersionNumber }} ({{ session.appVersionDate! | translocoExDate: {dateStyle: 'short'} }})</p>
+    <p>{{ t('about.label.contactEmail') }}: {{ session.appEmailAddr }}</p>
+  </p-dialog>
+
+  <p-dialog [header]="t('gameRule.title')" [(visible)]="isGameRuleDisplayed" (onHide)="onGameRuleHide()"
+    [modal]="true" [resizable]="true" [closeOnEscape]="true">
+    <div [innerHtml]="t('gameRule.info').join('')"></div>
+  </p-dialog>
+
 </header>

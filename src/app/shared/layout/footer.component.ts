@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
-import { BackendService } from 'src/app/core/services';
-import { GenericResponse } from 'src/app/core/models/common';
+import { BackendService, SessionService } from 'src/app/core/services';
 import pkg from 'package.json';
+import { GenericResponse, SessionData } from 'src/app/core/models';
 
 @Component({
   selector: 'app-layout-footer',
@@ -14,10 +14,12 @@ export class FooterComponent implements OnInit {
 
   frontendVersion: string;
   backendVersion: string;
+  session: SessionData = {};
 
   constructor(
     private translocoService: TranslocoService,
-    private backendService: BackendService
+    private backendService: BackendService,
+    private sessionService: SessionService
     ) {
   }
 
@@ -26,6 +28,13 @@ export class FooterComponent implements OnInit {
     this.translocoService.selectTranslation().subscribe(
       (translation: Translation) => {
         this.setupFrontendBackendVersions();
+      }
+    );
+
+    this.sessionService.session.subscribe(
+      (session: SessionData) => {
+        this.session = session;
+        console.log(`session: ${JSON.stringify(session)}`);
       }
     );
   }

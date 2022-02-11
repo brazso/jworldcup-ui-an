@@ -25,6 +25,8 @@ export class HeaderComponent implements OnInit {
   event: Event = {};
   menuItems: MenuItem[];
   events: Event[] = [];
+  isNamecardDisplayed: boolean = false;
+  isGameRuleDisplayed: boolean = false;
 
   // session fields
   // eventCompletionPercent: number | undefined;
@@ -37,7 +39,7 @@ export class HeaderComponent implements OnInit {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
       }
-    );    
+    );
     this.sessionService.user.subscribe(
       (user: User) => {
         this.user = user;
@@ -99,7 +101,9 @@ export class HeaderComponent implements OnInit {
           },
           {
             label: this.translocoService.translate('menu.gameRule'),
-            disabled: true
+            command: (event) => {
+              this.isGameRuleDisplayed = true;
+            }
           }
         ]
       },
@@ -132,7 +136,9 @@ export class HeaderComponent implements OnInit {
       },
       {
         label: this.translocoService.translate('menu.namecard'),
-        disabled: true
+        command: (event) => {
+          this.isNamecardDisplayed = true;
+        }
       },
       {
         label: this.translocoService.translate('menu.logout'),
@@ -181,4 +187,11 @@ export class HeaderComponent implements OnInit {
     return name;
   }
 
+  onNameCardHide() {
+    this.isNamecardDisplayed = false;
+  }
+
+  onGameRuleHide() {
+    this.isGameRuleDisplayed = false;
+  }
 }

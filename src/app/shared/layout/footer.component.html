@@ -1,9 +1,9 @@
 <footer class="footer" *transloco="let t;">
   <div fxLayout="row" class="footerDiv" fxLayoutAlign="space-around">
     <div>
-      <a class="logo-font" routerLink="/">JWorldcup</a>
+      <a class="logo-font" routerLink="/">{{ session.appShortName }}</a>
       <span class="attribution">
-        &copy; {{ today | date: 'yyyy' }}.
+        &copy; {{ session.appVersionDate! | date: 'yyyy' }}.
         A soccer bet game from <a href="https://zematix.hu/">Zematix</a>
       </span>  
     </div>
