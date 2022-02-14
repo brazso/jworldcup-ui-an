@@ -1,0 +1,28 @@
+<ng-container *transloco="let t">
+    <p-panel [header]="t('userGroups.title')">
+        <p-table [value]="userGroups" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                {{ t('userGroups.label.userGroups') }}
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th></th>
+                    <th>{{ t('userGroups.label.userGroup') }}</th>
+                    <th>{{ t('userGroups.label.owner') }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-userGroup>
+                <tr>
+                    <td></td>
+                    <td>{{ userGroup.name }}</td>
+                    <td><p-checkbox [value]="userGroup.owner.userId === 2" [binary]="true" [disabled]="true"></p-checkbox></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+    <p-confirmDialog [header]="t('general.label.confirmation')" message="t('userDetail.popup.confirm.deleteUser') | replaceLineBreaks" 
+        [acceptLabel]="t('general.button.yes')" [rejectLabel]="t('general.button.no')"
+        icon="pi pi-exclamation-triangle" defaultFocus="reject">
+    </p-confirmDialog>
+</ng-container>
+

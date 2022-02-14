@@ -46,5 +46,10 @@
 
     "GROUPS": {
         "GROUP_TEAMS_BY_EVENT": "/groups/group-teams-by-event"
+    },
+
+    "USER_GROUPS": {
+        "USER_GROUPS_BY_EVENT_AND_USER": "/user-groups/user-groups-by-event-and-user",
+        "USERS_BY_USER_GROUP": "/user-groups/users-by-user-group"
     }
 }

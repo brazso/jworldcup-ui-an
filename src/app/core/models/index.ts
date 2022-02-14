@@ -10,4 +10,5 @@ export * from './round';
 export * from './session';
 export * from './team';
 export * from './user';
+export * from './user-group';
 export * from './user-of-event';

@@ -130,7 +130,7 @@ export class HeaderComponent implements OnInit {
           },
           {
             label: this.translocoService.translate('menu.user_groups'),
-            disabled: true
+            routerLink: [RouterUrls.USER_GROUPS]
           }
         ]
       },
