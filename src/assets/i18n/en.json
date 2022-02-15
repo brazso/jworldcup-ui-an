@@ -591,6 +591,10 @@
 			"deleteUserGroupWithMembers": "Do you really want to delete the selected user group with its members?",
 			"removeMemberFromUserGroup": "Do you really want to remove the selected member from the user group?"
 		},
+		"dialog": {
+			"userGroup.title": "Enter user group",
+			"userGroupMember.title": "Enter iser group member"
+		},
 		"name.Everybody": "Everybody"
 	},
 

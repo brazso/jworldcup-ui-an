@@ -16,9 +16,12 @@ export class UserGroupsComponent implements OnInit {
   session: SessionData;
   // user: UserExtended; // edited object, it is a shallow copy of session.user
   userGroups: UserGroup[];
+  selectedUserGroup: UserGroup | undefined;
+  isUserGroupDialogDisplayed: boolean = false;
+  userGroup: UserGroup = {} as UserGroup; // inserted one
 
   constructor(
-    private readonly sessionService: SessionService,
+    public readonly sessionService: SessionService,
     private readonly apiService: ApiService,
     private confirmationService: ConfirmationService,
     private translocoService: TranslocoService,
@@ -39,5 +42,49 @@ export class UserGroupsComponent implements OnInit {
         );
       }
     );
+  }
+
+  doInsert(event_: any): void {
+    this.userGroup = {} as UserGroup;
+    this.isUserGroupDialogDisplayed = true;
+  }
+
+  doDelete(event_: any): void {
+    this.confirmationService.confirm({
+      message: this.replaceLineBreaksPipe.transform(this.translocoService.translate('userGroups.confirmation.deleteUserGroup')),
+      accept: () => {
+        console.log('Delete');
+        //Actual logic to perform a confirmation
+      }
+    });
+  }
+
+  onRowSelect(event_: any): void {
+    // const selectedUserGroup: UserGroup = event_.data;
+    console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);
+    console.log(`onRowSelect data2: ${JSON.stringify(this.selectedUserGroup)}`);
+  }
+
+  onRowUnselect(event_: any): void {
+    console.log(`onRowUnselect`);
+  }
+
+  onUserGroupDialogHide() {
+    this.isUserGroupDialogDisplayed = false;
+  }
+
+  /**
+	 * Creates a new user group from a popup window.
+	 */
+  doInsertUserGroup(event_: any): void {
+    // console.log(`doInsertUserGroup`);
+    this.isUserGroupDialogDisplayed = false;
+  }
+
+  doResetUserGroup(event_: any): void {
+    this.isUserGroupDialogDisplayed = false;
+  }
+
+  doImportUserGroup(event_: any): void {
   }
 }

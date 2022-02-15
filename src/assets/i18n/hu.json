@@ -591,6 +591,10 @@
 			"deleteUserGroupWithMembers": "Tényleg törli a kijelölt felhasználói csoportot a tagjaival együtt?",
 			"removeMemberFromUserGroup": "Tényleg eltávolítja a kijelölt felhasználót a felhasználói csoportból?"
 		},
+		"dialog": {
+			"userGroup.title": "Felhasználói csoport felvétele",
+			"userGroupMember.title": "Felhasználói csoport tag felvétele"
+		},
 		"name.Everybody": "Mindenki"
 	},
 

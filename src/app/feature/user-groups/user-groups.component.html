@@ -1,28 +1,73 @@
 <ng-container *transloco="let t">
     <p-panel [header]="t('userGroups.title')">
-        <p-table [value]="userGroups" responsiveLayout="scroll">
-            <ng-template pTemplate="caption">
-                {{ t('userGroups.label.userGroups') }}
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                    <th></th>
-                    <th>{{ t('userGroups.label.userGroup') }}</th>
-                    <th>{{ t('userGroups.label.owner') }}</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-userGroup>
-                <tr>
-                    <td></td>
-                    <td>{{ userGroup.name }}</td>
-                    <td><p-checkbox [value]="userGroup.owner.userId === 2" [binary]="true" [disabled]="true"></p-checkbox></td>
-                </tr>
-            </ng-template>
-        </p-table>
+        <div fxLayout="row" fxLayoutGap="10px">
+            <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px" >
+                <p-table [value]="userGroups" responsiveLayout="scroll"
+                    selectionMode="single" [(selection)]="selectedUserGroup" dataKey="userGroupId"
+                    (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                    <ng-template class="center" pTemplate="caption">
+                        <div class="center">
+                            {{ t('userGroups.label.userGroups') }}
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th></th>
+                            <th>{{ t('userGroups.label.userGroup') }}</th>
+                            <th>{{ t('userGroups.label.owner') }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-userGroup>
+                        <tr [pSelectableRow]="rowData">
+                            <td></td>
+                            <td>{{ userGroup.name }}</td>
+                            <td><p-checkbox [ngModel]="userGroup.owner.userId === sessionService.getUser().userId" [binary]="true" [disabled]="true"></p-checkbox></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <app-list-errors [errors]="errors"></app-list-errors>
+                <div fxLayout="row" fxLayoutAlign="space-around">
+                    <p-button [label]="t('general.button.insert')" (onClick)="doInsert($event)"></p-button>
+                    <p-button [label]="t('general.button.delete')" (onClick)="doDelete($event)" [disabled]="!selectedUserGroup || selectedUserGroup?.owner?.userId !== sessionService.getUser().userId"></p-button>
+                </div>
+            </div>
+        </div>
     </p-panel>
+
+    <p-dialog [header]="t('userGroups.dialog.userGroup.title')" [(visible)]="isUserGroupDialogDisplayed" 
+        [modal]="true" (onHide)="onUserGroupDialogHide()">
+        <form #userGroupForm="ngForm">
+            <div fxLayout="row" fxLayoutGap="10px">
+                <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px" >
+                    <table class="p-datatable">
+                        <tr>
+                            <td>{{ t('userGroups.label.name') }}</td>
+                            <td>
+                                <input name="userGroupName" pInputText [(ngModel)]="userGroup!.name" [required]="true" trim/>
+                            </td>
+                        </tr>
+                    </table>
+                    <app-list-errors [errors]="errors"></app-list-errors>
+                    <div fxLayout="row" fxLayoutAlign="space-around">
+                        <p-button [label]="t('general.button.save')" (onClick)="doInsertUserGroup($event)" [disabled]="!userGroupForm.dirty || !userGroupForm.valid"></p-button>
+                        <p-button [label]="t('general.button.cancel')" (onClick)="doResetUserGroup($event)"></p-button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+
     <p-confirmDialog [header]="t('general.label.confirmation')" message="t('userDetail.popup.confirm.deleteUser') | replaceLineBreaks" 
         [acceptLabel]="t('general.button.yes')" [rejectLabel]="t('general.button.no')"
         icon="pi pi-exclamation-triangle" defaultFocus="reject">
     </p-confirmDialog>
+
+    <p-confirmDialog [header]="t('general.label.confirmation')" 
+        message="Todo">
+        <p-button [label]="t('general.button.import')" (onClick)="doImportUserGroup($event)"></p-button>
+        <p-button [label]="t('general.button.create')" (onClick)="doInsertUserGroup($event)"></p-button>
+        <p-button [label]="t('general.button.cancel')" (onClick)="doResetUserGroup($event)"></p-button>
+    </p-confirmDialog>
+
 </ng-container>
 
