@@ -43,31 +43,34 @@
                         <tr>
                             <td>{{ t('userGroups.label.name') }}</td>
                             <td>
-                                <input name="userGroupName" pInputText [(ngModel)]="userGroup!.name" [required]="true" trim/>
+                                <input name="userGroupName" pInputText [(ngModel)]="userGroup!.name" [required]="true" trim autoFocus/>
                             </td>
                         </tr>
                     </table>
                     <app-list-errors [errors]="errors"></app-list-errors>
                     <div fxLayout="row" fxLayoutAlign="space-around">
-                        <p-button [label]="t('general.button.save')" (onClick)="doInsertUserGroup($event)" [disabled]="!userGroupForm.dirty || !userGroupForm.valid"></p-button>
-                        <p-button [label]="t('general.button.cancel')" (onClick)="doResetUserGroup($event)"></p-button>
+                        <p-button [label]="t('general.button.save')" (onClick)="doInsertUserGroup($event, false)" [disabled]="isSubmitting || !userGroupForm.dirty || !userGroupForm.valid"></p-button>
+                        <p-button [label]="t('general.button.cancel')" (onClick)="doResetUserGroup($event);"></p-button>
                     </div>
                 </div>
             </div>
         </form>
     </p-dialog>
 
-    <p-confirmDialog [header]="t('general.label.confirmation')" message="t('userDetail.popup.confirm.deleteUser') | replaceLineBreaks" 
+    <p-confirmDialog key="confirmDialog" [header]="t('general.label.confirmation')" 
         [acceptLabel]="t('general.button.yes')" [rejectLabel]="t('general.button.no')"
         icon="pi pi-exclamation-triangle" defaultFocus="reject">
     </p-confirmDialog>
 
-    <p-confirmDialog [header]="t('general.label.confirmation')" 
-        message="Todo">
-        <p-button [label]="t('general.button.import')" (onClick)="doImportUserGroup($event)"></p-button>
-        <p-button [label]="t('general.button.create')" (onClick)="doInsertUserGroup($event)"></p-button>
-        <p-button [label]="t('general.button.cancel')" (onClick)="doResetUserGroup($event)"></p-button>
-    </p-confirmDialog>
+    <p-dialog key="importConfirmDialog" [header]="t('general.label.confirmation')" [(visible)]="isImportConfirmDialogDisplayed" 
+        [modal]="true" (onHide)="onImportConfirmDialogHide()">
+        {{ confirmMsg | replaceLineBreaks }}
+        <ng-template pTemplate="footer">
+            <p-button [label]="t('general.button.import')" (onClick)="doImportUserGroup($event)"></p-button>
+            <p-button [label]="t('general.button.create')" (onClick)="doInsertUserGroup($event, true)"></p-button>
+            <button pButton type="button" [label]="t('general.button.cancel')" (click)="doResetUserGroup($event)" autoFocus></button> <!-- calling focus does not work with pbutton -->
+        </ng-template>
+    </p-dialog>
 
 </ng-container>
 

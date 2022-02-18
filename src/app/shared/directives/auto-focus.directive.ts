@@ -26,8 +26,10 @@ export class AutoFocusDirective implements AfterContentInit {
 		if (!this.autoFocusDisabled) {
 			setTimeout(() => {
 				if (this.autoFocusClicked) {
+					console.log('click');
 					this.el.nativeElement.click();
 				} else {
+					console.log('focus');
 					this.el.nativeElement.focus();
 				}
 			}, 500);

@@ -84,13 +84,10 @@ export class AppModule {
   }
 
   addStringFormat(): void {
-    String.prototype.format = function() {
-      var args = arguments;
+    String.prototype.format = function(...args) {
+      // console.log(`string: ${this}, args: ${JSON.stringify(args)}, args.length: ${args.length}`);
       return this.replace(/{(\d+)}/g, function(match, number) { 
-        return typeof args[number] != 'undefined'
-          ? args[number]
-          : match
-        ;
+        return typeof args[number] != 'undefined' ? args[number] : match;
       });
     };
   }

@@ -1,4 +1,5 @@
 import { ApiErrorItem } from './apiErrorItem.model';
+import { ParameterizedMessageTypeEnum } from './enums';
 
 export interface ApiError {
     status: string;
@@ -13,3 +14,23 @@ export function isApiError(object: any): object is ApiError {
         && Object.prototype.hasOwnProperty.call(object, "timestamp")
         && Object.prototype.hasOwnProperty.call(object, "exceptionClassName");
 }
+
+export function getApiErrorOverallType(apiError: ApiError): ParameterizedMessageTypeEnum | null {
+    let msgType: ParameterizedMessageTypeEnum | null = null;
+    
+    for (const item of apiError.items ?? []){
+        switch (item.msgType) {
+            case ParameterizedMessageTypeEnum.ERROR:
+                return ParameterizedMessageTypeEnum.ERROR;
+            case ParameterizedMessageTypeEnum.WARNING:
+                msgType = ParameterizedMessageTypeEnum.WARNING;
+                break;
+            case ParameterizedMessageTypeEnum.INFO:
+                if (msgType !== ParameterizedMessageTypeEnum.WARNING) {
+                    msgType = ParameterizedMessageTypeEnum.INFO;
+                }
+                break;
+        }
+    }
+    return msgType;
+};
