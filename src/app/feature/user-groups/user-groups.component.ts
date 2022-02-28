@@ -8,6 +8,12 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
+enum DisplayedComponentEnum {
+  USER_GROUP_COMPONENT,
+  USER_GROUP_DIALOG,
+  IMPORT_CONFIRM_DIALOG
+}
+
 @Component({
   templateUrl: './user-groups.component.html',
   styleUrls: ['./user-groups.component.scss']
@@ -51,7 +57,7 @@ export class UserGroupsComponent implements OnInit {
   doInsert(event_: any): void {
     this.userGroup = {} as UserGroup;
     this.userGroupForm.resetForm();
-    this.isUserGroupDialogDisplayed = true;
+    this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_DIALOG;
   }
 
   doDelete(event_: any): void {
@@ -95,18 +101,12 @@ export class UserGroupsComponent implements OnInit {
     console.log(`onRowUnselect`);
   }
 
-  onUserGroupDialogHide() {
-    this.isUserGroupDialogDisplayed = false;
-  }
-
   /**
 	 * Creates a new user group from a popup window.
 	 */
   doInsertUserGroup(event_: any, isImportConfirmed: boolean): void {
     console.log(`doInsertUserGroup`);
     // console.log(`event_: ${JSON.stringify(event_)}`);
-    // this.isUserGroupDialogDisplayed = false;
-    // this.isImportConfirmDialogDisplayed = false;
     this.isSubmitting = true;
 
     this.apiService.post<GenericResponse<UserGroup>>(ApiEndpoints.USER_GROUPS.INSERT_USER_GROUP+'?eventId={0}&userId={1}&name={2}&isInsertConfirmed={3}'
@@ -116,9 +116,7 @@ export class UserGroupsComponent implements OnInit {
         const insertedUserGroup: UserGroup  = value.data;
         this.userGroups.push(insertedUserGroup);
         this.selectedUserGroup = insertedUserGroup;
-        this.isSubmitting = false;
-        this.isUserGroupDialogDisplayed = false;
-        this.isImportConfirmDialogDisplayed = false;
+        this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_COMPONENT;
       },
       error: (err: HttpErrorResponse) => {
         console.log(`err: ${JSON.stringify(err)}`);
@@ -130,8 +128,7 @@ export class UserGroupsComponent implements OnInit {
               // console.log(`errorItem: ${JSON.stringify(errorItem)}`);
               this.confirmMsg = apiErrorItemMsgFormat(errorItem!, this.translocoService.translate(errorItem!.msgCode));
               // console.log(`confirmMsg: ${confirmMsg}`);
-              this.isUserGroupDialogDisplayed = false;
-              this.isImportConfirmDialogDisplayed = true;
+              this.displayedComponentEnum = DisplayedComponentEnum.IMPORT_CONFIRM_DIALOG;
           }
           else {
             this.errors = new UiError(Object.assign(err));
@@ -140,24 +137,51 @@ export class UserGroupsComponent implements OnInit {
         else {
           this.errors = new UiError(Object.assign(err));
         }
-        this.isSubmitting = false;
       },
       complete: () => {
         console.log('complete');
+        this.isSubmitting = false;
       }
     });
   }
 
   doResetUserGroup(event_: any): void {
-    this.isUserGroupDialogDisplayed = false;
-    this.isImportConfirmDialogDisplayed = false;
+    this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_COMPONENT;
   }
 
   doImportUserGroup(event_: any): void {
+    this.apiService.post<GenericResponse<UserGroup>>(ApiEndpoints.USER_GROUPS.IMPORT_USER_GROUP+'?eventId={0}&userId={1}&name={2}'
+      .format(this.sessionService.getEvent().eventId, this.sessionService.getUser().userId, this.userGroup.name)).subscribe({
+      next: value => {
+        console.log('imported');
+        const importedUserGroup: UserGroup  = value.data;
+        this.userGroups.push(importedUserGroup);
+        this.selectedUserGroup = importedUserGroup;
+        this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_COMPONENT;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+      },
+      complete: () => {
+        console.log('complete');
+        this.isSubmitting = false;
+      }
+    });
   }
   
-  onImportConfirmDialogHide() {
-    this.isImportConfirmDialogDisplayed = false;
+  get displayedComponentEnum(): DisplayedComponentEnum {
+    if (this.isUserGroupDialogDisplayed) {
+      return DisplayedComponentEnum.USER_GROUP_DIALOG;
+    }
+    if (this.isImportConfirmDialogDisplayed) {
+      return DisplayedComponentEnum.IMPORT_CONFIRM_DIALOG;
+    }
+    return DisplayedComponentEnum.USER_GROUP_COMPONENT;
   }
 
+  set displayedComponentEnum(displayedComponent: DisplayedComponentEnum) {
+    this.isUserGroupDialogDisplayed = displayedComponent === DisplayedComponentEnum.USER_GROUP_DIALOG;
+    this.isImportConfirmDialogDisplayed = displayedComponent === DisplayedComponentEnum.IMPORT_CONFIRM_DIALOG;
+  }
 }

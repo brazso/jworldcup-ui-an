@@ -34,8 +34,7 @@
         </div>
     </p-panel>
 
-    <p-dialog [header]="t('userGroups.dialog.userGroup.title')" [(visible)]="isUserGroupDialogDisplayed" 
-        [modal]="true" (onHide)="onUserGroupDialogHide()">
+    <p-dialog [header]="t('userGroups.dialog.userGroup.title')" [(visible)]="isUserGroupDialogDisplayed" [modal]="true">
         <form #userGroupForm="ngForm">
             <div fxLayout="row" fxLayoutGap="10px">
                 <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px" >
@@ -62,13 +61,12 @@
         icon="pi pi-exclamation-triangle" defaultFocus="reject">
     </p-confirmDialog>
 
-    <p-dialog key="importConfirmDialog" [header]="t('general.label.confirmation')" [(visible)]="isImportConfirmDialogDisplayed" 
-        [modal]="true" (onHide)="onImportConfirmDialogHide()">
+    <p-dialog key="importConfirmDialog" [header]="t('general.label.confirmation')" [(visible)]="isImportConfirmDialogDisplayed" [modal]="true">
         {{ confirmMsg | replaceLineBreaks }}
         <ng-template pTemplate="footer">
             <p-button [label]="t('general.button.import')" (onClick)="doImportUserGroup($event)"></p-button>
             <p-button [label]="t('general.button.create')" (onClick)="doInsertUserGroup($event, true)"></p-button>
-            <button pButton type="button" [label]="t('general.button.cancel')" (click)="doResetUserGroup($event)" autoFocus></button> <!-- calling focus does not work with pbutton -->
+            <button pButton type="button" [label]="t('general.button.cancel')" (click)="doResetUserGroup($event)" autoFocus></button> <!-- calling focus does not work with p-button tag -->
         </ng-template>
     </p-dialog>
 
