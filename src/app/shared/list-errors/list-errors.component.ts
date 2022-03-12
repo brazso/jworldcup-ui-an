@@ -17,6 +17,7 @@ export class ListErrorsComponent {
 
   @Input()
   set errors(uiError: UiError) {
+    this.formattedErrors = [];
     console.log(`uiError: ${JSON.stringify(uiError)}`);
     if (!uiError.isEmpty()) {
       let error = uiError.error;

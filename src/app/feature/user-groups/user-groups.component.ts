@@ -25,6 +25,7 @@ export class UserGroupsComponent implements OnInit {
   userGroups: UserGroup[];
   selectedUserGroup: UserGroup | undefined;
   isUserGroupDialogDisplayed: boolean = false;
+  userGroupDialogErrors: UiError = new UiError({});
   userGroup: UserGroup = {} as UserGroup; // inserted one
   @ViewChild('userGroupForm') userGroupForm: NgForm;
   confirmMsg: string;
@@ -87,6 +88,7 @@ export class UserGroupsComponent implements OnInit {
       },
       complete: () => {
         console.log('complete');
+        this.errors = new UiError({});
       }
     });
   }
@@ -129,14 +131,16 @@ export class UserGroupsComponent implements OnInit {
               this.confirmMsg = apiErrorItemMsgFormat(errorItem!, this.translocoService.translate(errorItem!.msgCode));
               // console.log(`confirmMsg: ${confirmMsg}`);
               this.displayedComponentEnum = DisplayedComponentEnum.IMPORT_CONFIRM_DIALOG;
+              this.userGroupDialogErrors = new UiError({});
           }
           else {
-            this.errors = new UiError(Object.assign(err));
+            this.userGroupDialogErrors = new UiError(Object.assign(err));
           }
         }
         else {
-          this.errors = new UiError(Object.assign(err));
+          this.userGroupDialogErrors = new UiError(Object.assign(err));
         }
+        this.isSubmitting = false;
       },
       complete: () => {
         console.log('complete');
@@ -146,7 +150,9 @@ export class UserGroupsComponent implements OnInit {
   }
 
   doResetUserGroup(event_: any): void {
+    console.log('doResetUserGroup');
     this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_COMPONENT;
+    this.userGroupDialogErrors = new UiError({});
   }
 
   doImportUserGroup(event_: any): void {
@@ -158,10 +164,12 @@ export class UserGroupsComponent implements OnInit {
         this.userGroups.push(importedUserGroup);
         this.selectedUserGroup = importedUserGroup;
         this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_COMPONENT;
+        this.userGroupDialogErrors = new UiError({});
       },
       error: (err: HttpErrorResponse) => {
         console.log(`err: ${JSON.stringify(err)}`);
-        this.errors = new UiError(Object.assign(err));
+        this.userGroupDialogErrors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
       },
       complete: () => {
         console.log('complete');
