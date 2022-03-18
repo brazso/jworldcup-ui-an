@@ -121,18 +121,13 @@ export class UserGroupsComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         console.log(`err: ${JSON.stringify(err)}`);
         let error = err.error;
-        if (error && isApiError(error) && error.items) {
-          if (getApiErrorOverallType(error) === ParameterizedMessageTypeEnum.INFO 
-            && error.items.some(e => e.msgCode === 'USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT')) {
-              let errorItem = error.items.find(e => e.msgCode === 'USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT');
-              // console.log(`errorItem: ${JSON.stringify(errorItem)}`);
-              this.confirmMsg = apiErrorItemMsgFormat(errorItem!, this.translocoService.translate(errorItem!.msgCode));
-              // console.log(`confirmMsg: ${confirmMsg}`);
-              this.displayedComponentEnum = DisplayedComponentEnum.IMPORT_CONFIRM_DIALOG;
-          }
-          else {
-            this.errors = new UiError(Object.assign(err));
-          }
+        if (error && isApiError(error) && error.items && getApiErrorOverallType(error) === ParameterizedMessageTypeEnum.INFO 
+          && error.items.some(e => e.msgCode === 'USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT')) {
+            let errorItem = error.items.find(e => e.msgCode === 'USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT');
+            // console.log(`errorItem: ${JSON.stringify(errorItem)}`);
+            this.confirmMsg = apiErrorItemMsgFormat(errorItem!, this.translocoService.translate(errorItem!.msgCode));
+            // console.log(`confirmMsg: ${confirmMsg}`);
+            this.displayedComponentEnum = DisplayedComponentEnum.IMPORT_CONFIRM_DIALOG;
         }
         else {
           this.errors = new UiError(Object.assign(err));

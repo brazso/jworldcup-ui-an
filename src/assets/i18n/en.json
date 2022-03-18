@@ -577,23 +577,29 @@
 			"userGroups": "User groups",
 			"userGroup": "User group",
 			"owner": "Owner",
-			"userGroupMembers": "Members of '{0}' user group",
-			"loginName": "Username",
-			"fullName": "Full name",
 			"name": "Name"
-		},
-		"button": {
-			"insert": "Insert",
-			"delete": "Delete"
 		},
 		"confirmation": {
 			"deleteUserGroup": "Do you really want to delete the selected user group?",
-			"deleteUserGroupWithMembers": "Do you really want to delete the selected user group with its members?",
+			"deleteUserGroupWithMembers": "Do you really want to delete the selected user group with its members?"
+		},
+		"dialog": {
+			"userGroup.title": "Enter user group"
+		}
+	},
+
+	"__User Group Members component__": "",
+	"userGroupMembers": {
+		"label": {
+			"userGroupMembers": "Members of '{0}' user group",
+			"loginName": "Username",
+			"fullName": "Full name"
+		},
+		"confirmation": {
 			"removeMemberFromUserGroup": "Do you really want to remove the selected member from the user group?"
 		},
 		"dialog": {
-			"userGroup.title": "Enter user group",
-			"userGroupMember.title": "Enter iser group member"
+			"userGroupMember.title": "Enter user group member"
 		},
 		"name.Everybody": "Everybody"
 	},
@@ -668,5 +674,4 @@
 		"label.sendMessage": "Message",
 		"tooltip.refresh": "Refreshes the chat messages of the actual user group"
 	}
-
 }

@@ -577,22 +577,28 @@
 			"userGroups": "Felhasználói csoportok",
 			"userGroup": "Felhasználói csoport",
 			"owner": "Tulajdonos",
-			"userGroupMembers": "'{0}' felhasználói csoport tagjai",
-			"loginName": "Felhasználó",
-			"fullName": "Teljes név",
 			"name": "Név"
-		},
-		"button": {
-			"insert": "Beszúrás",
-			"delete": "Törlés"
 		},
 		"confirmation": {
 			"deleteUserGroup": "Tényleg törli a kijelölt felhasználói csoportot?",
-			"deleteUserGroupWithMembers": "Tényleg törli a kijelölt felhasználói csoportot a tagjaival együtt?",
+			"deleteUserGroupWithMembers": "Tényleg törli a kijelölt felhasználói csoportot a tagjaival együtt?"
+		},
+		"dialog": {
+			"userGroup.title": "Felhasználói csoport felvétele"
+		}
+	},
+
+	"__User Group Members component__": "",
+	"userGroupMembers": {
+		"label": {
+			"userGroupMembers": "'{0}' felhasználói csoport tagjai",
+			"loginName": "Felhasználó",
+			"fullName": "Teljes név"
+		},
+		"confirmation": {
 			"removeMemberFromUserGroup": "Tényleg eltávolítja a kijelölt felhasználót a felhasználói csoportból?"
 		},
 		"dialog": {
-			"userGroup.title": "Felhasználói csoport felvétele",
 			"userGroupMember.title": "Felhasználói csoport tag felvétele"
 		},
 		"name.Everybody": "Mindenki"

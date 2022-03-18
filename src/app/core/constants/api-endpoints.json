@@ -52,6 +52,8 @@
         "USER_GROUPS_BY_EVENT_AND_USER": "/user-groups/user-groups-by-event-and-user",
         "INSERT_USER_GROUP": "/user-groups/insert-user-group",
         "DELETE_USER_GROUP": "/user-groups/delete-user-group/{0}",
-        "IMPORT_USER_GROUP": "/user-groups/import-user-group"
+        "IMPORT_USER_GROUP": "/user-groups/import-user-group",
+        "USER_BY_USER_GROUP": "/user-groups/users-by-user-group",
+        "DELETE_USER_FROM_USER_GROUP": "/user-groups/delete-user-from-user-group"
     }
 }
