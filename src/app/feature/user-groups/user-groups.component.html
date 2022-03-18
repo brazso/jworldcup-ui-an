@@ -47,7 +47,7 @@
                             </td>
                         </tr>
                     </table>
-                    <app-list-errors [errors]="errors"></app-list-errors>
+                    <app-list-errors [errors]="userGroupDialogErrors"></app-list-errors>
                     <div fxLayout="row" fxLayoutAlign="space-around">
                         <p-button [label]="t('general.button.save')" (onClick)="doInsertUserGroup($event, false)" [disabled]="isSubmitting || !userGroupForm.dirty || !userGroupForm.valid"></p-button>
                         <p-button [label]="t('general.button.cancel')" (onClick)="doResetUserGroup($event);"></p-button>
