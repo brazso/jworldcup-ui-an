@@ -12,7 +12,9 @@
         "WHOAMI": "/users/whoami",
         "SAVE_USER_OF_EVENT": "/users/save-user-of-event",
         "FIND_TIME_ZONE_IDS": "/users/find-time-zone-ids",
-        "MODIFY_USER": "/users/modify-user"
+        "MODIFY_USER": "/users/modify-user",
+        "FIND_USER_LOGIN_NAMES_BY_PREFIX": "/users/find-user-login-names-by-prefix",
+        "FIND_USER_FULL_NAMES_BY_CONTAIN": "/users/find-user-full-names-by-contain"
     },
 
     "EVENTS": {
@@ -54,6 +56,7 @@
         "DELETE_USER_GROUP": "/user-groups/delete-user-group/{0}",
         "IMPORT_USER_GROUP": "/user-groups/import-user-group",
         "USER_BY_USER_GROUP": "/user-groups/users-by-user-group",
-        "DELETE_USER_FROM_USER_GROUP": "/user-groups/delete-user-from-user-group"
+        "DELETE_USER_FROM_USER_GROUP": "/user-groups/delete-user-from-user-group",
+        "FIND_AND_ADD_USER_TO_USER_GROUP": "/user-groups/find-and-add-user-to-user-group"
     }
 }

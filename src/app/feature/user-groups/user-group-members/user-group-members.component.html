@@ -49,7 +49,7 @@
                                 <p-autoComplete name="fullName" [(ngModel)]="userGroupMember!.fullName" [suggestions]="userGroupMemberFullNameResults" (completeMethod)="userGroupMemberFullNameComplete($event)"></p-autoComplete>
                             </td>
                         </tr>                    </table>
-                    <app-list-errors [errors]="errors"></app-list-errors>
+                    <app-list-errors [errors]="userGroupMemberDialogErrors"></app-list-errors>
                     <div fxLayout="row" fxLayoutAlign="space-around">
                         <p-button [label]="t('general.button.add')" (onClick)="doAddUserGroupMember($event)" [disabled]="isSubmitting || !userGroupMemberForm.dirty || !userGroupMemberForm.valid"></p-button>
                         <p-button [label]="t('general.button.cancel')" (onClick)="doResetUserGroupMember($event);"></p-button>
