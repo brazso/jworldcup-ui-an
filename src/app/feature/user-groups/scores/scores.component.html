@@ -18,6 +18,24 @@
                         </td>
                     </tr>
                 </table>
+                <p-table [value]="userPositions" responsiveLayout="scroll"
+                    selectionMode="single" [(selection)]="selectedUserPosition" dataKey="userId"
+                    (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ t('scores.label.standing') }}</th>
+                            <th>{{ t('scores.label.user') }}</th>
+                            <th>{{ t('scores.label.points') }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-userPosition>
+                        <tr [pSelectableRow]="rowData">
+                            <td>{{ userPosition.position }} </td>
+                            <td>{{ userPosition.loginName }}</td>
+                            <td>{{ userPosition.score }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </div>
         </div>
     </p-panel>

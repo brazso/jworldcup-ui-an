@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GenericListResponse, SessionData, UserGroup, UserPosition } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
-import { empty, flatMap, map, merge, mergeMap, of, Subscription, tap } from 'rxjs';
+import { empty, flatMap, map, merge, mergeMap, Observable, of, Subscription, tap } from 'rxjs';
 
 @Component({
   templateUrl: './scores.component.html',
@@ -14,6 +14,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
   userGroups: UserGroup[];
   selectedUserGroup: UserGroup | undefined;
   userPositions: UserPosition[];
+  selectedUserPosition: UserPosition | undefined;
 
   constructor(
     public readonly sessionService: SessionService,
@@ -32,14 +33,8 @@ export class ScoresComponent implements OnInit, OnDestroy {
         .pipe(mergeMap((value) => {
           this.userGroups = value.data;
           console.log(`userGroups: ${JSON.stringify(this.userGroups)}`);
-          if (this.userGroups.length > 0) {
-            this.selectedUserGroup = this.userGroups[0];
-            return this.apiService.get<GenericListResponse<UserPosition>>(`${ApiEndpoints.USER_GROUPS.USER_POSITIONS_BY_EVENT_AND_USER_GROUP}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${this.selectedUserGroup?.userGroupId}`);
-          }
-          else {
-            this.selectedUserGroup = undefined;
-            return of();
-          }
+          this.selectedUserGroup = this.userGroups.length > 0 ? this.userGroups[0] : undefined;
+          return this.retrieveUserPositions();
         }))
         .subscribe(
           (value) => {
@@ -56,12 +51,33 @@ export class ScoresComponent implements OnInit, OnDestroy {
   }
 
   onUserGroupChange(event_: any): void {
-    console.log('onUserGroupChange');
     // const event: Event = event_.value;
-    
-    // this.sessionService.getSession().event = this.event;
+    console.log(`onUserGroupChange: event_: ${JSON.stringify(event_)}`);
+    this.selectedUserGroup = event_.value;
+    this.retrieveUserPositions().subscribe(
+      (value) => {
+        this.userPositions = value.data;
+        console.log(`userPositions: ${JSON.stringify(this.userPositions)}`);
+      } 
+    );
+  }
 
-    // eventCompletionPercent must be refreshed
-    // this.sessionService.initSession().subscribe();
+  onRowSelect(event_: any): void {
+    // const selectedUserGroup: UserGroup = event_.data;
+    console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);
+    console.log(`onRowSelect data2: ${JSON.stringify(this.selectedUserPosition)}`);
+  }
+
+  onRowUnselect(event_: any): void {
+    console.log(`onRowUnselect`);
+  }
+
+  retrieveUserPositions(): Observable<GenericListResponse<UserPosition>> {
+    if (this.selectedUserGroup) {
+      return this.apiService.get<GenericListResponse<UserPosition>>(`${ApiEndpoints.USER_GROUPS.USER_POSITIONS_BY_EVENT_AND_USER_GROUP}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${this.selectedUserGroup?.userGroupId}`);
+    }
+    else {
+      return of();
+    }
   }
 }

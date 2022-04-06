@@ -3,4 +3,5 @@ export interface UserPosition {
     fullName?: string;
     loginName?: string;
     score?: number;
+    position?: number;
 }
