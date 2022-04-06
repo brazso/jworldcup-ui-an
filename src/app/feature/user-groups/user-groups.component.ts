@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { apiErrorItemMsgFormat, CommonResponse, GenericListResponse, GenericResponse, getApiErrorOverallType, isApiError, ParameterizedMessageTypeEnum, SessionData, UiError, UserGroup } from 'src/app/core/models';
@@ -7,6 +7,7 @@ import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 enum DisplayedComponentEnum {
   USER_GROUP_COMPONENT,
@@ -18,7 +19,8 @@ enum DisplayedComponentEnum {
   templateUrl: './user-groups.component.html',
   styleUrls: ['./user-groups.component.scss']
 })
-export class UserGroupsComponent implements OnInit {
+export class UserGroupsComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   isSubmitting = false;
   errors: UiError = new UiError({});
   session: SessionData;
@@ -40,7 +42,7 @@ export class UserGroupsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sessionService.session.subscribe(
+    this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
@@ -52,7 +54,11 @@ export class UserGroupsComponent implements OnInit {
           }
         );
       }
-    );
+    ));
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   doInsert(event_: any): void {

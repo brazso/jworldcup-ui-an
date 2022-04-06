@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Bet, CommonResponse, Event, GenericListResponse, GenericResponse, getShortDescWithYearByEvent, Match, Round, SessionData } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
@@ -8,14 +8,15 @@ import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BetComponent } from '../bet.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bets',
   templateUrl: './bets.component.html',
   styleUrls: ['./bets.component.scss']
 })
-export class BetsComponent implements OnInit {
+export class BetsComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   title: string;
   event: Event = {};
   bets: Bet[] = [];
@@ -45,7 +46,7 @@ export class BetsComponent implements OnInit {
       ];
     });
 
-    this.sessionService.event.subscribe(
+    this.subscriptions.push(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
         console.log(`event: ${JSON.stringify(event)}`);
@@ -92,13 +93,17 @@ export class BetsComponent implements OnInit {
         );
 
       }
-    );
+    ));
 
-    this.sessionService.session.subscribe(
+    this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         // TODO
       }
-    );
+    ));
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   filterBetsByRound(round: Round): Bet[] {

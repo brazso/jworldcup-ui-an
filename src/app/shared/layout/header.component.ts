@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { MenuItem } from 'primeng/api';
 
@@ -7,19 +7,15 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
 import { isObjectEmpty } from '../utils';
 
 import RouterUrls from 'src/app/core/constants/router-urls.json';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-layout-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-  constructor(
-    private translocoService: TranslocoService,
-    private sessionService: SessionService,
-    private apiService: ApiService
-  ) {}
-
+export class HeaderComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   session: SessionData = {};
   user: User = {};
   event: Event = {};
@@ -31,32 +27,41 @@ export class HeaderComponent implements OnInit {
   // session fields
   // eventCompletionPercent: number | undefined;
   // newsLine: string;
-  
+
+  constructor(
+    private translocoService: TranslocoService,
+    private sessionService: SessionService,
+    private apiService: ApiService
+  ) {}
 
   ngOnInit(): void {
-    this.sessionService.session.subscribe(
+    this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
       }
-    );
-    this.sessionService.user.subscribe(
+    ));
+    this.subscriptions.push(this.sessionService.user.subscribe(
       (user: User) => {
         this.user = user;
         console.log(`user: ${JSON.stringify(user)}`);
         this.setupMenuItemsAfterTranlationLoaded();
         this.setupAllEvents();
       }
-    );
-    this.sessionService.event.subscribe(
+    ));
+    this.subscriptions.push(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
         console.log(`event: ${JSON.stringify(event)}`);
         this.setupMenuItemsAfterTranlationLoaded();
       }
-    );
+    ));
 
     this.setupMenuItemsAfterTranlationLoaded();
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   private setupMenuItemsAfterTranlationLoaded() : void {
@@ -82,7 +87,7 @@ export class HeaderComponent implements OnInit {
           },
           {
             label: this.translocoService.translate('menu.point_race'),
-            disabled: true
+            routerLink: [RouterUrls.SCORES]
           },
           {
             label: this.translocoService.translate('menu.certificate'),

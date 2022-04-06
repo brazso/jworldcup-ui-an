@@ -9,10 +9,8 @@ import {
 } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { TranslocoService } from '@ngneat/transloco';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
@@ -28,13 +26,12 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 		private sessionService: SessionService,
 		private loader: LoaderService,
 		private toastMessageService: ToastMessageService,
-		private translocoService: TranslocoService,
 		private modal: ModalService,
 		private router: Router
 	) { }
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		 this.showLoader();
+		this.showLoader();
 
 		// request = request.clone({ headers: request.headers.set('X-Requested-With', 'XMLHttpRequest') });
 		if (this.jwtService.getToken()) {
@@ -62,12 +59,11 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 		*/
 
 		return next.handle(request).pipe(
-			map((event: HttpEvent<any>) => {
+			tap((event: HttpEvent<any>) => {
 				if (event instanceof HttpResponse) {
 					console.log('event--->>>', event);
 					this.onEnd();
 				}
-				return event;
 			}),
 			catchError((error: HttpErrorResponse, caught) => {
 				console.log('error--->>>', JSON.stringify(error));

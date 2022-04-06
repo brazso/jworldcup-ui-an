@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, SimpleChanges, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfirmationService } from 'primeng/api';
@@ -7,14 +7,16 @@ import { ApiService, SessionService } from 'src/app/core/services';
 import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.pipe';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-group-members',
   templateUrl: './user-group-members.component.html',
   styleUrls: ['./user-group-members.component.scss']
 })
-export class UserGroupMembersComponent implements OnInit {
+export class UserGroupMembersComponent implements OnInit, OnDestroy {
   @Input() selectedUserGroup: UserGroup | undefined;
+  private subscriptions: Subscription[] = [];
   isSubmitting = false;
   errors: UiError = new UiError({});
   session: SessionData;
@@ -37,26 +39,31 @@ export class UserGroupMembersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sessionService.session.subscribe(
+    this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
       }
-    );  }
+    ));
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(`ngOnChanges: ${JSON.stringify(changes)}`);
     // this.doSomething(changes.categoryId.currentValue);
     //   // You can also use categoryId.previousValue and 
     //   // categoryId.firstChange for comparing old and new values
-    this.apiService.get<GenericListResponse<User>>(`${ApiEndpoints.USER_GROUPS.USER_BY_USER_GROUP}?userGroupId=${this.selectedUserGroup!.userGroupId}`).subscribe(
+    this.apiService.get<GenericListResponse<User>>(`${ApiEndpoints.USER_GROUPS.USERS_BY_USER_GROUP}?userGroupId=${this.selectedUserGroup!.userGroupId}`).subscribe(
       (value) => {
         this.userGroupMembers = value.data;
         // console.log(`userGroupMembers: ${JSON.stringify(this.userGroupMembers)}`);
       }
     );
   }
-    
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
   onRowSelect(event_: any): void {
     // const selectedUserGroup: UserGroup = event_.data;
     console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);

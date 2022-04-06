@@ -4,11 +4,18 @@ import { AuthorityGuard } from 'src/app/core/services';
 import { UserGroupsComponent } from './user-groups.component';
 
 import RouterUrls from 'src/app/core/constants/router-urls.json';
+import { ScoresComponent } from './scores/scores.component';
 
 const routes: Routes = [
   {
     path: RouterUrls.USER_GROUPS,
     component: UserGroupsComponent,
+    canActivate: [AuthorityGuard],
+    data: { rolesAllowed: ['ROLE_ADMIN', 'ROLE_USER'] }
+  },
+  {
+    path: RouterUrls.SCORES,
+    component: ScoresComponent,
     canActivate: [AuthorityGuard],
     data: { rolesAllowed: ['ROLE_ADMIN', 'ROLE_USER'] }
   }

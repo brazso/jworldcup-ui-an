@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared';
 import { UserGroupsRoutingModule } from './user-groups-routing.module';
 import { UserGroupsComponent } from './user-groups.component';
 import { UserGroupMembersComponent } from './user-group-members/user-group-members.component';
+import { ScoresComponent } from './scores/scores.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { UserGroupMembersComponent } from './user-group-members/user-group-membe
   ],
   declarations: [
     UserGroupsComponent,
-    UserGroupMembersComponent
+    UserGroupMembersComponent,
+    ScoresComponent
   ]
 })
 export class UserGroupsModule { }

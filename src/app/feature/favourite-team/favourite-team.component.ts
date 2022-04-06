@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { GenericListResponse, GenericResponse, SessionData, Team, UiError, UserOfEvent } from 'src/app/core/models';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -10,8 +10,8 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './favourite-team.component.html',
   styleUrls: ['./favourite-team.component.scss']
 })
-export class FavouriteTeamComponent implements OnInit {
-
+export class FavouriteTeamComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   isSubmitting = false;
   errors: UiError = new UiError({});
   session: SessionData;
@@ -28,7 +28,7 @@ export class FavouriteTeamComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sessionService.session.subscribe(
+    this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
@@ -45,7 +45,11 @@ export class FavouriteTeamComponent implements OnInit {
           }
         );
       }
-    );
+    ));
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   isGroupTeamSelectItemListDisabled(): boolean {

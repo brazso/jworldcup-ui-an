@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { GenericMapResponse, GenericResponse, SessionData, UiError, User, UserExtended } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
@@ -8,12 +8,14 @@ import { TranslocoService } from '@ngneat/transloco';
 import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.pipe';
 import { NgForm, NgModel } from '@angular/forms';
 import { InputValidationComponent } from 'src/app/shared/input-validation';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.scss']
 })
-export class UserDetailComponent implements OnInit {
+export class UserDetailComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   isSubmitting = false;
   errors: UiError = new UiError({});
   session: SessionData;
@@ -30,7 +32,7 @@ export class UserDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sessionService.session.subscribe(
+    this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
@@ -45,7 +47,11 @@ export class UserDetailComponent implements OnInit {
           }
         );
       }
-    );
+    ));
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   doDelete(event_: any): void {

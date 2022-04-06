@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, GenericListResponse, GenericResponse, getShortDescWithYearByEvent, Match, Round, SessionData } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
@@ -9,13 +9,15 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { MatchComponent } from '../match.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { isArrayEmpty } from 'src/app/shared/utils';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-matches',
   templateUrl: './matches.component.html',
   styleUrls: ['./matches.component.scss']
 })
-export class MatchesComponent implements OnInit {
+export class MatchesComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   title: string;
   event: Event = {};
   matches: Match[] = [];
@@ -44,16 +46,10 @@ export class MatchesComponent implements OnInit {
       ];
     });
 
-    this.sessionService.event.subscribe(
+    this.subscriptions.push(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
         console.log(`event: ${JSON.stringify(event)}`);
-
-        // this.apiService.get<GenericListResponse<Round>>(ApiEndpoints.MATCHES.RETRIEVE_ROUNDS_BY_EVENT_ID).subscribe(
-        //   (value: GenericListResponse<Round>) => {
-        //     this.rounds = value.data;
-        //   }
-        // );
 
         this.apiService.get<GenericListResponse<Match>>(`${ApiEndpoints.MATCHES.MATCHES_BY_EVENT}?eventByShortDescWithYear=${getShortDescWithYearByEvent(this.event)}`).subscribe(
           (value: GenericListResponse<Match>) => {
@@ -65,13 +61,17 @@ export class MatchesComponent implements OnInit {
           }
         );
       }
-    );
+    ));
 
-    this.sessionService.session.subscribe(
+    this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.eventTriggerStartTimes = session.eventTriggerStartTimes ?? [];
       }
-    );
+    ));
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   filterMatchesByRound(round: Round): Match[] {

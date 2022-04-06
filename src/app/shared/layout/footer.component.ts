@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { BackendService, SessionService } from 'src/app/core/services';
 import pkg from 'package.json';
 import { GenericResponse, SessionData } from 'src/app/core/models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-layout-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   today: number = Date.now();
-
   frontendVersion: string;
   backendVersion: string;
   session: SessionData = {};
@@ -31,12 +32,16 @@ export class FooterComponent implements OnInit {
       }
     );
 
-    this.sessionService.session.subscribe(
+    this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
       }
-    );
+    ));
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   private setupFrontendBackendVersions(): void {

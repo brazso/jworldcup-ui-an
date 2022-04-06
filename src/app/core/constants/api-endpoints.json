@@ -55,8 +55,9 @@
         "INSERT_USER_GROUP": "/user-groups/insert-user-group",
         "DELETE_USER_GROUP": "/user-groups/delete-user-group/{0}",
         "IMPORT_USER_GROUP": "/user-groups/import-user-group",
-        "USER_BY_USER_GROUP": "/user-groups/users-by-user-group",
+        "USERS_BY_USER_GROUP": "/user-groups/users-by-user-group",
         "DELETE_USER_FROM_USER_GROUP": "/user-groups/delete-user-from-user-group",
-        "FIND_AND_ADD_USER_TO_USER_GROUP": "/user-groups/find-and-add-user-to-user-group"
+        "FIND_AND_ADD_USER_TO_USER_GROUP": "/user-groups/find-and-add-user-to-user-group",
+        "USER_POSITIONS_BY_EVENT_AND_USER_GROUP": "/user-groups/user-positions-by-event-and-user-group"
     }
 }
