@@ -5,6 +5,7 @@ import { UserGroupsRoutingModule } from './user-groups-routing.module';
 import { UserGroupsComponent } from './user-groups.component';
 import { UserGroupMembersComponent } from './user-group-members/user-group-members.component';
 import { ScoresComponent } from './scores/scores.component';
+import { CertificatesComponent } from './certificates/certificates.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ScoresComponent } from './scores/scores.component';
   declarations: [
     UserGroupsComponent,
     UserGroupMembersComponent,
-    ScoresComponent
+    ScoresComponent,
+    CertificatesComponent
   ]
 })
 export class UserGroupsModule { }

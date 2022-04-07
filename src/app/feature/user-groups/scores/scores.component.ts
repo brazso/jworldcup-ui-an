@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { GenericListResponse, GenericMapResponse, SessionData, UserGroup, UserPosition } from 'src/app/core/models';
+import { GenericListResponse, SessionData, UserGroup, UserPosition } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
-import { empty, flatMap, map, merge, mergeMap, Observable, of, Subscription, tap } from 'rxjs';
+import { mergeMap, Observable, of, Subscription } from 'rxjs';
 import { UIChart } from 'primeng/chart';
 
 @Component({

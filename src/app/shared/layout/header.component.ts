@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (session: SessionData) => {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
+        this.setupMenuItemsAfterTranlationLoaded();
       }
     ));
     this.subscriptions.push(this.sessionService.user.subscribe(
@@ -91,8 +92,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
           },
           {
             label: this.translocoService.translate('menu.certificate'),
-            visible: this.sessionService.isUserUser() /* TODO and applicationBean.eventFinished */,
-            disabled: true
+            visible: this.sessionService.isUserUser() && this.sessionService.getSession().eventCompletionPercent === 100,
+            routerLink: [RouterUrls.CERTIFICATES]
           },
           {
             label: this.translocoService.translate('menu.topUsers'),

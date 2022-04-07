@@ -5,6 +5,7 @@ import { UserGroupsComponent } from './user-groups.component';
 
 import RouterUrls from 'src/app/core/constants/router-urls.json';
 import { ScoresComponent } from './scores/scores.component';
+import { CertificatesComponent } from './certificates/certificates.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,12 @@ const routes: Routes = [
   {
     path: RouterUrls.SCORES,
     component: ScoresComponent,
+    canActivate: [AuthorityGuard],
+    data: { rolesAllowed: ['ROLE_ADMIN', 'ROLE_USER'] }
+  },
+  {
+    path: RouterUrls.CERTIFICATES,
+    component: CertificatesComponent,
     canActivate: [AuthorityGuard],
     data: { rolesAllowed: ['ROLE_ADMIN', 'ROLE_USER'] }
   }
