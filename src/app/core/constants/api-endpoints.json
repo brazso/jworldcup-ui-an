@@ -31,14 +31,16 @@
         "MATCHES_BY_EVENT": "/matches/matches-by-event",
         "MATCH": "/matches/match/{0}",
         "SAVE_MATCH": "/matches/save-match",
-        "RESET_MATCH": "/matches/reset-match/{0}"
+        "RESET_MATCH": "/matches/reset-match/{0}",
+        "MATCH_START_DATES_BY_EVENT": "/matches/match-start-dates-by-event"
     },
 
     "BETS": {
         "BETS_BY_EVENT_AND_USER": "/bets/bets-by-event-and-user",
         "BET": "/bets/bet/{0}",
         "SAVE_BET": "/bets/save-bet",
-        "DELETE_BET": "/bets/delete-bet/{0}"
+        "DELETE_BET": "/bets/delete-bet/{0}",
+        "DATE_SCORE_MAP_BY_EVENT_AND_USER": "/bets/date-score-map-by-event-and-user"
     },
 
     "TEAMS": {

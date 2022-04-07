@@ -46,6 +46,7 @@ import { ImageModule } from 'primeng/image';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ChartModule } from 'primeng/chart';
 
 /* Own */
 import { TranslocoExDatePipe } from './pipes/transloco-ex-date.pipe';
@@ -118,7 +119,8 @@ const PRIMENG_MODULES = [
   ContextMenuModule,
   InputNumberModule,
   DialogModule,
-  AutoCompleteModule
+  AutoCompleteModule,
+  ChartModule
 ];
 
 const EXTRA_MODULES = [

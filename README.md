@@ -65,6 +65,9 @@ npm install --save @ngneat/transloco
 
 npm install --save ng2-trim-directive
 
+#### Charts.js
+npm install --save chart.js
+
 ## Start Angular application
 ```
 ng serve
