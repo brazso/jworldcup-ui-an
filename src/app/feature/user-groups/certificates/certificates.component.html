@@ -13,10 +13,9 @@
                     (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
                     <ng-template pTemplate="header">
                         <tr>
-                            <!-- labes may contain <br/> HTML tags -->
+                            <!-- labels may contain <br/> HTML tags so innerHtml attribute is used -->
                             <th [innerHtml]="t('certificates.label.standing')"></th>
                             <th [innerHtml]="t('certificates.label.userGroupName')"></th>
-                            <th [innerHtml]="t('certificates.label.userScore')"></th>
                             <th [innerHtml]="t('certificates.label.userScore')"></th>
                             <th [innerHtml]="t('certificates.label.firstUserScore')"></th>
                             <th [innerHtml]="t('certificates.label.maximumScoreByEvent')"></th>
@@ -25,13 +24,13 @@
                             <th [innerHtml]="t('certificates.label.numberOfMembers')"></th>
                             <th [innerHtml]="t('certificates.label.numberOfEverybodyMembers')"></th>
                             <th [innerHtml]="t('certificates.label.score')"></th>
+                            <th></th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-userCertificate>
                         <tr [pSelectableRow]="rowData">
                             <td>{{ userCertificate.position }} </td>
                             <td>{{ userCertificate.userGroupName }}</td>
-                            <td>{{ userCertificate.userScore }}</td>
                             <td>{{ userCertificate.userScore }}</td>
                             <td>{{ userCertificate.firstUserScore }}</td>
                             <td>{{ userCertificate.maximumScoreByEvent }}</td>
@@ -40,10 +39,20 @@
                             <td>{{ userCertificate.numberOfMembers }}</td>
                             <td>{{ userCertificate.numberOfEverybodyMembers }}</td>
                             <td>{{ userCertificate.score }}</td>
+                            <td><p-button icon="pi pi-print" [pTooltip]="t('general.button.print')" (onClick)="printCertificate(userCertificate)"></p-button></td>
                         </tr>
                     </ng-template>
                 </p-table>
             </div>
         </div>
     </p-panel>
+
+    <p-dialog [header]="t('general.label.alert')" [(visible)]="isPrintCertificatedDialogDisplayed" [modal]="true">
+        {{ t('general.label.pleaseWait') }} {{ t('general.label.printInProgress') }}
+        <pdf-viewer [src]="pdfSrc"
+            [render-text]="true"
+            [show-all]="false"
+            (after-load-complete)="afterLoadComplete($event)" style="display: block;">
+        </pdf-viewer>
+    </p-dialog>
 </ng-container>

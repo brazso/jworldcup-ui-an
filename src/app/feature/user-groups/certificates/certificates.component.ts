@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { forkJoin, Subscription } from 'rxjs';
 import { ApiService, SessionService } from 'src/app/core';
-import { GenericListResponse, GenericResponse, SessionData, UserCertificate } from 'src/app/core/models';
+import { GenericListResponse, GenericResponse, SessionData, UserCertificate, UserCertificateExtended } from 'src/app/core/models';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   templateUrl: './certificates.component.html',
@@ -14,6 +15,8 @@ export class CertificatesComponent implements OnInit, OnDestroy {
   score: number = 0;
 	userCertificates: UserCertificate[] = [];
   selectedUserCertificate: UserCertificate | undefined;
+  isPrintCertificatedDialogDisplayed: boolean = false;
+  pdfSrc: any;
 
   constructor(
     public readonly sessionService: SessionService,
@@ -51,4 +54,38 @@ export class CertificatesComponent implements OnInit, OnDestroy {
     console.log(`onRowUnselect`);
   }
 
+  printCertificate(userCertificate: UserCertificate): void {
+    console.log(`printCertificate`);
+    let userCerrtificateExtended: UserCertificateExtended = userCertificate;
+    userCerrtificateExtended.languageTag = this.session.localeId;
+    console.log(`userCerrtificateExtended: ${JSON.stringify(userCerrtificateExtended)}`);
+
+    this.apiService.post<any>(ApiEndpoints.USER_GROUPS.PRINT_USER_CERTIFICATE, userCerrtificateExtended, {responseType: 'blob' })
+    .subscribe({
+      next: value => {
+        console.log(`next value: ${JSON.stringify(value)}`);
+
+        // this.tempRetFileData = retFileData;
+        const tempBlob = new Blob([value], { type: 'application/pdf' });
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+            this.pdfSrc = new Uint8Array(fileReader.result as ArrayBuffer);
+            console.log(`pdfSrc: ${JSON.stringify(this.pdfSrc)}`);
+        };
+        fileReader.readAsArrayBuffer(tempBlob); 
+
+        this.isPrintCertificatedDialogDisplayed = true;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`err: ${JSON.stringify(err)}`);
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
+  }
+
+  afterLoadComplete(event_: any): void {
+    console.log(`afterLoadComplete`);
+  }
 }

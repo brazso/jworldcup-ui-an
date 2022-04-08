@@ -6,6 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 /* Extra */
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoDatePipe, TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -47,6 +48,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ChartModule } from 'primeng/chart';
+
 
 /* Own */
 import { TranslocoExDatePipe } from './pipes/transloco-ex-date.pipe';
@@ -125,7 +127,8 @@ const PRIMENG_MODULES = [
 
 const EXTRA_MODULES = [
   TranslocoModule,
-  TranslocoLocaleModule
+  TranslocoLocaleModule,
+  PdfViewerModule
 ];
 
  const SHARED_COMPONENTS = [
