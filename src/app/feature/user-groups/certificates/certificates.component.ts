@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, SecurityContext } from '@angular/core';
 import { forkJoin, Subscription } from 'rxjs';
 import { ApiService, SessionService } from 'src/app/core';
 import { GenericListResponse, GenericResponse, SessionData, UserCertificate, UserCertificateExtended } from 'src/app/core/models';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
+import printJS from 'print-js';
 
 @Component({
   templateUrl: './certificates.component.html',
@@ -16,11 +17,10 @@ export class CertificatesComponent implements OnInit, OnDestroy {
 	userCertificates: UserCertificate[] = [];
   selectedUserCertificate: UserCertificate | undefined;
   isPrintCertificatedDialogDisplayed: boolean = false;
-  pdfSrc: any;
 
   constructor(
-    public readonly sessionService: SessionService,
-    private readonly apiService: ApiService
+    public sessionService: SessionService,
+    private apiService: ApiService,
   ) { }
 
   ngOnInit(): void {
@@ -63,18 +63,15 @@ export class CertificatesComponent implements OnInit, OnDestroy {
     this.apiService.post<any>(ApiEndpoints.USER_GROUPS.PRINT_USER_CERTIFICATE, userCerrtificateExtended, {responseType: 'blob' })
     .subscribe({
       next: value => {
-        console.log(`next value: ${JSON.stringify(value)}`);
-
-        // this.tempRetFileData = retFileData;
         const tempBlob = new Blob([value], { type: 'application/pdf' });
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-            this.pdfSrc = new Uint8Array(fileReader.result as ArrayBuffer);
-            console.log(`pdfSrc: ${JSON.stringify(this.pdfSrc)}`);
-        };
-        fileReader.readAsArrayBuffer(tempBlob); 
-
-        this.isPrintCertificatedDialogDisplayed = true;
+        const blobUrl = URL.createObjectURL(tempBlob);
+        // window.open(blobURL, '_blank');
+        printJS({
+          printable: blobUrl,
+          type: 'pdf',
+          onLoadingStart: () => this.onLoadingStart(),
+          onLoadingEnd: () => this.onLoadingEnd()
+        });
       },
       error: (err: HttpErrorResponse) => {
         console.log(`err: ${JSON.stringify(err)}`);
@@ -85,7 +82,12 @@ export class CertificatesComponent implements OnInit, OnDestroy {
     });
   }
 
-  afterLoadComplete(event_: any): void {
-    console.log(`afterLoadComplete`);
+  onLoadingStart(): void {
+    this.isPrintCertificatedDialogDisplayed = true;
   }
+
+  onLoadingEnd(): void {
+    this.isPrintCertificatedDialogDisplayed = false;
+  }
+
 }

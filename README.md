@@ -69,7 +69,8 @@ npm install --save ng2-trim-directive
 npm install --save chart.js
 
 ### PDF viewer
-npm install --save ng2-pdf-viewer
+npm install --save print-js
+
 
 ## Start Angular application
 ```

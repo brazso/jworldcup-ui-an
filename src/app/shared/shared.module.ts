@@ -6,7 +6,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 /* Extra */
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoDatePipe, TranslocoLocaleModule } from '@ngneat/transloco-locale';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -127,8 +126,7 @@ const PRIMENG_MODULES = [
 
 const EXTRA_MODULES = [
   TranslocoModule,
-  TranslocoLocaleModule,
-  PdfViewerModule
+  TranslocoLocaleModule
 ];
 
  const SHARED_COMPONENTS = [
