@@ -17,8 +17,9 @@ export class ScoresComponent implements OnInit, OnDestroy {
   selectedUserGroup: UserGroup | undefined;
   userPositions: UserPosition[];
   selectedUserPosition: UserPosition | undefined;
-  data: any;
-  @ViewChild("chart") chart: UIChart; 
+  chartData: any;
+  chartOptions: any;
+  // @ViewChild("chart") chart: UIChart; 
 
   constructor(
     public readonly sessionService: SessionService,
@@ -87,13 +88,22 @@ export class ScoresComponent implements OnInit, OnDestroy {
 
   private createScoresLineModel(): void {
     let matchDates: string[];
+
     this.apiService.get<GenericResponse<LineChartData>>(`${ApiEndpoints.USER_GROUPS.FIND_LINE_CHART_DATA_BY_EVENT_AND_USER_GROUP}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${this.selectedUserGroup?.userGroupId}`)
     .subscribe((value) => {
-      this.data = value.data;
-      // this.data = {};
-      this.data.labels = value.data.matchDates!.map(e => this.translocoDatePipe.transform(e));
-      delete this.data.matchDates;
-      console.log(`data: ${JSON.stringify(this.data)}`);
+      this.chartData = value.data;
+      this.chartData.labels = value.data.matchDates!.map(e => this.translocoDatePipe.transform(e));
+      value.data.datasets?.forEach((e) => { e.borderColor = this.getRandomRgb()});
+      delete this.chartData.matchDates;
+      console.log(`data: ${JSON.stringify(this.chartData)}`);
     });
+  }
+
+  private getRandomRgb(): string {
+    var num = Math.round(0xffffff * Math.random());
+    var r = num >> 16;
+    var g = num >> 8 & 255;
+    var b = num & 255;
+    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
   }
 }

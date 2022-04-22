@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
     <p-panel [header]="t('scores.title')">
         <div fxLayout="row" fxLayoutGap="10px">
-            <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px" >
+            <div fxLayout="column" fxLayoutAlign="space" fxLayoutGap="10px" >
                 <table class="p-datatable">
                     <tr>
                         <td>{{ t('scores.label.userGroup') }}</td>
@@ -37,7 +37,7 @@
                     </ng-template>
                 </p-table>
             </div>
-            <p-chart fxFill #chart type="line" [data]="data" width="100%" height="100%"></p-chart>
+            <p-chart fxFlex #chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
         </div>
     </p-panel>
 </ng-container>
