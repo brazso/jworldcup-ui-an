@@ -97,8 +97,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
           },
           {
             label: this.translocoService.translate('menu.topUsers'),
-            visible: this.sessionService.isUserUser() /* TODO and not empty applicationBean.completedEventIds */,
-            disabled: true
+            visible: this.sessionService.isUserUser() && (this.sessionService.getSession().completedEventIds?.length ?? 0) > 0,
+            routerLink: [RouterUrls.TOP_USERS]
           },
           {
             label: this.translocoService.translate('menu.chat'),

@@ -22,6 +22,10 @@
         "FIND_ALL_EVENTS": "/events/find-all-events"
     },
 
+    "APPLICATION": {
+        "RETRIEVE_TOP_USERS" : "/application/retrieve-top-users"
+    },
+
     "SESSION": {
         "SESSION_DATA" : "/session/refresh-session-data"
     },

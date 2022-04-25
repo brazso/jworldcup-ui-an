@@ -6,6 +6,7 @@ import { UserGroupsComponent } from './user-groups.component';
 import { UserGroupMembersComponent } from './user-group-members/user-group-members.component';
 import { ScoresComponent } from './scores/scores.component';
 import { CertificatesComponent } from './certificates/certificates.component';
+import { TopUsersComponent } from './top-users/top-users.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { CertificatesComponent } from './certificates/certificates.component';
     UserGroupsComponent,
     UserGroupMembersComponent,
     ScoresComponent,
-    CertificatesComponent
+    CertificatesComponent,
+    TopUsersComponent
   ]
 })
 export class UserGroupsModule { }

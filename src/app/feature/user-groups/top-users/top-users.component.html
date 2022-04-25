@@ -1,0 +1,43 @@
+<ng-container *transloco="let t">
+    <p-panel [header]="t('topUsers.title')">
+        <div fxLayout="row" fxLayoutGap="10px">
+            <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="10px" >
+                <p-table [value]="userCertificates" responsiveLayout="scroll"
+                    selectionMode="single" [(selection)]="selectedUserCertificate" dataKey="userGroupId"
+                    (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <!-- labels may contain <br/> HTML tags so innerHtml attribute is used -->
+                            <th [innerHtml]="t('topUsers.label.standing')"></th>
+                            <th [innerHtml]="t('topUsers.label.userLoginName')"></th>
+                            <th [innerHtml]="t('topUsers.label.eventShortDescWithYear')"></th>
+                            <th [innerHtml]="t('topUsers.label.userScore')"></th>
+                            <th [innerHtml]="t('topUsers.label.firstUserScore')"></th>
+                            <th [innerHtml]="t('topUsers.label.maximumScoreByEvent')"></th>
+                            <th [innerHtml]="t('topUsers.label.userGroupPosition')"></th>
+                            <th [innerHtml]="t('topUsers.label.userGroupLastPosition')"></th>
+                            <th [innerHtml]="t('topUsers.label.numberOfMembers')"></th>
+                            <th [innerHtml]="t('topUsers.label.numberOfEverybodyMembers')"></th>
+                            <th [innerHtml]="t('topUsers.label.score')"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-userCertificate>
+                        <tr [pSelectableRow]="rowData">
+                            <td>{{ userCertificate.position }} </td>
+                            <td>{{ userCertificate.userLoginName }}</td>
+                            <td>{{ userCertificate.eventShortDescWithYear }}</td>
+                            <td>{{ userCertificate.userScore }}</td>
+                            <td>{{ userCertificate.firstUserScore }}</td>
+                            <td>{{ userCertificate.maximumScoreByEvent }}</td>
+                            <td>{{ userCertificate.userGroupPosition }}</td>
+                            <td>{{ userCertificate.userGroupLastPosition }}</td>
+                            <td>{{ userCertificate.numberOfMembers }}</td>
+                            <td>{{ userCertificate.numberOfEverybodyMembers }}</td>
+                            <td>{{ userCertificate.score }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </p-panel>
+</ng-container>

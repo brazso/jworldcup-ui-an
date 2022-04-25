@@ -13,5 +13,6 @@ export interface SessionData {
     userOfEvent?: UserOfEvent;
     newsLine?: string;
     eventCompletionPercent?: number;
+    completedEventIds?: number[];
     eventTriggerStartTimes?: Date[];
 }
