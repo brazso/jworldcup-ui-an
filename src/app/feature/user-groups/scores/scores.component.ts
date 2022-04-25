@@ -5,6 +5,7 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
 import { mergeMap, Observable, of, Subscription } from 'rxjs';
 import { UIChart } from 'primeng/chart';
 import { TranslocoExDatePipe } from 'src/app/shared';
+import { Translation, TranslocoService } from '@ngneat/transloco';
 
 @Component({
   templateUrl: './scores.component.html',
@@ -25,11 +26,23 @@ export class ScoresComponent implements OnInit, OnDestroy {
     public readonly sessionService: SessionService,
     private readonly apiService: ApiService,
     private translocoDatePipe: TranslocoExDatePipe,
-    // private translocoService: TranslocoService,
+    private translocoService: TranslocoService
     // private replaceLineBreaksPipe: ReplaceLineBreaksPipe
   ) { }
 
   ngOnInit(): void {
+    // wait until translation is being loaded
+    this.translocoService.selectTranslation().subscribe((translation: Translation) => {
+        this.chartOptions = {
+          plugins: {
+              title: {
+                  display: true,
+                  text: this.translocoService.translate('scores.chart.title')
+              }
+          }
+        }
+      });
+
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;

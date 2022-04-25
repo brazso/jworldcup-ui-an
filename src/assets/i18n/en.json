@@ -562,7 +562,8 @@
 			"points": "Points"
 		},
 		"chart": {
-			"title": "Scores gained by users on each day of the event where bet is placed",
+			"title_bet": "Scores gained by users on each day of the event where bet is placed",
+			"title": "Scores gained by users on each day of the event",
 			"axis": {
 				"x.label": "Match days",
 				"y.label": "Score"

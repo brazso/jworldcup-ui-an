@@ -562,7 +562,8 @@
 			"points": "Pontszám"
 		},
 		"chart": {
-			"title": "Elért pontszám felhasználónként a torna minden egyes fogadási napján",
+			"title_bet": "Elért pontszám felhasználónként a torna minden egyes fogadási napján",
+			"title": "Elért pontszám felhasználónként a torna minden egyes napján",
 			"axis": {
 				"x.label": "Meccs napok",
 				"y.label": "Pontszám"
