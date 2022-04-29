@@ -11,14 +11,26 @@
         <app-list-errors [errors]="errors"></app-list-errors>
         <form fxLayoutAlign="center" [formGroup]="authForm" (ngSubmit)="submitForm()">
           <fieldset [disabled]="isSubmitting">
-            <fieldset class="form-group" *ngIf="authType == 'register'">
-              <input formControlName="email" placeholder="Email" pInputText />
-            </fieldset>
             <fieldset class="form-group">
               <input formControlName="username" [placeholder]="t('login.label.loginName')" pInputText />
             </fieldset>
             <fieldset class="form-group">
-              <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [feedback]="false" [toggleMask]="true"></p-password>
+              <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [feedback]="authType === 'register'" [toggleMask]="true"></p-password>
+            </fieldset>
+            <fieldset *ngIf="authType == 'register'" class="form-group">
+              <p-password formControlName="passwordAgain" [placeholder]="t('login.label.loginPasswordAgain')" [feedback]="false" [toggleMask]="true"></p-password>
+              <div *ngIf="authForm.errors?.['passwords'] && authForm.controls['password'].dirty && authForm.controls['passwordAgain'].dirty" class="error-messages"> 
+                {{ t('validator.constraints.password.mismatch') }}
+              </div> 
+            </fieldset>
+            <fieldset *ngIf="authType == 'register'" class="form-group">
+              <input formControlName="fullName" [placeholder]="t('login.label.fullName')" pInputText />
+            </fieldset>
+            <fieldset *ngIf="authType == 'register'" class="form-group">
+              <input type="email" formControlName="email" [placeholder]="t('login.label.emailAddr')" pInputText />
+              <div *ngIf="authForm.controls['email'].hasError('email')" class="error-messages"> 
+                {{ t('validator.constraints.Email.message') }}
+              </div> 
             </fieldset>
             <fieldset class="form-group">
               <p-dropdown formControlName="language" [placeholder]="t('login.label.language')" [options]="availableLangs" optionLabel="label" optionValue="id"

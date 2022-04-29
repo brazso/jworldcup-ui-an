@@ -417,7 +417,9 @@
 		"label": {
 			"loginName": "Username",
 			"loginPassword": "Password",
-			"event": "Event",
+			"loginPasswordAgain": "Password again",
+			"fullName": "Full name",
+			"emailAddr": "Email address",
 			"language": "Language",
 			"rememberMe": "Remember Me",
 			"haveAccount": "Have an account?",

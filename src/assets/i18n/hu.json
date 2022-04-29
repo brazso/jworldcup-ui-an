@@ -417,7 +417,9 @@
 		"label": {
 			"loginName": "Felhasználó",
 			"loginPassword": "Jelszó",
-			"event": "Esemény",
+			"loginPasswordAgain": "Új jelszó ismét",
+			"fullName": "Teljes név",
+			"emailAddr": "Email cím",
 			"language": "Nyelv",
 			"rememberMe": "Maradok bejelentkezve",
 			"haveAccount": "Regisztrált?",
