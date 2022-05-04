@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
-import { ApiErrorItem, apiErrorItemMsgFormat, isApiError, UiError } from 'src/app/core/models';
+import { ApiErrorItem, apiErrorItemMsgFormat, isApiError, isApiErrorItem, UiError } from 'src/app/core/models';
 
 @Component({
   selector: 'app-list-errors',
@@ -8,7 +8,8 @@ import { ApiErrorItem, apiErrorItemMsgFormat, isApiError, UiError } from 'src/ap
   styleUrls: ['./list-errors.component.scss']
 })
 export class ListErrorsComponent {
-  formattedErrors: Array<string> = [];
+  formattedErrors: Array<string | ApiErrorItem> = [];
+  isApiErrorItem = isApiErrorItem;
 
   constructor(
     private readonly translocoService: TranslocoService
@@ -22,7 +23,7 @@ export class ListErrorsComponent {
     if (!uiError.isEmpty()) {
       let error = uiError.error;
       if (error && isApiError(error) && error.items) {
-        this.formattedErrors = error.items.map(e => apiErrorItemMsgFormat(e, this.translocoService.translate(e.msgCode)));
+        this.formattedErrors = error.items.map(e => ({...e, msgBuilt: apiErrorItemMsgFormat(e, this.translocoService.translate(e.msgCode))}) as ApiErrorItem);
       }
       else if (uiError.status === 0) {
         this.translocoService.selectTranslate<string>('SZOLGALTATAS_NEM_ELERHETO').subscribe((res: string) => {
@@ -38,4 +39,13 @@ export class ListErrorsComponent {
   }
 
   get errorList() { return this.formattedErrors; }
+
+  classByMsgType(item: string | ApiErrorItem): string {
+    let res = item as string;
+    if (item && isApiErrorItem(item)) {
+      res = 'msg-'+item.msgType.toLowerCase();
+    }
+    console.log(`classByMsgType: res=${res}`);
+    return res;
+  }
 }

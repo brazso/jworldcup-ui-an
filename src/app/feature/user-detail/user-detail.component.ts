@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
-import { GenericMapResponse, GenericResponse, SessionData, UiError, User, UserExtended } from 'src/app/core/models';
+import { CommonResponse, GenericMapResponse, GenericResponse, SessionData, UiError, User, UserExtended } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -60,6 +60,18 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       accept: () => {
         console.log('Delete');
         //Actual logic to perform a confirmation
+        this.apiService.delete<CommonResponse>(ApiEndpoints.USERS.DELETE_USER_BY_LOGIN_NAME+'?loginName={0}'.format(this.user.loginName)).subscribe({
+          next: value => {
+            this.sessionService.logout();
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(`err: ${JSON.stringify(err)}`);
+            this.errors = new UiError(Object.assign(err));
+          },
+          complete: () => {
+            console.log('complete');
+          }
+        });
       }
   });
   }

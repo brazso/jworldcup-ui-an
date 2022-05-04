@@ -15,6 +15,10 @@ export function isApiError(object: any): object is ApiError {
         && Object.prototype.hasOwnProperty.call(object, "exceptionClassName");
 }
 
+export function buildApiErrorByApiErrorItem(item: ApiErrorItem): ApiError {
+    return {status: 'dummy', timestamp: new Date(), exceptionClassName: 'dummy', items: [item]} as ApiError;
+}
+
 export function getApiErrorOverallType(apiError: ApiError): ParameterizedMessageTypeEnum | null {
     let msgType: ParameterizedMessageTypeEnum | null = null;
     

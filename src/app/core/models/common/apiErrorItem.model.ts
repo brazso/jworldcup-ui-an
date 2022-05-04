@@ -10,6 +10,13 @@ export interface ApiErrorItem {
 	msgBuilt: string;
 }
 
+export function isApiErrorItem(object: any): object is ApiErrorItem {
+    return Object.prototype.hasOwnProperty.call(object, "msgCode")
+        && Object.prototype.hasOwnProperty.call(object, "msgType")
+		&& Object.prototype.hasOwnProperty.call(object, "msgParams")
+        && Object.prototype.hasOwnProperty.call(object, "msgBuilt");
+}
+
 /**
  * Creates msgBuilt using msgParams from the given item.
  * @param item - source item 

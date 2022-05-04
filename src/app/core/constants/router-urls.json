@@ -18,7 +18,5 @@
 	"CERTIFICATES": "certificates",
 	"TOP_USERS": "top-users",
 
-	"HOME_PAGE": "",
-	"EXAMPLE_PAGE": "example",
-	"USERS_PAGE": "search-users"
+	"HOME_PAGE": ""
 }

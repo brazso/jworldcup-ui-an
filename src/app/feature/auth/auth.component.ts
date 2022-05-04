@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
-import { ApiService, GenericResponse, SessionService, UiError, User, UserExtended } from 'src/app/core';
+import { ApiError, ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionService, UiError, User, UserExtended } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-auth-page',
@@ -43,11 +44,43 @@ export class AuthComponent implements OnInit {
     this.authForm.controls['language'].setValue(this.translocoService.getActiveLang());
     console.log(`activeLang: ${JSON.stringify(this.translocoService.getActiveLang())}`);
 
-    this.route.url.subscribe(data => {
+    combineLatest([
+      this.route.url,
+      this.route.queryParams
+      ]).subscribe(([url, queryParams]) => {
+        console.log(`url: ${JSON.stringify(url)}, queryParams: ${JSON.stringify(queryParams)}`)
+
       // Get the last piece of the URL (it's either 'login' or 'register')
-      this.authType = data[data.length - 1].path;
-      // add additional form controls if this is the register page
-      if (this.authType === 'register') {
+      this.authType = url[url.length - 1].path;
+      if (this.authType === 'login') {
+        const func = queryParams['function']; // possible values: registration, changeEmail, resetPassword
+        const token = queryParams['confirmation_token'];
+        // console.log(`confirmation_token: ${JSON.stringify(queryParams['a'])}`);
+        switch (func) {
+          case 'registration':
+            if (token) {
+              this.processRegistrationToken(token);
+            }
+            else {
+              this.errors = new UiError({url: 'dummy', error: buildApiErrorByApiErrorItem({
+                msgCode: 'USER_CANDIDATE_LOGIN', 
+                msgType: ParameterizedMessageTypeEnum.INFO, 
+                msgParams: [], 
+                msgBuilt: ''} as ApiErrorItem)});
+            }
+          break;
+
+          case 'changeEmail':
+            this.processChangeEmailToken(token);
+          break;
+          
+          case 'changeEmail':
+            this.processResetPasswordToken(token);
+          break;
+        }
+      }
+      else if (this.authType === 'register') {
+        // add additional form controls if this is the register page
         this.authForm.addControl('passwordAgain', new FormControl('', [Validators.required, Validators.minLength(8)]));
         this.authForm.addControl('fullName', new FormControl('', [Validators.required]));
         this.authForm.addControl('email', new FormControl('', [Validators.required, this.validateEmail]));
@@ -59,7 +92,9 @@ export class AuthComponent implements OnInit {
         // Set a title for the page accordingly
         this.title = this.translocoService.translate(`login.label.${this.authType}`);
       });
-    });
+
+      }
+    );
   }
 
   submitForm() {
@@ -86,6 +121,7 @@ export class AuthComponent implements OnInit {
           let savedUser: User = value.data;
           console.log(`savedUser: ${JSON.stringify(savedUser)}`);
           this.isSubmitting = false;
+          this.router.navigateByUrl('/'+RouterUrls.LOGIN+'?function=registration');
         },
         error: (err: HttpErrorResponse) => {
           console.log(`err: ${JSON.stringify(err)}`);
@@ -129,4 +165,34 @@ export class AuthComponent implements OnInit {
     const isValid: boolean = (form.get("password")!.value ?? '') === (form.get("passwordAgain")!.value ?? '');
     return isValid ? null : {passwords: true};
   }
+
+  private processRegistrationToken(token: string): void {
+    this.isSubmitting = true;
+    this.errors = new UiError({});
+
+    this.apiService.put<CommonResponse>(`${ApiEndpoints.USERS.PROCESS_REGISTRATION_TOKEN}?userToken=${token}`).subscribe({
+      next: value => {
+        console.log('processedRegistrationToken');
+        this.isSubmitting = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
+  }
+
+  private processChangeEmailToken(token: string): void {
+
+  }
+
+  private processResetPasswordToken(token: string): void {
+
+  }
+
+
 }

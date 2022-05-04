@@ -1,5 +1,5 @@
-<ul class="error-messages" *ngIf="errorList.length">
-  <li *ngFor="let error of errorList">
-    {{ error }}
+<ul *ngIf="errorList.length">
+  <li *ngFor="let error of errorList" [class]="classByMsgType(error)" >
+    {{ isApiErrorItem(error) ? error.msgBuilt : error }}
   </li>
 </ul>

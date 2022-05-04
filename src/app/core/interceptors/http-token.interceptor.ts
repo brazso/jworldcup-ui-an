@@ -70,9 +70,11 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 				this.onEnd();
 				this.modal.closeAll();
 				if (error.status === 401) {
-					// Unauthorized, go to login
+					// Unauthorized, go to login if we are not at login yet
 					this.sessionService.destroyUser();
-					this.router.navigate([RouterUrls.LOGIN]);
+					if (this.router.url.split('?')[0]  !== ('/'+RouterUrls.LOGIN)) {
+						this.router.navigate([RouterUrls.LOGIN]);
+					}
 				}
 				if (error.status === 403) {
 					// Forbidden, go to error

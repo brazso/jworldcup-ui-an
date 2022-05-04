@@ -14,7 +14,12 @@
         "FIND_TIME_ZONE_IDS": "/users/find-time-zone-ids",
         "MODIFY_USER": "/users/modify-user",
         "FIND_USER_LOGIN_NAMES_BY_PREFIX": "/users/find-user-login-names-by-prefix",
-        "FIND_USER_FULL_NAMES_BY_CONTAIN": "/users/find-user-full-names-by-contain"
+        "FIND_USER_FULL_NAMES_BY_CONTAIN": "/users/find-user-full-names-by-contain",
+        "RESET_PASSWORD": "/users/reset-password",
+        "PROCESS_REGISTRATION_TOKEN": "/users/process-registration-token",
+        "PROCESS_CHANGE_EMAIL_TOKEN": "/users/process-change-email-token",
+        "PROCESS_RESET_PASSWORD_TOKEN": "/users/process-reset-password-token",
+        "DELETE_USER_BY_LOGIN_NAME": "/users/delete-user-by-login-name"
     },
 
     "EVENTS": {
