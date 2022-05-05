@@ -424,6 +424,7 @@
 			"rememberMe": "Maradok bejelentkezve",
 			"haveAccount": "Regisztrált?",
 			"needAccount": "Regisztrálna?",
+			"reset-password": "Jelszó visszaállítás",
 			"login": "Bejelentkezés",
 			"register": "Regisztrálás"
 		},

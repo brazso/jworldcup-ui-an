@@ -8,6 +8,7 @@
 	"SERVICE_UNAVAILABLE": "error/503",
 	"LOGIN": "login",
 	"REGISTER": "register",
+	"RESET_PASSWORD": "reset-password",
 	"MATCHES": "matches",
 	"BETS": "bets",
 	"FAVOURITE_TEAM": "favourite-team",

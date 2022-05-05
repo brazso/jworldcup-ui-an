@@ -9,6 +9,7 @@ import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.
 import { NgForm, NgModel } from '@angular/forms';
 import { InputValidationComponent } from 'src/app/shared/input-validation';
 import { Subscription } from 'rxjs';
+import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 
 @Component({
   templateUrl: './user-detail.component.html',
@@ -28,6 +29,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     private readonly apiService: ApiService,
     private confirmationService: ConfirmationService,
     private translocoService: TranslocoService,
+    private toastMessageService: ToastMessageService,
     private replaceLineBreaksPipe: ReplaceLineBreaksPipe
   ) { }
 
@@ -113,6 +115,9 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         console.log('saved');
         const modifiedUser: User  = value.data;
         this.sessionService.getSession().user = modifiedUser;
+        if (modifiedUser.emailNew) {
+          this.toastMessageService.displayMessage(ToastMessageSeverity.INFO, 'userDetail.popup.sendChangeEmail');
+        }
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {

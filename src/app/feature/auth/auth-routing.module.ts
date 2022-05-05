@@ -15,6 +15,11 @@ const routes: Routes = [
     path: RouterUrls.REGISTER,
     component: AuthComponent,
     canActivate: [NoAuthGuard]
+  },
+  {
+    path: RouterUrls.RESET_PASSWORD,
+    component: AuthComponent,
+    canActivate: [NoAuthGuard]
   }
 ];
 

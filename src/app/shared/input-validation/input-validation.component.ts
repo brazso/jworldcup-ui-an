@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
 
+/**
+ * Validation component for template-driven forms
+ */
 @Component({
   selector: 'app-input-validation',
   templateUrl: './input-validation.component.html',

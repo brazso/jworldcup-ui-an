@@ -31,8 +31,6 @@ export class AuthComponent implements OnInit {
   ) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
-      'username': ['', Validators.required],
-      'password': ['', [Validators.required, Validators.minLength(8)]],
       'language': ['']
     });
   }
@@ -53,6 +51,9 @@ export class AuthComponent implements OnInit {
       // Get the last piece of the URL (it's either 'login' or 'register')
       this.authType = url[url.length - 1].path;
       if (this.authType === 'login') {
+        this.authForm.addControl('username', new FormControl('', [Validators.required]));
+        this.authForm.addControl('password', new FormControl('', [Validators.required]));
+
         const func = queryParams['function']; // possible values: registration, changeEmail, resetPassword
         const token = queryParams['confirmation_token'];
         // console.log(`confirmation_token: ${JSON.stringify(queryParams['a'])}`);
@@ -71,20 +72,35 @@ export class AuthComponent implements OnInit {
           break;
 
           case 'changeEmail':
-            this.processChangeEmailToken(token);
+            if (token) {
+              this.processChangeEmailToken(token);
+            }
           break;
           
-          case 'changeEmail':
-            this.processResetPasswordToken(token);
+          case 'resetPassword':
+            if (token) {
+              this.processResetPasswordToken(token);
+            }
+            else {
+              this.errors = new UiError({url: 'dummy', error: buildApiErrorByApiErrorItem({
+                msgCode: 'RESET_PASSWORD_INFO', 
+                msgType: ParameterizedMessageTypeEnum.INFO, 
+                msgParams: [], 
+                msgBuilt: ''} as ApiErrorItem)});
+            }
           break;
         }
       }
       else if (this.authType === 'register') {
-        // add additional form controls if this is the register page
+        this.authForm.addControl('username', new FormControl('', [Validators.required]));
+        this.authForm.addControl('password', new FormControl('', [Validators.required, Validators.minLength(8)]));
         this.authForm.addControl('passwordAgain', new FormControl('', [Validators.required, Validators.minLength(8)]));
         this.authForm.addControl('fullName', new FormControl('', [Validators.required]));
         this.authForm.addControl('email', new FormControl('', [Validators.required, this.validateEmail]));
         this.authForm.addValidators(this.validatePasswords);
+      }
+      else if (this.authType === 'reset-password') {
+        this.authForm.addControl('email', new FormControl('', [Validators.required, this.validateEmail]));
       }
 
       // wait until translation is being loaded
@@ -122,6 +138,23 @@ export class AuthComponent implements OnInit {
           console.log(`savedUser: ${JSON.stringify(savedUser)}`);
           this.isSubmitting = false;
           this.router.navigateByUrl('/'+RouterUrls.LOGIN+'?function=registration');
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(`err: ${JSON.stringify(err)}`);
+          this.errors = new UiError(Object.assign(err));
+          this.isSubmitting = false;
+        },
+        complete: () => {
+          console.log('complete');
+        }
+      });
+    }
+    else if (this.authType === 'reset-password') {
+      this.isSubmitting = false;
+      this.apiService.put<CommonResponse>(ApiEndpoints.USERS.RESET_PASSWORD+'?emailAddr={0}&languageTag={1}'.format(credentials['email'], credentials['language'])).subscribe({
+        next: value => {
+          this.isSubmitting = false;
+          this.router.navigateByUrl('/'+RouterUrls.LOGIN+'?function=resetPassword');
         },
         error: (err: HttpErrorResponse) => {
           console.log(`err: ${JSON.stringify(err)}`);

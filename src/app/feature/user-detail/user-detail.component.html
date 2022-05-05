@@ -50,6 +50,12 @@
                         <p-fieldset [legend]="t('userDetail.label.loginPassword')">
                             <table class="p-datatable">
                                 <tr>
+                                    <td>{{ t('userDetail.label.loginPasswordActual') }}</td>
+                                    <td>
+                                        <p-password name="loginPasswordActual" [(ngModel)]="user.loginPassword" [toggleMask]="true" [feedback]="false" #loginPasswordActual="ngModel"></p-password>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>{{ t('userDetail.label.loginPasswordNew') }}</td>
                                     <td>
                                         <p-password name="loginPasswordNew" [(ngModel)]="user.loginPasswordNew" minlength="8" [toggleMask]="true" [feedback]="true" #loginPasswordNew="ngModel"></p-password>

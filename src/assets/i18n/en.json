@@ -424,6 +424,7 @@
 			"rememberMe": "Remember Me",
 			"haveAccount": "Have an account?",
 			"needAccount": "Need an account?",
+			"reset-password": "Reset password",
 			"login": "Sign in",
 			"register": "Sign up"
 		},

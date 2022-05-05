@@ -5,16 +5,16 @@
       <div fxLayout="column">
         <h1 fxLayoutAlign="center">{{ title }}</h1>
         <p fxLayoutAlign="center">
-          <a [routerLink]="['/login']" *ngIf="authType == 'register'">{{ t('login.label.haveAccount') }}</a>
+          <a [routerLink]="['/login']" *ngIf="['register', 'reset-password'].includes(authType)">{{ t('login.label.haveAccount') }}</a>
           <a [routerLink]="['/register']" *ngIf="authType == 'login'">{{ t('login.label.needAccount') }}</a>
         </p>
         <app-list-errors [errors]="errors"></app-list-errors>
         <form fxLayoutAlign="center" [formGroup]="authForm" (ngSubmit)="submitForm()">
           <fieldset [disabled]="isSubmitting">
-            <fieldset class="form-group">
+            <fieldset *ngIf="['login', 'register'].includes(authType)" class="form-group">
               <input formControlName="username" [placeholder]="t('login.label.loginName')" pInputText />
             </fieldset>
-            <fieldset class="form-group">
+            <fieldset *ngIf="['login', 'register'].includes(authType)" class="form-group">
               <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [feedback]="authType === 'register'" [toggleMask]="true"></p-password>
             </fieldset>
             <fieldset *ngIf="authType == 'register'" class="form-group">
@@ -26,7 +26,7 @@
             <fieldset *ngIf="authType == 'register'" class="form-group">
               <input formControlName="fullName" [placeholder]="t('login.label.fullName')" pInputText />
             </fieldset>
-            <fieldset *ngIf="authType == 'register'" class="form-group">
+            <fieldset *ngIf="['register', 'reset-password'].includes(authType)" class="form-group">
               <input type="email" formControlName="email" [placeholder]="t('login.label.emailAddr')" pInputText />
               <div *ngIf="authForm.controls['email'].hasError('email')" class="error-messages"> 
                 {{ t('validator.constraints.Email.message') }}
@@ -37,7 +37,10 @@
                 (onChange)='onLanguageChange($event)'>
               </p-dropdown>
             </fieldset>
-            <p-button fxLayoutAlign="end" [disabled]="!authForm.valid" type="submit" label="{{ title }}" ></p-button>
+            <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start">
+              <a [routerLink]="['/reset-password']" *ngIf="authType == 'login'">{{ t('login.label.reset-password') }}</a>
+              <p-button fxLayoutAlign="end" [disabled]="!authForm.valid" type="submit" [label]="title" ></p-button>
+            </div>
           </fieldset>
         </form>
       </div>
