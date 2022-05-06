@@ -217,6 +217,7 @@
 	"MATCH_ALREADY_STARTED": "A mérkőzés már elkezdődött, tipp már nem tehető!",
 	"ENTER_TIP": "Tipp megadása",
 	"MODIFY_TIP": "Tipp módosítása",
+	"VIEW_OTHERS_TIPS": "Többiek tippjeinek megtekintése",
 	"USER_GROUP_NAME_EMPTY": "A megadott felhasználói csoport elnevezés nem lehet üres.",
 	"USER_GROUP_NAME_ALREADY_EXIST": "A megadott felhasználói csoport elnevezés már foglalt.",
 	"USER_GROUP_NAME_NOT_EXIST": "A megadott felhasználói csoport elnevezés nem létezik.",
@@ -516,6 +517,17 @@
 		"label": {
 			"teams": "Csapatok",
 			"goalTip": "Gól tipp"
+		}
+	},
+
+	"__Other bets form__": "",
+	"otherBets": {
+		"title": "Mások tippjei",
+		"label": {
+			"userGroup": "User group",
+			"standing": "Standing",
+			"user": "User",
+			"points": "Points"
 		}
 	},
 

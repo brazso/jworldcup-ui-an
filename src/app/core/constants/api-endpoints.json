@@ -50,7 +50,8 @@
         "SAVE_BET": "/bets/save-bet",
         "DELETE_BET": "/bets/delete-bet/{0}",
         "DATE_SCORE_MAP_BY_EVENT_AND_USER": "/bets/date-score-map-by-event-and-user",
-        "FIND_SCORE_BY_EVENT_AND_USER": "/bets/find-score-by-event-and-user"
+        "FIND_SCORE_BY_EVENT_AND_USER": "/bets/find-score-by-event-and-user",
+        "BETS_BY_MATCH_AND_USER_GROUP": "/bets/bets-by-match-and-userGroup"
     },
 
     "TEAMS": {

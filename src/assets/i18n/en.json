@@ -217,6 +217,7 @@
 	"MATCH_ALREADY_STARTED": "The match has already started, tip cannot be laid for it!",
 	"ENTER_TIP": "Enter tip",
 	"MODIFY_TIP": "Modify tip",
+	"VIEW_OTHERS_TIPS": "View other's tips",
 	"USER_GROUP_NAME_EMPTY": "Given user group name cannot be empty.",
 	"USER_GROUP_NAME_ALREADY_EXIST": "Given user group name already exists.",
 	"USER_GROUP_NAME_NOT_EXIST": "Given user group name does not exist.",
@@ -516,6 +517,17 @@
 		"label": {
 			"teams": "Teams",
 			"goalTip": "Goal tip"
+		}
+	},
+
+	"__Other bets form__": "",
+	"otherBets": {
+		"title": "Others' tips",
+		"label": {
+			"userGroup": "User group",
+			"standing": "Standing",
+			"user": "User",
+			"points": "Points"
 		}
 	},
 

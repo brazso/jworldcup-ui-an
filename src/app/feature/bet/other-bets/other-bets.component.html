@@ -1,0 +1,68 @@
+<ng-container *transloco="let t">
+    <fieldset>
+    <div fxLayout="row" fxLayoutGap="10px">
+        <div fxLayout="column" fxLayoutAlign="space" fxLayoutGap="10px" >
+            <table class="p-datatable">
+                <tr>
+                    <td>{{ t('general.label.nr') }}</td>
+                    <td colspan="5">{{ match?.matchN }}</td>
+                </tr>
+                <tr>
+                    <td>{{ t('general.label.startTime') }}</td>
+                    <td colspan="5">{{ match?.startTime! | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
+                </tr>
+                <tr>
+                    <td>{{ t('matchDetail.label.teams') }}</td>
+                    <td><span>{{ t('team.' + match?.team1?.name) }}</span></td>
+                    <td><p-image src="assets/images/flags/{{match?.team1?.flag}}.png" alt="Image" [title]="t('team.' + match?.team1?.name)"></p-image></td>
+                    <td></td>
+                    <td>{{ t('team.' + match?.team2?.name) }}</td>
+                    <td><p-image src="assets/images/flags/{{match?.team2?.flag}}.png" alt="Image" [title]="t('team.' + match?.team2?.name)"></p-image></td>
+                </tr>
+                <tr>
+                    <td>{{ t(match?.round?.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</td>
+                    <td colspan="2">{{ match?.goalNormalByTeam1 }}</td>
+                    <td></td>
+                    <td colspan="2">{{ match?.goalNormalByTeam2 }}</td>
+                </tr>
+            </table>
+            <table class="p-datatable">
+                <tr>
+                    <td>{{ t('otherBets.label.userGroup') }}</td>
+                    <td>
+                        <p-dropdown [options]="userGroups" [(ngModel)]="selectedUserGroup" [placeholder]="t('otherBets.label.userGroup')"
+                            (onChange)='onUserGroupChange($event)'>
+                            <ng-template pTemplate="selectedItem">
+                                {{ selectedUserGroup?.name }}
+                            </ng-template>
+                            <ng-template let-userGroup pTemplate="item">
+                                {{ userGroup.name }}
+                            </ng-template>
+                        </p-dropdown>
+                    </td>
+                </tr>
+            </table>
+            <p-table [value]="otherBets" responsiveLayout="scroll"
+                selectionMode="single" [(selection)]="selectedOtherBet" dataKey="betId"
+                (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{ t('scores.label.user') }}</th>
+                        <th>{{ t('bets.label.goalTip') }} #1</th>
+                        <th>{{ t('bets.label.goalTip') }} #2</th>
+                        <th>{{ t('scores.label.points') }}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-otherBet>
+                    <tr [pSelectableRow]="rowData">
+                        <td>{{ otherBet.user.loginName }}</td>
+                        <td>{{ otherBet.goalNormalByTeam1 }} </td>
+                        <td>{{ otherBet.goalNormalByTeam2 }} </td>
+                        <td>{{ otherBet.score }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    </fieldset>
+</ng-container>

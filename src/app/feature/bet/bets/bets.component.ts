@@ -4,11 +4,11 @@ import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
 import { Translation, TranslocoService } from '@ngneat/transloco';
-import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BetComponent } from '../bet.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin, Subscription } from 'rxjs';
+import { OtherBetsComponent } from '../other-bets/other-bets.component';
 
 @Component({
   selector: 'app-bets',
@@ -25,7 +25,6 @@ export class BetsComponent implements OnInit, OnDestroy {
   // betByMatchIdMap: { [matchId: number]: Bet } = {};
   eventTriggerStartTimes: Date[] = [];
   selectedBet: Bet;
-  cmItems: MenuItem[]; // contextMenu
 
   constructor(
     private apiService: ApiService,
@@ -39,11 +38,6 @@ export class BetsComponent implements OnInit, OnDestroy {
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       // Set a title for the page accordingly
       this.title = this.translocoService.translate('bets.title');
-
-      this.cmItems = [
-        {label: this.translocoService.translate('general.button.edit'), icon: 'pi pi-fw pi-pencil', command: () => this.editBet(this.selectedBet)},
-        {label: this.translocoService.translate('general.button.reset'), icon: 'pi pi-fw pi-times', command: () => this.resetBet(this.selectedBet)}
-      ];
     });
 
     this.subscriptions.push(this.sessionService.event.subscribe(
@@ -188,7 +182,41 @@ export class BetsComponent implements OnInit, OnDestroy {
   }
 
   isMatchNotStarted(match: Match): boolean {
+    // console.log(`isMatchNotStarted: actualDateTime=${JSON.stringify(this.sessionService.getSession().actualDateTime)}, match=${JSON.stringify(match)}`);
     return (!!match.team1 && !!match.team2
       && this.sessionService.getSession().actualDateTime! < match.startTime!);
 	}
+
+  isMatchStarted(match: Match): boolean {
+    return (!!match.team1 && !!match.team2
+      && this.sessionService.getSession().actualDateTime! >= match.startTime!);
+	}
+
+  displayOtherBets(bet: Bet) {
+    console.log('displayOtherBets');
+
+    const ref = this.dialogService.open(OtherBetsComponent, {
+      data: {
+        match: bet?.match
+      },
+      header: this.translocoService.translate('otherBets.title'),
+      // closable: false,
+      // showHeader: false, // header and closeable are ignored
+      // width: '70%'
+    });
+
+    ref.onClose.subscribe((bet: Bet) => {
+      console.log(`onClose bet: ${JSON.stringify(bet)}`);
+      // if (bet) {
+      //   // replace selectedBet inside bets to the incoming one
+      //   const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
+      //   console.log(`index: ${index}`);
+      //   if (index !== -1) {
+      //     this.bets[index] = bet;
+      //     this.selectedBet = bet;
+      //   }
+      // }
+    });
+
+  }
 }

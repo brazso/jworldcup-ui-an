@@ -4,6 +4,7 @@ import { BetRoutingModule } from './bet-routing.module';
 import { BetsComponent } from './bets/bets.component';
 import { SharedModule } from 'src/app/shared';
 import { BetComponent } from './bet.component';
+import { OtherBetsComponent } from './other-bets/other-bets.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { BetComponent } from './bet.component';
   declarations: [
     BetsComponent,
     BetComponent,
+    OtherBetsComponent,
   ]
 })
 export class BetModule { }

@@ -4,11 +4,9 @@ import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
 import { Translation, TranslocoService } from '@ngneat/transloco';
-import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MatchComponent } from '../match.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { isArrayEmpty } from 'src/app/shared/utils';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -24,7 +22,6 @@ export class MatchesComponent implements OnInit, OnDestroy {
   rounds: Round[] = [];
   eventTriggerStartTimes: Date[] = [];
   selectedMatch: Match;
-  cmItems: MenuItem[]; // contextMenu
   selectedEventTriggerStartTime: Date;
 
   constructor(
@@ -39,11 +36,6 @@ export class MatchesComponent implements OnInit, OnDestroy {
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       // Set a title for the page accordingly
       this.title = this.translocoService.translate(this.sessionService.isUserAdmin() ? 'ENTER_MATCH_RESULTS' : 'VIEW_MATCH_RESULTS');
-
-      this.cmItems = [
-        {label: this.translocoService.translate('general.button.edit'), icon: 'pi pi-fw pi-pencil', command: () => this.editMatch(this.selectedMatch)},
-        {label: this.translocoService.translate('general.button.reset'), icon: 'pi pi-fw pi-times', command: () => this.resetMatch(this.selectedMatch)}
-      ];
     });
 
     this.subscriptions.push(this.sessionService.event.subscribe(
