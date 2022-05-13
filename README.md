@@ -40,8 +40,8 @@ ng --version
 Follow install tutorial [ https://primefaces.org/primeng/showcase/#/setup ]
 
 ```
-npm install primeng --save
-npm install primeicons --save
+npm install primeng
+npm install primeicons
 ```
 
 In angular.json file add new css files to styles block:
@@ -55,21 +55,27 @@ In angular.json file add new css files to styles block:
 
 #### Layout
 
-npm install --save @angular/flex-layout
+npm install @angular/flex-layout
 
 #### Translation
 
-npm install --save @ngneat/transloco
+npm install @ngneat/transloco
 
 #### Input Trim
 
-npm install --save ng2-trim-directive
+npm install ng2-trim-directive
 
 #### Charts.js
-npm install --save chart.js
+npm install chart.js
 
 ### PDF viewer
-npm install --save print-js
+npm install print-js
+
+### Websocket
+npm install sockjs-client stompjs net
+npm install @types/sockjs-client @types/stompjs
+--
+npm install @stomp/rx-stomp
 
 
 ## Start Angular application

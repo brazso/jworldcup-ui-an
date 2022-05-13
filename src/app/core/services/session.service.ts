@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Event, JwtRequest, JwtResponse, SessionData, User } from 'src/app/core/models';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { ApiService, JwtService } from 'src/app/core/services';
+import { ApiService, JwtService, RxStompService } from 'src/app/core/services';
 import { TranslocoService } from '@ngneat/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
@@ -28,6 +28,7 @@ export class SessionService {
     private jwtService: JwtService,
     private translocoService: TranslocoService,
     private apiService: ApiService,
+    private rxStompService: RxStompService,
     private router: Router
   ) {
   }
@@ -52,6 +53,7 @@ export class SessionService {
           this.setEvent(response.data.event);
         }
         this.setSession(response.data);
+        this.rxStompService.publish({ destination: '/topic/demo', body: 'Hello Demo!' });
         return response.data;
     }));
   }

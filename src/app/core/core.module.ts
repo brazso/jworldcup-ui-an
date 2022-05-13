@@ -4,12 +4,14 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TranslocoRootModule } from '../transloco/transloco-root.module';
-import { DateParserInterceptor, HttpTokenInterceptor } from './interceptors';
+import { HttpTokenInterceptor } from './interceptors';
 import { ApiService, 
   BackendService,
   AuthorityGuard, 
   JwtService, 
-  SessionService } from './services';
+  SessionService, 
+  RxStompService,
+  rxStompServiceFactory} from './services';
  
 @NgModule({
   imports: [
@@ -23,6 +25,8 @@ import { ApiService,
     AuthorityGuard,
     BackendService,
     JwtService,
+    RxStompService,
+    { provide: RxStompService, useFactory: rxStompServiceFactory },
     SessionService,
 
     // MessageService and its DialogService dependecy from primeng are used in core, search for "this.messageService"

@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { GenericListResponse, GenericMapResponse, GenericResponse, LineChartData, SessionData, UserGroup, UserPosition } from 'src/app/core/models';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { GenericListResponse, GenericResponse, LineChartData, SessionData, UserGroup, UserPosition } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { mergeMap, Observable, of, Subscription } from 'rxjs';
-import { UIChart } from 'primeng/chart';
 import { TranslocoExDatePipe } from 'src/app/shared';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 
