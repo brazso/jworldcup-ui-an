@@ -1,20 +1,22 @@
-import { OnInit } from '@angular/core';
+import { OnDestroy, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import localeHu from '@angular/common/locales/hu';
 import { getBrowserLang, LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
-import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { SessionData } from './core/models';
 import { SessionService } from './core/services';
 import { registerLocaleData } from '@angular/common';
 import { PrimeNGConfig } from 'primeng/api';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
+  title: string = 'jworldcup-ui-an';
 
   constructor(
     private readonly router: Router,
@@ -32,7 +34,10 @@ export class AppComponent implements OnInit {
     this.setupSession();
   }
 
-  title = 'jworldcup-ui-an';
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
 
   private registerLocales(): void {
     registerLocaleData(localeHu, 'hu');
@@ -58,7 +63,7 @@ export class AppComponent implements OnInit {
   private setupSession(): void {
     console.log('setupSession');
 
-    this.sessionService.initSession().subscribe({
+    this.subscriptions.push(this.sessionService.initSession().subscribe({
       next: (session: SessionData) => {
         console.log('session.user=' + session.user?.loginName);
         this.sessionService.goToDefaultPage();
@@ -66,7 +71,7 @@ export class AppComponent implements OnInit {
       error: (err) => {
         console.log('session.user is not authenticated yet');
       }
-    });
+    }));
   }
 
 }

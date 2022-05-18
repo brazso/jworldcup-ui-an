@@ -9,8 +9,7 @@ export const rxStompConfig: RxStompConfig = {
   // Typical keys: login, passcode, host
   connectHeaders: {
     login: 'guest',
-    passcode: 'guest',
-    // "X-XSRF-TOKEN": this.getCookie("XSRF-TOKEN")
+    passcode: 'guest'
   },
 
   // How often to heartbeat?

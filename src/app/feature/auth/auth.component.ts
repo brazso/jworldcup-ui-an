@@ -1,19 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
 import { ApiError, ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionService, UiError, User, UserExtended } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-auth-page',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   authType: string = '';
   title: string = '';
   errors: UiError = new UiError({});
@@ -113,6 +114,10 @@ export class AuthComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
   submitForm() {
     this.isSubmitting = true;
     this.errors = new UiError({});
@@ -167,18 +172,16 @@ export class AuthComponent implements OnInit {
       });
     }
     else {
-      this.sessionService
-        .attemptAuth(this.authType, credentials)
-        .subscribe({
-          next: session => {
-            this.router.navigate([RouterUrls.HOME_PAGE]);
-          },
-          error: (err: HttpErrorResponse) => {
-            console.log(`err: ${JSON.stringify(err)}`);
-            this.errors = new UiError(Object.assign(err));
-            this.isSubmitting = false;
-          }
-        });
+      this.subscriptions.push(this.sessionService.attemptAuth(this.authType, credentials).subscribe({
+        next: session => {
+          this.router.navigate([RouterUrls.HOME_PAGE]);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(`err: ${JSON.stringify(err)}`);
+          this.errors = new UiError(Object.assign(err));
+          this.isSubmitting = false;
+        }
+      }));
     }
   }
 

@@ -175,10 +175,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     console.log('onEventChange');
     // const event: Event = event_.value;
     
-    this.sessionService.getSession().event = this.event;
-
     // eventCompletionPercent must be refreshed
-    this.sessionService.initSession().subscribe();
+    this.sessionService.getSession().event = this.event;
+    this.subscriptions.push(this.sessionService.initSession().subscribe());
   }
 
   logout() {

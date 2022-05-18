@@ -72,9 +72,6 @@ npm install chart.js
 npm install print-js
 
 ### Websocket
-npm install sockjs-client stompjs net
-npm install @types/sockjs-client @types/stompjs
---
 npm install @stomp/rx-stomp
 
 
