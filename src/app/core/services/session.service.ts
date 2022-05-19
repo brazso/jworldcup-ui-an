@@ -63,6 +63,7 @@ export class SessionService {
             console.log(`watch: /queue/session${this.getSession().id}`);
             // this.rxStompService.publish({ destination: '/topic/demo', body: 'Hello Demo!' } as IRxStompPublishParams);
             // this.rxStompService.watch({ destination: '/topic/user-session/' + response.data.id } as IWatchParams);
+
             const subscription = this.rxStompService.watch({ destination: `/queue/session${this.getSession().id}`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
               (message: Message) => {
                 // console.log(`message received: ${JSON.stringify(message)}`);

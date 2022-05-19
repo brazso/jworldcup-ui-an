@@ -162,3 +162,4 @@ ng serve
 - [Login/Register form sample](https://codepen.io/gstorbeck/embed/gbNEOr?height=530&theme-id=0&slug-hash=gbNEOr&default-tab=css%2Cresult&user=gstorbeck&pen-title=Login%20Form&name=cp_embed_93)
 - [Layout demos](https://tburleson-layouts-demos.firebaseapp.com/)
 - [An input validation message to use with PrimeNG ](https://gist.github.com/sannonaragao/dbf747676016ed0c4054f8abd2e2a4d2)
+- [A secure way to encrypt any password in the config file in a Spring Boot project](https://medium.com/engineering-jio-com/a-secure-way-to-encrypt-any-password-in-the-config-file-in-a-spring-boot-project-20d12436b4b9)
