@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 import { MenuItem } from 'primeng/api';
 
-import { Event, User, SessionService, ApiService, GenericListResponse, SessionData } from 'src/app/core';
+import { Event, User, SessionService, ApiService, GenericListResponse, SessionData, SessionDataModificationFlag } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { isObjectEmpty } from '../utils';
 
@@ -39,6 +39,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (session: SessionData) => {
         this.session = session;
         console.log(`session: ${JSON.stringify(session)}`);
+        // if ((session.modificationSet ?? []).includes(SessionDataModificationFlag.ACTUAL_DATE_TIME)) {
+        //   console.log(`session.actualDateTime: ${session.actualDateTime}`);
+        // }
+        // if ((session.modificationSet ?? []).includes(SessionDataModificationFlag.NEWS_LINE)) {
+        //   console.log(`session.newsLine: ${session.newsLine}`);
+        // }
         this.setupMenuItemsAfterTranlationLoaded();
       }
     ));

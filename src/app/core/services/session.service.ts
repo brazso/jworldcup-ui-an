@@ -69,6 +69,7 @@ export class SessionService {
                 // console.log(`message received: ${JSON.stringify(message)}`);
                 const session: SessionData = JSON.parse(message.body);
                 console.log(`session received: ${JSON.stringify(session)}`);
+                this.setSession(session);
               }
             );
             this.sessionSubscriptionMap.set(this.getSession().id!, subscription);
