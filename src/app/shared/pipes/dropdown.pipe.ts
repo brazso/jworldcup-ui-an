@@ -20,7 +20,7 @@ export interface DropdownPipeOptions {
 export class DropdownPipe implements PipeTransform {
 
 transform(array: any[], options: DropdownPipeOptions = {}): SelectItem[] {
-    // console.log(`transform array: ${JSON.stringify(array)}, options: ${JSON.stringify(options)}`);
+    // console.log(`dropdown.pipe/transform array: ${JSON.stringify(array)}, options: ${JSON.stringify(options)}`);
     if(!array) {
         return [];
     }
@@ -29,7 +29,7 @@ transform(array: any[], options: DropdownPipeOptions = {}): SelectItem[] {
     if (options.withEmpty ?? true) {
         pipeArray.unshift({label: options.emptyLabel ?? '-', value: null});
     }
-    // console.log(`pipeArray: ${JSON.stringify(pipeArray)}`);
+    // console.log(`dropdown.pipe/pipeArray: ${JSON.stringify(pipeArray)}`);
 
     return pipeArray;
 }

@@ -41,7 +41,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
-        console.log(`event: ${JSON.stringify(event)}`);
+        console.log(`matches.component/event: ${JSON.stringify(event)}`);
 
         this.apiService.get<GenericListResponse<Match>>(`${ApiEndpoints.MATCHES.MATCHES_BY_EVENT}?eventByShortDescWithYear=${getShortDescWithYearByEvent(this.event)}`).subscribe(
           (value: GenericListResponse<Match>) => {
@@ -49,7 +49,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
 
             // retrieve rounds from loaded matches
             this.rounds = distinctArrayByPropertyName<Round>(this.matches.map(e => e.round as Round), 'roundId').sort((a, b) => a.roundId! - b.roundId!);
-            console.log(`rounds: ${JSON.stringify(this.rounds)}`);
+            console.log(`matches.component/rounds: ${JSON.stringify(this.rounds)}`);
           }
         );
       }
@@ -95,7 +95,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
   }
 
   editMatch(match: Match) {
-    console.log('editMatch');
+    console.log('matches.component/editMatch');
 
     const ref = this.dialogService.open(MatchComponent, {
       data: {
@@ -108,7 +108,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
     });
 
     ref.onClose.subscribe((match: Match) => {
-      console.log(`onClose match: ${JSON.stringify(match)}`);
+      console.log(`matches.component/onClose match: ${JSON.stringify(match)}`);
       if (match) {
         // replace selectedMatch inside matches to the incoming match
         const index = this.matches.findIndex(e => e.matchId === match.matchId);
@@ -121,7 +121,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
   }
 
   resetMatch(match: Match) {
-    console.log('resetMatch');
+    console.log('matches.component/resetMatch');
     // this.messageService.add({severity: 'info', summary: 'Product Selected', detail: product.name });
 
     this.apiService.put<GenericResponse<Match>>(ApiEndpoints.MATCHES.RESET_MATCH.format(match.matchId)).subscribe({
@@ -135,11 +135,11 @@ export class MatchesComponent implements OnInit, OnDestroy {
         }
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`matches.component/err: ${JSON.stringify(err)}`);
         // this.errors = new UiError(Object.assign(err));
       },
       complete: () => {
-        console.log('complete');
+        console.log('matches.component/complete');
       }
     });
   }
@@ -150,7 +150,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
 
   onEventTriggerStartTimeChange(event_: any): void {
     const eventTriggerStartTime: Date = event_.value;
-    console.log(`eventTriggerStartTime: ${eventTriggerStartTime}`);
+    console.log(`matches.component/eventTriggerStartTime: ${eventTriggerStartTime}`);
     // TODO doResetScheduler
   }
 }

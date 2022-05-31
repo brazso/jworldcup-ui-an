@@ -46,7 +46,7 @@ export class SessionService {
   }
 
   initSession(): Observable<SessionData> {
-    console.log('initSession');
+    console.log('session.service/initSession');
     this.getSession().localeId = this.translocoService.getActiveLang();
     return this.apiService.put<GenericResponse<SessionData>>(ApiEndpoints.SESSION.SESSION_DATA, this.getSession())
       .pipe(map(response => {
@@ -60,15 +60,15 @@ export class SessionService {
 
         if (!isObjectEmpty(this.getSession())) {
           if (this.getSession().id) {
-            console.log(`watch: /queue/session${this.getSession().id}`);
+            console.log(`session.service/watch: /queue/session${this.getSession().id}`);
             // this.rxStompService.publish({ destination: '/topic/demo', body: 'Hello Demo!' } as IRxStompPublishParams);
             // this.rxStompService.watch({ destination: '/topic/user-session/' + response.data.id } as IWatchParams);
 
             const subscription = this.rxStompService.watch({ destination: `/queue/session${this.getSession().id}`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
               (message: Message) => {
-                // console.log(`message received: ${JSON.stringify(message)}`);
+                // console.log(`session.service/message received: ${JSON.stringify(message)}`);
                 const session: SessionData = JSON.parse(message.body);
-                console.log(`session received: ${JSON.stringify(session)}`);
+                console.log(`session.service/session received: ${JSON.stringify(session)}`);
                 this.setSession(session);
               }
             );
@@ -81,7 +81,7 @@ export class SessionService {
   }
 
   private destroySession(): void {
-    console.log('destroySession');
+    console.log('session.service/destroySession');
     this.destroyUser();
     this.destroyEvent();
 
@@ -91,25 +91,25 @@ export class SessionService {
         this.sessionSubscriptionMap?.get(this.getSession().id!)?.unsubscribe();
         this.sessionSubscriptionMap?.delete(this.getSession().id!);
       }
-      console.log('emptySession');
+      console.log('session.service/emptySession');
       this.setSession({} as SessionData);
     }
   }
 
   logout(): void {
-    console.log('logout');
+    console.log('session.service/logout');
     this.apiService.post<void>(ApiEndpoints.LOGOUT)
       .subscribe({
         next: response => {
-          console.log('destroySession1');
+          console.log('session.service/destroySession1');
           this.destroySession();
         },
         error: error => {
-          console.log('destroySession2');
+          console.log('session.service/destroySession2');
           this.destroySession();
         },
         complete: () => {
-          // console.log('destroySession3');
+          // console.log('session.service/destroySession3');
           // this.destroySession();
           // Get a new JWT token
           // this.router.navigateByUrl('/login');
@@ -163,7 +163,7 @@ export class SessionService {
   }
 
   attemptAuth(type: string, credentials: JwtRequest): Observable<SessionData> {
-    console.log('attemptAuth');
+    console.log('session.service/attemptAuth');
     return this.apiService.post<JwtResponse>('/login', credentials)
       .pipe(map(
         response => {

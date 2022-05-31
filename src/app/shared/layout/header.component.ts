@@ -38,12 +38,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`header.component/session: ${JSON.stringify(session)}`);
         // if ((session.modificationSet ?? []).includes(SessionDataModificationFlag.ACTUAL_DATE_TIME)) {
-        //   console.log(`session.actualDateTime: ${session.actualDateTime}`);
+        //   console.log(`header.component/session.actualDateTime: ${session.actualDateTime}`);
         // }
         // if ((session.modificationSet ?? []).includes(SessionDataModificationFlag.NEWS_LINE)) {
-        //   console.log(`session.newsLine: ${session.newsLine}`);
+        //   console.log(`header.component/session.newsLine: ${session.newsLine}`);
         // }
         this.setupMenuItemsAfterTranlationLoaded();
       }
@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.user.subscribe(
       (user: User) => {
         this.user = user;
-        console.log(`user: ${JSON.stringify(user)}`);
+        console.log(`header.component/user: ${JSON.stringify(user)}`);
         this.setupMenuItemsAfterTranlationLoaded();
         this.setupAllEvents();
       }
@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
-        console.log(`event: ${JSON.stringify(event)}`);
+        console.log(`header.component/event: ${JSON.stringify(event)}`);
         this.setupMenuItemsAfterTranlationLoaded();
       }
     ));
@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private setupMenuItems(): void {
-    console.log('setupMenuItems');
+    console.log('header.component/setupMenuItems');
     this.menuItems = [
       {
         label: this.translocoService.translate('menu.view'),
@@ -178,9 +178,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onEventChange(event_: any): void {
-    console.log('onEventChange');
+    console.log('header.component/onEventChange');
     // const event: Event = event_.value;
-    
+
     // eventCompletionPercent must be refreshed
     this.sessionService.getSession().event = this.event;
     this.subscriptions.push(this.sessionService.initSession().subscribe());

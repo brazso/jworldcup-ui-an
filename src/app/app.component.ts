@@ -45,31 +45,31 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private setupActiveLang(): void {
     const browserLang = getBrowserLang();
-    console.log(`browserLang: ${browserLang}`);
+    console.log(`app.component/browserLang: ${browserLang}`);
     const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
-    console.log(`defaultLang: ${defaultLang}`);
+    console.log(`app.component/defaultLang: ${defaultLang}`);
     const availableLangs = this.translocoService.getAvailableLangs() as LangDefinition[]; // e.g. // [{"id":"en","label":"English"},{"id":"hu","label":"Magyar"}]
-    console.log(`availableLangs: ${JSON.stringify(availableLangs)}`);
+    console.log(`app.component/availableLangs: ${JSON.stringify(availableLangs)}`);
     const activeLang = availableLangs.map(e => e.id).includes(defaultLang) ? defaultLang : this.translocoService.getDefaultLang();
-    console.log(`setActiveLang1: ${activeLang}`);
+    console.log(`app.component/setActiveLang1: ${activeLang}`);
     this.translocoService.setActiveLang(activeLang);
 
     this.translocoService.selectTranslateObject('primeng').subscribe(res => {
-      console.log(`primeng: ${JSON.stringify(res)}`);
+      console.log(`app.component/primeng: ${JSON.stringify(res)}`);
       this.primeNGConfig.setTranslation(res);
     });
   }
 
   private setupSession(): void {
-    console.log('setupSession');
+    console.log('app.component/setupSession');
 
     this.subscriptions.push(this.sessionService.initSession().subscribe({
       next: (session: SessionData) => {
-        console.log('session.user=' + session.user?.loginName);
+        console.log('app.component/session.user=' + session.user?.loginName);
         this.sessionService.goToDefaultPage();
       },
       error: (err) => {
-        console.log('session.user is not authenticated yet');
+        console.log('app.component/session.user is not authenticated yet');
       }
     }));
   }

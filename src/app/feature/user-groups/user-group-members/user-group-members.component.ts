@@ -42,20 +42,20 @@ export class UserGroupMembersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`user-group-members.component/session: ${JSON.stringify(session)}`);
       }
     ));
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(`ngOnChanges: ${JSON.stringify(changes)}`);
+    console.log(`user-group-members.component/ngOnChanges: ${JSON.stringify(changes)}`);
     // this.doSomething(changes.categoryId.currentValue);
     //   // You can also use categoryId.previousValue and 
     //   // categoryId.firstChange for comparing old and new values
     this.apiService.get<GenericListResponse<User>>(`${ApiEndpoints.USER_GROUPS.USERS_BY_USER_GROUP}?userGroupId=${this.selectedUserGroup!.userGroupId}`).subscribe(
       (value) => {
         this.userGroupMembers = value.data;
-        // console.log(`userGroupMembers: ${JSON.stringify(this.userGroupMembers)}`);
+        // console.log(`user-group-members.component/userGroupMembers: ${JSON.stringify(this.userGroupMembers)}`);
       }
     );
   }
@@ -66,16 +66,16 @@ export class UserGroupMembersComponent implements OnInit, OnDestroy {
 
   onRowSelect(event_: any): void {
     // const selectedUserGroup: UserGroup = event_.data;
-    console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);
-    console.log(`onRowSelect data2: ${JSON.stringify(this.selectedUserGroupMember)}`);
+    console.log(`user-group-members.component/onRowSelect data: ${JSON.stringify(event_.data)}`);
+    console.log(`user-group-members.component/onRowSelect data2: ${JSON.stringify(this.selectedUserGroupMember)}`);
   }
 
   onRowUnselect(event_: any): void {
-    console.log(`onRowUnselect`);
+    console.log(`user-group-members.component/onRowUnselect`);
   }
 
   doAdd(event_: any): void {
-    console.log(`doAdd`);
+    console.log(`user-group-members.component/doAdd`);
     // this.userGroup = {} as UserGroup;
     // this.userGroupForm.resetForm();
     // this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_DIALOG;
@@ -93,7 +93,7 @@ export class UserGroupMembersComponent implements OnInit, OnDestroy {
   }
 
   userGroupMemberLoginNameComplete(event_: any): void {
-    // console.log(`event_: ${JSON.stringify(event_)}`);
+    // console.log(`user-group-members.component/event_: ${JSON.stringify(event_)}`);
     this.apiService.get<GenericListResponse<string>>(`${ApiEndpoints.USERS.FIND_USER_LOGIN_NAMES_BY_PREFIX}?loginNamePrefix=${event_.query}`).subscribe(
       (value) => {
         this.userGroupMemberLoginNameResults = value.data;
@@ -110,28 +110,28 @@ export class UserGroupMembersComponent implements OnInit, OnDestroy {
   }
 
   doAddUserGroupMember(event_: any): void {
-    console.log(`doAddUserGroupMember`);
-    console.log(`event_: ${JSON.stringify(event_)}`);
+    console.log(`user-group-members.component/doAddUserGroupMember`);
+    console.log(`user-group-members.component/event_: ${JSON.stringify(event_)}`);
     this.isSubmitting = true;
 
-    console.log(`userGroupMember: ${JSON.stringify(this.userGroupMember)}`);
+    console.log(`user-group-members.component/userGroupMember: ${JSON.stringify(this.userGroupMember)}`);
     this.apiService.post<GenericResponse<User>>(ApiEndpoints.USER_GROUPS.FIND_AND_ADD_USER_TO_USER_GROUP+'?userGroupId={0}&loginName={1}&fullName={2}'
       .format(this.selectedUserGroup!.userGroupId, this.userGroupMember!.loginName ?? '', this.userGroupMember!.fullName ?? '')).subscribe({
       next: value => {
-        console.log('added');
+        console.log('user-group-members.component/added');
         const addedUser: User  = value.data;
-        console.log(`addedUser: ${JSON.stringify(addedUser)}`);
+        console.log(`user-group-members.component/addedUser: ${JSON.stringify(addedUser)}`);
         this.userGroupMembers.push(addedUser);
         this.selectedUserGroupMember = addedUser;
         this.doResetUserGroupMember(event_);
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`user-group-members.component/err: ${JSON.stringify(err)}`);
         this.userGroupMemberDialogErrors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('complete');
+        console.log('user-group-members.component/complete');
         this.isSubmitting = false;
       }
     });
@@ -151,11 +151,11 @@ export class UserGroupMembersComponent implements OnInit, OnDestroy {
         this.selectedUserGroupMember = undefined;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`user-group-members.component/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
       },
       complete: () => {
-        console.log('complete');
+        console.log('user-group-members.component/complete');
       }
     });
   }

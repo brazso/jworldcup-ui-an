@@ -19,7 +19,7 @@ export class ListErrorsComponent {
   @Input()
   set errors(uiError: UiError) {
     this.formattedErrors = [];
-    console.log(`uiError: ${JSON.stringify(uiError)}`);
+    console.log(`list-errors.component/uiError: ${JSON.stringify(uiError)}`);
     if (!uiError.isEmpty()) {
       let error = uiError.error;
       if (error && isApiError(error) && error.items) {
@@ -35,7 +35,7 @@ export class ListErrorsComponent {
           .map(key => `${key} ${Object.assign(uiError)[key]}`);        
       }
     }
-    console.log(`formattedErrors: ${JSON.stringify(this.formattedErrors)}`);
+    console.log(`list-errors.component/formattedErrors: ${JSON.stringify(this.formattedErrors)}`);
   }
 
   get errorList() { return this.formattedErrors; }
@@ -45,7 +45,7 @@ export class ListErrorsComponent {
     if (item && isApiErrorItem(item)) {
       res = 'msg-'+item.msgType.toLowerCase();
     }
-    console.log(`classByMsgType: res=${res}`);
+    console.log(`list-errors.component/classByMsgType: res=${res}`);
     return res;
   }
 }

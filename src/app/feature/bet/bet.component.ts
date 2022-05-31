@@ -29,10 +29,10 @@ export class BetComponent implements OnInit {
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       // Set a title for the page accordingly
       // this.config.header = this.translocoService.translate('matchDetail.title');
-      console.log('selectTranslation');
+      console.log('bet.component/selectTranslation');
     });
 
-    console.log(`this.config.data: ${JSON.stringify(this.config.data)}`);
+    console.log(`bet.component/this.config.data: ${JSON.stringify(this.config.data)}`);
     const betId: number | undefined = this.config.data.betId;
     const matchId: number = this.config.data.matchId;
 
@@ -66,18 +66,18 @@ export class BetComponent implements OnInit {
 
     this.apiService.put<GenericResponse<Bet>>(ApiEndpoints.BETS.SAVE_BET, this.bet).subscribe({
       next: value => {
-        console.log('saved');
+        console.log('bet.component/saved');
         this.bet = value.data;
         this.ref.close(this.bet);
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`bet.component/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('complete');
+        console.log('bet.component/complete');
       }
     });
   }

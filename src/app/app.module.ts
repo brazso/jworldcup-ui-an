@@ -75,17 +75,17 @@ export class AppModule {
      * DST usage. Example for the output: 2021-04-22T14:48:00.000Z
      */
     Date.prototype.toJSON = function (key) {
-      // console.log(`overrideDate this.toISOString: ${this.toISOString()}`);
+      // console.log(`app.module/overrideDate this.toISOString: ${this.toISOString()}`);
       const thisUTC = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(),
         this.getMinutes(), this.getSeconds()));
-      // console.log(`overrideDate thisUTC.toISOString: ${thisUTC.toISOString()}`);
+      // console.log(`app.module/overrideDate thisUTC.toISOString: ${thisUTC.toISOString()}`);
       return thisUTC.toISOString();
     };
   }
 
   addStringFormat(): void {
     String.prototype.format = function(...args) {
-      // console.log(`string: ${this}, args: ${JSON.stringify(args)}, args.length: ${args.length}`);
+      // console.log(`app.module/string: ${this}, args: ${JSON.stringify(args)}, args.length: ${args.length}`);
       return this.replace(/{(\d+)}/g, function(match, number) { 
         return typeof args[number] != 'undefined' ? args[number] : match;
       });

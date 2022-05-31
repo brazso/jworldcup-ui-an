@@ -27,12 +27,12 @@ export const rxStompConfig: RxStompConfig = {
   // Skip this key to stop logging to console
   debug: (msg: string): void => {
     if (!environment.production) {
-      console.log(new Date(), msg);
+      console.log(`rx-stomp.config/${new Date()}`, msg);
     }
   },
 
   beforeConnect: (client: RxStomp) : void => {
-    console.log(`beforeConnect`);
+    console.log(`rx-stomp.config/beforeConnect`);
   },
 
   logRawCommunication: true

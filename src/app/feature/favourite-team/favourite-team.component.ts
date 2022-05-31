@@ -31,7 +31,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`favourite-team.component/ession: ${JSON.stringify(session)}`);
 
         this.selectedGroupTeam = session.userOfEvent?.favouriteGroupTeam ?? null;
         this.selectedKnockOutTeam = session.userOfEvent?.favouriteKnockoutTeam ?? null;
@@ -61,8 +61,8 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
 	}
 
   doSave(event_: any): void {
-    console.log(`selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
-    console.log(`selectedKnockOutTeam: ${JSON.stringify(this.selectedKnockOutTeam)}`);
+    console.log(`favourite-team.component/selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
+    console.log(`favourite-team.component/selectedKnockOutTeam: ${JSON.stringify(this.selectedKnockOutTeam)}`);
     this.submitForm();
   }
 
@@ -83,17 +83,17 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
     }
     this.apiService.post<GenericResponse<UserOfEvent>>(url).subscribe({
       next: value => {
-        console.log('saved');
+        console.log('favourite-team.component/saved');
         this.session.userOfEvent = value.data;
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`favourite-team.component/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('complete');
+        console.log('favourite-team.component/complete');
       }
     });
   }

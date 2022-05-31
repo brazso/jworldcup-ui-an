@@ -45,19 +45,19 @@ export class ScoresComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`scores.component/session: ${JSON.stringify(session)}`);
 
         this.apiService.get<GenericListResponse<UserGroup>>(`${ApiEndpoints.USER_GROUPS.USER_GROUPS_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}&isEverybodyIncluded=true`)
         .pipe(mergeMap((value) => {
           this.userGroups = value.data;
-          console.log(`userGroups: ${JSON.stringify(this.userGroups)}`);
+          console.log(`scores.component/userGroups: ${JSON.stringify(this.userGroups)}`);
           this.selectedUserGroup = this.userGroups.length > 0 ? this.userGroups[0] : undefined;
           return this.retrieveUserPositions();
         }))
         .subscribe(
           (value) => {
             this.userPositions = value.data;
-            console.log(`userPositions: ${JSON.stringify(this.userPositions)}`);
+            console.log(`scores.component/userPositions: ${JSON.stringify(this.userPositions)}`);
             this.createScoresLineModel();
           } 
         );
@@ -70,23 +70,23 @@ export class ScoresComponent implements OnInit, OnDestroy {
   }
 
   onUserGroupChange(event_: any): void {
-    console.log(`onUserGroupChange: event_: ${JSON.stringify(event_)}`);
+    console.log(`scores.component/onUserGroupChange: event_: ${JSON.stringify(event_)}`);
     this.selectedUserGroup = event_.value;
     this.retrieveUserPositions().subscribe(
       (value) => {
         this.userPositions = value.data;
-        console.log(`userPositions: ${JSON.stringify(this.userPositions)}`);
+        console.log(`scores.component/userPositions: ${JSON.stringify(this.userPositions)}`);
         this.createScoresLineModel();
       } 
     );
   }
 
   onRowSelect(event_: any): void {
-    console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);
+    console.log(`scores.component/onRowSelect data: ${JSON.stringify(event_.data)}`);
   }
 
   onRowUnselect(event_: any): void {
-    console.log(`onRowUnselect`);
+    console.log(`scores.component/onRowUnselect`);
   }
 
   retrieveUserPositions(): Observable<GenericListResponse<UserPosition>> {
@@ -107,7 +107,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
       this.chartData.labels = value.data.matchDates!.map(e => this.translocoDatePipe.transform(e));
       value.data.datasets?.forEach((e) => { e.borderColor = this.getRandomRgb()});
       delete this.chartData.matchDates;
-      console.log(`data: ${JSON.stringify(this.chartData)}`);
+      console.log(`scores.component/data: ${JSON.stringify(this.chartData)}`);
     });
   }
 

@@ -61,12 +61,12 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 		return next.handle(request).pipe(
 			tap((event: HttpEvent<any>) => {
 				if (event instanceof HttpResponse) {
-					console.log('event--->>>', event);
+					console.log('http-token.interceptor/event--->>>', event);
 					this.onEnd();
 				}
 			}),
 			catchError((error: HttpErrorResponse, caught) => {
-				console.log('error--->>>', JSON.stringify(error));
+				console.log('http-token.interceptor/error--->>>', JSON.stringify(error));
 				this.onEnd();
 				this.modal.closeAll();
 				if (error.status === 401) {

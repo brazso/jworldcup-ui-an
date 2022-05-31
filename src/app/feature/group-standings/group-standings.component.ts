@@ -25,16 +25,16 @@ export class GroupStandingsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`favourite-team.component/session: ${JSON.stringify(session)}`);
 
         this.apiService.get<GenericListResponse<GroupTeam>>(ApiEndpoints.GROUPS.GROUP_TEAMS_BY_EVENT+`?eventId=${this.session.event?.eventId}`).subscribe(
           (response) => {
             this.groupTeams = response.data;
-            console.log(`groupTeams: ${JSON.stringify(this.groupTeams)}`);
+            console.log(`favourite-team.component/groupTeams: ${JSON.stringify(this.groupTeams)}`);
 
             // retrieve groups from loaded groupTeams
             this.groups = distinctArrayByPropertyName<Group>(this.groupTeams.map(e => e.team?.group as Group), 'groupId').sort((a, b) => a.groupId! - b.groupId!);
-            console.log(`groups: ${JSON.stringify(this.groups)}`);
+            console.log(`favourite-team.component/groups: ${JSON.stringify(this.groups)}`);
           }
         );
       }

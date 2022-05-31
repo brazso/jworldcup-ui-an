@@ -35,7 +35,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`footer.component/session: ${JSON.stringify(session)}`);
       }
     ));
   }

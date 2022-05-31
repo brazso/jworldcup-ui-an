@@ -28,25 +28,25 @@ export class OtherBetsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log(`this.config.data: ${JSON.stringify(this.config.data)}`);
+    console.log(`other-bets.component/this.config.data: ${JSON.stringify(this.config.data)}`);
     this.match = this.config.data.match;
 
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`other-bets.component/session: ${JSON.stringify(session)}`);
 
         this.apiService.get<GenericListResponse<UserGroup>>(`${ApiEndpoints.USER_GROUPS.USER_GROUPS_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}&isEverybodyIncluded=false`)
         .pipe(mergeMap((value) => {
           this.userGroups = value.data;
-          console.log(`userGroups: ${JSON.stringify(this.userGroups)}`);
+          console.log(`other-bets.component/userGroups: ${JSON.stringify(this.userGroups)}`);
           this.selectedUserGroup  = this.userGroups.length > 0 ? this.userGroups[0] : undefined;
           return this.retrieveOtherBets();
         }))
         .subscribe(
           (value) => {
             this.otherBets = value.data;
-            console.log(`otherBets: ${JSON.stringify(this.otherBets)}`);
+            console.log(`other-bets.component/otherBets: ${JSON.stringify(this.otherBets)}`);
             this.selectedOtherBet = this.otherBets.find(e => e.user?.userId === this.sessionService.getUser().userId);
           } 
         );
@@ -59,22 +59,22 @@ export class OtherBetsComponent implements OnInit, OnDestroy {
   }
 
   onUserGroupChange(event_: any): void {
-    console.log(`onUserGroupChange: event_: ${JSON.stringify(event_)}`);
+    console.log(`other-bets.component/onUserGroupChange: event_: ${JSON.stringify(event_)}`);
     this.selectedUserGroup = event_.value;
     this.retrieveOtherBets().subscribe(
       (value) => {
         this.otherBets = value.data;
-        console.log(`otherBets: ${JSON.stringify(this.otherBets)}`);
+        console.log(`other-bets.component/otherBets: ${JSON.stringify(this.otherBets)}`);
       } 
     );
   }
 
   onRowSelect(event_: any): void {
-    console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);
+    console.log(`other-bets.component/onRowSelect data: ${JSON.stringify(event_.data)}`);
   }
 
   onRowUnselect(event_: any): void {
-    console.log(`onRowUnselect`);
+    console.log(`other-bets.component/onRowUnselect`);
   }
 
   retrieveOtherBets(): Observable<GenericListResponse<Bet>> {

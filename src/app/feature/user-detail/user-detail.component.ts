@@ -37,19 +37,26 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`user-detail.component/session: ${JSON.stringify(session)}`);
 
         this.user = {...session.user!}; // shallow copy is enough for user object
         this.user.languageTag = session.localeId;
-
-        this.apiService.get<GenericMapResponse<string>>(ApiEndpoints.USERS.FIND_TIME_ZONE_IDS).subscribe(
-          (value) => {
-            this.zoneIds = Object.entries(value.data).map(e => ({label: e[0]+" ("+e[1]+")", value: e[0]}) as SelectItem<string>)
-            // console.log(`zoneIds: ${JSON.stringify(this.zoneIds)}`);
-          }
-        );
       }
     ));
+    this.subscriptions.push(this.sessionService.user.subscribe(
+      (user: User) => {
+        this.user = user;
+        console.log(`user-detail.component/user: ${JSON.stringify(user)}`);
+        this.user.languageTag = this.sessionService.getSession().localeId;
+      }
+    ));
+    this.apiService.get<GenericMapResponse<string>>(ApiEndpoints.USERS.FIND_TIME_ZONE_IDS).subscribe(
+      (value) => {
+        this.zoneIds = Object.entries(value.data).map(e => ({label: e[0]+" ("+e[1]+")", value: e[0]}) as SelectItem<string>)
+        // console.log(`user-detail.component/zoneIds: ${JSON.stringify(this.zoneIds)}`);
+      }
+    );
+
   }
 
   ngOnDestroy(){
@@ -60,18 +67,18 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     this.confirmationService.confirm({
       message: this.replaceLineBreaksPipe.transform(this.translocoService.translate('userDetail.popup.confirm.deleteUser')),
       accept: () => {
-        console.log('Delete');
+        console.log('user-detail.component/Delete');
         //Actual logic to perform a confirmation
         this.apiService.delete<CommonResponse>(ApiEndpoints.USERS.DELETE_USER_BY_LOGIN_NAME+'?loginName={0}'.format(this.user.loginName)).subscribe({
           next: value => {
             this.sessionService.logout();
           },
           error: (err: HttpErrorResponse) => {
-            console.log(`err: ${JSON.stringify(err)}`);
+            console.log(`user-detail.component/err: ${JSON.stringify(err)}`);
             this.errors = new UiError(Object.assign(err));
           },
           complete: () => {
-            console.log('complete');
+            console.log('user-detail.component/complete');
           }
         });
       }
@@ -79,17 +86,17 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   doSave(event_: any): void {
-    console.log(`user: ${JSON.stringify(this.user)}`);
+    console.log(`user-detail.component/doSave user: ${JSON.stringify(this.user)}`);
     this.submitForm();
   }
 
   doCancel(event_: any): void {
-    console.log(`cancel user: ${JSON.stringify(this.user)}, session.user: ${JSON.stringify(this.session.user)}`);
+    console.log(`user-detail.component/doCancel user: ${JSON.stringify(this.user)}, session.user: ${JSON.stringify(this.session.user)}`);
     this.sessionService.goToDefaultPage();
   }
 
   validateEmail(context: NgModel ): boolean {
-    // console.log(`validateEmail context.control.value:${JSON.stringify(context.control.value)}`)
+    // console.log(`user-detail.component/validateEmail context.control.value:${JSON.stringify(context.control.value)}`)
     const email = context.control.value;
     return !email || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
   }
@@ -112,21 +119,23 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
     this.apiService.put<GenericResponse<User>>(ApiEndpoints.USERS.MODIFY_USER, this.user).subscribe({
       next: value => {
-        console.log('saved');
         const modifiedUser: User  = value.data;
-        this.sessionService.getSession().user = modifiedUser;
+        console.log(`user-detail.component/saved user: ${JSON.stringify(modifiedUser)}`);
+        // this.sessionService.getSession().user = modifiedUser;
+        this.sessionService.setUser(modifiedUser);
+        // this.subscriptions.push(this.sessionService.initSession().subscribe());
         if (modifiedUser.emailNew) {
           this.toastMessageService.displayMessage(ToastMessageSeverity.INFO, 'userDetail.popup.sendChangeEmail');
         }
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`user-detail.component/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('complete');
+        console.log('user-detail.component/complete');
         this.sessionService.goToDefaultPage();
       }
     });

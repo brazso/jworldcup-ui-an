@@ -39,15 +39,15 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.availableLangs = (this.translocoService.getAvailableLangs() as LangDefinition[])
       .sort((a, b) => a.label.localeCompare(b.label, this.translocoService.getActiveLang()));
-    console.log(`this.availableLangs: ${JSON.stringify(this.availableLangs)}`);
+    console.log(`auth.component/this.availableLangs: ${JSON.stringify(this.availableLangs)}`);
     this.authForm.controls['language'].setValue(this.translocoService.getActiveLang());
-    console.log(`activeLang: ${JSON.stringify(this.translocoService.getActiveLang())}`);
+    console.log(`auth.component/activeLang: ${JSON.stringify(this.translocoService.getActiveLang())}`);
 
     combineLatest([
       this.route.url,
       this.route.queryParams
       ]).subscribe(([url, queryParams]) => {
-        console.log(`url: ${JSON.stringify(url)}, queryParams: ${JSON.stringify(queryParams)}`)
+        console.log(`auth.component/url: ${JSON.stringify(url)}, queryParams: ${JSON.stringify(queryParams)}`)
 
       // Get the last piece of the URL (it's either 'login' or 'register')
       this.authType = url[url.length - 1].path;
@@ -57,7 +57,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
         const func = queryParams['function']; // possible values: registration, changeEmail, resetPassword
         const token = queryParams['confirmation_token'];
-        // console.log(`confirmation_token: ${JSON.stringify(queryParams['a'])}`);
+        // console.log(`auth.component/confirmation_token: ${JSON.stringify(queryParams['a'])}`);
         switch (func) {
           case 'registration':
             if (token) {
@@ -123,7 +123,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.errors = new UiError({});
 
     const credentials = this.authForm.value;
-    console.log(`credentials: ${JSON.stringify(credentials)}`);
+    console.log(`auth.component/credentials: ${JSON.stringify(credentials)}`);
 
     if (this.authType === 'register') {
       const user: UserExtended = {
@@ -135,22 +135,22 @@ export class AuthComponent implements OnInit, OnDestroy {
         zoneId: Intl.DateTimeFormat().resolvedOptions().timeZone,
         languageTag: credentials['language']
       } as UserExtended;
-      console.log(`user: ${JSON.stringify(user)}`);
+      console.log(`auth.component/user: ${JSON.stringify(user)}`);
       this.isSubmitting = false;
       this.apiService.post<GenericResponse<User>>(ApiEndpoints.SIGNUP, user).subscribe({
         next: value => {
           let savedUser: User = value.data;
-          console.log(`savedUser: ${JSON.stringify(savedUser)}`);
+          console.log(`auth.component/savedUser: ${JSON.stringify(savedUser)}`);
           this.isSubmitting = false;
           this.router.navigateByUrl('/'+RouterUrls.LOGIN+'?function=registration');
         },
         error: (err: HttpErrorResponse) => {
-          console.log(`err: ${JSON.stringify(err)}`);
+          console.log(`auth.component/err: ${JSON.stringify(err)}`);
           this.errors = new UiError(Object.assign(err));
           this.isSubmitting = false;
         },
         complete: () => {
-          console.log('complete');
+          console.log('auth.component/complete');
         }
       });
     }
@@ -162,12 +162,12 @@ export class AuthComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl('/'+RouterUrls.LOGIN+'?function=resetPassword');
         },
         error: (err: HttpErrorResponse) => {
-          console.log(`err: ${JSON.stringify(err)}`);
+          console.log(`auth.component/err: ${JSON.stringify(err)}`);
           this.errors = new UiError(Object.assign(err));
           this.isSubmitting = false;
         },
         complete: () => {
-          console.log('complete');
+          console.log('auth.component/complete');
         }
       });
     }
@@ -177,7 +177,7 @@ export class AuthComponent implements OnInit, OnDestroy {
           this.router.navigate([RouterUrls.HOME_PAGE]);
         },
         error: (err: HttpErrorResponse) => {
-          console.log(`err: ${JSON.stringify(err)}`);
+          console.log(`auth.component/auth.component/err: ${JSON.stringify(err)}`);
           this.errors = new UiError(Object.assign(err));
           this.isSubmitting = false;
         }
@@ -187,13 +187,13 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   onLanguageChange(event: any): void {
     const lang: string = event.value;
-    console.log(`setActiveLang2: ${lang}`);
+    console.log(`auth.component/setActiveLang2: ${lang}`);
     this.translocoService.setActiveLang(lang);
   }
 
   validateEmail(control: FormControl): ValidationErrors | null {
     const email = control.value;
-    console.log(`email: ${email}`);
+    console.log(`auth.component/email: ${email}`);
     return !email || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) ? null : {email: {value: control.value}};
   }
 
@@ -208,16 +208,16 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     this.apiService.put<CommonResponse>(`${ApiEndpoints.USERS.PROCESS_REGISTRATION_TOKEN}?userToken=${token}`).subscribe({
       next: value => {
-        console.log('processedRegistrationToken');
+        console.log('auth.component/processedRegistrationToken');
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`auth.component/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('complete');
+        console.log('auth.component/complete');
       }
     });
   }
@@ -229,6 +229,5 @@ export class AuthComponent implements OnInit, OnDestroy {
   private processResetPasswordToken(token: string): void {
 
   }
-
 
 }

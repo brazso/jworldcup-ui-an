@@ -1,35 +1,40 @@
 import {
   Directive,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewContainerRef
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/models';
 import { SessionService } from 'src/app/core/services';
 
 @Directive({ selector: '[appShowAuthed]' })
-export class ShowAuthedDirective implements OnInit {
+export class ShowAuthedDirective implements OnInit, OnDestroy {
   constructor(
     private templateRef: TemplateRef<any>,
     private sessionService: SessionService,
     private viewContainer: ViewContainerRef
   ) {}
 
-  condition: boolean;
+  private subscriptions: Subscription[] = [];
+  private condition: boolean;
 
   ngOnInit() {
-    this.sessionService.user.subscribe(
+    this.subscriptions.push(this.sessionService.user.subscribe(
       (user: User) => {
-        console.log(`user: ${JSON.stringify(user)}`);
+        console.log(`show-authed.directive/user: ${JSON.stringify(user)}`);
+        this.viewContainer.clear();
         if (this.sessionService.isAuthenticated() && this.condition || !this.sessionService.isAuthenticated() && !this.condition) {
           this.viewContainer.createEmbeddedView(this.templateRef);
         }
-        else {
-          this.viewContainer.clear();
-        }
       }
-    );
+    ));
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   @Input() set appShowAuthed(condition: boolean) {

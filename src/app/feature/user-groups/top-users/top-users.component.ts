@@ -26,11 +26,11 @@ export class TopUsersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`top-users.component/session: ${JSON.stringify(session)}`);
 
         this.apiService.get<GenericListResponse<UserCertificate>>(`${ApiEndpoints.APPLICATION.RETRIEVE_TOP_USERS}`).subscribe((value) => {
           this.userCertificates = value.data;
-          console.log(`userCertificates: ${JSON.stringify(this.userCertificates)}`);
+          console.log(`top-users.component/userCertificates: ${JSON.stringify(this.userCertificates)}`);
         });
       }
     ));    
@@ -41,11 +41,11 @@ export class TopUsersComponent implements OnInit, OnDestroy {
   }
 
   onRowSelect(event_: any): void {
-    console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);
+    console.log(`top-users.component/onRowSelect data: ${JSON.stringify(event_.data)}`);
   }
 
   onRowUnselect(event_: any): void {
-    console.log(`onRowUnselect`);
+    console.log(`top-users.component/onRowUnselect`);
   }
 
 }

@@ -27,7 +27,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`certificates.component/session: ${JSON.stringify(session)}`);
 
         forkJoin([
           this.apiService.get<GenericResponse<number>>(`${ApiEndpoints.BETS.FIND_SCORE_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}`),
@@ -35,7 +35,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
           ]).subscribe(([scoreResponse, userCertificatesResponse]) => {
             this.score = scoreResponse.data;
             this.userCertificates = userCertificatesResponse.data;
-            console.log(`score: ${this.score}, userCertificates: ${JSON.stringify(this.userCertificates)}`);
+            console.log(`certificates.component/score: ${this.score}, userCertificates: ${JSON.stringify(this.userCertificates)}`);
           }
         );
       }
@@ -47,18 +47,18 @@ export class CertificatesComponent implements OnInit, OnDestroy {
   }
 
   onRowSelect(event_: any): void {
-    console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);
+    console.log(`certificates.component/onRowSelect data: ${JSON.stringify(event_.data)}`);
   }
 
   onRowUnselect(event_: any): void {
-    console.log(`onRowUnselect`);
+    console.log(`certificates.component/onRowUnselect`);
   }
 
   printCertificate(userCertificate: UserCertificate): void {
-    console.log(`printCertificate`);
+    console.log(`certificates.component/printCertificate`);
     let userCerrtificateExtended: UserCertificateExtended = userCertificate;
     userCerrtificateExtended.languageTag = this.session.localeId;
-    console.log(`userCerrtificateExtended: ${JSON.stringify(userCerrtificateExtended)}`);
+    console.log(`certificates.component/userCerrtificateExtended: ${JSON.stringify(userCerrtificateExtended)}`);
 
     this.apiService.post<any>(ApiEndpoints.USER_GROUPS.PRINT_USER_CERTIFICATE, userCerrtificateExtended, {responseType: 'blob' })
     .subscribe({
@@ -74,10 +74,10 @@ export class CertificatesComponent implements OnInit, OnDestroy {
         });
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`certificates.component/err: ${JSON.stringify(err)}`);
       },
       complete: () => {
-        console.log('complete');
+        console.log('certificates.component/complete');
       }
     });
   }

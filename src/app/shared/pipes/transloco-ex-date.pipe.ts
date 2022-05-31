@@ -26,11 +26,12 @@ export class TranslocoExDatePipe implements PipeTransform {
 	// }
 
     transform(date: ValidDate, options: DateFormatOptions = {}, locale?: Locale) {
-		// console.log(`transform date: ${JSON.stringify(date)}, options: ${JSON.stringify(options)}, locale: ${JSON.stringify(locale)}`);
+		// console.log(`transloco-ex-date.pipe/transform date: ${JSON.stringify(date)}, options: ${JSON.stringify(options)}, locale: ${JSON.stringify(locale)}`);
 		if (options?.timeZone === undefined && this.sessionService.isAuthenticated()) {
-				options.timeZone = this.sessionService.getUser().zoneId;
+			console.log(`transloco-ex-date.pipe/options.timeZone: ${this.sessionService.getUser().zoneId}`);
+			options.timeZone = this.sessionService.getUser().zoneId;
 		}
-		// console.log(`transform2 date: ${JSON.stringify(date)}, options: ${JSON.stringify(options)}, locale: ${JSON.stringify(locale)}`);
+		// console.log(`transloco-ex-date.pipe/transform2 date: ${JSON.stringify(date)}, options: ${JSON.stringify(options)}, locale: ${JSON.stringify(locale)}`);
         return this.translocoDatePipe.transform(date, options);
       }
 }

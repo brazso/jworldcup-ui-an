@@ -45,12 +45,12 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`session: ${JSON.stringify(session)}`);
+        console.log(`user-groups.component/session: ${JSON.stringify(session)}`);
 
         this.apiService.get<GenericListResponse<UserGroup>>(`${ApiEndpoints.USER_GROUPS.USER_GROUPS_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}&isEverybodyIncluded=false`).subscribe(
           (value) => {
             this.userGroups = value.data;
-            console.log(`userGroups: ${JSON.stringify(this.userGroups)}`);
+            console.log(`user-groups.component/userGroups: ${JSON.stringify(this.userGroups)}`);
           }
         );
       }
@@ -72,7 +72,7 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
       key: 'confirmDialog',
       message: this.replaceLineBreaksPipe.transform(this.translocoService.translate('userGroups.confirmation.deleteUserGroup')),
       accept: () => {
-        console.log('Delete');
+        console.log('user-groups.component/Delete');
         this.deleteUserGroup();
       }
     });
@@ -89,11 +89,11 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
         this.selectedUserGroup = undefined;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`user-groups.component/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
       },
       complete: () => {
-        console.log('complete');
+        console.log('user-groups.component/complete');
         this.errors = new UiError({});
       }
     });
@@ -101,40 +101,40 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
 
   onRowSelect(event_: any): void {
     // const selectedUserGroup: UserGroup = event_.data;
-    console.log(`onRowSelect data: ${JSON.stringify(event_.data)}`);
-    console.log(`onRowSelect data2: ${JSON.stringify(this.selectedUserGroup)}`);
+    console.log(`user-groups.component/onRowSelect data: ${JSON.stringify(event_.data)}`);
+    console.log(`user-groups.component/onRowSelect data2: ${JSON.stringify(this.selectedUserGroup)}`);
   }
 
   onRowUnselect(event_: any): void {
-    console.log(`onRowUnselect`);
+    console.log(`user-groups.component/onRowUnselect`);
   }
 
   /**
 	 * Creates a new user group from a popup window.
 	 */
   doInsertUserGroup(event_: any, isImportConfirmed: boolean): void {
-    console.log(`doInsertUserGroup`);
-    // console.log(`event_: ${JSON.stringify(event_)}`);
+    console.log(`user-groups.component/doInsertUserGroup`);
+    // console.log(`user-groups.component/event_: ${JSON.stringify(event_)}`);
     this.isSubmitting = true;
 
     this.apiService.post<GenericResponse<UserGroup>>(ApiEndpoints.USER_GROUPS.INSERT_USER_GROUP+'?eventId={0}&userId={1}&name={2}&isInsertConfirmed={3}'
       .format(this.sessionService.getEvent().eventId, this.sessionService.getUser().userId, this.userGroup.name, isImportConfirmed)).subscribe({
       next: value => {
-        console.log('inserted');
+        console.log('user-groups.component/inserted');
         const insertedUserGroup: UserGroup  = value.data;
         this.userGroups.push(insertedUserGroup);
         this.selectedUserGroup = insertedUserGroup;
         this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_COMPONENT;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`user-groups.component/err: ${JSON.stringify(err)}`);
         let error = err.error;
         if (error && isApiError(error) && error.items && getApiErrorOverallType(error) === ParameterizedMessageTypeEnum.INFO 
           && error.items.some(e => e.msgCode === 'USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT')) {
             let errorItem = error.items.find(e => e.msgCode === 'USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT');
-            // console.log(`errorItem: ${JSON.stringify(errorItem)}`);
+            // console.log(`user-groups.component/errorItem: ${JSON.stringify(errorItem)}`);
             this.confirmMsg = apiErrorItemMsgFormat(errorItem!, this.translocoService.translate(errorItem!.msgCode));
-            // console.log(`confirmMsg: ${confirmMsg}`);
+            // console.log(`user-groups.component/confirmMsg: ${confirmMsg}`);
             this.displayedComponentEnum = DisplayedComponentEnum.IMPORT_CONFIRM_DIALOG;
         }
         else {
@@ -143,14 +143,14 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('complete');
+        console.log('user-groups.component/complete');
         this.isSubmitting = false;
       }
     });
   }
 
   doResetUserGroup(event_: any): void {
-    console.log('doResetUserGroup');
+    console.log('user-groups.component/doResetUserGroup');
     this.displayedComponentEnum = DisplayedComponentEnum.USER_GROUP_COMPONENT;
     this.userGroupDialogErrors = new UiError({});
   }
@@ -159,7 +159,7 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
     this.apiService.post<GenericResponse<UserGroup>>(ApiEndpoints.USER_GROUPS.IMPORT_USER_GROUP+'?eventId={0}&userId={1}&name={2}'
       .format(this.sessionService.getEvent().eventId, this.sessionService.getUser().userId, this.userGroup.name)).subscribe({
       next: value => {
-        console.log('imported');
+        console.log('user-groups.component/imported');
         const importedUserGroup: UserGroup  = value.data;
         this.userGroups.push(importedUserGroup);
         this.selectedUserGroup = importedUserGroup;
@@ -167,12 +167,12 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
         this.userGroupDialogErrors = new UiError({});
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`err: ${JSON.stringify(err)}`);
+        console.log(`user-groups.component/err: ${JSON.stringify(err)}`);
         this.userGroupDialogErrors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('complete');
+        console.log('user-groups.component/complete');
         this.isSubmitting = false;
       }
     });
