@@ -108,8 +108,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
           },
           {
             label: this.translocoService.translate('menu.chat'),
-            visible: this.sessionService.isUserUser(),
-            disabled: true
+            // visible: this.sessionService.isUserUser(),
+            routerLink: [RouterUrls.CHAT]
           },
           {
             label: this.translocoService.translate('menu.gameRule'),

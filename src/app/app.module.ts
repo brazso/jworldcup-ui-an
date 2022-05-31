@@ -17,6 +17,8 @@ import { GroupStandingsModule } from './feature/group-standings/group-standings.
 import { UserDetailModule } from './feature/user-detail/user-detail.module';
 import { UserGroupsModule } from './feature/user-groups/user-groups.module';
 
+import { ChatModule } from './feature/chat/chat.module';
+
 // export function initUser(userService: UserService) {
 //   return (): Promise<any>  => {
 //     return userService.loadAndStoreUser();
@@ -51,7 +53,8 @@ declare global {
     FavouriteTeamModule,
     GroupStandingsModule,
     UserDetailModule,
-    UserGroupsModule
+    UserGroupsModule,
+    ChatModule
   ],
   // for Services (Guards can be considered to Services)
   providers: [
