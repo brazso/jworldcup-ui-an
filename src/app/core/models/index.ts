@@ -1,5 +1,6 @@
 export * from './bet';
 export * from './chart';
+export * from './chat';
 export * from './common';
 export * from './enum';
 export * from './event';

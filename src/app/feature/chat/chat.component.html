@@ -1,1 +1,13 @@
-<p>chat works!</p>
+<ng-container *transloco="let t">
+    <p-panel [header]="t('chat.title')">
+        <p-tabView>
+            <!-- leftIcon="pi pi-user" -->
+            <p-tabPanel *ngFor="let userGroup of userGroups; let i = index" [selected]="i === 0" [closable]="i !== userGroups.length-1" leftIcon="pi pi-users">
+                <!-- [header]="userGroup.name ?? ''" cannot be used, at least it generates error in console.log -->
+                <ng-template pTemplate="header">{{userGroup.name ?? ''}}</ng-template>
+                {{userGroup.name}}
+            </p-tabPanel>
+        </p-tabView>
+    </p-panel>
+</ng-container>
+
