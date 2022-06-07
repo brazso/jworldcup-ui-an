@@ -687,7 +687,10 @@
 	"__Chat form__": "",
 	"chat": {
 		"title": "Csevegés",
-		"label.sendMessage": "Üzenet",
+		"label": {
+			"sendMessage": "Üzenet",
+			"noChatMessages": "Nincs chat üzenet."
+		},
 		"tooltip.refresh": "Frissíti az aktuális felhasználói cosporthoz tartozó üzeneteket"
 	}
 

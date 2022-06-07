@@ -28,11 +28,12 @@
     },
 
     "APPLICATION": {
-        "RETRIEVE_TOP_USERS" : "/application/retrieve-top-users"
+        "RETRIEVE_TOP_USERS": "/application/retrieve-top-users",
+        "RETRIEVE_CHATS": "/application/retrieve-chats"
     },
 
     "SESSION": {
-        "SESSION_DATA" : "/session/refresh-session-data"
+        "SESSION_DATA": "/session/refresh-session-data"
     },
 
     "MATCHES": {

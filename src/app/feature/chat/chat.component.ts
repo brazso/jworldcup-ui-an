@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IWatchParams } from '@stomp/rx-stomp';
 import { Subscription } from 'rxjs';
-import { ApiService, GenericListResponse, RxStompService, SessionData, SessionService, UiError, User, UserGroup, UserGroupExtended } from 'src/app/core';
+import { ApiService, Chat, GenericListResponse, RxStompService, SessionData, SessionService, UiError, User, UserGroup, UserGroupExtended } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { Message } from '@stomp/stompjs';
 
@@ -17,6 +17,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   userGroups: UserGroupExtended[];
   //rooms: (User | UserGroup)[];
   selectedUserGroup: UserGroup | undefined;
+  chatMap: Map<UserGroup, Chat[]> = new Map();
 
   constructor(
     public readonly sessionService: SessionService,
@@ -37,12 +38,13 @@ export class ChatComponent implements OnInit, OnDestroy {
           (value) => {
             this.userGroups = value.data;
             console.log(`chat.component/userGroups: ${JSON.stringify(this.userGroups)}`);
+            this.loadChats();
           }
         );
       }
     ));
 
-    this.subscriptions.push(this.rxStompService.watch({ destination: `/topic/chat`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "false" } } as IWatchParams).subscribe(
+    this.subscriptions.push(this.rxStompService.watch({ destination: `/topic/chat`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
       (message: Message) => {
         console.log(`chat.component/message received: ${JSON.stringify(message)}`);
         // const session: SessionData = JSON.parse(message.body);
@@ -55,6 +57,20 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  /**
+   * Loads chats belongs to this.userGroups
+   */
+  loadChats(): void {
+    for (const userGroup of this.userGroups) {
+      this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.APPLICATION.RETRIEVE_CHATS}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${userGroup.userGroupId}`).subscribe(
+        (value) => {
+          this.chatMap.set(userGroup, value.data);
+          console.log(`chat.component/chat: ${JSON.stringify(value.data)}`);
+        }
+      );
+    }
   }
 
 }

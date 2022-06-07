@@ -5,7 +5,15 @@
             <p-tabPanel *ngFor="let userGroup of userGroups; let i = index" [selected]="i === 0" [closable]="i !== userGroups.length-1" leftIcon="pi pi-users">
                 <!-- [header]="userGroup.name ?? ''" cannot be used, at least it generates error in console.log -->
                 <ng-template pTemplate="header">{{userGroup.name ?? ''}}</ng-template>
-                {{userGroup.name}}
+                <p-dataView [value]="chatMap.get(userGroup) ?? []" [emptyMessage]="t('chat.label.noChatMessages')">
+                    <ng-template let-chat pTemplate="listItem">
+                        <div>
+                            {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
+                            <span class="chat-message-user">{{chat.user.loginName}}</span>
+                            {{chat.message}}
+                        </div>
+                    </ng-template>
+                </p-dataView>
             </p-tabPanel>
         </p-tabView>
     </p-panel>
