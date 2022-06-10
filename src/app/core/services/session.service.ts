@@ -164,7 +164,7 @@ export class SessionService {
 
   attemptAuth(type: string, credentials: JwtRequest): Observable<SessionData> {
     console.log('session.service/attemptAuth');
-    return this.apiService.post<JwtResponse>('/login', credentials)
+    return this.apiService.post<JwtResponse>(ApiEndpoints.LOGIN, credentials)
       .pipe(map(
         response => {
           if (response.token) {
