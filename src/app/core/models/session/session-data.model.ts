@@ -1,4 +1,4 @@
-import { Event, SessionDataModificationFlag, User, UserOfEvent } from "src/app/core/models";
+import { Event, SessionDataModificationFlag, User, UserGroup, UserOfEvent } from "src/app/core/models";
 
 export interface SessionData {
     id?: string;
@@ -11,6 +11,7 @@ export interface SessionData {
     user?: User;
     event?:	Event;
     userOfEvent?: UserOfEvent;
+    userGroups?: UserGroup[];
     newsLine?: string;
     eventCompletionPercent?: number;
     completedEventIds?: number[];

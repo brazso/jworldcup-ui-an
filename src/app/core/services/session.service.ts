@@ -60,11 +60,11 @@ export class SessionService {
 
         if (!isObjectEmpty(this.getSession())) {
           if (this.getSession().id) {
-            console.log(`session.service/watch: /queue/session${this.getSession().id}`);
+            console.log(`session.service/watch: /queue/session#${this.getSession().id}`);
             // this.rxStompService.publish({ destination: '/topic/demo', body: 'Hello Demo!' } as IRxStompPublishParams);
             // this.rxStompService.watch({ destination: '/topic/user-session/' + response.data.id } as IWatchParams);
 
-            const subscription = this.rxStompService.watch({ destination: `/queue/session${this.getSession().id}`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
+            const subscription = this.rxStompService.watch({ destination: `/queue/session#${this.getSession().id}`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
               (message: Message) => {
                 // console.log(`session.service/message received: ${JSON.stringify(message)}`);
                 const session: SessionData = JSON.parse(message.body);

@@ -7,5 +7,6 @@ export enum SessionDataModificationFlag {
 	LOCALE = 'LOCALE',
 	NEWS_LINE = 'NEWS_LINE', 
 	USER = 'USER',
-    // USER_OF_EVENT = 'USER_OF_EVENT'
+    // USER_OF_EVENT = 'USER_OF_EVENT',
+	USER_GROUPS = 'USER_GROUPS'
 }
