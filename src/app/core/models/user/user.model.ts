@@ -10,4 +10,5 @@ export interface User {
   zoneId?: string,
   modificationTime?: Date, //2018-11-28T16:08:16"
   authorities?: string[];
+  isOnline?: boolean;
 }

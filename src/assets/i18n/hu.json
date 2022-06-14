@@ -689,7 +689,9 @@
 		"title": "Csevegés",
 		"label": {
 			"sendMessage": "Üzenet",
-			"noChatMessages": "Nincs chat üzenet."
+			"noChatMessages": "Nincs chat üzenet.",
+			"online": "Online",
+			"offline": "Offline"
 		},
 		"tooltip.refresh": "Frissíti az aktuális felhasználói cosporthoz tartozó üzeneteket"
 	}

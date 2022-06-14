@@ -689,7 +689,9 @@
 		"title": "Chat",
 		"label": {
 			"sendMessage": "Message",
-			"noChatMessages": "No chat messages found."
+			"noChatMessages": "No chat messages found.",
+			"online": "Online",
+			"offline": "Offline"
 		},
 		"tooltip.refresh": "Refreshes the chat messages of the actual user group"
 		

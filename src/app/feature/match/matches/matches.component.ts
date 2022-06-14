@@ -32,6 +32,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    console.log(`matches.component/ngOnInit`);
     // wait until translation is being loaded
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       // Set a title for the page accordingly
@@ -63,6 +64,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
+    console.log(`matches.component/ngOnDestroy`);
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 

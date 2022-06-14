@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IWatchParams } from '@stomp/rx-stomp';
 import { map, Subscription } from 'rxjs';
-import { ApiService, Chat, GenericListResponse, RxStompService, SessionData, SessionDataModificationFlag, SessionService, UiError, User, UserGroup, UserGroupExtended } from 'src/app/core';
+import { ApiService, Chat, GenericListResponse, RxStompService, SessionData, SessionDataModificationFlag, SessionService, UiError, User, UserGroup } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { Message } from '@stomp/stompjs';
 
@@ -14,7 +14,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   isSubmitting = false;
   errors: UiError = new UiError({});
   // session: SessionData;
-  userGroups: UserGroupExtended[];
+  userGroups: UserGroup[];
   //rooms: (User | UserGroup)[];
   selectedUserGroup: UserGroup | undefined;
   chatMap: Map<UserGroup, Chat[]> = new Map();
@@ -30,11 +30,12 @@ export class ChatComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    console.log(`chat.component/ngOnInit`);
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         // this.session = session;
         console.log(`chat.component/session: ${JSON.stringify(session)}`);
-        if ((session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
+        if (!this.userGroups || (session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
           this.userGroups = session.userGroups ?? [];
           console.log(`chat.component/userGroups: ${JSON.stringify(this.userGroups)}`);
 
@@ -45,9 +46,8 @@ export class ChatComponent implements OnInit, OnDestroy {
               const subscription: Subscription = this.rxStompService.watch({ destination, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
                 (message: Message) => {
                   console.log(`chat.component/message received: ${JSON.stringify(message)}`);
-                  // const session: SessionData = JSON.parse(message.body);
-                  // console.log(`session.service/session received: ${JSON.stringify(session)}`);
-                  // this.setSession(session);
+                  const chat: Chat = JSON.parse(message.body);
+                  this.processChat(chat);
                 }
               );
               this.subscriptions.push(subscription);
@@ -82,6 +82,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log(`chat.component/ngOnDestroy`);
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
@@ -93,10 +94,17 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.APPLICATION.RETRIEVE_CHATS}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${userGroup.userGroupId}`).subscribe(
         (value) => {
           this.chatMap.set(userGroup, value.data);
-          console.log(`chat.component/chat: ${JSON.stringify(value.data)}`);
+          console.log(`chat.component/loadChats/chat: ${JSON.stringify(value.data)}`);
         }
       );
     }
   }
 
+  processChat(chat: Chat): void {
+    console.log(`chat.component/processChat/chat: ${JSON.stringify(chat)}`);
+  }
+
+  getUsersByUserGroup(userGroup: UserGroup): User[] {
+    return userGroup.virtualUsers ?? [];
+  }
 }

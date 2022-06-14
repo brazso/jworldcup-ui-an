@@ -6,4 +6,5 @@ export interface UserGroup {
 	isPublicVisible?: boolean;
 	name?: string;
 	owner?: User;
+	virtualUsers? : User[];
 }

@@ -6,7 +6,7 @@ export interface Chat {
     message?: string;
     modificationTime?: Date;
     // userGroup?: UserGroup;
-    // user?: User;
+    user?: User;
     // targetUser?: User;
     isPrivate?: boolean;
 }
