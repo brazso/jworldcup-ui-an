@@ -5,6 +5,8 @@ import { ApiService, Chat, GenericListResponse, RxStompService, SessionData, Ses
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { Message } from '@stomp/stompjs';
 
+export type ChatRoom = User | UserGroup;
+
 @Component({
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
@@ -14,10 +16,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   isSubmitting = false;
   errors: UiError = new UiError({});
   // session: SessionData;
-  userGroups: UserGroup[];
-  //rooms: (User | UserGroup)[];
-  selectedUserGroup: UserGroup | undefined;
-  chatMap: Map<UserGroup, Chat[]> = new Map();
+  // userGroups: UserGroup[];
+  chatRooms: ChatRoom[];
+  // selectedUserGroup: UserGroup | undefined;
+  chatMap: Map<ChatRoom, Chat[]> = new Map();
   subscriptionMap: Map<string, Subscription> = new Map();
 
   constructor(
@@ -35,12 +37,12 @@ export class ChatComponent implements OnInit, OnDestroy {
       (session: SessionData) => {
         // this.session = session;
         console.log(`chat.component/session: ${JSON.stringify(session)}`);
-        if (!this.userGroups || (session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
-          this.userGroups = session.userGroups ?? [];
-          console.log(`chat.component/userGroups: ${JSON.stringify(this.userGroups)}`);
+        if (!this.chatRooms || (session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
+          this.chatRooms = session.userGroups ?? [];
+          console.log(`chat.component/chatRooms: ${JSON.stringify(this.chatRooms)}`);
 
           // new userGroups
-          this.userGroups.forEach(userGroup => {
+          this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e as UserGroup).forEach(userGroup => {
             const destination: string = `/topic/chat#${userGroup.userGroupId}`;
             if (!this.subscriptionMap.has(destination)) {
               const subscription: Subscription = this.rxStompService.watch({ destination, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
@@ -58,7 +60,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
           // dropped userGroups
           this.subscriptionMap.forEach((subscription: Subscription, destination: string) => {
-            if (!this.userGroups.map(userGroup => `/topic/chat#${userGroup.userGroupId}`).includes(destination)) {
+            if (!this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e as UserGroup).map(userGroup => `/topic/chat#${userGroup.userGroupId}`).includes(destination)) {
               this.subscriptions = this.subscriptions.filter(e => e !== subscription);
               subscription.unsubscribe();
               this.subscriptionMap.delete(destination);
@@ -90,7 +92,7 @@ export class ChatComponent implements OnInit, OnDestroy {
    * Loads chats belongs to this.userGroups
    */
   loadChats(): void {
-    for (const userGroup of this.userGroups) {
+    for (const userGroup of this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e as UserGroup)) {
       this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.APPLICATION.RETRIEVE_CHATS}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${userGroup.userGroupId}`).subscribe(
         (value) => {
           this.chatMap.set(userGroup, value.data);
@@ -107,4 +109,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   getUsersByUserGroup(userGroup: UserGroup): User[] {
     return userGroup.virtualUsers ?? [];
   }
+
+  isChatRoomUserGroup(chatRoom: ChatRoom): chatRoom is UserGroup {
+    return 'userGroupId' in chatRoom;
+  }
+  
+  isChatRoomUser(chatRoom: ChatRoom): chatRoom is User {
+    return 'userId' in  chatRoom;
+  }
+  
+  
 }

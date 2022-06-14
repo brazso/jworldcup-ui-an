@@ -2,28 +2,53 @@
     <p-panel [header]="t('chat.title')">
         <p-tabView>
             <!-- leftIcon="pi pi-user" -->
-            <p-tabPanel *ngFor="let userGroup of userGroups; let i = index" [selected]="i === 0" [closable]="i !== userGroups.length-1" leftIcon="pi pi-users">
+            <p-tabPanel *ngFor="let chatRoom of chatRooms; let i = index" [selected]="i === 0" [closable]="isChatRoomUser(chatRoom) || isChatRoomUserGroup(chatRoom) && !chatRoom.userGroupId" leftIcon="pi pi-users">
                 <!-- [header]="userGroup.name ?? ''" cannot be used, at least it generates error in console.log -->
-                <ng-template pTemplate="header">{{userGroup.name ?? ''}}</ng-template>
-                <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
-                    <p-dataView [value]="userGroup.virtualUsers ?? []">
-                        <ng-template let-user pTemplate="listItem">
-                            <div>
-                                <i [class]="'pi ' + (user.isOnline ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
-                                <span [class]="user.isOnline ? 'user-online' : 'user-offline'" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
-                            </div>
-                        </ng-template>
-                    </p-dataView>                    
-                    <p-dataView [value]="chatMap.get(userGroup) ?? []" [emptyMessage]="t('chat.label.noChatMessages')">
-                        <ng-template let-chat pTemplate="listItem">
-                            <div>
-                                {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
-                                <span class="chat-message-user">{{chat.user.loginName}}</span>
-                                {{chat.message}}
-                            </div>
-                        </ng-template>
-                    </p-dataView>
-            </div>
+                <ng-template *ngIf="isChatRoomUserGroup(chatRoom)" pTemplate="header"><i class="pi pi-users"></i>&nbsp;{{chatRoom.name ?? ''}}</ng-template>
+                <div *ngIf="isChatRoomUserGroup(chatRoom)">
+                    <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
+                        <p-dataView [value]="chatRoom.virtualUsers ?? []">
+                            <ng-template let-user pTemplate="listItem">
+                                <div>
+                                    <i [class]="'pi ' + (user.isOnline ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
+                                    <span [class]="user.isOnline ? 'user-online' : 'user-offline'" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
+                                </div>
+                            </ng-template>
+                        </p-dataView>                    
+                        <p-dataView [value]="chatMap.get(chatRoom) ?? []" [emptyMessage]="t('chat.label.noChatMessages')">
+                            <ng-template let-chat pTemplate="listItem">
+                                <div>
+                                    {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
+                                    <span class="chat-message-user">{{chat.user.loginName}}</span>
+                                    {{chat.message}}
+                                </div>
+                            </ng-template>
+                        </p-dataView>
+                    </div>
+                </div>
+
+                <ng-template *ngIf="isChatRoomUser(chatRoom)" pTemplate="header"><i [class]="'pi ' + (chatRoom.isOnline ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="chatRoom.isOnline ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;{{chatRoom.loginName ?? ''}}</ng-template>
+                <div *ngIf="isChatRoomUser(chatRoom)">
+                    <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
+                        <p-dataView [value]="[chatRoom]">
+                            <ng-template let-user pTemplate="listItem">
+                                <div>
+                                    <i [class]="'pi ' + (user.isOnline ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
+                                    <span [class]="user.isOnline ? 'user-online' : 'user-offline'" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
+                                </div>
+                            </ng-template>
+                        </p-dataView>                    
+                        <p-dataView [value]="chatMap.get(chatRoom) ?? []" [emptyMessage]="t('chat.label.noChatMessages')">
+                            <ng-template let-chat pTemplate="listItem">
+                                <div>
+                                    {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
+                                    <span class="chat-message-user">{{chat.user.loginName}}</span>
+                                    {{chat.message}}
+                                </div>
+                            </ng-template>
+                        </p-dataView>
+                    </div>
+                </div>
             </p-tabPanel>
         </p-tabView>
     </p-panel>
