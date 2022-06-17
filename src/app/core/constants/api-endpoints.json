@@ -76,5 +76,9 @@
         "FIND_USER_CERTIFICATES_BY_EVENT_AND_USER": "/user-groups/find-user-certificates-by-event-and-user",
         "PRINT_USER_CERTIFICATE": "/user-groups/print-user-certificate",
         "FIND_LINE_CHART_DATA_BY_EVENT_AND_USER_GROUP": "/user-groups/find-line-chart-data-by-event-and-user-group"
+    },
+
+    "CHATS": {
+        "SEND_CHAT": "/chats/send-chat"
     }
 }

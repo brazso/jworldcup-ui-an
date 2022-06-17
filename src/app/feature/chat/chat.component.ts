@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IWatchParams } from '@stomp/rx-stomp';
-import { map, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ApiService, Chat, GenericListResponse, RxStompService, SessionData, SessionDataModificationFlag, SessionService, UiError, User, UserGroup } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { Message } from '@stomp/stompjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export type ChatRoom = User | UserGroup;
 
@@ -17,9 +18,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   errors: UiError = new UiError({});
   // session: SessionData;
   // userGroups: UserGroup[];
+  activeIndex: number = 0; // for TabView/ChatRooms
   chatRooms: ChatRoom[];
-  // selectedUserGroup: UserGroup | undefined;
+  // selectedChatRoom: ChatRoom | undefined;
   chatMap: Map<ChatRoom, Chat[]> = new Map();
+  message: string;
   subscriptionMap: Map<string, Subscription> = new Map();
 
   constructor(
@@ -40,6 +43,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (!this.chatRooms || (session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
           this.chatRooms = session.userGroups ?? [];
           console.log(`chat.component/chatRooms: ${JSON.stringify(this.chatRooms)}`);
+          // this.selectedChatRoom = this.chatRooms.length > 0 ? this.chatRooms[0] : undefined;
 
           // new userGroups
           this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e as UserGroup).forEach(userGroup => {
@@ -118,5 +122,64 @@ export class ChatComponent implements OnInit, OnDestroy {
     return 'userId' in  chatRoom;
   }
   
+  onChangeTabView(event_: any): void {
+    console.log(`chat.component/onChangeTabView/event: ${JSON.stringify(event_)}`);
+    console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
+    // this.selectedChatRoom = this.chatRooms[event_.index];
+    this.message == '';
+  }
+
+  onCloseTabView(event_: any): void {
+    console.log(`chat.component/onCloseTabView/event: ${JSON.stringify(event_)}`);
+    console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
+    this.chatRooms.splice(event_.index, 1); // remove closed chatRoom from its array
+    this.activeIndex = 0;
+  }
+
+  onClickUser(user: User): void {
+    console.log(`chat.component/onClickUser/user: ${JSON.stringify(user)}`);
+    console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
+    this.sendChatInit();
+  }
+
+  getSelectedChatRoom(): ChatRoom {
+    return this.chatRooms[this.activeIndex];
+  }
   
+  sendChatInit(): void {
+    console.log(`chat.component/sendChatInit`);
+    const chatRoom = this.getSelectedChatRoom();
+
+    const chat = { 
+      event: this.sessionService.getEvent(), 
+      user: this.sessionService.getUser(),
+      message: this.message
+    } as Chat;    
+    if (this.isChatRoomUserGroup(chatRoom)) {
+      chat.userGroup = chatRoom;
+    }
+    else if (this.isChatRoomUserGroup(chatRoom)) {
+      chat.user = chatRoom;
+    }
+
+    this.sendChat(chat);
+  }
+
+  sendChat(chat: Chat): void {
+    console.log(`chat.component/sendChat`);
+    this.apiService.post<void>(ApiEndpoints.CHATS.SEND_CHAT, chat)
+    .subscribe({
+      next: response => {
+        console.log(`chat.component/sendChat/sentChat`);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`chat.component/err: ${JSON.stringify(err)}`);
+      },
+      complete: () => {
+        console.log('chat.component/complete');
+      }
+    });
+
+  }
+
 }

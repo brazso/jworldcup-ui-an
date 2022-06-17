@@ -691,7 +691,10 @@
 			"sendMessage": "Message",
 			"noChatMessages": "No chat messages found.",
 			"online": "Online",
-			"offline": "Offline"
+			"offline": "Offline",
+			"users": "Users",
+			"user": "User",
+			"messages": "Messages"
 		},
 		"tooltip.refresh": "Refreshes the chat messages of the actual user group"
 		

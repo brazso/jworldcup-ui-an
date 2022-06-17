@@ -691,7 +691,10 @@
 			"sendMessage": "Üzenet",
 			"noChatMessages": "Nincs chat üzenet.",
 			"online": "Online",
-			"offline": "Offline"
+			"offline": "Offline",
+			"users": "Felhasználók",
+			"user": "Felhasználó",
+			"messages": "Üzenetek"
 		},
 		"tooltip.refresh": "Frissíti az aktuális felhasználói cosporthoz tartozó üzeneteket"
 	}
