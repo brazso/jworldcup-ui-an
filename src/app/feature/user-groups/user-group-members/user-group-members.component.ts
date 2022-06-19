@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, SimpleChanges, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, SimpleChanges, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfirmationService } from 'primeng/api';

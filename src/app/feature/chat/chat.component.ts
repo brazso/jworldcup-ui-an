@@ -1,12 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { IWatchParams } from '@stomp/rx-stomp';
 import { Subscription } from 'rxjs';
 import { ApiService, Chat, GenericListResponse, RxStompService, SessionData, SessionDataModificationFlag, SessionService, UiError, User, UserGroup } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { Message } from '@stomp/stompjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectorRef } from '@angular/core';
+import { TabPanel } from 'primeng/tabview';
 
-export type ChatRoom = User | UserGroup;
+// export type ChatRoom = User | UserGroup;
+
+export interface ChatRoom {
+  userGroup?: UserGroup;
+  user?: User; // private room
+  chats: Chat[];
+}
 
 @Component({
   templateUrl: './chat.component.html',
@@ -20,15 +28,17 @@ export class ChatComponent implements OnInit, OnDestroy {
   // userGroups: UserGroup[];
   activeIndex: number = 0; // for TabView/ChatRooms
   chatRooms: ChatRoom[];
-  // selectedChatRoom: ChatRoom | undefined;
-  chatMap: Map<ChatRoom, Chat[]> = new Map();
+  // chatMap: Map<ChatRoom, Chat[]> = new Map();
   message: string;
   subscriptionMap: Map<string, Subscription> = new Map();
+  @ViewChild('messageInput') messageInputElement: ElementRef;
+  @ViewChildren('tabPanels') tabPanels: QueryList<TabPanel>;
 
   constructor(
     public readonly sessionService: SessionService,
     private readonly apiService: ApiService,
     private rxStompService: RxStompService,
+    private changeDetectorRef: ChangeDetectorRef
     // private confirmationService: ConfirmationService,
     // private translocoService: TranslocoService,
     // private replaceLineBreaksPipe: ReplaceLineBreaksPipe
@@ -41,12 +51,11 @@ export class ChatComponent implements OnInit, OnDestroy {
         // this.session = session;
         console.log(`chat.component/session: ${JSON.stringify(session)}`);
         if (!this.chatRooms || (session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
-          this.chatRooms = session.userGroups ?? [];
+          this.chatRooms = (session.userGroups ?? []).map(e => ({userGroup: e} as ChatRoom));
           console.log(`chat.component/chatRooms: ${JSON.stringify(this.chatRooms)}`);
-          // this.selectedChatRoom = this.chatRooms.length > 0 ? this.chatRooms[0] : undefined;
 
           // new userGroups
-          this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e as UserGroup).forEach(userGroup => {
+          this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e.userGroup!).forEach(userGroup => {
             const destination: string = `/topic/chat#${userGroup.userGroupId}`;
             if (!this.subscriptionMap.has(destination)) {
               const subscription: Subscription = this.rxStompService.watch({ destination, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
@@ -64,7 +73,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
           // dropped userGroups
           this.subscriptionMap.forEach((subscription: Subscription, destination: string) => {
-            if (!this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e as UserGroup).map(userGroup => `/topic/chat#${userGroup.userGroupId}`).includes(destination)) {
+            if (!this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e.userGroup!).map(userGroup => `/topic/chat#${userGroup.userGroupId}`).includes(destination)) {
               this.subscriptions = this.subscriptions.filter(e => e !== subscription);
               subscription.unsubscribe();
               this.subscriptionMap.delete(destination);
@@ -96,10 +105,10 @@ export class ChatComponent implements OnInit, OnDestroy {
    * Loads chats belongs to this.userGroups
    */
   loadChats(): void {
-    for (const userGroup of this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e as UserGroup)) {
-      this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.APPLICATION.RETRIEVE_CHATS}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${userGroup.userGroupId}`).subscribe(
+    for (const chatRoom of this.chatRooms.filter(e => this.isChatRoomUserGroup(e))) {
+      this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.APPLICATION.RETRIEVE_CHATS}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${chatRoom.userGroup!.userGroupId}`).subscribe(
         (value) => {
-          this.chatMap.set(userGroup, value.data);
+          chatRoom.chats = value.data;
           console.log(`chat.component/loadChats/chat: ${JSON.stringify(value.data)}`);
         }
       );
@@ -108,18 +117,35 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   processChat(chat: Chat): void {
     console.log(`chat.component/processChat/chat: ${JSON.stringify(chat)}`);
+    const chatRoom = this.getSelectedChatRoom();
+    chatRoom.chats.push(chat);
+    // this.chatMap.get(chatRoom)?.push(chat);
+    this.message = '';
+    // this.chatRooms.push({} as ChatRoom);
+    // this.chatRooms.pop();
+    
+    // if (this.isChatRoomUserGroup(chatRoom)) {
+    //   chatRoom.name = 'aaa';
+    //   chatRoom.virtualUsers![0]!.loginName = 'Bucika';
+    // }
+    // this.lstValues .push( Object.assign({}, value));
+    // this.chatMap = Object.assign(this.chatMap);
+    // console.log(`chat.component/processChat/nativeElement: ${JSON.stringify(this.messageInputElement.nativeElement)}`);
+    // this.messageInputElement.nativeElement.blur(); // without losing focus on the input, the chats UI are not refreshed at once
+    // console.log(`chat.component/processChat/tabPanels: ${typeof this.tabPanels.get(this.activeIndex)}`);
+    // const tabPanel: TabPanel = this.tabPanels.get(this.activeIndex);
   }
 
   getUsersByUserGroup(userGroup: UserGroup): User[] {
     return userGroup.virtualUsers ?? [];
   }
 
-  isChatRoomUserGroup(chatRoom: ChatRoom): chatRoom is UserGroup {
-    return 'userGroupId' in chatRoom;
+  isChatRoomUserGroup(chatRoom: ChatRoom): boolean {
+    return 'userGroup' in chatRoom;
   }
   
-  isChatRoomUser(chatRoom: ChatRoom): chatRoom is User {
-    return 'userId' in  chatRoom;
+  isChatRoomUser(chatRoom: ChatRoom): boolean {
+    return 'user' in chatRoom;
   }
   
   onChangeTabView(event_: any): void {
@@ -139,7 +165,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   onClickUser(user: User): void {
     console.log(`chat.component/onClickUser/user: ${JSON.stringify(user)}`);
     console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
-    this.sendChatInit();
   }
 
   getSelectedChatRoom(): ChatRoom {
@@ -148,6 +173,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   
   sendChatInit(): void {
     console.log(`chat.component/sendChatInit`);
+    if (!this.message) {
+      return;
+    }
     const chatRoom = this.getSelectedChatRoom();
 
     const chat = { 
@@ -156,10 +184,10 @@ export class ChatComponent implements OnInit, OnDestroy {
       message: this.message
     } as Chat;    
     if (this.isChatRoomUserGroup(chatRoom)) {
-      chat.userGroup = chatRoom;
+      chat.userGroup = chatRoom.userGroup;
     }
     else if (this.isChatRoomUserGroup(chatRoom)) {
-      chat.user = chatRoom;
+      chat.user = chatRoom.user;
     }
 
     this.sendChat(chat);
