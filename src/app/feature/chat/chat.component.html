@@ -3,7 +3,7 @@
         <div fxLayout="column">
             <p-tabView (onChange)="onChangeTabView($event)" (onClose)="onCloseTabView($event)" [(activeIndex)]="activeIndex">
                 <!-- leftIcon="pi pi-user" -->
-                <p-tabPanel #tabPanels *ngFor="let chatRoom of chatRooms; let i = index" 
+                <p-tabPanel *ngFor="let chatRoom of chatRooms; let i = index" 
                     [closable]="isChatRoomUser(chatRoom) || isChatRoomUserGroup(chatRoom) && !!chatRoom.userGroup!.userGroupId" 
                     leftIcon="pi pi-users">
                     <!-- [header]="userGroup.name ?? ''" cannot be used, at least it generates error in console.log -->
@@ -58,7 +58,7 @@
                     </div>
                 </p-tabPanel>
             </p-tabView>
-            <input name="message" #messageInput [(ngModel)]="message" [disabled]="false" (keydown.enter)="sendChatInit()" pInputText trim/>
+            <input name="message" #messageInput [(ngModel)]="message" [disabled]="false" (keydown.enter)="sendChatInit()" pInputText trim autoFocus/>
         </div>
     </p-panel>
 </ng-container>

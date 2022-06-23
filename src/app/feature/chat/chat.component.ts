@@ -6,7 +6,6 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
 import { Message } from '@stomp/stompjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
-import { TabPanel } from 'primeng/tabview';
 
 // export type ChatRoom = User | UserGroup;
 
@@ -32,7 +31,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   message: string;
   subscriptionMap: Map<string, Subscription> = new Map();
   @ViewChild('messageInput') messageInputElement: ElementRef;
-  @ViewChildren('tabPanels') tabPanels: QueryList<TabPanel>;
 
   constructor(
     public readonly sessionService: SessionService,
@@ -118,22 +116,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   processChat(chat: Chat): void {
     console.log(`chat.component/processChat/chat: ${JSON.stringify(chat)}`);
     const chatRoom = this.getSelectedChatRoom();
-    chatRoom.chats.push(chat);
-    // this.chatMap.get(chatRoom)?.push(chat);
+    // chatRoom.chats.push(chat); // not enough that the UI would be updated...
+    chatRoom.chats =  [...chatRoom.chats, chat]; // ...so the array must be recreated
     this.message = '';
-    // this.chatRooms.push({} as ChatRoom);
-    // this.chatRooms.pop();
-    
-    // if (this.isChatRoomUserGroup(chatRoom)) {
-    //   chatRoom.name = 'aaa';
-    //   chatRoom.virtualUsers![0]!.loginName = 'Bucika';
-    // }
-    // this.lstValues .push( Object.assign({}, value));
-    // this.chatMap = Object.assign(this.chatMap);
-    // console.log(`chat.component/processChat/nativeElement: ${JSON.stringify(this.messageInputElement.nativeElement)}`);
-    // this.messageInputElement.nativeElement.blur(); // without losing focus on the input, the chats UI are not refreshed at once
-    // console.log(`chat.component/processChat/tabPanels: ${typeof this.tabPanels.get(this.activeIndex)}`);
-    // const tabPanel: TabPanel = this.tabPanels.get(this.activeIndex);
   }
 
   getUsersByUserGroup(userGroup: UserGroup): User[] {
