@@ -10,7 +10,7 @@
                     <ng-template *ngIf="isChatRoomUserGroup(chatRoom)" pTemplate="header"><i class="pi pi-users"></i>&nbsp;{{chatRoom.userGroup!.name ?? ''}}</ng-template>
                     <div *ngIf="isChatRoomUserGroup(chatRoom)">
                         <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
-                            <p-dataView [value]="chatRoom.userGroup!.virtualUsers ?? []">
+                            <p-dataView [value]="chatRoom.userGroup!.users ?? []">
                                 <ng-template pTemplate="header">{{t('chat.label.users')}}</ng-template>
                                 <ng-template let-user pTemplate="listItem">
                                     <div (click)="onClickUser(user)">

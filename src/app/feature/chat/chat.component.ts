@@ -51,6 +51,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (!this.chatRooms || (session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
           this.chatRooms = (session.userGroups ?? []).map(e => ({userGroup: e} as ChatRoom));
           console.log(`chat.component/chatRooms: ${JSON.stringify(this.chatRooms)}`);
+          this.activeIndex = 0;
 
           // new userGroups
           this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e.userGroup!).forEach(userGroup => {
@@ -122,7 +123,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   getUsersByUserGroup(userGroup: UserGroup): User[] {
-    return userGroup.virtualUsers ?? [];
+    return userGroup.users ?? [];
   }
 
   isChatRoomUserGroup(chatRoom: ChatRoom): boolean {
