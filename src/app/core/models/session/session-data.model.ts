@@ -1,4 +1,4 @@
-import { Event, SessionDataModificationFlag, User, UserGroup, UserOfEvent } from "src/app/core/models";
+import { Event, SessionDataModificationFlag, SessionDataOperationFlag, User, UserGroup, UserOfEvent } from "src/app/core/models";
 
 export interface SessionData {
     id?: string;
@@ -17,4 +17,5 @@ export interface SessionData {
     completedEventIds?: number[];
     eventTriggerStartTimes?: Date[];
     modificationSet?: SessionDataModificationFlag[];
+    operationFlag?: SessionDataOperationFlag;
 }

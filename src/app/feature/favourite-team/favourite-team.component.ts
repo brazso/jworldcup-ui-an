@@ -24,14 +24,14 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
     // private readonly router: Router,
     // private readonly translocoService: TranslocoService,
     private readonly sessionService: SessionService,
-    private readonly apiService: ApiService
+    private readonly apiService: ApiService,
   ) { }
 
   ngOnInit(): void {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`favourite-team.component/ession: ${JSON.stringify(session)}`);
+        console.log(`favourite-team.component/session: ${JSON.stringify(session)}`);
 
         this.selectedGroupTeam = session.userOfEvent?.favouriteGroupTeam ?? null;
         this.selectedKnockOutTeam = session.userOfEvent?.favouriteKnockoutTeam ?? null;
@@ -59,6 +59,10 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
   isKnockoutTeamSelectItemListDisabled(): boolean {
 		return this.session.actualDateTime! > this.session.event?.knockoutStartTime!;
 	}
+
+  isSaveDisabled(): boolean {
+    return this.isGroupTeamSelectItemListDisabled() || this.isKnockoutTeamSelectItemListDisabled();
+  }
 
   doSave(event_: any): void {
     console.log(`favourite-team.component/selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);

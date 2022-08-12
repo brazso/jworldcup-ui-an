@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Event, JwtRequest, JwtResponse, SessionData, User } from 'src/app/core/models';
+import { Event, JwtRequest, JwtResponse, SessionData, SessionDataOperationFlag, User } from 'src/app/core/models';
 import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ApiService, JwtService, RxStompService } from 'src/app/core/services';
@@ -27,6 +27,7 @@ export class SessionService {
   event: Observable<Event> = this.eventSubject.asObservable();
 
   private sessionSubscriptionMap: Map<string, Subscription> = new Map(); // K: session-id
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private jwtService: JwtService,
@@ -37,6 +38,11 @@ export class SessionService {
   ) {
   }
 
+  ngOnDestroy() {
+    console.log('session.service/ngOnDestroy');
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
   getSession(): SessionData {
     return this.sessionSubject.value;
   }
@@ -45,9 +51,10 @@ export class SessionService {
     this.sessionSubject.next(session);
   }
 
-  initSession(): Observable<SessionData> {
+  initSession(operationFlag: SessionDataOperationFlag = SessionDataOperationFlag.CLIENT): Observable<SessionData> {
     console.log('session.service/initSession');
     this.getSession().localeId = this.translocoService.getActiveLang();
+    this.getSession().operationFlag = operationFlag;
     return this.apiService.put<GenericResponse<SessionData>>(ApiEndpoints.SESSION.SESSION_DATA, this.getSession())
       .pipe(map(response => {
         if (response.data.user) {
@@ -58,26 +65,33 @@ export class SessionService {
         }
         this.setSession(response.data);
 
-        if (!isObjectEmpty(this.getSession())) {
-          if (this.getSession().id) {
-            console.log(`session.service/watch: /queue/session#${this.getSession().id}`);
-            // this.rxStompService.publish({ destination: '/topic/demo', body: 'Hello Demo!' } as IRxStompPublishParams);
-            // this.rxStompService.watch({ destination: '/topic/user-session/' + response.data.id } as IWatchParams);
-
-            const subscription = this.rxStompService.watch({ destination: `/queue/session#${this.getSession().id}`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
-              (message: Message) => {
-                // console.log(`session.service/message received: ${JSON.stringify(message)}`);
-                const session: SessionData = JSON.parse(message.body);
-                console.log(`session.service/session received: ${JSON.stringify(session)}`);
-                this.setSession(session);
-              }
-            );
-            this.sessionSubscriptionMap.set(this.getSession().id!, subscription);
-          }
+        if (!isObjectEmpty(this.getSession()) && this.getSession().id && !this.sessionSubscriptionMap?.get(this.getSession().id!)) {
+          this.watchSession();
         }
 
         return response.data;
     }));
+  }
+
+  private watchSession(): void {
+    console.log(`session.service/watchSession: /queue/session#${this.getSession().id}`);
+    // this.rxStompService.publish({ destination: '/topic/demo', body: 'Hello Demo!' } as IRxStompPublishParams);
+    // this.rxStompService.watch({ destination: '/topic/user-session/' + response.data.id } as IWatchParams);
+
+    const subscription = this.rxStompService.watch({ destination: `/queue/session#${this.getSession().id}`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
+      (message: Message) => {
+        // console.log(`session.service/message received: ${JSON.stringify(message)}`);
+        const session: SessionData = JSON.parse(message.body);
+        console.log(`session.service/session received: ${JSON.stringify(session)}`);
+        if (session.operationFlag === SessionDataOperationFlag.SERVER) {
+          this.subscriptions.push(this.initSession(SessionDataOperationFlag.SERVER).subscribe());
+        } else {
+          this.setSession(session);
+        }
+      }
+    );
+    this.sessionSubscriptionMap.set(this.getSession().id!, subscription);
+
   }
 
   private destroySession(): void {

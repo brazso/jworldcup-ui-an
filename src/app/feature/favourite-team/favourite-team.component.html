@@ -7,28 +7,35 @@
                         <tr>
                             <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringGroupMatches') }}</td>
                             <td>
-                                <p-dropdown [options]="groupTeams | dropdown" [(ngModel)]="selectedGroupTeam"
+                                <p-dropdown [options]="groupTeams | dropdown" placeholder="-" [autoDisplayFirst]="false" [(ngModel)]="selectedGroupTeam"
                                     [disabled]="isGroupTeamSelectItemListDisabled()">
                                     <ng-template pTemplate="selectedItem">
                                         {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
                                     </ng-template>
                                     <ng-template let-item pTemplate="item">
                                         {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
-                                    </ng-template>-->
+                                    </ng-template>
                                 </p-dropdown>
                             </td>
                         </tr>
                         <tr>
                             <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringKnockoutMatches') }}</td>
                             <td>
-                                <p-dropdown [options]="knockOutTeams" [(ngModel)]="selectedKnockOutTeam"
-                                    [disabled]="isKnockoutTeamSelectItemListDisabled()"></p-dropdown>
+                                <p-dropdown [options]="knockOutTeams | dropdown" placeholder="-" [autoDisplayFirst]="false" [(ngModel)]="selectedKnockOutTeam"
+                                    [disabled]="isKnockoutTeamSelectItemListDisabled()">
+                                    <ng-template pTemplate="selectedItem">
+                                        {{ selectedKnockOutTeam?.name ? t('team.' + selectedKnockOutTeam?.name) : '-' }}
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="item">
+                                        {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
+                                    </ng-template>
+                                </p-dropdown>
                             </td>
                         </tr>
                     </table>
                     <app-list-errors [errors]="errors"></app-list-errors>
                     <div fxLayout="row" fxLayoutAlign="space-around" class="buttons">
-                        <p-button [label]="t('general.button.save')" (onClick)="doSave($event)"></p-button>
+                        <p-button [label]="t('general.button.save')" (onClick)="doSave($event)" [disabled]="isSaveDisabled()"></p-button>
                         <p-button [label]="t('general.button.cancel')" (onClick)="doCancel($event)"></p-button>
                     </div>
                 </div>

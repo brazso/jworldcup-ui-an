@@ -10,3 +10,8 @@ export enum SessionDataModificationFlag {
     // USER_OF_EVENT = 'USER_OF_EVENT',
 	USER_GROUPS = 'USER_GROUPS'
 }
+
+export enum SessionDataOperationFlag {
+	CLIENT = 'CLIENT',
+	SERVER = 'SERVER'
+}

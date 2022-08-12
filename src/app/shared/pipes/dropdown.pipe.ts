@@ -7,7 +7,7 @@ export interface DropdownPipeOptions {
      */
     labelKey?: string;
     /**
-     * Is there an empty null row as first one? Default is true.
+     * Is there an empty null row as first one? Default is false.
      */
     withEmpty?: boolean;
     /**
