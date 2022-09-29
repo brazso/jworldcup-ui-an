@@ -35,15 +35,6 @@
                     <ng-template *ngIf="isChatRoomUser(chatRoom)" pTemplate="header"><i [class]="'pi ' + (chatRoom.user!.isOnline ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="chatRoom.user!.isOnline ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;{{chatRoom.user!.loginName ?? ''}}</ng-template>
                     <div *ngIf="isChatRoomUser(chatRoom)">
                         <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
-                            <p-dataView [value]="[chatRoom]">
-                                <ng-template pTemplate="header">{{t('chat.label.user')}}</ng-template>
-                                <ng-template let-user pTemplate="listItem">
-                                    <div>
-                                        <i [class]="'pi ' + (user.isOnline ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
-                                        <span [class]="user.isOnline ? 'user-online' : 'user-offline'" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dataView>                    
                             <p-dataView [value]="chatRoom.chats" [emptyMessage]="t('chat.label.noChatMessages')">
                                 <ng-template pTemplate="header">{{t('chat.label.messages')}}</ng-template>
                                 <ng-template let-chat pTemplate="listItem">
@@ -58,7 +49,7 @@
                     </div>
                 </p-tabPanel>
             </p-tabView>
-            <input name="message" #messageInput [(ngModel)]="message" [disabled]="false" (keydown.enter)="sendChatInit()" pInputText trim autoFocus/>
+            <input name="message" #messageInput [(ngModel)]="message" [disabled]="false" (keydown.enter)="sendChatInit()" pInputText autoFocus/>
         </div>
     </p-panel>
 </ng-container>

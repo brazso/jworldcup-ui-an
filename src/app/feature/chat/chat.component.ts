@@ -151,6 +151,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   onClickUser(user: User): void {
     console.log(`chat.component/onClickUser/user: ${JSON.stringify(user)}`);
     console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
+    this.loadPrivateChats(user);
   }
 
   getSelectedChatRoom(): ChatRoom {
@@ -172,8 +173,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (this.isChatRoomUserGroup(chatRoom)) {
       chat.userGroup = chatRoom.userGroup;
     }
-    else if (this.isChatRoomUserGroup(chatRoom)) {
-      chat.user = chatRoom.user;
+    else if (this.isChatRoomUser(chatRoom)) {
+      chat.targetUser = chatRoom.user;
     }
 
     this.sendChat(chat);
@@ -196,4 +197,20 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   }
 
+  loadPrivateChats(targetUser: User): void {
+    if (this.chatRooms.findIndex(e => this.isChatRoomUser(e) && e.user?.userId === targetUser.userId) >= 0 || this.sessionService.getUser().userId === targetUser.userId) {
+      return;
+    }
+    // this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.CHATS.RETRIEVE_PRIVATE_CHATS}?eventId=${this.sessionService.getEvent().eventId}&sourceUserId=${this.sessionService.getUser().userId}&targetUserId=${targetUser.userId}`).subscribe(
+    this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.CHATS.RETRIEVE_PRIVATE_CHATS}?sourceUserId=${this.sessionService.getUser().userId}&targetUserId=${targetUser.userId}`).subscribe(
+      (value) => {
+        this.chatRooms.push({chats: value.data, user: targetUser} as ChatRoom);
+        console.log(`chat.component/loadPrivateChats/chat: ${JSON.stringify(value.data)}`);
+        setTimeout(() => { // without setTimeout UI would not change to the new tab
+          this.activeIndex = this.chatRooms.length-1;
+        }, 0);
+        console.log(`chat.component/loadPrivateChats/activeIndex: ${this.activeIndex}`);
+      }
+    );
+  }
 }

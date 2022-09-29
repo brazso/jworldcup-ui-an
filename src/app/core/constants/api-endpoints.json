@@ -79,6 +79,7 @@
     },
 
     "CHATS": {
-        "SEND_CHAT": "/chats/send-chat"
+        "SEND_CHAT": "/chats/send-chat",
+        "RETRIEVE_PRIVATE_CHATS": "/chats/retrieve-private-chats"
     }
 }
