@@ -5,6 +5,7 @@ export interface Chat {
     event?: Event;
     message?: string;
     modificationTime?: Date;
+    accessTime?: Date;
     userGroup?: UserGroup;
     user?: User;
     targetUser?: User;
