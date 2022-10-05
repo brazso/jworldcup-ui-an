@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { IWatchParams } from '@stomp/rx-stomp';
 import { Subscription } from 'rxjs';
-import { ApiService, Chat, GenericListResponse, RxStompService, SessionData, SessionDataModificationFlag, SessionService, UiError, User, UserGroup } from 'src/app/core';
+import { ApiService, Chat, GenericListResponse, GenericResponse, RxStompService, SessionData, SessionDataModificationFlag, SessionService, UiError, User, UserGroup } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { Message } from '@stomp/stompjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -57,7 +57,7 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.chatRooms.filter(e => this.isChatRoomUserGroup(e)).map(e => e.userGroup!).forEach(userGroup => {
             const destination: string = `/topic/chat#${userGroup.userGroupId}`;
             if (!this.subscriptionMap.has(destination)) {
-              const subscription: Subscription = this.rxStompService.watch({ destination, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
+              const subscription: Subscription = this.rxStompService.watch({ destination, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "false" } } as IWatchParams).subscribe(
                 (message: Message) => {
                   console.log(`chat.component/message received: ${JSON.stringify(message)}`);
                   const chat: Chat = JSON.parse(message.body);
@@ -116,9 +116,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   processChat(chat: Chat): void {
     console.log(`chat.component/processChat/chat: ${JSON.stringify(chat)}`);
-    const chatRoom = this.getSelectedChatRoom();
-    // chatRoom.chats.push(chat); // not enough that the UI would be updated...
-    chatRoom.chats =  [...chatRoom.chats, chat]; // ...so the array must be recreated
+    const chatRoom = this.getChatRoomByChat(chat);
+    console.log(`chatRoom: ${JSON.stringify(chatRoom)}`);
+    if (chatRoom) {
+      // chatRoom.chats.push(chat); // not enough because UI is not updated...
+      chatRoom.chats =  [...chatRoom.chats, chat]; // ...so the array must be recreated
+    }
     this.message = '';
   }
 
@@ -144,6 +147,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   onCloseTabView(event_: any): void {
     console.log(`chat.component/onCloseTabView/event: ${JSON.stringify(event_)}`);
     console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
+
+    if (this.isChatRoomUser(this.getSelectedChatRoom()) && this.chatRooms.filter(e => this.isChatRoomUser(e)).length == 1) {
+      const destination: string = `/queue/privatechat#${this.sessionService.getUser().userId}`;
+      this.subscriptionMap.get(destination)?.unsubscribe();
+      this.subscriptionMap.delete(destination);
+      console.log(`chat.component/removed destination: ${destination}`);
+    }
+
     this.chatRooms.splice(event_.index, 1); // remove closed chatRoom from its array
     this.activeIndex = 0;
   }
@@ -151,11 +162,33 @@ export class ChatComponent implements OnInit, OnDestroy {
   onClickUser(user: User): void {
     console.log(`chat.component/onClickUser/user: ${JSON.stringify(user)}`);
     console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
+
+    const destination: string = `/queue/privatechat#${this.sessionService.getUser().userId}`; 
+    if (!this.subscriptionMap.has(destination)) {
+      const subscription: Subscription = this.rxStompService.watch({ destination, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
+        (message: Message) => {
+          console.log(`chat.component/message received: ${JSON.stringify(message)}`);
+          const chat: Chat = JSON.parse(message.body);
+          this.processChat(chat);
+        }
+      );
+      this.subscriptions.push(subscription);
+      this.subscriptionMap.set(destination, subscription);
+      console.log(`chat.component/added destination: ${destination}`);
+    }
+
     this.loadPrivateChats(user);
   }
 
   getSelectedChatRoom(): ChatRoom {
     return this.chatRooms[this.activeIndex];
+  }
+
+  getChatRoomByChat(chat: Chat): ChatRoom | undefined {
+    // const isSender = 
+    const chatRooms: ChatRoom[] = this.chatRooms.filter(e => this.isChatRoomUserGroup(e) && e.userGroup?.userGroupId === chat.userGroup?.userGroupId ||
+      this.isChatRoomUser(e) && e.user?.userId === (chat.user?.userId === this.sessionService.getUser().userId ? chat.targetUser?.userId : chat.user?.userId));
+      return chatRooms.length === 0 ? undefined : chatRooms[0];
   }
   
   sendChatInit(): void {
@@ -182,10 +215,14 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   sendChat(chat: Chat): void {
     console.log(`chat.component/sendChat`);
-    this.apiService.post<void>(ApiEndpoints.CHATS.SEND_CHAT, chat)
+    this.apiService.post<GenericResponse<Chat>>(ApiEndpoints.CHATS.SEND_CHAT, chat)
     .subscribe({
-      next: response => {
+      next: value => {
+        const updatedChat: Chat = value.data;
         console.log(`chat.component/sendChat/sentChat`);
+        if (chat.targetUser) { // private chat
+          this.processChat(updatedChat);
+        }
       },
       error: (err: HttpErrorResponse) => {
         console.log(`chat.component/err: ${JSON.stringify(err)}`);
