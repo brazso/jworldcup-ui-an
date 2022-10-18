@@ -121,7 +121,10 @@
 			"edit": "Szerkesztás",
 			"reset": "Visszaállítás"
 		},
-		"error.missingRequestParameter": "Rossz kérés. Hiányzó {0} paraméter."
+		"error": {
+			"missingRequestParameter": "Rossz kérés. Hiányzó {0} paraméter.",
+			"captcha": "Google reCAPTCHA szerviz hívás hibára futott: {0}"
+		}
 	},
 
 	"__Menü üzenetek__": "",

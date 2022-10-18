@@ -121,7 +121,8 @@
 			"edit": "Edit",
 			"reset": "Reset"
 		},
-		"error.missingRequestParameter": "Bad request. Missing {0} parameter."
+		"error.missingRequestParameter": "Bad request. Missing {0} parameter.",
+		"captcha": "Google reCAPTCHA service call failed: {0}"
 	},
 
 	"__Menu messages__": "",

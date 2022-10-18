@@ -43,6 +43,11 @@
             </div>
           </fieldset>
         </form>
+        <p fxLayoutAlign="center">
+          <!-- TODO - PrimeNG 13.0.0: [language]="translocoService.getActiveLang() -> Error: reCAPTCHA has already been rendered in this element" -->
+          <p-captcha [siteKey]="siteKeyCaptcha" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></p-captcha>
+        </p>
+
       </div>
 
     </div>

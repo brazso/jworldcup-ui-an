@@ -3,10 +3,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
-import { ApiError, ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionService, UiError, User, UserExtended } from 'src/app/core';
+import { ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionService, UiError, User, UserExtended } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { combineLatest, Subscription } from 'rxjs';
+import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared';
 
 @Component({
   selector: 'app-auth-page',
@@ -21,18 +22,21 @@ export class AuthComponent implements OnInit, OnDestroy {
   isSubmitting = false;
   authForm: FormGroup;
   availableLangs: LangDefinition[];
+  siteKeyCaptcha: string = "6LdAnY0iAAAAAPMFHecAgzoOH9caOgCD52OwpTty";
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private translocoService: TranslocoService,
+    public translocoService: TranslocoService, // used by html
     private sessionService: SessionService,
     private apiService: ApiService,
+    private toastMessageService: ToastMessageService,
     private fb: FormBuilder
   ) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
-      'language': ['']
+      'language': [''],
+      'captcha': new FormControl(true, [this.validateCaptcha]) // invalid
     });
   }
 
@@ -42,6 +46,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     console.log(`auth.component/this.availableLangs: ${JSON.stringify(this.availableLangs)}`);
     this.authForm.controls['language'].setValue(this.translocoService.getActiveLang());
     console.log(`auth.component/activeLang: ${JSON.stringify(this.translocoService.getActiveLang())}`);
+    // this.authForm.controls['captcha'].addValidators([this.validateCaptcha]);
 
     combineLatest([
       this.route.url,
@@ -187,7 +192,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   onLanguageChange(event: any): void {
     const lang: string = event.value;
-    console.log(`auth.component/setActiveLang2: ${lang}`);
+    console.log(`auth.component/onLanguageChange/lang: ${lang}`);
     this.translocoService.setActiveLang(lang);
   }
 
@@ -202,6 +207,11 @@ export class AuthComponent implements OnInit, OnDestroy {
     return isValid ? null : {passwords: true};
   }
 
+  validateCaptcha(control: AbstractControl): ValidationErrors | null {
+    const captcha: boolean = control.value;
+    return !captcha ? null : {captcha};
+  }
+  
   private processRegistrationToken(token: string): void {
     this.isSubmitting = true;
     this.errors = new UiError({});
@@ -230,4 +240,22 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   }
 
+  captchaResponse(event_: any): void {
+    console.log(`auth.component/captchaResponse/event_: ${JSON.stringify(event_)}`);
+    const response: string = event_.response;
+    this.authForm.controls['captcha'].setValue(false); // validate captcha
+    this.apiService.post<CommonResponse>(`${ApiEndpoints.VERIFY_CAPTCHA}?response=${response}`).subscribe(
+      (value: CommonResponse) => {
+        console.log(`auth.component/captchaResponse/value: ${JSON.stringify(value)}`);
+        if (!value.successful) {
+          this.toastMessageService.displayMessage(ToastMessageSeverity.ERROR, 'general.error.captcha');
+        }
+      }
+    );
+  }
+
+  captchaExpire(): void {
+    console.log(`auth.component/captchaExpire`);
+    this.authForm.controls['captcha'].setValue(true); // invalidate captcha
+  }
 }

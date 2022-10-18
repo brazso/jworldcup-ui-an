@@ -7,6 +7,7 @@
     "LOGOUT": "/logout",
     "SIGNUP": "/signup",
     "BACKEND_VERSION": "/backend-version",
+    "VERIFY_CAPTCHA": "/verify-captcha",
     
     "USERS": {
         "WHOAMI": "/users/whoami",
