@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
@@ -23,6 +24,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   authForm: UntypedFormGroup;
   availableLangs: LangDefinition[];
   siteKeyCaptcha: string = "6LdAnY0iAAAAAPMFHecAgzoOH9caOgCD52OwpTty";
+  recaptcha: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +33,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private apiService: ApiService,
     private toastMessageService: ToastMessageService,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
+    private location: Location
   ) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
@@ -41,6 +44,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.recaptcha = (window as any).grecaptcha; // https://stackoverflow.com/questions/50794121/primeng-captcha-issue-with-angular-6#52788634
     this.availableLangs = (this.translocoService.getAvailableLangs() as LangDefinition[])
       .sort((a, b) => a.label.localeCompare(b.label, this.translocoService.getActiveLang()));
     console.log(`auth.component/this.availableLangs: ${JSON.stringify(this.availableLangs)}`);
@@ -194,6 +198,13 @@ export class AuthComponent implements OnInit, OnDestroy {
     const lang: string = event.value;
     console.log(`auth.component/onLanguageChange/lang: ${lang}`);
     this.translocoService.setActiveLang(lang);
+    
+    // unfortunately p-captha used on this page has rendering error:
+    // "Error: reCAPTCHA has already been rendered in this element"
+    // therefore the the page must be refreshed completely
+    this.router.navigate([RouterUrls.HOME_PAGE], { skipLocationChange: true }).then(() => {
+      this.router.navigate([decodeURI(this.location.path())], { skipLocationChange: true });
+    });
   }
 
   validateEmail(control: UntypedFormControl): ValidationErrors | null {
