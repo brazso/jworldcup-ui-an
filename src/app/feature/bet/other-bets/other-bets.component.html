@@ -5,25 +5,25 @@
             <table class="p-datatable">
                 <tr>
                     <td>{{ t('general.label.nr') }}</td>
-                    <td colspan="5">{{ match?.matchN }}</td>
+                    <td colspan="5">{{ match.matchN }}</td>
                 </tr>
                 <tr>
                     <td>{{ t('general.label.startTime') }}</td>
-                    <td colspan="5">{{ match?.startTime! | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
+                    <td colspan="5">{{ match.startTime! | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
                 </tr>
                 <tr>
                     <td>{{ t('matchDetail.label.teams') }}</td>
-                    <td><span>{{ t('team.' + match?.team1?.name) }}</span></td>
-                    <td><p-image src="assets/images/flags/{{match?.team1?.flag}}.png" alt="Image" [title]="t('team.' + match?.team1?.name)"></p-image></td>
+                    <td><span>{{ t('team.' + match.team1?.name) }}</span></td>
+                    <td><p-image src="assets/images/flags/{{match.team1?.flag}}.png" alt="Image" [title]="t('team.' + match.team1?.name)"></p-image></td>
                     <td></td>
-                    <td>{{ t('team.' + match?.team2?.name) }}</td>
-                    <td><p-image src="assets/images/flags/{{match?.team2?.flag}}.png" alt="Image" [title]="t('team.' + match?.team2?.name)"></p-image></td>
+                    <td>{{ t('team.' + match.team2?.name) }}</td>
+                    <td><p-image src="assets/images/flags/{{match.team2?.flag}}.png" alt="Image" [title]="t('team.' + match.team2?.name)"></p-image></td>
                 </tr>
                 <tr>
-                    <td>{{ t(match?.round?.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</td>
-                    <td colspan="2">{{ match?.goalNormalByTeam1 }}</td>
+                    <td>{{ t(match.round?.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</td>
+                    <td colspan="2">{{ match.goalNormalByTeam1 }}</td>
                     <td></td>
-                    <td colspan="2">{{ match?.goalNormalByTeam2 }}</td>
+                    <td colspan="2">{{ match.goalNormalByTeam2 }}</td>
                 </tr>
             </table>
             <table class="p-datatable">

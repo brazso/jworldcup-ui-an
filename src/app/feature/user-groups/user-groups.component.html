@@ -28,7 +28,7 @@
                 <app-list-errors [errors]="errors"></app-list-errors>
                 <div fxLayout="row" fxLayoutAlign="space-around">
                     <p-button [label]="t('general.button.insert')" (onClick)="doInsert($event)"></p-button>
-                    <p-button [label]="t('general.button.delete')" (onClick)="doDelete($event)" [disabled]="!selectedUserGroup || selectedUserGroup?.owner?.userId !== sessionService.getUser().userId"></p-button>
+                    <p-button [label]="t('general.button.delete')" (onClick)="doDelete($event)" [disabled]="!selectedUserGroup || selectedUserGroup.owner?.userId !== sessionService.getUser().userId"></p-button>
                 </div>
                 <app-user-group-members *ngIf="selectedUserGroup" [selectedUserGroup]="selectedUserGroup"></app-user-group-members>
             </div>
