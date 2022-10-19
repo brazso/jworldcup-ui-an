@@ -23,7 +23,7 @@ sudo npm uninstall -g angular-cli
 sudo npm uninstall -g @angular/cli
 npm cache clean --force
 sudo npm install -g @angular/cli
-ng --version
+ng version
 ```
 
 ## Create Angular application
@@ -33,6 +33,12 @@ ng --version
 > ? Would you like to add Angular routing? Yes
 
 > ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
+
+### Role of package-lock.json
+
+- Add the _package-lock.json_ you to your version control repository
+- Use `npm ci` instead of `npm install` when building your application both locally and in your deployment pipeline.
+- To update a single package use `npm update @angular/flex-layout`
 
 ### Additional packages
 
@@ -74,17 +80,15 @@ npm install print-js
 ### Websocket
 npm install @stomp/rx-stomp
 
-
 ## Start Angular application
 ```
 ng serve
 ```
 
-### Role of package-lock.json
+## Upgrade application to newer Angular version, e.g. #14
 
-- Add the _package-lock.json_ you to your version control repository
-- Use `npm ci` instead of `npm install` when building your application both locally and in your deployment pipeline.
-- To update a single package use `npm update @angular/flex-layout`
+- `ng update @angular/core@14 @angular/cli@14`
+- upgrade additonal packages in package.json, e.g. primeng, and run `npm install`
 
 ## Trash
 
