@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
 import { ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionService, UiError, User, UserExtended } from 'src/app/core';
@@ -20,7 +20,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   title: string = '';
   errors: UiError = new UiError({});
   isSubmitting = false;
-  authForm: FormGroup;
+  authForm: UntypedFormGroup;
   availableLangs: LangDefinition[];
   siteKeyCaptcha: string = "6LdAnY0iAAAAAPMFHecAgzoOH9caOgCD52OwpTty";
 
@@ -31,12 +31,12 @@ export class AuthComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private apiService: ApiService,
     private toastMessageService: ToastMessageService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
       'language': [''],
-      'captcha': new FormControl(true, [this.validateCaptcha]) // invalid
+      'captcha': new UntypedFormControl(true, [this.validateCaptcha]) // invalid
     });
   }
 
@@ -57,8 +57,8 @@ export class AuthComponent implements OnInit, OnDestroy {
       // Get the last piece of the URL (it's either 'login' or 'register')
       this.authType = url[url.length - 1].path;
       if (this.authType === 'login') {
-        this.authForm.addControl('username', new FormControl('', [Validators.required]));
-        this.authForm.addControl('password', new FormControl('', [Validators.required]));
+        this.authForm.addControl('username', new UntypedFormControl('', [Validators.required]));
+        this.authForm.addControl('password', new UntypedFormControl('', [Validators.required]));
 
         const func = queryParams['function']; // possible values: registration, changeEmail, resetPassword
         const token = queryParams['confirmation_token'];
@@ -98,15 +98,15 @@ export class AuthComponent implements OnInit, OnDestroy {
         }
       }
       else if (this.authType === 'register') {
-        this.authForm.addControl('username', new FormControl('', [Validators.required]));
-        this.authForm.addControl('password', new FormControl('', [Validators.required, Validators.minLength(8)]));
-        this.authForm.addControl('passwordAgain', new FormControl('', [Validators.required, Validators.minLength(8)]));
-        this.authForm.addControl('fullName', new FormControl('', [Validators.required]));
-        this.authForm.addControl('email', new FormControl('', [Validators.required, this.validateEmail]));
+        this.authForm.addControl('username', new UntypedFormControl('', [Validators.required]));
+        this.authForm.addControl('password', new UntypedFormControl('', [Validators.required, Validators.minLength(8)]));
+        this.authForm.addControl('passwordAgain', new UntypedFormControl('', [Validators.required, Validators.minLength(8)]));
+        this.authForm.addControl('fullName', new UntypedFormControl('', [Validators.required]));
+        this.authForm.addControl('email', new UntypedFormControl('', [Validators.required, this.validateEmail]));
         this.authForm.addValidators(this.validatePasswords);
       }
       else if (this.authType === 'reset-password') {
-        this.authForm.addControl('email', new FormControl('', [Validators.required, this.validateEmail]));
+        this.authForm.addControl('email', new UntypedFormControl('', [Validators.required, this.validateEmail]));
       }
 
       // wait until translation is being loaded
@@ -196,7 +196,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.translocoService.setActiveLang(lang);
   }
 
-  validateEmail(control: FormControl): ValidationErrors | null {
+  validateEmail(control: UntypedFormControl): ValidationErrors | null {
     const email = control.value;
     console.log(`auth.component/email: ${email}`);
     return !email || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) ? null : {email: {value: control.value}};
