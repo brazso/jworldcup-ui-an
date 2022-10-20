@@ -223,26 +223,58 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     this.apiService.put<CommonResponse>(`${ApiEndpoints.USERS.PROCESS_REGISTRATION_TOKEN}?userToken=${token}`).subscribe({
       next: value => {
-        console.log('auth.component/processedRegistrationToken');
+        console.log('auth.component/processRegistrationToken/next');
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`auth.component/err: ${JSON.stringify(err)}`);
+        console.log(`auth.component/processRegistrationToken/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('auth.component/complete');
+        console.log('auth.component/processRegistrationToken/complete');
       }
     });
   }
 
   private processChangeEmailToken(token: string): void {
+    this.isSubmitting = true;
+    this.errors = new UiError({});
 
+    this.apiService.put<CommonResponse>(`${ApiEndpoints.USERS.PROCESS_CHANGE_EMAIL_TOKEN}?userToken=${token}`).subscribe({
+      next: value => {
+        console.log('auth.component/processChangeEmailToken/next');
+        this.isSubmitting = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`auth.component/processChangeEmailToken/err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('auth.component/processChangeEmailToken/complete');
+      }
+    });
   }
 
   private processResetPasswordToken(token: string): void {
+    this.isSubmitting = true;
+    this.errors = new UiError({});
 
+    this.apiService.put<CommonResponse>(`${ApiEndpoints.USERS.PROCESS_RESET_PASSWORD_TOKEN}?userToken=${token}`).subscribe({
+      next: value => {
+        console.log('auth.component/processResetPasswordToken/next');
+        this.isSubmitting = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`auth.component/processResetPasswordToken/err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('auth.component/processResetPasswordToken/complete');
+      }
+    });
   }
 
   captchaResponse(event_: any): void {
