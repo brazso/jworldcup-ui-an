@@ -65,6 +65,7 @@ import { DropdownPipe } from './pipes/dropdown.pipe';
 import { ReplaceLineBreaksPipe } from './pipes/replace-line-breaks.pipe';
 import { InputValidationComponent } from './input-validation';
 import { InputTrimDirective } from './directives/input-trim.directive';
+import { CaptchaComponent } from './experimental/captcha/captcha.component';
 
 // import { InputTextComponent } from './input-text/input-text.component';
 // import { InputTextAreaComponent } from './input-textarea/input-textarea.component';
@@ -136,7 +137,8 @@ const EXTRA_MODULES = [
 
  const SHARED_COMPONENTS = [
   ListErrorsComponent,
-  InputValidationComponent
+  InputValidationComponent,
+  CaptchaComponent
  ];
 
 const SHARED_DIRECTIVES = [

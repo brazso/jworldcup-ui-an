@@ -16,9 +16,15 @@
             </fieldset>
             <fieldset *ngIf="['login', 'register'].includes(authType)" class="form-group">
               <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [feedback]="authType === 'register'" [toggleMask]="true"></p-password>
+              <div *ngIf="authForm.controls['password'].errors?.minlength && authForm.controls['password'].dirty" class="error-messages">
+                {{ t('validator.constraints.password.minlength').format(passwordMinLength) }}
+              </div>            
             </fieldset>
             <fieldset *ngIf="authType == 'register'" class="form-group">
               <p-password formControlName="passwordAgain" [placeholder]="t('login.label.loginPasswordAgain')" [feedback]="false" [toggleMask]="true"></p-password>
+              <div *ngIf="authForm.controls['passwordAgain'].errors?.minlength && authForm.controls['passwordAgain'].dirty" class="error-messages">
+                {{ t('validator.constraints.password.minlength').format(passwordMinLength) }}
+              </div> 
               <div *ngIf="authForm.errors?.['passwords'] && authForm.controls['password'].dirty && authForm.controls['passwordAgain'].dirty" class="error-messages"> 
                 {{ t('validator.constraints.password.mismatch') }}
               </div> 
@@ -45,7 +51,8 @@
         </form>
         <p fxLayoutAlign="center" *ngIf="recaptcha.render">
           <!-- PrimeNG: [language]="translocoService.getActiveLang()" -> Error: reCAPTCHA has already been rendered in this element" -->
-          <p-captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></p-captcha>
+          <!--<p-captcha #captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></p-captcha>-->
+          <z-captcha #captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></z-captcha>
         </p>
 
       </div>

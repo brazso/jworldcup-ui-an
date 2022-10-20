@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
@@ -16,6 +16,7 @@ import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit, OnDestroy {
+  readonly passwordMinLength : number = 8;
   private subscriptions: Subscription[] = [];
   authType: string = '';
   title: string = '';
@@ -103,8 +104,8 @@ export class AuthComponent implements OnInit, OnDestroy {
       }
       else if (this.authType === 'register') {
         this.authForm.addControl('username', new UntypedFormControl('', [Validators.required]));
-        this.authForm.addControl('password', new UntypedFormControl('', [Validators.required, Validators.minLength(8)]));
-        this.authForm.addControl('passwordAgain', new UntypedFormControl('', [Validators.required, Validators.minLength(8)]));
+        this.authForm.addControl('password', new UntypedFormControl('', [Validators.required, Validators.minLength(this.passwordMinLength)]));
+        this.authForm.addControl('passwordAgain', new UntypedFormControl('', [Validators.required, Validators.minLength(this.passwordMinLength)]));
         this.authForm.addControl('fullName', new UntypedFormControl('', [Validators.required]));
         this.authForm.addControl('email', new UntypedFormControl('', [Validators.required, this.validateEmail]));
         this.authForm.addValidators(this.validatePasswords);
@@ -198,13 +199,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     const lang: string = event.value;
     console.log(`auth.component/onLanguageChange/lang: ${lang}`);
     this.translocoService.setActiveLang(lang);
-    
-    // unfortunately p-captha used on this page has rendering error:
-    // "Error: reCAPTCHA has already been rendered in this element"
-    // therefore the the page must be refreshed completely
-    this.router.navigate([RouterUrls.HOME_PAGE], { skipLocationChange: true }).then(() => {
-      this.router.navigate([decodeURI(this.location.path())], { skipLocationChange: true });
-    });
   }
 
   validateEmail(control: UntypedFormControl): ValidationErrors | null {
