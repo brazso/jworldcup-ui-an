@@ -4,6 +4,7 @@ import { Translation, TranslocoService } from '@ngneat/transloco';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApiService, Bet, GenericResponse, Match, SessionService, UiError } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
+import { isObjectEmpty } from 'src/app/shared/utils';
 
 @Component({
   // no selector here because it is a primeNG dynamic dialog
@@ -67,8 +68,11 @@ export class BetComponent implements OnInit {
     this.apiService.put<GenericResponse<Bet>>(ApiEndpoints.BETS.SAVE_BET, this.bet).subscribe({
       next: value => {
         console.log('bet.component/saved');
-        this.bet = value.data;
-        this.ref.close(this.bet);
+        let savedBet = value.data; 
+        if (!savedBet) { // might be null if delete happened
+          savedBet = {match: this.bet.match, user: this.bet.user} as Bet; // dummy bet only with match and user properties
+        }
+        this.ref.close(savedBet);
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {
@@ -80,5 +84,10 @@ export class BetComponent implements OnInit {
         console.log('bet.component/complete');
       }
     });
+  }
+
+  // facade
+  isObjectEmpty(object: any): boolean {
+    return isObjectEmpty(object);
   }
 }

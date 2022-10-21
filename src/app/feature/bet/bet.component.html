@@ -4,7 +4,7 @@
 
     <fieldset [disabled]="isSubmitting">
         <div fxLayout="column" fxLayoutAlign="space-between">
-            <table class="p-datatable">
+            <table class="p-datatable" *ngIf="!isObjectEmpty(bet)">
                 <tr>
                     <td>{{ t('general.label.nr') }}</td>
                     <td colspan="5">{{ bet.match?.matchN }}</td>

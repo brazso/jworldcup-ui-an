@@ -144,7 +144,7 @@ export class BetsComponent implements OnInit, OnDestroy {
     ref.onClose.subscribe((bet: Bet) => {
       console.log(`bets.component/onClose bet: ${JSON.stringify(bet)}`);
       if (bet) {
-        // replace selectedBet inside bets to the incoming one
+        // replace selectedBet inside bets to the incoming updated one
         const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
         console.log(`bets.component/index: ${index}`);
         if (index !== -1) {
