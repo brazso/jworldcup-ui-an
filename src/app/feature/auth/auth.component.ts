@@ -9,6 +9,7 @@ import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { combineLatest, Subscription } from 'rxjs';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-auth-page',
@@ -24,7 +25,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   isSubmitting = false;
   authForm: UntypedFormGroup;
   availableLangs: LangDefinition[];
-  siteKeyCaptcha: string = "6LdAnY0iAAAAAPMFHecAgzoOH9caOgCD52OwpTty";
+  siteKeyCaptcha: string = environment.recaptcha_site_key;
   recaptcha: any;
 
   constructor(
