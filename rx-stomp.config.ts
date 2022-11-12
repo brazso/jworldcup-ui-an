@@ -8,8 +8,8 @@ export const rxStompConfig: RxStompConfig = {
   // Headers
   // Typical keys: login, passcode, host
   connectHeaders: {
-    login: 'guest',
-    passcode: 'guest'
+    login: environment.be_socket_user,
+    passcode: environment.be_socket_passcode
   },
 
   // How often to heartbeat?

@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   be_root: "http://localhost:8090/jworldcup",
   be_socket: "ws://localhost:15674/ws",
+  be_socket_user: "jworldcup",
+  be_socket_passcode: "jworldcup",
   //ui_root: `${window.location.protocol}://${window.location.host}`, // http://localhost:4200
   with_credentials: true,
   recaptcha_site_key: "6LcEctMiAAAAAKzVnpnO64slgTWVEpMSkm3_aGC8"
