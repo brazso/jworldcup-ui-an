@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: jworldcup.frontend
+    image: jworldcup.frontend
+    ports:
+      - 8080:80
