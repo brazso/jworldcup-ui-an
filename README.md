@@ -85,6 +85,24 @@ npm install @stomp/rx-stomp
 ng serve
 ```
 
+## Build Angulat application for production
+```
+ng build
+```
+
+## Docker images
+In production the application runs in a docker container.
+
+### Start docker container of the application for production
+```
+docker-compose up --build
+```
+
+### Stop running docker container of the application (in production)
+```
+docker-compose down
+```
+
 ## Upgrade application to newer Angular version, e.g. #14
 
 - `ng update @angular/core@14 @angular/cli@14`
