@@ -85,7 +85,12 @@ npm install @stomp/rx-stomp
 ng serve
 ```
 
-## Build Angulat application for production
+## Upgrade application to a newer Angular version, e.g. #14
+
+- `ng update @angular/core@14 @angular/cli@14`
+- upgrade additonal packages in package.json, e.g. primeng, and run `npm install`
+
+## Build Angular application for production
 ```
 ng build
 ```
@@ -103,10 +108,12 @@ docker-compose up --build
 docker-compose down
 ```
 
-## Upgrade application to newer Angular version, e.g. #14
-
-- `ng update @angular/core@14 @angular/cli@14`
-- upgrade additonal packages in package.json, e.g. primeng, and run `npm install`
+## Use maintenance mode in case of production
+Rename file
+`src/maintenance_off.html`
+to
+`src/maintenance_on.html`
+Ngnix web server on the production server checks the latter file. All request will be redirected there if that file exits. Rename the file back if you want the application to be online again.
 
 ## Useful links
 
