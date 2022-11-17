@@ -75,9 +75,6 @@ export class SessionService {
 
   private watchSession(): void {
     console.log(`session.service/watchSession: /queue/session#${this.getSession().id}`);
-    // this.rxStompService.publish({ destination: '/topic/demo', body: 'Hello Demo!' } as IRxStompPublishParams);
-    // this.rxStompService.watch({ destination: '/topic/user-session/' + response.data.id } as IWatchParams);
-
     const subscription = this.rxStompService.watch({ destination: `/queue/session#${this.getSession().id}`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
       (message: Message) => {
         // console.log(`session.service/message received: ${JSON.stringify(message)}`);
@@ -115,18 +112,15 @@ export class SessionService {
     this.apiService.post<void>(ApiEndpoints.LOGOUT)
       .subscribe({
         next: response => {
-          console.log('session.service/destroySession1');
+          console.log('session.service/logout/next');
           this.destroySession();
         },
         error: error => {
-          console.log('session.service/destroySession2');
+          console.log('session.service/logout/error');
           this.destroySession();
         },
         complete: () => {
-          // console.log('session.service/destroySession3');
-          // this.destroySession();
-          // Get a new JWT token
-          // this.router.navigateByUrl('/login');
+          console.log('session.service/logout/complete');
           this.router.navigate([RouterUrls.LOGIN]);
         }
       });

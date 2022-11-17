@@ -37,17 +37,21 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`user-detail.component/session: ${JSON.stringify(session)}`);
+        console.log(`user-detail.component/ngOnInit/session: ${JSON.stringify(session)}`);
 
-        this.user = {...session.user!}; // shallow copy is enough for user object
-        this.user.languageTag = session.localeId;
+        if (this.user === undefined) {
+          this.user = {...session.user!}; // shallow copy is enough for user object
+          this.user.languageTag = session.localeId;
+        }
       }
     ));
     this.subscriptions.push(this.sessionService.user.subscribe(
       (user: User) => {
-        this.user = user;
-        console.log(`user-detail.component/user: ${JSON.stringify(user)}`);
-        this.user.languageTag = this.sessionService.getSession().localeId;
+        if (this.user === undefined) {
+          this.user = user;
+          console.log(`user-detail.component/ngOnInit/user: ${JSON.stringify(user)}`);
+          this.user.languageTag = this.sessionService.getSession().localeId;
+        }
       }
     ));
     this.apiService.get<GenericMapResponse<string>>(ApiEndpoints.USERS.FIND_TIME_ZONE_IDS).subscribe(
