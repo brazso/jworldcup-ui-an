@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: docker/frontend/Dockerfile
+      args:
+        RABBITMQ_JWORLDCUP_PASS: ${RABBITMQ_JWORLDCUP_PASS:-}
     container_name: jworldcup.frontend
     image: jworldcup.frontend
     ports:
