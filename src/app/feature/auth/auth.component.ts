@@ -58,7 +58,8 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.route.url,
       this.route.queryParams
       ]).subscribe(([url, queryParams]) => {
-        console.log(`auth.component/combineLatest/url: ${JSON.stringify(url)}, queryParams: ${JSON.stringify(queryParams)}`)
+        console.log(`auth.component/combineLatest/url: ${JSON.stringify(url)}`);
+        console.log(`auth.component/combineLatest/queryParams: ${JSON.stringify(queryParams)}`);
 
       // Get the last piece of the URL (it's either 'login' or 'register')
       this.authType = url[url.length - 1].path;

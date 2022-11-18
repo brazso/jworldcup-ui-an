@@ -95,7 +95,8 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   doCancel(event_: any): void {
-    console.log(`user-detail.component/doCancel user: ${JSON.stringify(this.user)}, session.user: ${JSON.stringify(this.session.user)}`);
+    console.log(`user-detail.component/doCancel user: ${JSON.stringify(this.user)}`);
+    console.log(`user-detail.component/doCancel session.user: ${JSON.stringify(this.session.user)}`);
     this.sessionService.goToDefaultPage();
   }
 

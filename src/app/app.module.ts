@@ -88,7 +88,7 @@ export class AppModule {
 
   addStringFormat(): void {
     String.prototype.format = function(...args) {
-      // console.log(`app.module/string: ${this}, args: ${JSON.stringify(args)}, args.length: ${args.length}`);
+      // console.log(`app.module/addStringFormat string: ${this}, args: ${JSON.stringify(args)}, args.length: ${args.length}`);
       return this.replace(/{(\d+)}/g, function(match, number) { 
         return typeof args[number] != 'undefined' ? args[number] : match;
       });

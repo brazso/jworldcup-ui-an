@@ -136,7 +136,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   onCloseTabView(event_: any): void {
-    console.log(`chat.component/onCloseTabView/event: ${JSON.stringify(event_)}, activeIndex: ${this.activeIndex}`);
+    console.log(`chat.component/onCloseTabView/event: ${JSON.stringify(event_)}`);
+    console.log(`chat.component/onCloseTabView/activeIndex: ${this.activeIndex}`);
     if (this.isChatRoomUser(this.getSelectedChatRoom()) && this.chatRooms.filter(e => this.isChatRoomUser(e)).length == 1) {
       const destination: string = `/queue/privatechat#${this.sessionService.getUser().userId}`;
       this.subscriptionMap.get(destination)?.unsubscribe();
@@ -149,7 +150,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   onClickUser(user: User): void {
-    console.log(`chat.component/onClickUser/user: ${JSON.stringify(user)}, activeIndex: ${this.activeIndex}`);
+    console.log(`chat.component/onClickUser/user: ${JSON.stringify(user)}`);
+    console.log(`chat.component/onClickUser/activeIndex: ${this.activeIndex}`);
 
     const destination: string = `/queue/privatechat#${this.sessionService.getUser().userId}`; 
     if (!this.subscriptionMap.has(destination)) {
