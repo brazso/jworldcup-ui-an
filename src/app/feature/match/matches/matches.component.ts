@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Event, GenericListResponse, GenericResponse, getShortDescWithYearByEvent, Match, Round, SessionData } from 'src/app/core/models';
+import { CommonResponse, Event, GenericListResponse, GenericResponse, getShortDescWithYearByEvent, Match, Round, SessionData } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
@@ -8,6 +8,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { MatchComponent } from '../match.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-matches',
@@ -28,7 +29,8 @@ export class MatchesComponent implements OnInit, OnDestroy {
     private apiService: ApiService,
     public sessionService: SessionService, // it is public because there is reference to sessionService from html
     private translocoService: TranslocoService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private toastMessageService: ToastMessageService
   ) { }
 
   ngOnInit(): void {
@@ -137,11 +139,11 @@ export class MatchesComponent implements OnInit, OnDestroy {
         }
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`matches.component/err: ${JSON.stringify(err)}`);
+        console.log(`matches.component/resetMatch/err: ${JSON.stringify(err)}`);
         // this.errors = new UiError(Object.assign(err));
       },
       complete: () => {
-        console.log('matches.component/complete');
+        console.log('matches.component/resetMatch/complete');
       }
     });
   }
@@ -153,6 +155,23 @@ export class MatchesComponent implements OnInit, OnDestroy {
   onEventTriggerStartTimeChange(event_: any): void {
     const eventTriggerStartTime: Date = event_.value;
     console.log(`matches.component/eventTriggerStartTime: ${eventTriggerStartTime}`);
-    // TODO doResetScheduler
+    this.apiService.put<CommonResponse>(ApiEndpoints.MATCHES.REFRESH_MATCHES_BY_SCHEDULER+"?eventId="+this.event.eventId).subscribe({
+      next: value => {
+        console.log('matches.component/onEventTriggerStartTimeChange/next');
+        if (value.successful) {
+          this.toastMessageService.displayMessage(ToastMessageSeverity.SUCCESS, 'SCHEDULED_RMRJ_RELAUNCH_DONE');
+        }
+        else {
+          this.toastMessageService.displayMessage(ToastMessageSeverity.ERROR, 'SCHEDULED_RMRJ_RELAUNCH_FAILED');
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`matches.component/onEventTriggerStartTimeChange/err: ${JSON.stringify(err)}`);
+        // this.errors = new UiError(Object.assign(err));
+      },
+      complete: () => {
+        console.log('matches.component/onEventTriggerStartTimeChange/complete');
+      }
+    });
   }
 }
