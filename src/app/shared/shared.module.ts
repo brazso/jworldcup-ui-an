@@ -180,7 +180,7 @@ const SHARED_SERVICES = [
 
 @NgModule({
   imports: [
-    CoreModule, // TODO - it should throw error during import
+    CoreModule,
     ANGULAR_MODULES,
     PRIMENG_MODULES,
     EXTRA_MODULES

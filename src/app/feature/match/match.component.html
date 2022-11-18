@@ -22,14 +22,6 @@
                     <td>{{ t(match.round?.isGroupmatch ? 'matchDetail.label.finalResult' : 'matchDetail.label.after90minutes') }}</td>
                     <td colspan="2">
                         <p-inputNumber [(ngModel)]="match.goalNormalByTeam1" [required]="true" #goalNormalByTeam1="ngModel"></p-inputNumber>
-                        <!--<div class="alert alert-info" role="alert">
-                            <strong>Valid ? </strong>{{goalNormalByTeam1.valid}} <br>
-                            <strong>Invalid ? </strong>{{goalNormalByTeam1.invalid}}<br>
-                            <strong>Touched ? </strong>{{goalNormalByTeam1.touched}}<br>
-                            <strong>Untouched ? </strong>{{goalNormalByTeam1.untouched}}<br>
-                            <strong>Dirty ? </strong>{{goalNormalByTeam1.dirty}}<br>
-                            <strong>Pristine ? </strong>{{goalNormalByTeam1.pristine}}<br>
-                        </div>-->
                     </td>
                     <td></td>
                     <td colspan="2"><p-inputNumber [(ngModel)]="match.goalNormalByTeam2" [required]="true"></p-inputNumber></td>

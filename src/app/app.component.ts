@@ -45,17 +45,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private setupActiveLang(): void {
     const browserLang = getBrowserLang();
-    console.log(`app.component/browserLang: ${browserLang}`);
+    console.log(`app.component/setupActiveLang/browserLang: ${browserLang}`);
     const defaultLang = getBrowserLang() ?? this.translocoService.getDefaultLang();
-    console.log(`app.component/defaultLang: ${defaultLang}`);
+    console.log(`app.component/setupActiveLang/defaultLang: ${defaultLang}`);
     const availableLangs = this.translocoService.getAvailableLangs() as LangDefinition[]; // e.g. // [{"id":"en","label":"English"},{"id":"hu","label":"Magyar"}]
-    console.log(`app.component/availableLangs: ${JSON.stringify(availableLangs)}`);
+    console.log(`app.component/setupActiveLang/availableLangs: ${JSON.stringify(availableLangs)}`);
     const activeLang = availableLangs.map(e => e.id).includes(defaultLang) ? defaultLang : this.translocoService.getDefaultLang();
-    console.log(`app.component/setActiveLang1: ${activeLang}`);
+    console.log(`app.component/setupActiveLang/setActiveLang1: ${activeLang}`);
     this.translocoService.setActiveLang(activeLang);
 
     this.translocoService.selectTranslateObject('primeng').subscribe(res => {
-      console.log(`app.component/primeng: ${JSON.stringify(res)}`);
+      console.log(`app.component/setupActiveLang/primeng: ${JSON.stringify(res)}`);
       this.primeNGConfig.setTranslation(res);
     });
   }
@@ -65,11 +65,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.sessionService.initSession().subscribe({
       next: (session: SessionData) => {
-        console.log('app.component/session.user=' + session.user?.loginName);
+        console.log('app.component/setupSession/session.user=' + session.user?.loginName);
         this.sessionService.goToDefaultPage();
       },
       error: (err) => {
-        console.log('app.component/session.user is not authenticated yet');
+        console.log('app.component/setupSession/session.user is not authenticated yet');
       }
     }));
   }

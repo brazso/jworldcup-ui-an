@@ -31,7 +31,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`favourite-team.component/session: ${JSON.stringify(session)}`);
+        console.log(`favourite-team.component/ngOnInit/session: ${JSON.stringify(session)}`);
 
         this.selectedGroupTeam = session.userOfEvent?.favouriteGroupTeam ?? null;
         this.selectedKnockOutTeam = session.userOfEvent?.favouriteKnockoutTeam ?? null;
@@ -65,8 +65,8 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
   }
 
   doSave(event_: any): void {
-    console.log(`favourite-team.component/selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
-    console.log(`favourite-team.component/selectedKnockOutTeam: ${JSON.stringify(this.selectedKnockOutTeam)}`);
+    console.log(`favourite-team.component/doSave/selectedGroupTeam: ${JSON.stringify(this.selectedGroupTeam)}`);
+    console.log(`favourite-team.component/doSave/selectedKnockOutTeam: ${JSON.stringify(this.selectedKnockOutTeam)}`);
     this.submitForm();
   }
 
@@ -87,17 +87,17 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
     }
     this.apiService.post<GenericResponse<UserOfEvent>>(url).subscribe({
       next: value => {
-        console.log('favourite-team.component/saved');
+        console.log('favourite-team.component/submitForm/next');
         this.session.userOfEvent = value.data;
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`favourite-team.component/err: ${JSON.stringify(err)}`);
+        console.log(`favourite-team.component/submitForm/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('favourite-team.component/complete');
+        console.log('favourite-team.component/submitForm/complete');
       }
     });
   }

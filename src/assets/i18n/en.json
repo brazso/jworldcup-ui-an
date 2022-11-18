@@ -20,7 +20,7 @@
 	"no-permission": {
 		"view-page": "You do not have permission to view this page."
 	},
-	"SZOLGALTATAS_NEM_ELERHETO": "The service is not available.",
+	"serviceNotAvailable": "The service is not available.",
 	"errorCode": "Error code: {{errorStatus}} - \n {{errorMessage}}",
 	"backend_version_load_failed": "Backend version load failed!",
 	"user_load_failed": "User load failed!",

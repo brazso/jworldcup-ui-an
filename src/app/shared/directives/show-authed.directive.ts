@@ -24,7 +24,7 @@ export class ShowAuthedDirective implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.push(this.sessionService.user.subscribe(
       (user: User) => {
-        console.log(`show-authed.directive/user: ${JSON.stringify(user)}`);
+        console.log(`show-authed.directive/ngOnInit/user: ${JSON.stringify(user)}`);
         this.viewContainer.clear();
         if (this.sessionService.isAuthenticated() && this.condition || !this.sessionService.isAuthenticated() && !this.condition) {
           this.viewContainer.createEmbeddedView(this.templateRef);

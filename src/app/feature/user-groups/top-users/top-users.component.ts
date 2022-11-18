@@ -15,7 +15,6 @@ export class TopUsersComponent implements OnInit, OnDestroy {
   session: SessionData;
 	userCertificates: UserCertificate[] = [];
   selectedUserCertificate: UserCertificate | undefined;
-  // isPrintCertificatedDialogDisplayed: boolean = false;
 
   constructor(
     public sessionService: SessionService,
@@ -26,11 +25,11 @@ export class TopUsersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`top-users.component/session: ${JSON.stringify(session)}`);
+        console.log(`top-users.component/ngOnInit/session: ${JSON.stringify(session)}`);
 
         this.apiService.get<GenericListResponse<UserCertificate>>(`${ApiEndpoints.APPLICATION.RETRIEVE_TOP_USERS}`).subscribe((value) => {
           this.userCertificates = value.data;
-          console.log(`top-users.component/userCertificates: ${JSON.stringify(this.userCertificates)}`);
+          console.log(`top-users.component/ngOnInit/userCertificates: ${JSON.stringify(this.userCertificates)}`);
         });
       }
     ));    

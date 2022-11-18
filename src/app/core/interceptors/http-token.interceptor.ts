@@ -87,7 +87,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
 				// if (error.status >= 500) {
 					let msg = error.error?.message ?? error.message;
-					this.toastMessageService.displayNativeMessage(ToastMessageSeverity.WARN, msg); // TODO - native message should not be displayed
+					this.toastMessageService.displayNativeMessage(ToastMessageSeverity.WARN, msg);
 				// }
 
 				return throwError(() => error);

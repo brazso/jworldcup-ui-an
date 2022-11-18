@@ -27,10 +27,10 @@ export class MatchComponent implements OnInit {
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       // Set a title for the page accordingly
       // this.config.header = this.translocoService.translate('matchDetail.title');
-      console.log('match.component/selectTranslation');
+      console.log('match.component/ngOnInit/selectTranslation');
     });
 
-    console.log(`match.component/this.config.data: ${JSON.stringify(this.config.data)}`);
+    console.log(`match.component/ngOnInit/config.data: ${JSON.stringify(this.config.data)}`);
     const matchId = this.config.data.matchId;
 
     this.apiService.get<GenericResponse<Match>>(ApiEndpoints.MATCHES.MATCH.format(matchId)).subscribe(

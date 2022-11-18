@@ -77,9 +77,9 @@ export class SessionService {
     console.log(`session.service/watchSession: /queue/session#${this.getSession().id}`);
     const subscription = this.rxStompService.watch({ destination: `/queue/session#${this.getSession().id}`, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
       (message: Message) => {
-        // console.log(`session.service/message received: ${JSON.stringify(message)}`);
+        // console.log(`session.service/watchSession/message received: ${JSON.stringify(message)}`);
         const session: SessionData = JSON.parse(message.body);
-        console.log(`session.service/session received: ${JSON.stringify(session)}`);
+        console.log(`session.service/watchSession/session received: ${JSON.stringify(session)}`);
         if (session.operationFlag === SessionDataOperationFlag.SERVER) {
           this.subscriptions.push(this.initSession(SessionDataOperationFlag.SERVER).subscribe());
         } else {
@@ -102,7 +102,7 @@ export class SessionService {
         this.sessionSubscriptionMap?.get(this.getSession().id!)?.unsubscribe();
         this.sessionSubscriptionMap?.delete(this.getSession().id!);
       }
-      console.log('session.service/emptySession');
+      console.log('session.service/destroySession/emptySession');
       this.setSession({} as SessionData);
     }
   }

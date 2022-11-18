@@ -24,10 +24,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isNamecardDisplayed: boolean = false;
   isGameRuleDisplayed: boolean = false;
 
-  // session fields
-  // eventCompletionPercent: number | undefined;
-  // newsLine: string;
-
   constructor(
     private translocoService: TranslocoService,
     private sessionService: SessionService,
@@ -38,20 +34,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`header.component/session: ${JSON.stringify(session)}`);
-        // if ((session.modificationSet ?? []).includes(SessionDataModificationFlag.ACTUAL_DATE_TIME)) {
-        //   console.log(`header.component/session.actualDateTime: ${session.actualDateTime}`);
-        // }
-        // if ((session.modificationSet ?? []).includes(SessionDataModificationFlag.NEWS_LINE)) {
-        //   console.log(`header.component/session.newsLine: ${session.newsLine}`);
-        // }
+        console.log(`header.component/ngOnInit/session: ${JSON.stringify(session)}`);
         this.setupMenuItemsAfterTranlationLoaded();
       }
     ));
     this.subscriptions.push(this.sessionService.user.subscribe(
       (user: User) => {
         this.user = user;
-        console.log(`header.component/user: ${JSON.stringify(user)}`);
+        console.log(`header.component/ngOnInit/user: ${JSON.stringify(user)}`);
         this.setupMenuItemsAfterTranlationLoaded();
         this.setupAllEvents();
       }
@@ -59,7 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
-        console.log(`header.component/event: ${JSON.stringify(event)}`);
+        console.log(`header.component/ngOnInit/event: ${JSON.stringify(event)}`);
         this.setupMenuItemsAfterTranlationLoaded();
       }
     ));

@@ -78,11 +78,11 @@ export class UserDetailComponent implements OnInit, OnDestroy {
             this.sessionService.logout();
           },
           error: (err: HttpErrorResponse) => {
-            console.log(`user-detail.component/err: ${JSON.stringify(err)}`);
+            console.log(`user-detail.component/doDelete/err: ${JSON.stringify(err)}`);
             this.errors = new UiError(Object.assign(err));
           },
           complete: () => {
-            console.log('user-detail.component/complete');
+            console.log('user-detail.component/doDelete/complete');
           }
         });
       }
@@ -125,9 +125,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       next: value => {
         const modifiedUser: User  = value.data;
         console.log(`user-detail.component/saved user: ${JSON.stringify(modifiedUser)}`);
-        // this.sessionService.getSession().user = modifiedUser;
         this.sessionService.setUser(modifiedUser);
-        // this.subscriptions.push(this.sessionService.initSession().subscribe());
         if (modifiedUser.emailNew) {
           this.toastMessageService.displayMessage(ToastMessageSeverity.INFO, 'userDetail.popup.sendChangeEmail');
         }

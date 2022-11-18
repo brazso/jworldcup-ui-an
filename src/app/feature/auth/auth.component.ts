@@ -49,16 +49,16 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.recaptcha = (window as any).grecaptcha; // https://stackoverflow.com/questions/50794121/primeng-captcha-issue-with-angular-6#52788634
     this.availableLangs = (this.translocoService.getAvailableLangs() as LangDefinition[])
       .sort((a, b) => a.label.localeCompare(b.label, this.translocoService.getActiveLang()));
-    console.log(`auth.component/this.availableLangs: ${JSON.stringify(this.availableLangs)}`);
+    console.log(`auth.component/ngOnInit/availableLangs: ${JSON.stringify(this.availableLangs)}`);
     this.authForm.controls['language'].setValue(this.translocoService.getActiveLang());
-    console.log(`auth.component/activeLang: ${JSON.stringify(this.translocoService.getActiveLang())}`);
+    console.log(`auth.component/ngOnInit/activeLang: ${JSON.stringify(this.translocoService.getActiveLang())}`);
     // this.authForm.controls['captcha'].addValidators([this.validateCaptcha]);
 
     combineLatest([
       this.route.url,
       this.route.queryParams
       ]).subscribe(([url, queryParams]) => {
-        console.log(`auth.component/url: ${JSON.stringify(url)}, queryParams: ${JSON.stringify(queryParams)}`)
+        console.log(`auth.component/combineLatest/url: ${JSON.stringify(url)}, queryParams: ${JSON.stringify(queryParams)}`)
 
       // Get the last piece of the URL (it's either 'login' or 'register')
       this.authType = url[url.length - 1].path;
@@ -68,7 +68,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
         const func = queryParams['function']; // possible values: registration, changeEmail, resetPassword
         const token = queryParams['confirmation_token'];
-        // console.log(`auth.component/confirmation_token: ${JSON.stringify(queryParams['a'])}`);
+        // console.log(`auth.component/combineLatest/confirmation_token: ${JSON.stringify(queryParams['a'])}`);
         switch (func) {
           case 'registration':
             if (token) {
@@ -134,7 +134,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.errors = new UiError({});
 
     const credentials = this.authForm.value;
-    console.log(`auth.component/credentials: ${JSON.stringify(credentials)}`);
+    console.log(`auth.component/submitForm/credentials: ${JSON.stringify(credentials)}`);
 
     if (this.authType === 'register') {
       const user: UserExtended = {
@@ -146,22 +146,22 @@ export class AuthComponent implements OnInit, OnDestroy {
         zoneId: Intl.DateTimeFormat().resolvedOptions().timeZone,
         languageTag: credentials['language']
       } as UserExtended;
-      console.log(`auth.component/user: ${JSON.stringify(user)}`);
+      console.log(`auth.component/submitForm/user: ${JSON.stringify(user)}`);
       this.isSubmitting = false;
       this.apiService.post<GenericResponse<User>>(ApiEndpoints.SIGNUP, user).subscribe({
         next: value => {
           let savedUser: User = value.data;
-          console.log(`auth.component/savedUser: ${JSON.stringify(savedUser)}`);
+          console.log(`auth.component/submitForm/savedUser: ${JSON.stringify(savedUser)}`);
           this.isSubmitting = false;
           this.router.navigateByUrl('/'+RouterUrls.LOGIN+'?function=registration');
         },
         error: (err: HttpErrorResponse) => {
-          console.log(`auth.component/err: ${JSON.stringify(err)}`);
+          console.log(`auth.component/submitForm/err: ${JSON.stringify(err)}`);
           this.errors = new UiError(Object.assign(err));
           this.isSubmitting = false;
         },
         complete: () => {
-          console.log('auth.component/complete');
+          console.log('auth.component/submitForm/complete');
         }
       });
     }
@@ -173,12 +173,12 @@ export class AuthComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl('/'+RouterUrls.LOGIN+'?function=resetPassword');
         },
         error: (err: HttpErrorResponse) => {
-          console.log(`auth.component/err: ${JSON.stringify(err)}`);
+          console.log(`auth.component/submitForm/err: ${JSON.stringify(err)}`);
           this.errors = new UiError(Object.assign(err));
           this.isSubmitting = false;
         },
         complete: () => {
-          console.log('auth.component/complete');
+          console.log('auth.component/submitForm/complete');
         }
       });
     }
@@ -188,7 +188,7 @@ export class AuthComponent implements OnInit, OnDestroy {
           this.router.navigate([RouterUrls.HOME_PAGE]);
         },
         error: (err: HttpErrorResponse) => {
-          console.log(`auth.component/auth.component/err: ${JSON.stringify(err)}`);
+          console.log(`auth.component/submitForm/err: ${JSON.stringify(err)}`);
           this.errors = new UiError(Object.assign(err));
           this.isSubmitting = false;
         }
@@ -204,7 +204,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   validateEmail(control: UntypedFormControl): ValidationErrors | null {
     const email = control.value;
-    console.log(`auth.component/email: ${email}`);
+    console.log(`auth.component/validateEmail/email: ${email}`);
     return !email || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) ? null : {email: {value: control.value}};
   }
 

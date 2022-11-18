@@ -29,7 +29,7 @@ transform(array: any[], options: DropdownPipeOptions = {}): SelectItem[] {
     if (options.withEmpty ?? true) {
         pipeArray.unshift({label: options.emptyLabel ?? '-', value: null});
     }
-    // console.log(`dropdown.pipe/pipeArray: ${JSON.stringify(pipeArray)}`);
+    // console.log(`dropdown.pipe/transform/pipeArray: ${JSON.stringify(pipeArray)}`);
 
     return pipeArray;
 }

@@ -19,14 +19,14 @@ export class ListErrorsComponent {
   @Input()
   set errors(uiError: UiError) {
     this.formattedErrors = [];
-    console.log(`list-errors.component/uiError: ${JSON.stringify(uiError)}`);
+    console.log(`list-errors.component/errors/uiError: ${JSON.stringify(uiError)}`);
     if (!uiError.isEmpty()) {
       let error = uiError.error;
       if (error && isApiError(error) && error.items) {
         this.formattedErrors = error.items.map(e => ({...e, msgBuilt: apiErrorItemMsgFormat(e, this.translocoService.translate(e.msgCode))}) as ApiErrorItem);
       }
       else if (uiError.status === 0) {
-        this.translocoService.selectTranslate<string>('SZOLGALTATAS_NEM_ELERHETO').subscribe((res: string) => {
+        this.translocoService.selectTranslate<string>('serviceNotAvailable').subscribe((res: string) => {
           this.formattedErrors.push(res);
         });
       }
@@ -35,7 +35,7 @@ export class ListErrorsComponent {
           .map(key => `${key} ${Object.assign(uiError)[key]}`);        
       }
     }
-    console.log(`list-errors.component/formattedErrors: ${JSON.stringify(this.formattedErrors)}`);
+    console.log(`list-errors.component/errors/formattedErrors: ${JSON.stringify(this.formattedErrors)}`);
   }
 
   get errorList() { return this.formattedErrors; }

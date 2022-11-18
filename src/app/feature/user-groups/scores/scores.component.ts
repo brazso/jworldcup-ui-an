@@ -19,14 +19,12 @@ export class ScoresComponent implements OnInit, OnDestroy {
   selectedUserPosition: UserPosition | undefined;
   chartData: any;
   chartOptions: any;
-  // @ViewChild("chart") chart: UIChart; 
 
   constructor(
     public readonly sessionService: SessionService,
     private readonly apiService: ApiService,
     private translocoDatePipe: TranslocoExDatePipe,
     private translocoService: TranslocoService
-    // private replaceLineBreaksPipe: ReplaceLineBreaksPipe
   ) { }
 
   ngOnInit(): void {
@@ -45,19 +43,19 @@ export class ScoresComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`scores.component/session: ${JSON.stringify(session)}`);
+        console.log(`scores.component/ngOnInit/session: ${JSON.stringify(session)}`);
 
         this.apiService.get<GenericListResponse<UserGroup>>(`${ApiEndpoints.USER_GROUPS.USER_GROUPS_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}&isEverybodyIncluded=true`)
         .pipe(mergeMap((value) => {
           this.userGroups = value.data;
-          console.log(`scores.component/userGroups: ${JSON.stringify(this.userGroups)}`);
+          console.log(`scores.component/ngOnInit/userGroups: ${JSON.stringify(this.userGroups)}`);
           this.selectedUserGroup = this.userGroups.length > 0 ? this.userGroups[0] : undefined;
           return this.retrieveUserPositions();
         }))
         .subscribe(
           (value) => {
             this.userPositions = value.data;
-            console.log(`scores.component/userPositions: ${JSON.stringify(this.userPositions)}`);
+            console.log(`scores.component/ngOnInit/userPositions: ${JSON.stringify(this.userPositions)}`);
             this.createScoresLineModel();
           } 
         );
@@ -75,7 +73,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
     this.retrieveUserPositions().subscribe(
       (value) => {
         this.userPositions = value.data;
-        console.log(`scores.component/userPositions: ${JSON.stringify(this.userPositions)}`);
+        console.log(`scores.component/onUserGroupChange/userPositions: ${JSON.stringify(this.userPositions)}`);
         this.createScoresLineModel();
       } 
     );
@@ -107,7 +105,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
       this.chartData.labels = value.data.matchDates!.map(e => this.translocoDatePipe.transform(e));
       value.data.datasets?.forEach((e) => { e.borderColor = this.getRandomRgb()});
       delete this.chartData.matchDates;
-      console.log(`scores.component/data: ${JSON.stringify(this.chartData)}`);
+      console.log(`scores.component/createScoresLineModel/data: ${JSON.stringify(this.chartData)}`);
     });
   }
 

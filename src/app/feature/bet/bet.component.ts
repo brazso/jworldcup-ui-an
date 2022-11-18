@@ -30,10 +30,10 @@ export class BetComponent implements OnInit {
     this.translocoService.selectTranslation().subscribe((translation: Translation) => {
       // Set a title for the page accordingly
       // this.config.header = this.translocoService.translate('matchDetail.title');
-      console.log('bet.component/selectTranslation');
+      console.log('bet.component/ngOnInit/selectTranslation');
     });
 
-    console.log(`bet.component/this.config.data: ${JSON.stringify(this.config.data)}`);
+    console.log(`bet.component/ngOnInit/config.data: ${JSON.stringify(this.config.data)}`);
     const betId: number | undefined = this.config.data.betId;
     const matchId: number = this.config.data.matchId;
 
@@ -67,7 +67,7 @@ export class BetComponent implements OnInit {
 
     this.apiService.put<GenericResponse<Bet>>(ApiEndpoints.BETS.SAVE_BET, this.bet).subscribe({
       next: value => {
-        console.log('bet.component/saved');
+        console.log('bet.component/submitForm/saved');
         let savedBet = value.data; 
         if (!savedBet) { // might be null if delete happened
           savedBet = {match: this.bet.match, user: this.bet.user} as Bet; // dummy bet only with match and user properties
@@ -76,12 +76,12 @@ export class BetComponent implements OnInit {
         this.isSubmitting = false;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`bet.component/err: ${JSON.stringify(err)}`);
+        console.log(`bet.component/submitForm/err: ${JSON.stringify(err)}`);
         this.errors = new UiError(Object.assign(err));
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('bet.component/complete');
+        console.log('bet.component/submitForm/complete');
       }
     });
   }

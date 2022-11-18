@@ -27,7 +27,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`certificates.component/session: ${JSON.stringify(session)}`);
+        console.log(`certificates.component/ngOnInit/session: ${JSON.stringify(session)}`);
 
         forkJoin([
           this.apiService.get<GenericResponse<number>>(`${ApiEndpoints.BETS.FIND_SCORE_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}`),
@@ -35,7 +35,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
           ]).subscribe(([scoreResponse, userCertificatesResponse]) => {
             this.score = scoreResponse.data;
             this.userCertificates = userCertificatesResponse.data;
-            console.log(`certificates.component/score: ${this.score}, userCertificates: ${JSON.stringify(this.userCertificates)}`);
+            console.log(`certificates.component/ngOnInit/score: ${this.score}, userCertificates: ${JSON.stringify(this.userCertificates)}`);
           }
         );
       }
@@ -58,7 +58,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
     console.log(`certificates.component/printCertificate`);
     let userCerrtificateExtended: UserCertificateExtended = userCertificate;
     userCerrtificateExtended.languageTag = this.session.localeId;
-    console.log(`certificates.component/userCerrtificateExtended: ${JSON.stringify(userCerrtificateExtended)}`);
+    console.log(`certificates.component/printCertificate/userCerrtificateExtended: ${JSON.stringify(userCerrtificateExtended)}`);
 
     this.apiService.post<any>(ApiEndpoints.USER_GROUPS.PRINT_USER_CERTIFICATE, userCerrtificateExtended, {responseType: 'blob' })
     .subscribe({
@@ -74,10 +74,10 @@ export class CertificatesComponent implements OnInit, OnDestroy {
         });
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`certificates.component/err: ${JSON.stringify(err)}`);
+        console.log(`certificates.component/printCertificate/err: ${JSON.stringify(err)}`);
       },
       complete: () => {
-        console.log('certificates.component/complete');
+        console.log('certificates.component/printCertificate/complete');
       }
     });
   }

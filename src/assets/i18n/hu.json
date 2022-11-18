@@ -20,7 +20,7 @@
 	"no-permission": {
 		"view-page": "Az oldal megtekintéséhez nincs jogosultsága."
 	},
-	"SZOLGALTATAS_NEM_ELERHETO": "A szolgáltatás nem elérhető.",
+	"serviceNotAvailable": "A szolgáltatás nem elérhető.",
 	"errorCode": "Hibakód: {{errorStatus}} - \n {{errorMessage}}",
 	"backend_version_load_failed": "A backend verizió betöltése sikertelen volt!",
 	"user_load_failed": "A felhasználó betöltése sikertelen volt!",

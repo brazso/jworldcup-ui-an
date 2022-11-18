@@ -1,9 +1,8 @@
 import { AfterContentInit, Directive, ElementRef, Input } from '@angular/core';
 
 /**
- * Auto focus direktíva input elemre, amelyen meghívja a focus metódust.
- * Amennyiben az isClicked paraméter true, az focus helyett a click hívódik
- * meg.
+ * Auto focus directive for input element which calls the focus method.
+ * But if isClicked parameter is true, click method is called instead of the focus.
  */
 @Directive({
 	selector: '[autoFocus]'
@@ -11,12 +10,12 @@ import { AfterContentInit, Directive, ElementRef, Input } from '@angular/core';
 export class AutoFocusDirective implements AfterContentInit {
 
 	/**
-	 * Dinamikusan kikapcsolható a direktíva.
+	 * Can be disabled dynamically.
 	 */
 	@Input() autoFocusDisabled: boolean = false;
 
 	/**
-	 * A click metódust használja inkább az elemen a default focus helyett.
+	 * Use the click method instead of default focus on the element.
 	 */
 	@Input() autoFocusClicked: boolean = false;
 
@@ -26,10 +25,10 @@ export class AutoFocusDirective implements AfterContentInit {
 		if (!this.autoFocusDisabled) {
 			setTimeout(() => {
 				if (this.autoFocusClicked) {
-					console.log('auto-focus.directive/click');
+					console.log('auto-focus.directive/ngAfterContentInit/click');
 					this.el.nativeElement.click();
 				} else {
-					console.log('auto-focus.directive/focus');
+					console.log('auto-focus.directive/ngAfterContentInit/focus');
 					this.el.nativeElement.focus();
 				}
 			}, 500);

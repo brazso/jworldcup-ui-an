@@ -47,10 +47,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         // this.session = session;
-        console.log(`chat.component/session: ${JSON.stringify(session)}`);
+        console.log(`chat.component/ngOnInit/session: ${JSON.stringify(session)}`);
         if (!this.chatRooms || (session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
           this.chatRooms = (session.userGroups ?? []).map(e => ({userGroup: e} as ChatRoom));
-          console.log(`chat.component/chatRooms: ${JSON.stringify(this.chatRooms)}`);
+          console.log(`chat.component/ngOnInit/chatRooms: ${JSON.stringify(this.chatRooms)}`);
           this.activeIndex = 0;
 
           // new userGroups
@@ -59,14 +59,14 @@ export class ChatComponent implements OnInit, OnDestroy {
             if (!this.subscriptionMap.has(destination)) {
               const subscription: Subscription = this.rxStompService.watch({ destination, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "false" } } as IWatchParams).subscribe(
                 (message: Message) => {
-                  console.log(`chat.component/message received: ${JSON.stringify(message)}`);
+                  console.log(`chat.component/ngOnInit/message received: ${JSON.stringify(message)}`);
                   const chat: Chat = JSON.parse(message.body);
                   this.processChat(chat);
                 }
               );
               this.subscriptions.push(subscription);
               this.subscriptionMap.set(destination, subscription);
-              console.log(`chat.component/added destination: ${destination}`);
+              console.log(`chat.component/ngOnInit/added destination: ${destination}`);
             }
           });
 
@@ -76,20 +76,12 @@ export class ChatComponent implements OnInit, OnDestroy {
               this.subscriptions = this.subscriptions.filter(e => e !== subscription);
               subscription.unsubscribe();
               this.subscriptionMap.delete(destination);
-              console.log(`chat.component/removed destination: ${destination}`);
+              console.log(`chat.component/ngOnInit/removed destination: ${destination}`);
             }
           });
 
           this.loadChats();
         }
-
-        // this.apiService.get<GenericListResponse<UserGroup>>(`${ApiEndpoints.USER_GROUPS.USER_GROUPS_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}&isEverybodyIncluded=true`).subscribe(
-        //   (value) => {
-        //     this.userGroups = value.data;
-        //     console.log(`chat.component/userGroups: ${JSON.stringify(this.userGroups)}`);
-        //     this.loadChats();
-        //   }
-        // );
       }
     ));
 
@@ -140,19 +132,16 @@ export class ChatComponent implements OnInit, OnDestroy {
   onChangeTabView(event_: any): void {
     console.log(`chat.component/onChangeTabView/event: ${JSON.stringify(event_)}`);
     console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
-    // this.selectedChatRoom = this.chatRooms[event_.index];
     this.message == '';
   }
 
   onCloseTabView(event_: any): void {
-    console.log(`chat.component/onCloseTabView/event: ${JSON.stringify(event_)}`);
-    console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
-
+    console.log(`chat.component/onCloseTabView/event: ${JSON.stringify(event_)}, activeIndex: ${this.activeIndex}`);
     if (this.isChatRoomUser(this.getSelectedChatRoom()) && this.chatRooms.filter(e => this.isChatRoomUser(e)).length == 1) {
       const destination: string = `/queue/privatechat#${this.sessionService.getUser().userId}`;
       this.subscriptionMap.get(destination)?.unsubscribe();
       this.subscriptionMap.delete(destination);
-      console.log(`chat.component/removed destination: ${destination}`);
+      console.log(`chat.component/onCloseTabView/removed destination: ${destination}`);
     }
 
     this.chatRooms.splice(event_.index, 1); // remove closed chatRoom from its array
@@ -160,21 +149,20 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   onClickUser(user: User): void {
-    console.log(`chat.component/onClickUser/user: ${JSON.stringify(user)}`);
-    console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
+    console.log(`chat.component/onClickUser/user: ${JSON.stringify(user)}, activeIndex: ${this.activeIndex}`);
 
     const destination: string = `/queue/privatechat#${this.sessionService.getUser().userId}`; 
     if (!this.subscriptionMap.has(destination)) {
       const subscription: Subscription = this.rxStompService.watch({ destination, subHeaders: { durable: "false", exclusive: "false", 'auto-delete': "true" } } as IWatchParams).subscribe(
         (message: Message) => {
-          console.log(`chat.component/message received: ${JSON.stringify(message)}`);
+          console.log(`chat.component/onClickUser/message received: ${JSON.stringify(message)}`);
           const chat: Chat = JSON.parse(message.body);
           this.processChat(chat);
         }
       );
       this.subscriptions.push(subscription);
       this.subscriptionMap.set(destination, subscription);
-      console.log(`chat.component/added destination: ${destination}`);
+      console.log(`chat.component/onClickUser/added destination: ${destination}`);
     }
 
     this.loadPrivateChats(user);
@@ -185,7 +173,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   getChatRoomByChat(chat: Chat): ChatRoom | undefined {
-    // const isSender = 
     const chatRooms: ChatRoom[] = this.chatRooms.filter(e => this.isChatRoomUserGroup(e) && e.userGroup?.userGroupId === chat.userGroup?.userGroupId ||
       this.isChatRoomUser(e) && e.user?.userId === (chat.user?.userId === this.sessionService.getUser().userId ? chat.targetUser?.userId : chat.user?.userId));
       return chatRooms.length === 0 ? undefined : chatRooms[0];
@@ -218,17 +205,17 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.apiService.post<GenericResponse<Chat>>(ApiEndpoints.CHATS.SEND_CHAT, chat)
     .subscribe({
       next: value => {
+        console.log(`chat.component/sendChat/next`);
         const updatedChat: Chat = value.data;
-        console.log(`chat.component/sendChat/sentChat`);
         if (chat.targetUser) { // private chat
           this.processChat(updatedChat);
         }
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`chat.component/err: ${JSON.stringify(err)}`);
+        console.log(`chat.component/sendChat/err: ${JSON.stringify(err)}`);
       },
       complete: () => {
-        console.log('chat.component/complete');
+        console.log('chat.component/sendChat/complete');
       }
     });
 
@@ -238,7 +225,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (this.chatRooms.findIndex(e => this.isChatRoomUser(e) && e.user?.userId === targetUser.userId) >= 0 || this.sessionService.getUser().userId === targetUser.userId) {
       return;
     }
-    // this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.CHATS.RETRIEVE_PRIVATE_CHATS}?eventId=${this.sessionService.getEvent().eventId}&sourceUserId=${this.sessionService.getUser().userId}&targetUserId=${targetUser.userId}`).subscribe(
     this.apiService.get<GenericListResponse<Chat>>(`${ApiEndpoints.CHATS.RETRIEVE_PRIVATE_CHATS}?sourceUserId=${this.sessionService.getUser().userId}&targetUserId=${targetUser.userId}`).subscribe(
       (value) => {
         this.chatRooms.push({chats: value.data, user: targetUser} as ChatRoom);

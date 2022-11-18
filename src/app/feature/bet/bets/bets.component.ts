@@ -22,7 +22,6 @@ export class BetsComponent implements OnInit, OnDestroy {
   bets: Bet[] = [];
   matches: Match[] = [];
   rounds: Round[] = [];
-  // betByMatchIdMap: { [matchId: number]: Bet } = {};
   eventTriggerStartTimes: Date[] = [];
   selectedBet: Bet;
 
@@ -43,23 +42,19 @@ export class BetsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
-        console.log(`bets.component/event: ${JSON.stringify(event)}`);
+        console.log(`bets.component/ngOnInit/event: ${JSON.stringify(event)}`);
 
         forkJoin([
           this.apiService.get<GenericListResponse<Match>>(`${ApiEndpoints.MATCHES.MATCHES_BY_EVENT}?eventByShortDescWithYear=${getShortDescWithYearByEvent(this.event)}`),
           this.apiService.get<GenericListResponse<Bet>>(`${ApiEndpoints.BETS.BETS_BY_EVENT_AND_USER}?eventId=${this.event.eventId}&userId=${this.sessionService.getUser().userId}`)
           ]).subscribe(([matchResponse, betResponse]) => {
             this.matches = matchResponse.data;
-            console.log(`bets.component/matches.length: ${this.matches.length}`);
+            console.log(`bets.component/ngOnInit/matches.length: ${this.matches.length}`);
 
             // retrieve rounds from loaded matches
             this.rounds = distinctArrayByPropertyName<Round>(this.matches.map(e => e.round as Round), 'roundId').sort((a, b) => a.roundId! - b.roundId!);
-            console.log(`bets.component/rounds: ${JSON.stringify(this.rounds)}`);
+            console.log(`bets.component/ngOnInit/rounds: ${JSON.stringify(this.rounds)}`);
 
-            // // init betByMatchIdMap
-            // this.matches.forEach((match) => {
-            //   this.betByMatchIdMap[match.matchId!] = {};
-            // });
             this.bets = [];
             this.matches.forEach((match) => {
               // this.betByMatchIdMap[match.matchId!] = {};
@@ -67,18 +62,13 @@ export class BetsComponent implements OnInit, OnDestroy {
             });
 
             const bets: Bet[] = betResponse.data;
-            console.log(`bets.component/bets.length: ${bets.length}`);
+            console.log(`bets.component/ngOnInit/bets.length: ${bets.length}`);
 
             // link each bet to proper match from matches array
-            // this.betByMatchIdMap = {};
             bets.forEach((bet) =>{
-              console.log(`bets.component/betId: ${bet.betId}`);
-              // const match = this.matches.find(e => e.matchId === bet.match?.matchId);
-              // if (match) {
-              //   this.betByMatchIdMap[bet.match?.matchId!] = match;
-              // }
+              console.log(`bets.component/ngOnInit/betId: ${bet.betId}`);
               const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
-              console.log(`bets.component/index: ${index}`);
+              console.log(`bets.component/ngOnInit/index: ${index}`);
               if (index !== -1) {
                 this.bets[index] = bet;
               }
@@ -86,12 +76,6 @@ export class BetsComponent implements OnInit, OnDestroy {
           }
         );
 
-      }
-    ));
-
-    this.subscriptions.push(this.sessionService.session.subscribe(
-      (session: SessionData) => {
-        // TODO
       }
     ));
   }
@@ -142,11 +126,11 @@ export class BetsComponent implements OnInit, OnDestroy {
     });
 
     ref.onClose.subscribe((bet: Bet) => {
-      console.log(`bets.component/onClose bet: ${JSON.stringify(bet)}`);
+      console.log(`bets.component/editBet/onClose bet: ${JSON.stringify(bet)}`);
       if (bet) {
         // replace selectedBet inside bets to the incoming updated one
         const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
-        console.log(`bets.component/index: ${index}`);
+        console.log(`bets.component/editBet/index: ${index}`);
         if (index !== -1) {
           this.bets[index] = bet;
           this.selectedBet = bet;
@@ -172,11 +156,11 @@ export class BetsComponent implements OnInit, OnDestroy {
         }
       },
       error: (err: HttpErrorResponse) => {
-        console.log(`bets.component/err: ${JSON.stringify(err)}`);
+        console.log(`bets.component/resetBet/err: ${JSON.stringify(err)}`);
         // this.errors = new UiError(Object.assign(err));
       },
       complete: () => {
-        console.log('bets.component/complete');
+        console.log('bets.component/resetBet/complete');
       }
     });
   }
@@ -206,16 +190,7 @@ export class BetsComponent implements OnInit, OnDestroy {
     });
 
     ref.onClose.subscribe((bet: Bet) => {
-      console.log(`bets.component/nClose bet: ${JSON.stringify(bet)}`);
-      // if (bet) {
-      //   // replace selectedBet inside bets to the incoming one
-      //   const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
-      //   console.log(`bets.component/index: ${index}`);
-      //   if (index !== -1) {
-      //     this.bets[index] = bet;
-      //     this.selectedBet = bet;
-      //   }
-      // }
+      console.log(`bets.component/onClose bet: ${JSON.stringify(bet)}`);
     });
 
   }
