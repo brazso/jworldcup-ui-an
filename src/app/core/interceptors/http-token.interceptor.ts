@@ -17,6 +17,7 @@ import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as MessageConstants } from 'src/app/core/constants/message-constants.json';
 import { JwtService, SessionService } from 'src/app/core/services';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
@@ -85,10 +86,10 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 					this.router.navigate([RouterUrls.SERVICE_UNAVAILABLE]);
 				}
 
-				// if (error.status >= 500) {
+				if (error.status >= 500 || !environment.production) {
 					let msg = error.error?.message ?? error.message;
 					this.toastMessageService.displayNativeMessage(ToastMessageSeverity.WARN, msg);
-				// }
+				}
 
 				return throwError(() => error);
 			}));
