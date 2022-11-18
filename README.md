@@ -100,7 +100,7 @@ In production the application runs in a docker container.
 
 ### Start docker container of the application for production
 ```
-docker-compose up --build
+docker-compose --profile production --env-file .env.prod up --build
 ```
 
 ### Stop running docker container of the application (in production)
