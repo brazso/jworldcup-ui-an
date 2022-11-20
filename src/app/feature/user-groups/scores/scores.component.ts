@@ -50,10 +50,12 @@ export class ScoresComponent implements OnInit, OnDestroy {
           this.userGroups = value.data;
           console.log(`scores.component/ngOnInit/userGroups: ${JSON.stringify(this.userGroups)}`);
           this.selectedUserGroup = this.userGroups.length > 0 ? this.userGroups[0] : undefined;
+          console.log(`scores.component/ngOnInit/selectedUserGroup: ${JSON.stringify(this.selectedUserGroup)}`);
           return this.retrieveUserPositions();
         }))
         .subscribe(
           (value) => {
+            console.log(`scores.component/ngOnInit/selectedUserGroup2: ${JSON.stringify(this.selectedUserGroup)}`);
             this.userPositions = value.data;
             console.log(`scores.component/ngOnInit/userPositions: ${JSON.stringify(this.userPositions)}`);
             this.createScoresLineModel();
@@ -99,6 +101,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
   private createScoresLineModel(): void {
     let matchDates: string[];
 
+    console.log(`scores.component/createScoresLineModel/selectedUserGroup: ${JSON.stringify(this.selectedUserGroup)}`);
     this.apiService.get<GenericResponse<LineChartData>>(`${ApiEndpoints.USER_GROUPS.FIND_LINE_CHART_DATA_BY_EVENT_AND_USER_GROUP}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${this.selectedUserGroup?.userGroupId}`)
     .subscribe((value) => {
       this.chartData = value.data;
