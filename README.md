@@ -1,5 +1,5 @@
 # jworldcup-ui-an
-JWorldcup soccer bet game user interface on HTML5/TypeScript/Angular (depends on jworldcup-be-sb backend)
+JWorldcup soccer bet game frontend developed on HTML5/TypeScript/Angular (depends on jworldcup-be-sb backend)
 
 ## Install (Active LTS) Node.js (and npm) on Ubuntu
 
@@ -100,7 +100,7 @@ In production the application runs in a docker container.
 
 ### Start docker container of the application for production
 ```
-docker-compose --profile production --env-file .env.prod up --build
+docker-compose --profile production --env-file .env.prod up --build -d
 ```
 
 ### Stop running docker container of the application (in production)
