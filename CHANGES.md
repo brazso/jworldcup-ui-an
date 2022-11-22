@@ -1,6 +1,6 @@
 ## Changes
 
-### Version 1.0.1 / 2022-11-??
+### Version 1.0.1 / 2022-11-22
 
 * Fix: Changing event in View/Scores may throw Java convert error in backend
 * Fix: Scheduler refreshed View/Scores page in every minute
