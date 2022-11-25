@@ -1,5 +1,9 @@
 ## Changes
 
+### Version 1.0.2 / 2022-11-26
+
+* Fix: Partly elimination of reCaptcha "Error: Uncaught (in promise): Timeout"
+
 ### Version 1.0.1 / 2022-11-22
 
 * Fix: Changing event in View/Scores may throw Java convert error in backend

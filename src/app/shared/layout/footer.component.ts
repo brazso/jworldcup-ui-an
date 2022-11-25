@@ -45,7 +45,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   private setupFrontendBackendVersions(): void {
-    this.frontendVersion = pkg.version;
+    this.frontendVersion = "{0} ({1})".format(pkg.version, pkg.versionDate);
     this.backendService.getBackendVersion().subscribe(
       (value: GenericResponse<string>) => {
         this.backendVersion = value.data as string;

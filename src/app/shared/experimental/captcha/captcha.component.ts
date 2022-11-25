@@ -1,8 +1,8 @@
-import {AfterViewInit,Component,EventEmitter,Input,NgZone,OnDestroy,Output,ElementRef,ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef} from '@angular/core';
+import {AfterViewInit,Component,EventEmitter,Input,NgZone,OnDestroy,Output,ElementRef,ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef, OnInit, OnChanges} from '@angular/core';
 
 @Component({
   selector: 'z-captcha',
-  templateUrl: './captcha.component.html',
+  template: '<div></div>',
   styleUrls: ['./captcha.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -12,6 +12,8 @@ import {AfterViewInit,Component,EventEmitter,Input,NgZone,OnDestroy,Output,Eleme
 })
 /**
  * Fix for https://github.com/primefaces/primeng/issues/10112 - "Error: reCAPTCHA has already been rendered in this element"
+ * This altered component does work only if it has a language attribute!
+ * Changing language on the UI may result: "Error: Uncaught (in promise): Timeout" owning to multiple recaptcha instances.
  */
 export class CaptchaComponent implements AfterViewInit,OnDestroy {
 
@@ -42,31 +44,42 @@ export class CaptchaComponent implements AfterViewInit,OnDestroy {
 
     set language(language: string) {
         this._language = language;
+        console.log(`captcha.component/set language/init`);
         this.init();
     }
 
     constructor(public el: ElementRef, public _zone: NgZone, public cd: ChangeDetectorRef) {}
 
     ngAfterViewInit() {
+        // set-language migth have already invoked this.init()
+        if (this._instance !== null) {
+            return;
+        }
         if ((<any>window).grecaptcha) {
             if (!(<any>window).grecaptcha.render){
                 setTimeout(() =>{
+                    console.log(`captcha.component/ngAfterViewInit/init1`);
                     this.init();
                 },100)
             }
             else {
+                console.log(`captcha.component/ngAfterViewInit/init2`);
                 this.init();
             }
         }
         else {
             (<any>window)[this.initCallback] = () => {
-              this.init();
+                console.log(`captcha.component/ngAfterViewInit/init3`);
+                this.init();
             }
         }
     }
 
     init() {
-        this.el.nativeElement.innerHTML = "<div></div>"; // fix
+        // console.log(`captcha.component/init: innerHTML1=${JSON.stringify(this.el.nativeElement.innerHTML)}`);
+        this.reset();
+        this.el.nativeElement.innerHTML = "<div></div>"; // fix - remove earlier might have generated reCAPTCHA iframe child
+        // console.log(`captcha.component/init: innerHTML2=${JSON.stringify(this.el.nativeElement.innerHTML)}`);
 
         this._instance = (<any>window).grecaptcha.render(this.el.nativeElement.firstChild, {
             'sitekey': this.siteKey,
@@ -75,12 +88,21 @@ export class CaptchaComponent implements AfterViewInit,OnDestroy {
             'size': this.size,
             'tabindex': this.tabindex,
             'hl': this.language,
-            'callback': (response: string) => {this._zone.run(() => this.recaptchaCallback(response))},
-            'expired-callback': () => {this._zone.run(() => this.recaptchaExpiredCallback())}
+            'callback': (response: string) => {
+                console.log(`captcha.component/init/callback`);
+                this._zone.run(() => this.recaptchaCallback(response))
+            },
+            'expired-callback': () => {
+                console.log(`captcha.component/init/expired-callback`);
+                this._zone.run(() => this.recaptchaExpiredCallback())
+            }
         });
+        console.log(`captcha.component/init: _instance=${JSON.stringify(this._instance)}`);
+        // console.log(`captcha.component/init: innerHTML3=${JSON.stringify(this.el.nativeElement.innerHTML)}`);
     }
 
     reset() {
+        console.log(`captcha.component/reset: _instance=${JSON.stringify(this._instance)}`);
         if (this._instance === null)
             return;
 
@@ -106,6 +128,7 @@ export class CaptchaComponent implements AfterViewInit,OnDestroy {
     }
 
     ngOnDestroy() {
+        console.log(`captcha.component/ngOnDestroy: _instance=${JSON.stringify(this._instance)}`);
         if (this._instance != null) {
           (<any>window).grecaptcha.reset(this._instance);
         }
