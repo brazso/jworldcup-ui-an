@@ -123,4 +123,5 @@ Ngnix web server on the production server checks the latter file. All request wi
 - [Login/Register form sample](https://codepen.io/gstorbeck/embed/gbNEOr?height=530&theme-id=0&slug-hash=gbNEOr&default-tab=css%2Cresult&user=gstorbeck&pen-title=Login%20Form&name=cp_embed_93)
 - [Layout demos](https://tburleson-layouts-demos.firebaseapp.com/)
 - [An input validation message to use with PrimeNG ](https://gist.github.com/sannonaragao/dbf747676016ed0c4054f8abd2e2a4d2)
-- [A secure way to encrypt any password in the config file in a Spring Boot project](https://medium.com/engineering-jio-com/a-secure-way-to-encrypt-any-password-in-the-config-file-in-a-spring-boot-project-20d12436b4b9)
+- [The Ultimate Guide to handling JWTs on frontend clients](https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/)
+- [JWT Authentication With Refresh Tokens](https://www.geeksforgeeks.org/jwt-authentication-with-refresh-tokens/)
