@@ -5,6 +5,7 @@
 
     "LOGIN": "/login",
     "LOGOUT": "/logout",
+    "REFRESH": "/refresh",
     "SIGNUP": "/signup",
     "BACKEND_VERSION": "/backend-version",
     "VERIFY_CAPTCHA": "/verify-captcha",
