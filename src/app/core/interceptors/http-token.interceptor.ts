@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
 	HttpInterceptor,
 	HttpRequest,
@@ -8,19 +8,24 @@ import {
 	HttpErrorResponse
 } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, Subject, Subscription, throwError } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as MessageConstants } from 'src/app/core/constants/message-constants.json';
+import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { JwtService, SessionService } from 'src/app/core/services';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
-export class HttpTokenInterceptor implements HttpInterceptor {
+export class HttpTokenInterceptor implements HttpInterceptor, OnDestroy {
+
+	isRefreshToken: boolean = false;
+    tokenSubject: Subject<boolean> = new Subject<boolean>(); // its type is irrelevant
+	private subscriptions: Subscription[] = [];
 
 	constructor(
 		private jwtService: JwtService,
@@ -31,17 +36,15 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 		private router: Router
 	) { }
 
+	ngOnDestroy() {
+		console.log('http-token.interceptor/ngOnDestroy');
+		this.subscriptions.forEach(subscription => subscription.unsubscribe());
+	}
+
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		this.showLoader();
 
-		// request = request.clone({ headers: request.headers.set('X-Requested-With', 'XMLHttpRequest') });
-		if (this.jwtService.getToken()) {
-			request = request.clone({
-				setHeaders: {
-					Authorization: `${MessageConstants.BEARER} ${this.jwtService.getToken()}`
-			  	}
-			})
-		}
+		request = this.addTokenToRequest(request);
 		
 		/*
 			HTTP Status Codes
@@ -71,11 +74,8 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 				this.onEnd();
 				this.modal.closeAll();
 				if (error.status === 401) {
-					// Unauthorized, go to login if we are not at login yet
-					this.sessionService.destroyUser();
-					if (this.router.url.split('?')[0]  !== ('/'+RouterUrls.LOGIN)) {
-						this.router.navigate([RouterUrls.LOGIN]);
-					}
+					// Unauthorized, go to logout
+					return this.handle401Error(request, next);
 				}
 				if (error.status === 403) {
 					// Forbidden, go to error
@@ -95,6 +95,17 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 			}));
 	}
 
+	private addTokenToRequest(request: HttpRequest<any>): HttpRequest<any> {
+		if (this.jwtService.getToken()) {
+			request = request.clone({
+				setHeaders: {
+					Authorization: `${MessageConstants.BEARER} ${this.jwtService.getToken()}`
+			  	}
+			})
+		}
+		return request;
+	}
+
 	private onEnd(): void {
 		this.hideLoader();
 	}
@@ -106,4 +117,36 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 	private hideLoader(): void {
 		this.loader.hide();
 	}
+
+	private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+		this.requestRefreshToken();
+		return this.tokenSubject.pipe(
+			take(1),
+			switchMap(token => {
+				request = this.addTokenToRequest(request); // add new access token to header...
+				return next.handle(request); // ... and repeat previous request
+			})
+		);
+	}
+
+	private requestRefreshToken() {
+		if (!this.isRefreshToken) {
+			this.isRefreshToken = true;
+			this.subscriptions.push(this.jwtService.refreshToken().subscribe({
+				next: jwtResponse => {
+					console.log('http-token.interceptor/requestRefreshToken/refreshToken/next');
+					if (jwtResponse.token) {
+						this.tokenSubject.next(true);
+					}
+					this.isRefreshToken = false;
+				},
+				error: (err: HttpErrorResponse) => {
+					console.log(`http-token.interceptor/requestRefreshToken/refreshToken/err: err=${JSON.stringify(err)}`);
+					this.sessionService.logout();
+					this.isRefreshToken = false;
+				}
+			}));
+		}
+	}
+
 }

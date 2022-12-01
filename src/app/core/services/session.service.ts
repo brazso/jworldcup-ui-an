@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Event, JwtRequest, JwtResponse, SessionData, SessionDataOperationFlag, User } from 'src/app/core/models';
 import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { Message } from '@stomp/stompjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SessionService {
+export class SessionService implements OnDestroy {
   private sessionSubject = new BehaviorSubject<SessionData>({} as SessionData);
   session: Observable<SessionData> = this.sessionSubject.asObservable();
   

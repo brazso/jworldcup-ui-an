@@ -2,10 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { GenericListResponse, GenericResponse, SessionData, Team, UiError, UserOfEvent } from 'src/app/core/models';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
-import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { forkJoin, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @Component({
   // selector: 'app-favourite-team',
@@ -23,7 +21,6 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
   selectedKnockOutTeam: Team | null;
   
   constructor(
-    private readonly router: Router,
     private readonly sessionService: SessionService,
     private readonly apiService: ApiService,
   ) { }
@@ -91,7 +88,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
         console.log('favourite-team.component/submitForm/next');
         this.session.userOfEvent = value.data;
         this.isSubmitting = false;
-        this.router.navigate([RouterUrls.HOME_PAGE]);
+        this.sessionService.goToDefaultPage();
       },
       error: (err: HttpErrorResponse) => {
         console.log(`favourite-team.component/submitForm/err: ${JSON.stringify(err)}`);
