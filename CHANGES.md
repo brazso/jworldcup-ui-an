@@ -1,5 +1,9 @@
 ## Changes
 
+### Version 1.0.3 / 2022-12-01
+
+* Fix: Favourite teams could not be saved if any of the input fields were disabled
+
 ### Version 1.0.2 / 2022-11-26
 
 * Fix: Partly elimination of reCaptcha "Error: Uncaught (in promise): Timeout"
