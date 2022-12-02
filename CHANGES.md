@@ -1,5 +1,9 @@
 ## Changes
 
+### Version 1.0.4 / 2022-12-02
+
+* Jwt refresh token used with extended expiration age
+
 ### Version 1.0.3 / 2022-12-01
 
 * Fix: Favourite teams could not be saved if any of the input fields were disabled
