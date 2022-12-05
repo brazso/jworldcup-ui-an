@@ -12,7 +12,6 @@
     
     "USERS": {
         "WHOAMI": "/users/whoami",
-        "SAVE_USER_OF_EVENT": "/users/save-user-of-event",
         "FIND_TIME_ZONE_IDS": "/users/find-time-zone-ids",
         "MODIFY_USER": "/users/modify-user",
         "FIND_USER_LOGIN_NAMES_BY_PREFIX": "/users/find-user-login-names-by-prefix",
@@ -22,6 +21,11 @@
         "PROCESS_CHANGE_EMAIL_TOKEN": "/users/process-change-email-token",
         "PROCESS_RESET_PASSWORD_TOKEN": "/users/process-reset-password-token",
         "DELETE_USER_BY_LOGIN_NAME": "/users/delete-user-by-login-name"
+    },
+
+    "USER_OF_EVENTS": {
+        "FIND-USER-OF-EVENT-BY-EVENT-AND-USER": "/user-of-events/find-user-of-event-by-event-and-user",
+        "SAVE_USER_OF_EVENT": "/user-of-events/save-user-of-event"
     },
 
     "EVENTS": {

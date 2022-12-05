@@ -76,7 +76,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
     this.isSubmitting = true;
     this.errors = new UiError({});
 
-    let url = `${ApiEndpoints.USERS.SAVE_USER_OF_EVENT}?userId=${this.session.user?.userId}&eventId=${this.session.event?.eventId}`;
+    let url = `${ApiEndpoints.USER_OF_EVENTS.SAVE_USER_OF_EVENT}?userId=${this.session.user?.userId}&eventId=${this.session.event?.eventId}`;
     if (this.selectedGroupTeam?.teamId) {
       url += `&favouriteGroupTeamId=${this.selectedGroupTeam?.teamId}`;
     }
