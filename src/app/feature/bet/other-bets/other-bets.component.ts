@@ -14,9 +14,9 @@ export class OtherBetsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   session: SessionData;
   userGroups: UserGroup[];
-  selectedUserGroup: UserGroup | undefined;
+  selectedUserGroup: UserGroup | null;
   otherBets: Bet[];
-  selectedOtherBet: Bet | undefined;
+  selectedOtherBet: Bet | null;
   match: Match;
 
   constructor(
@@ -40,14 +40,14 @@ export class OtherBetsComponent implements OnInit, OnDestroy {
         .pipe(mergeMap((value) => {
           this.userGroups = value.data;
           console.log(`other-bets.component/ngOnInit/userGroups: ${JSON.stringify(this.userGroups)}`);
-          this.selectedUserGroup  = this.userGroups.length > 0 ? this.userGroups[0] : undefined;
+          this.selectedUserGroup  = this.userGroups.length > 0 ? this.userGroups[0] : null;
           return this.retrieveOtherBets();
         }))
         .subscribe(
           (value) => {
             this.otherBets = value.data;
             console.log(`other-bets.component/ngOnInit/otherBets: ${JSON.stringify(this.otherBets)}`);
-            this.selectedOtherBet = this.otherBets.find(e => e.user?.userId === this.sessionService.getUser().userId);
+            this.selectedOtherBet = this.otherBets.find(e => e.user?.userId === this.sessionService.getUser().userId) || null;
           } 
         );
       }

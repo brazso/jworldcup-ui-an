@@ -15,7 +15,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
   session: SessionData;
   score: number = 0;
 	userCertificates: UserCertificate[] = [];
-  selectedUserCertificate: UserCertificate | undefined;
+  selectedUserCertificate: UserCertificate | null;
   isPrintCertificatedDialogDisplayed: boolean = false;
 
   constructor(

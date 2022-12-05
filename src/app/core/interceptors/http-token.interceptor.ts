@@ -23,7 +23,7 @@ import { environment } from 'src/environments/environment';
 export class HttpTokenInterceptor implements HttpInterceptor {
 
 	private isRefreshToken: boolean = false;
-    private tokenSubject: Subject<boolean> = new Subject<boolean>(); // its type is irrelevant now
+    private tokenSubject: Subject<boolean> = new Subject<boolean>(); // subject type is irrelevant here
 
 	constructor(
 		private jwtService: JwtService,

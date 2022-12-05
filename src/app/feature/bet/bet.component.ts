@@ -34,7 +34,7 @@ export class BetComponent implements OnInit {
     });
 
     console.log(`bet.component/ngOnInit/config.data: ${JSON.stringify(this.config.data)}`);
-    const betId: number | undefined = this.config.data.betId;
+    const betId: number | null = this.config.data.betId;
     const matchId: number = this.config.data.matchId;
 
     if (betId) {
