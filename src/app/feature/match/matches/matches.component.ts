@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonResponse, Event, GenericListResponse, GenericResponse, getShortDescWithYearByEvent, Match, Round, SessionData } from 'src/app/core/models';
+import { CommonResponse, Event, GenericListResponse, GenericResponse, getApiErrorOverallType, getShortDescWithYearByEvent, isApiError, Match, ParameterizedMessageTypeEnum, Round, SessionData, UiError } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
@@ -24,6 +24,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
   eventTriggerStartTimes: Date[] = [];
   selectedMatch: Match;
   selectedEventTriggerStartTime: Date;
+  errors: UiError = new UiError({});
 
   constructor(
     private apiService: ApiService,
@@ -167,7 +168,19 @@ export class MatchesComponent implements OnInit, OnDestroy {
       },
       error: (err: HttpErrorResponse) => {
         console.log(`matches.component/onEventTriggerStartTimeChange/err: ${JSON.stringify(err)}`);
-        // this.errors = new UiError(Object.assign(err));
+        // let error = err.error;
+        // if (error && isApiError(error) && error.items && getApiErrorOverallType(error) === ParameterizedMessageTypeEnum.INFO 
+        //   && error.items.some(e => e.msgType.msgCode === 'USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT')) {
+        //     let errorItem = error.items.find(e => e.msgCode === 'USER_GROUP_NAME_OCCUPIED_ON_EARLIER_EVENT');
+        //     // console.log(`user-groups.component/errorItem: ${JSON.stringify(errorItem)}`);
+        //     this.confirmMsg = apiErrorItemMsgFormat(errorItem!, this.translocoService.translate(errorItem!.msgCode));
+        //     // console.log(`user-groups.component/confirmMsg: ${confirmMsg}`);
+        //     this.displayedComponentEnum = DisplayedComponentEnum.IMPORT_CONFIRM_DIALOG;
+        // }
+        // else {
+        //   this.userGroupDialogErrors = new UiError(Object.assign(err));
+        // }
+        this.errors = new UiError(Object.assign(err));
       },
       complete: () => {
         console.log('matches.component/onEventTriggerStartTimeChange/complete');
