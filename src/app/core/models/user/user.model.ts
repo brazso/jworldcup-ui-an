@@ -11,5 +11,6 @@ export interface User {
   modificationTime?: Date; //2018-11-28T16:08:16"
   authorities?: string[];
   isOnline?: boolean;
+  isActive?: boolean;
   loginTime?: Date;
 }
