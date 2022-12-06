@@ -1,5 +1,9 @@
 ## Changes
 
+### Version 1.0.5 / 2022-12-06
+
+* User activity is displayed on chat page instead of the online status
+
 ### Version 1.0.4 / 2022-12-02
 
 * Jwt refresh token used with extended expiration age
