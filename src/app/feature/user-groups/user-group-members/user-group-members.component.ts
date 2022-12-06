@@ -15,13 +15,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./user-group-members.component.scss']
 })
 export class UserGroupMembersComponent implements OnInit, OnDestroy {
-  @Input() selectedUserGroup: UserGroup | undefined;
+  @Input() selectedUserGroup: UserGroup | null;
   private subscriptions: Subscription[] = [];
   isSubmitting = false;
   errors: UiError = new UiError({});
   session: SessionData;
   userGroupMembers: User[];
-  selectedUserGroupMember: User | undefined;
+  selectedUserGroupMember: User | null;
   isUserGroupMemberDialogDisplayed: boolean = false;
   userGroupMemberDialogErrors: UiError = new UiError({});
   userGroupMember: User = {} as User; // added one
@@ -141,7 +141,7 @@ export class UserGroupMembersComponent implements OnInit, OnDestroy {
     this.apiService.delete<CommonResponse>(ApiEndpoints.USER_GROUPS.DELETE_USER_FROM_USER_GROUP+'?userGroupId={0}&userId={1}'.format(userGroup.userGroupId, user.userId)).subscribe({
       next: value => {
         this.userGroupMembers = this.userGroupMembers.filter(e => e.userId !== user.userId);
-        this.selectedUserGroupMember = undefined;
+        this.selectedUserGroupMember = null;
       },
       error: (err: HttpErrorResponse) => {
         console.log(`user-group-members.component/doRemoveUserGroupMember/err: ${JSON.stringify(err)}`);

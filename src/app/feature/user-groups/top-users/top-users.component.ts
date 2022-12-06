@@ -14,7 +14,7 @@ export class TopUsersComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   session: SessionData;
 	userCertificates: UserCertificate[] = [];
-  selectedUserCertificate: UserCertificate | undefined;
+  selectedUserCertificate: UserCertificate | null;
 
   constructor(
     public sessionService: SessionService,

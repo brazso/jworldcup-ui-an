@@ -18,12 +18,13 @@ import { default as MessageConstants } from 'src/app/core/constants/message-cons
 import { JwtService, SessionService } from 'src/app/core/services';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 import { environment } from 'src/environments/environment';
+import { getApiErrorOverallType, isApiError } from '../models';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
 	private isRefreshToken: boolean = false;
-    private tokenSubject: Subject<boolean> = new Subject<boolean>(); // its type is irrelevant now
+    private tokenSubject: Subject<boolean> = new Subject<boolean>(); // subject type is irrelevant here
 
 	constructor(
 		private jwtService: JwtService,
@@ -81,9 +82,11 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 					this.router.navigate([RouterUrls.SERVICE_UNAVAILABLE]);
 				}
 
-				if (error.status >= 500 || !environment.production) {
-					let msg = error.error?.message ?? error.message;
-					this.toastMessageService.displayNativeMessage(ToastMessageSeverity.WARN, msg);
+				if (error.status >= 500) {
+					if (!environment.production && (error.status !== 500 || !isApiError(error.error))) { // apiError should not be displayed
+						let msg = error.error?.message ?? error.message;
+						this.toastMessageService.displayNativeMessage(ToastMessageSeverity.WARN, msg);
+					}
 				}
 
 				return throwError(() => error);

@@ -8,6 +8,7 @@
           [pTooltip]="t('matches.tooltip.triggerStartTime')" (onChange)='onEventTriggerStartTimeChange($event)'></p-dropdown>
         <label for="eventTriggerStartTime">{{ t('matches.label.triggerStartTime') }}</label>
       </span>
+      <app-list-errors [errors]="errors"></app-list-errors>
   </p-panel>
 
   <ng-container *ngFor="let round of rounds">

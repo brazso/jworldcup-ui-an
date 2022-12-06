@@ -14,8 +14,8 @@
                                 <ng-template pTemplate="header">{{t('chat.label.users')}}</ng-template>
                                 <ng-template let-user pTemplate="listItem">
                                     <div (click)="onClickUser(user)">
-                                        <i [class]="'pi ' + (user.isOnline ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
-                                        <span [class]="user.isOnline ? 'user-online' : 'user-offline'" [pTooltip]="user.isOnline ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
+                                        <i [class]="'pi ' + (user.isActive ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isActive ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
+                                        <span [class]="user.isActive ? 'user-online' : 'user-offline'" [pTooltip]="user.isActive ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
                                     </div>
                                 </ng-template>
                             </p-dataView>                    
@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <ng-template *ngIf="isChatRoomUser(chatRoom)" pTemplate="header"><i [class]="'pi ' + (chatRoom.user!.isOnline ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="chatRoom.user!.isOnline ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;{{chatRoom.user!.loginName ?? ''}}</ng-template>
+                    <ng-template *ngIf="isChatRoomUser(chatRoom)" pTemplate="header"><i [class]="'pi ' + (chatRoom.user!.isActive ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="chatRoom.user!.isActive ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;{{chatRoom.user!.loginName ?? ''}}</ng-template>
                     <div *ngIf="isChatRoomUser(chatRoom)">
                         <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
                             <p-dataView [value]="chatRoom.chats" [emptyMessage]="t('chat.label.noChatMessages')">

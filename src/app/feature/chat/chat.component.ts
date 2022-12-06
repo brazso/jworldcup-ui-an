@@ -174,10 +174,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     return this.chatRooms[this.activeIndex];
   }
 
-  getChatRoomByChat(chat: Chat): ChatRoom | undefined {
+  getChatRoomByChat(chat: Chat): ChatRoom | null {
     const chatRooms: ChatRoom[] = this.chatRooms.filter(e => this.isChatRoomUserGroup(e) && e.userGroup?.userGroupId === chat.userGroup?.userGroupId ||
       this.isChatRoomUser(e) && e.user?.userId === (chat.user?.userId === this.sessionService.getUser().userId ? chat.targetUser?.userId : chat.user?.userId));
-      return chatRooms.length === 0 ? undefined : chatRooms[0];
+      return chatRooms.length === 0 ? null : chatRooms[0];
   }
   
   sendChatInit(): void {

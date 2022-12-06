@@ -14,9 +14,9 @@ export class ScoresComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   session: SessionData;
   userGroups: UserGroup[];
-  selectedUserGroup: UserGroup | undefined;
+  selectedUserGroup: UserGroup | null;
   userPositions: UserPosition[];
-  selectedUserPosition: UserPosition | undefined;
+  selectedUserPosition: UserPosition | null;
   chartData: any;
   chartOptions: any;
 
@@ -43,14 +43,14 @@ export class ScoresComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        let selectedUserGroup: UserGroup | undefined;
+        let selectedUserGroup: UserGroup | null;
         console.log(`scores.component/ngOnInit/session: ${JSON.stringify(session)}`);
         if (!this.userGroups || (session.modificationSet ?? []).includes(SessionDataModificationFlag.EVENT)) {
           this.apiService.get<GenericListResponse<UserGroup>>(`${ApiEndpoints.USER_GROUPS.USER_GROUPS_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}&isEverybodyIncluded=true`)
           .pipe(mergeMap((value) => {
             this.userGroups = value.data;
             console.log(`scores.component/ngOnInit/userGroups: ${JSON.stringify(this.userGroups)}`);
-            this.selectedUserGroup = this.userGroups.length > 0 ? this.userGroups[0] : undefined;
+            this.selectedUserGroup = this.userGroups.length > 0 ? this.userGroups[0] : null;
             console.log(`scores.component/ngOnInit/selectedUserGroup: ${JSON.stringify(this.selectedUserGroup)}`);
             selectedUserGroup = this.selectedUserGroup; // extra backup because this.selectedUserGroup might be lost later somehow
             console.log(`scores.component/ngOnInit/selectedUserGroupX: ${JSON.stringify(selectedUserGroup)}`);

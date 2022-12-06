@@ -25,7 +25,7 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
   errors: UiError = new UiError({});
   session: SessionData;
   userGroups: UserGroup[];
-  selectedUserGroup: UserGroup | undefined;
+  selectedUserGroup: UserGroup | null;
   isUserGroupDialogDisplayed: boolean = false;
   userGroupDialogErrors: UiError = new UiError({});
   userGroup: UserGroup = {} as UserGroup; // inserted one
@@ -86,7 +86,7 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
     this.apiService.delete<CommonResponse>(ApiEndpoints.USER_GROUPS.DELETE_USER_GROUP.format(userGroup.userGroupId)).subscribe({
       next: value => {
         this.userGroups = this.userGroups.filter(e => e.userGroupId !== userGroup.userGroupId);
-        this.selectedUserGroup = undefined;
+        this.selectedUserGroup = null;
       },
       error: (err: HttpErrorResponse) => {
         console.log(`user-groups.component/deleteUserGroup/err: ${JSON.stringify(err)}`);
