@@ -11,7 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class TopUsersComponent implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData;
 	userCertificates: UserCertificate[] = [];
   selectedUserCertificate: UserCertificate | null;
@@ -22,7 +22,7 @@ export class TopUsersComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`top-users.component/ngOnInit/session: ${JSON.stringify(session)}`);
@@ -36,7 +36,7 @@ export class TopUsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   onRowSelect(event_: any): void {

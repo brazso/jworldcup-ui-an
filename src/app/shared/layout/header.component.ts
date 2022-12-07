@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData = {};
   user: User = {};
   event: Event = {};
@@ -31,14 +31,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`header.component/ngOnInit/session: ${JSON.stringify(session)}`);
         this.setupMenuItemsAfterTranlationLoaded();
       }
     ));
-    this.subscriptions.push(this.sessionService.user.subscribe(
+    this.subscription.add(this.sessionService.user.subscribe(
       (user: User) => {
         this.user = user;
         console.log(`header.component/ngOnInit/user: ${JSON.stringify(user)}`);
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.setupAllEvents();
       }
     ));
-    this.subscriptions.push(this.sessionService.event.subscribe(
+    this.subscription.add(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
         console.log(`header.component/ngOnInit/event: ${JSON.stringify(event)}`);
@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   private setupMenuItemsAfterTranlationLoaded() : void {
@@ -173,7 +173,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     // eventCompletionPercent must be refreshed
     this.sessionService.getSession().event = this.event;
-    this.subscriptions.push(this.sessionService.initSession().subscribe());
+    this.subscription.add(this.sessionService.initSession().subscribe());
   }
 
   logout() {

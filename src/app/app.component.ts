@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   title: string = 'jworldcup-ui-an';
 
   constructor(
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
 
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private setupSession(): void {
     console.log('app.component/setupSession');
 
-    this.subscriptions.push(this.sessionService.initSession().subscribe({
+    this.subscription.add(this.sessionService.initSession().subscribe({
       next: (session: SessionData) => {
         console.log('app.component/setupSession/session.user=' + session.user?.loginName);
         this.sessionService.goToDefaultPage();

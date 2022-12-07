@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   readonly passwordMinLength : number = 8;
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   authType: string = '';
   title: string = '';
   errors: UiError = new UiError({});
@@ -127,7 +127,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   submitForm() {
@@ -184,7 +184,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       });
     }
     else {
-      this.subscriptions.push(this.sessionService.attemptAuth(this.authType, credentials).subscribe({
+      this.subscription.add(this.sessionService.attemptAuth(this.authType, credentials).subscribe({
         next: session => {
           this.router.navigate([RouterUrls.HOME_PAGE]);
         },

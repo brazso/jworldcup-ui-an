@@ -58,7 +58,8 @@
                         <td>{{ otherBet.user.loginName }}</td>
                         <td>{{ otherBet.goalNormalByTeam1 }} </td>
                         <td>{{ otherBet.goalNormalByTeam2 }} </td>
-                        <td>{{ otherBet.score }}</td>
+                        <td>{{ otherBet.score }}<sup *ngIf="otherBet.favouriteTeamIndex !== null">*</sup>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>

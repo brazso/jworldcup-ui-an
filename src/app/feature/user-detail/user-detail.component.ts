@@ -16,7 +16,7 @@ import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/servic
   styleUrls: ['./user-detail.component.scss']
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   isSubmitting = false;
   errors: UiError = new UiError({});
   session: SessionData;
@@ -34,7 +34,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`user-detail.component/ngOnInit/session: ${JSON.stringify(session)}`);
@@ -45,7 +45,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         }
       }
     ));
-    this.subscriptions.push(this.sessionService.user.subscribe(
+    this.subscription.add(this.sessionService.user.subscribe(
       (user: User) => {
         if (this.user === undefined) {
           this.user = user;
@@ -64,7 +64,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   doDelete(event_: any): void {

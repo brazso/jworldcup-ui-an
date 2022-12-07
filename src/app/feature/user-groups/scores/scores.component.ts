@@ -11,7 +11,7 @@ import { Translation, TranslocoService } from '@ngneat/transloco';
   styleUrls: ['./scores.component.scss']
 })
 export class ScoresComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData;
   userGroups: UserGroup[];
   selectedUserGroup: UserGroup | null;
@@ -40,7 +40,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         let selectedUserGroup: UserGroup | null;
@@ -74,7 +74,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   onUserGroupChange(event_: any): void {
