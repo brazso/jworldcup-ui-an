@@ -49,11 +49,11 @@ export class BetsComponent implements OnInit, OnDestroy {
           this.apiService.get<GenericListResponse<Bet>>(`${ApiEndpoints.BETS.BETS_BY_EVENT_AND_USER}?eventId=${this.event.eventId}&userId=${this.sessionService.getUser().userId}`)
           ]).subscribe(([matchResponse, betResponse]) => {
             this.matches = matchResponse.data;
-            console.log(`bets.component/ngOnInit/matches.length: ${this.matches.length}`);
+            // console.log(`bets.component/ngOnInit/matches.length: ${this.matches.length}`);
 
             // retrieve rounds from loaded matches
             this.rounds = distinctArrayByPropertyName<Round>(this.matches.map(e => e.round as Round), 'roundId').sort((a, b) => a.roundId! - b.roundId!);
-            console.log(`bets.component/ngOnInit/rounds: ${JSON.stringify(this.rounds)}`);
+            // console.log(`bets.component/ngOnInit/rounds: ${JSON.stringify(this.rounds)}`);
 
             this.bets = [];
             this.matches.forEach((match) => {
@@ -62,13 +62,13 @@ export class BetsComponent implements OnInit, OnDestroy {
             });
 
             const bets: Bet[] = betResponse.data;
-            console.log(`bets.component/ngOnInit/bets.length: ${bets.length}`);
+            // console.log(`bets.component/ngOnInit/bets.length: ${bets.length}`);
 
             // link each bet to proper match from matches array
             bets.forEach((bet) =>{
-              console.log(`bets.component/ngOnInit/betId: ${bet.betId}`);
+              // console.log(`bets.component/ngOnInit/betId: ${bet.betId}`);
               const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
-              console.log(`bets.component/ngOnInit/index: ${index}`);
+              // console.log(`bets.component/ngOnInit/index: ${index}`);
               if (index !== -1) {
                 this.bets[index] = bet;
               }
@@ -130,7 +130,7 @@ export class BetsComponent implements OnInit, OnDestroy {
       if (bet) {
         // replace selectedBet inside bets to the incoming updated one
         const index = this.bets.findIndex(e => e.match?.matchId == bet.match?.matchId);
-        console.log(`bets.component/editBet/index: ${index}`);
+        // console.log(`bets.component/editBet/index: ${index}`);
         if (index !== -1) {
           this.bets[index] = bet;
           this.selectedBet = bet;
