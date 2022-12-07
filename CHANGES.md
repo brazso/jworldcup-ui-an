@@ -1,5 +1,9 @@
 ## Changes
 
+### Version 1.0.6 / 2022-12-07
+
+* Feature: score gained on favourite team supplemented by asterisk
+
 ### Version 1.0.5 / 2022-12-06
 
 * User activity is displayed on chat page instead of the online status
