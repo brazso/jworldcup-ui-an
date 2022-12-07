@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./group-standings.component.scss']
 })
 export class GroupStandingsComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData;
   groupTeams: GroupTeam[];
   groups: Group[];
@@ -22,7 +22,7 @@ export class GroupStandingsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`favourite-team.component/ngOnInit/session: ${JSON.stringify(session)}`);
@@ -42,7 +42,7 @@ export class GroupStandingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   filterGroupTeamsByGroup(group: Group): GroupTeam[] {

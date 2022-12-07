@@ -18,11 +18,11 @@ export class ShowAuthedDirective implements OnInit, OnDestroy {
     private viewContainer: ViewContainerRef
   ) {}
 
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   private condition: boolean;
 
   ngOnInit() {
-    this.subscriptions.push(this.sessionService.user.subscribe(
+    this.subscription.add(this.sessionService.user.subscribe(
       (user: User) => {
         console.log(`show-authed.directive/ngOnInit/user: ${JSON.stringify(user)}`);
         this.viewContainer.clear();
@@ -34,7 +34,7 @@ export class ShowAuthedDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   @Input() set appShowAuthed(condition: boolean) {

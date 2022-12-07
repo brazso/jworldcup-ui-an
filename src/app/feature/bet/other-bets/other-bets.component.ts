@@ -11,7 +11,7 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
   styleUrls: ['./other-bets.component.scss']
 })
 export class OtherBetsComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData;
   userGroups: UserGroup[];
   selectedUserGroup: UserGroup | null;
@@ -31,7 +31,7 @@ export class OtherBetsComponent implements OnInit, OnDestroy {
     console.log(`other-bets.component/ngOnInit/config.data: ${JSON.stringify(this.config.data)}`);
     this.match = this.config.data.match;
 
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`other-bets.component/ngOnInit/session: ${JSON.stringify(session)}`);
@@ -55,7 +55,7 @@ export class OtherBetsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   onUserGroupChange(event_: any): void {

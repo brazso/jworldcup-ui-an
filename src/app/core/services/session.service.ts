@@ -27,7 +27,7 @@ export class SessionService implements OnDestroy {
   event: Observable<Event> = this.eventSubject.asObservable();
 
   private sessionSubscriptionMap: Map<string, Subscription> = new Map(); // K: session-id
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private jwtService: JwtService,
@@ -40,7 +40,7 @@ export class SessionService implements OnDestroy {
 
   ngOnDestroy() {
     console.log('session.service/ngOnDestroy');
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   getSession(): SessionData {
@@ -81,7 +81,7 @@ export class SessionService implements OnDestroy {
         const session: SessionData = JSON.parse(message.body);
         console.log(`session.service/watchSession/session received: ${JSON.stringify(session)}`);
         if (session.operationFlag === SessionDataOperationFlag.SERVER) {
-          this.subscriptions.push(this.initSession(SessionDataOperationFlag.SERVER).subscribe());
+          this.subscription.add(this.initSession(SessionDataOperationFlag.SERVER).subscribe());
         } else {
           this.setSession(session);
         }

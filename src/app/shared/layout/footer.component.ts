@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   today: number = Date.now();
   frontendVersion: string;
   backendVersion: string;
@@ -32,7 +32,7 @@ export class FooterComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`footer.component/ngOnInit/session: ${JSON.stringify(session)}`);
@@ -41,7 +41,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   private setupFrontendBackendVersions(): void {

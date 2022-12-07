@@ -16,7 +16,7 @@ import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/servic
   styleUrls: ['./matches.component.scss']
 })
 export class MatchesComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   title: string;
   event: Event = {};
   matches: Match[] = [];
@@ -42,7 +42,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
       this.title = this.translocoService.translate(this.sessionService.isUserAdmin() ? 'ENTER_MATCH_RESULTS' : 'VIEW_MATCH_RESULTS');
     });
 
-    this.subscriptions.push(this.sessionService.event.subscribe(
+    this.subscription.add(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
         console.log(`matches.component/event: ${JSON.stringify(event)}`);
@@ -59,7 +59,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
       }
     ));
 
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.eventTriggerStartTimes = session.eventTriggerStartTimes ?? [];
       }
@@ -68,7 +68,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     console.log(`matches.component/ngOnDestroy`);
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   filterMatchesByRound(round: Round): Match[] {

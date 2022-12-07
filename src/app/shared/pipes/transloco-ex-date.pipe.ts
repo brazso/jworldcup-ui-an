@@ -17,7 +17,7 @@ export class TranslocoExDatePipe implements PipeTransform {
     transform(date: ValidDate, options: DateFormatOptions = {}, locale?: Locale) {
 		// console.log(`transloco-ex-date.pipe/transform date: ${JSON.stringify(date)}, options: ${JSON.stringify(options)}, locale: ${JSON.stringify(locale)}`);
 		if (options?.timeZone === undefined && this.sessionService.isAuthenticated()) {
-			console.log(`transloco-ex-date.pipe/transform/options.timeZone: ${this.sessionService.getUser().zoneId}`);
+			// console.log(`transloco-ex-date.pipe/transform/options.timeZone: ${this.sessionService.getUser().zoneId}`);
 			options.timeZone = this.sessionService.getUser().zoneId;
 		}
 		// console.log(`transloco-ex-date.pipe/transform date2: ${JSON.stringify(date)}, options: ${JSON.stringify(options)}, locale: ${JSON.stringify(locale)}`);

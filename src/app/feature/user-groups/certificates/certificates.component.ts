@@ -11,7 +11,7 @@ import printJS from 'print-js';
   styleUrls: ['./certificates.component.scss']
 })
 export class CertificatesComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData;
   score: number = 0;
 	userCertificates: UserCertificate[] = [];
@@ -24,7 +24,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`certificates.component/ngOnInit/session: ${JSON.stringify(session)}`);
@@ -43,7 +43,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   onRowSelect(event_: any): void {
