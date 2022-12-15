@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfirmationService } from 'primeng/api';
-import { apiErrorItemMsgFormat, CommonResponse, GenericListResponse, GenericResponse, getApiErrorOverallType, isApiError, ParameterizedMessageTypeEnum, SessionData, UiError, UserGroup } from 'src/app/core/models';
+import { apiErrorItemMsgFormat, CommonResponse, GenericListResponse, GenericResponse, getApiErrorOverallType, isApiError, ParameterizedMessageTypeEnum, SessionData, SessionDataModificationFlag, UiError, UserGroup } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
 import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.pipe';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
@@ -47,12 +47,14 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
         this.session = session;
         console.log(`user-groups.component/ngOnInit/session: ${JSON.stringify(session)}`);
 
-        this.apiService.get<GenericListResponse<UserGroup>>(`${ApiEndpoints.USER_GROUPS.USER_GROUPS_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}&isEverybodyIncluded=false`).subscribe(
-          (value) => {
-            this.userGroups = value.data;
-            console.log(`user-groups.component/ngOnInit/userGroups: ${JSON.stringify(this.userGroups)}`);
-          }
-        );
+        if ((session.modificationSet ?? []).includes(SessionDataModificationFlag.USER_GROUPS)) {
+          this.apiService.get<GenericListResponse<UserGroup>>(`${ApiEndpoints.USER_GROUPS.USER_GROUPS_BY_EVENT_AND_USER}?eventId=${this.sessionService.getEvent().eventId}&userId=${this.sessionService.getUser().userId}&isEverybodyIncluded=false`).subscribe(
+            (value) => {
+              this.userGroups = value.data;
+              console.log(`user-groups.component/ngOnInit/userGroups: ${JSON.stringify(this.userGroups)}`);
+            }
+          );
+        }
       }
     ));
   }
