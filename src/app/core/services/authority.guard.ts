@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { SessionService } from 'src/app/core/services';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
@@ -7,7 +7,7 @@ import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/servic
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorityGuard implements CanActivate {
+export class AuthorityGuard  {
 
   constructor(
     private sessionService: SessionService,
