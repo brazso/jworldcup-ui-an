@@ -32,7 +32,7 @@ ng version
 
 > ? Would you like to add Angular routing? Yes
 
-> ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
+> ? Which stylesheet format would you like to use? SCSS   [https://sass-lang.com/documentation/syntax#scss]
 
 ### Role of package-lock.json
 
@@ -43,7 +43,7 @@ ng version
 ### Additional packages
 
 #### PrimeNG
-Follow install tutorial [ https://primefaces.org/primeng/showcase/#/setup ]
+Follow install tutorial [https://primefaces.org/primeng/showcase/#/setup]
 
 ```
 npm install primeng
@@ -64,7 +64,7 @@ In angular.json file add new css files to styles block:
 npm install @angular/flex-layout
 
 Note: Angular team stopped publishing new releases of the experimental @angular/flex-layout library after v15. Layout used in JWorldcup must be replaced soon or later.
-[ https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127 ]
+[https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127]
 
 #### Translation
 
@@ -88,11 +88,13 @@ npm install @stomp/rx-stomp
 ng serve
 ```
 
-## Upgrade application to a newer Angular version, e.g. #15
+## Upgrade application to a newer Angular version, e.g. #17
 Follow guide [https://update.angular.io/]
 
-- `ng update @angular/core@15 @angular/cli@15`
+- `ng update @angular/core@17 @angular/cli@17`
 - upgrade additional packages in package.json, e.g. primeng, and run `npm install`
+
+Note: @angular-devkit/build-angular@17.0.9 has still moderate vulnerabiliy in node_modules/axios@0.21.4 dependency, see [https://github.com/angular/angular-cli/issues/26349]
 
 ## Build Angular application for production
 ```

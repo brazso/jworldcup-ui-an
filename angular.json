@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "jworldcup-ui-an:build:production"
+              "buildTarget": "jworldcup-ui-an:build:production"
             },
             "development": {
-              "browserTarget": "jworldcup-ui-an:build:development"
+              "buildTarget": "jworldcup-ui-an:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "jworldcup-ui-an:build"
+            "buildTarget": "jworldcup-ui-an:build"
           }
         },
         "test": {
