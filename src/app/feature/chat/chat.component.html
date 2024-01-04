@@ -12,8 +12,8 @@
                         <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
                             <p-dataView [value]="chatRoom.userGroup!.users ?? []">
                                 <ng-template pTemplate="header">{{t('chat.label.users')}}</ng-template>
-                                <ng-template let-user pTemplate="listItem">
-                                    <div (click)="onClickUser(user)">
+                                <ng-template let-users pTemplate="list">
+                                    <div *ngFor="let user of users" (click)="onClickUser(user)">
                                         <i [class]="'pi ' + (user.isActive ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isActive ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
                                         <span [class]="user.isActive ? 'user-online' : 'user-offline'" [pTooltip]="user.isActive ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
                                     </div>
@@ -21,8 +21,8 @@
                             </p-dataView>                    
                             <p-dataView [value]="chatRoom.chats" [emptyMessage]="t('chat.label.noChatMessages')">
                                 <ng-template pTemplate="header">{{t('chat.label.messages')}}</ng-template>
-                                <ng-template let-chat pTemplate="listItem">
-                                    <div>
+                                <ng-template let-chats pTemplate="list">
+                                    <div *ngFor="let chat of chats">
                                         {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
                                         <span class="chat-message-user">{{chat.user.loginName}}</span>
                                         {{chat.message}}
@@ -37,8 +37,8 @@
                         <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
                             <p-dataView [value]="chatRoom.chats" [emptyMessage]="t('chat.label.noChatMessages')">
                                 <ng-template pTemplate="header">{{t('chat.label.messages')}}</ng-template>
-                                <ng-template let-chat pTemplate="listItem">
-                                    <div>
+                                <ng-template let-chats pTemplate="list">
+                                    <div *ngFor="let chat of chats">
                                         {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
                                         <span class="chat-message-user">{{chat.user.loginName}}</span>
                                         {{chat.message}}
