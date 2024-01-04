@@ -14,6 +14,7 @@ import {AfterViewInit,Component,EventEmitter,Input,NgZone,OnDestroy,Output,Eleme
  * Fix for https://github.com/primefaces/primeng/issues/10112 - "Error: reCAPTCHA has already been rendered in this element"
  * This altered component does work only if it has a language attribute!
  * Changing language on the UI may result: "Error: Uncaught (in promise): Timeout" owning to multiple recaptcha instances.
+ * Note: moreover captcha component was removed in primeng v15, see: https://github.com/primefaces/primeng/issues/12781
  */
 export class CaptchaComponent implements AfterViewInit,OnDestroy {
 

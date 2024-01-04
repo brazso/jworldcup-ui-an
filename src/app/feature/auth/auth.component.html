@@ -50,8 +50,6 @@
           </fieldset>
         </form>
         <p fxLayoutAlign="center" *ngIf="recaptcha.render">
-          <!-- PrimeNG: [language]="translocoService.getActiveLang()" -> Error: reCAPTCHA has already been rendered in this element" -->
-          <!--<p-captcha #captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></p-captcha>-->
           <z-captcha #captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></z-captcha>
         </p>
 

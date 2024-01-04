@@ -4,7 +4,7 @@ import { ApiService, SessionService } from 'src/app/core';
 import { GenericListResponse, GenericResponse, SessionData, UserCertificate, UserCertificateExtended } from 'src/app/core/models';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
-import printJS from 'print-js';
+import printJS from 'print-js-updated';
 
 @Component({
   templateUrl: './certificates.component.html',
@@ -65,7 +65,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
       next: value => {
         const tempBlob = new Blob([value], { type: 'application/pdf' });
         const blobUrl = URL.createObjectURL(tempBlob);
-        // window.open(blobURL, '_blank');
+        // window.open(blobUrl, '_blank');
         printJS({
           printable: blobUrl,
           type: 'pdf',

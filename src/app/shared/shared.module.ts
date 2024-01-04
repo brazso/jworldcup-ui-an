@@ -49,7 +49,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ChartModule } from 'primeng/chart';
 import { TabViewModule } from 'primeng/tabview';
 import { DataViewModule } from 'primeng/dataview';
-import { CaptchaModule } from 'primeng/captcha';
 
 /* Own */
 import { TranslocoExDatePipe } from './pipes/transloco-ex-date.pipe';
@@ -126,8 +125,7 @@ const PRIMENG_MODULES = [
   AutoCompleteModule,
   ChartModule,
   TabViewModule,
-  DataViewModule,
-  CaptchaModule
+  DataViewModule
 ];
 
 const EXTRA_MODULES = [
