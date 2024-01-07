@@ -126,7 +126,10 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       next: value => {
         const modifiedUser: User  = value.data;
         console.log(`user-detail.component/saved user: ${JSON.stringify(modifiedUser)}`);
-        this.sessionService.setUser(modifiedUser);
+
+        // modified user must be put into session directly
+        this.sessionService.getSession().user = modifiedUser;
+
         if (modifiedUser.emailNew) {
           this.toastMessageService.displayMessage(ToastMessageSeverity.INFO, 'userDetail.popup.sendChangeEmail');
         }
