@@ -54,6 +54,7 @@ export class UserGroupsComponent implements OnInit, OnDestroy {
               console.log(`user-groups.component/ngOnInit/userGroups: ${JSON.stringify(this.userGroups)}`);
             }
           );
+          this.selectedUserGroup = null;
         }
       }
     ));
