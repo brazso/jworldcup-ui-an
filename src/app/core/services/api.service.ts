@@ -11,7 +11,7 @@ export class ApiService {
   private readonly basePath: string;
   private readonly defaultConfig: object;
 
-  constructor(private readonly http: HttpClient, ) {
+  constructor(private readonly http: HttpClient) {
     this.basePath = environment.be_root;
     this.defaultConfig = ApiService.createDefaultConfiguration();
   }

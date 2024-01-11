@@ -8,6 +8,8 @@ import { isObjectEmpty } from '../utils';
 
 import RouterUrls from 'src/app/core/constants/router-urls.json';
 import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-layout-header',
@@ -15,7 +17,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData = {};
   user: User = {};
   event: Event = {};
@@ -23,22 +25,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
   events: Event[] = [];
   isNamecardDisplayed: boolean = false;
   isGameRuleDisplayed: boolean = false;
+  isPrivacyPolicyDisplayed: boolean = false;
+  privacyPolicyContent: SafeHtml;
 
   constructor(
     private translocoService: TranslocoService,
     private sessionService: SessionService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`header.component/ngOnInit/session: ${JSON.stringify(session)}`);
         this.setupMenuItemsAfterTranlationLoaded();
       }
     ));
-    this.subscriptions.push(this.sessionService.user.subscribe(
+    this.subscription.add(this.sessionService.user.subscribe(
       (user: User) => {
         this.user = user;
         console.log(`header.component/ngOnInit/user: ${JSON.stringify(user)}`);
@@ -46,7 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.setupAllEvents();
       }
     ));
-    this.subscriptions.push(this.sessionService.event.subscribe(
+    this.subscription.add(this.sessionService.event.subscribe(
       (event: Event) => {
         this.event = event;
         console.log(`header.component/ngOnInit/event: ${JSON.stringify(event)}`);
@@ -58,7 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   private setupMenuItemsAfterTranlationLoaded() : void {
@@ -137,6 +143,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        label: this.translocoService.translate('menu.privacyPolicy'),
+        command: (event) => {
+          this.isPrivacyPolicyDisplayed = true;
+        }
+      },
+      {
         label: this.translocoService.translate('menu.namecard'),
         command: (event) => {
           this.isNamecardDisplayed = true;
@@ -173,7 +185,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     // eventCompletionPercent must be refreshed
     this.sessionService.getSession().event = this.event;
-    this.subscriptions.push(this.sessionService.initSession().subscribe());
+    this.subscription.add(this.sessionService.initSession().subscribe());
   }
 
   logout() {
@@ -188,6 +200,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return name;
   }
 
+  getPrivacyPolicyFileName(): string {
+    return `assets/i18n/privacy-policy.${this.translocoService.getActiveLang()}.html`
+  }
+
   onNameCardHide() {
     this.isNamecardDisplayed = false;
   }
@@ -195,4 +211,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onGameRuleHide() {
     this.isGameRuleDisplayed = false;
   }
+
+  onPrivacyPolicyShow() {
+    const url = `/assets/i18n/privacy-policy.${this.translocoService.getActiveLang()}.html`;
+    this.http.get(url, {responseType: 'text'}).subscribe(
+      (response: string) => {
+        this.privacyPolicyContent = this.sanitizer.bypassSecurityTrustHtml(response);
+      }
+    );
+  }
+
 }

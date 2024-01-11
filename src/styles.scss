@@ -17,3 +17,11 @@ body {
   vertical-align: super; 
   font-size: smaller; 
 }
+
+// appendTo="body" places our p-tieredMenu>div element outside of app-root.
+body #menuId .p-submenu-list
+{
+	right: 100%;
+	left: unset;
+}
+

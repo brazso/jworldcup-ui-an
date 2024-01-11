@@ -11,7 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./favourite-team.component.scss']
 })
 export class FavouriteTeamComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   isSubmitting = false;
   errors: UiError = new UiError({});
   session: SessionData;
@@ -26,7 +26,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`favourite-team.component/ngOnInit/session: ${JSON.stringify(session)}`);
@@ -47,7 +47,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   isGroupTeamSelectItemListDisabled(): boolean {

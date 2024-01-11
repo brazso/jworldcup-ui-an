@@ -49,7 +49,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ChartModule } from 'primeng/chart';
 import { TabViewModule } from 'primeng/tabview';
 import { DataViewModule } from 'primeng/dataview';
-import { CaptchaModule } from 'primeng/captcha';
 
 /* Own */
 import { TranslocoExDatePipe } from './pipes/transloco-ex-date.pipe';
@@ -63,22 +62,10 @@ import { ListErrorsComponent } from './list-errors';
 import { ShowAuthedDirective } from './directives/show-authed.directive';
 import { DropdownPipe } from './pipes/dropdown.pipe';
 import { ReplaceLineBreaksPipe } from './pipes/replace-line-breaks.pipe';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { InputValidationComponent } from './input-validation';
 import { InputTrimDirective } from './directives/input-trim.directive';
 import { CaptchaComponent } from './experimental/captcha/captcha.component';
-
-// import { InputTextComponent } from './input-text/input-text.component';
-// import { InputTextAreaComponent } from './input-textarea/input-textarea.component';
-// import { DropdownTreeComponent } from './dropdown-tree/dropdown-tree.component';
-// import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
-// import { InputDateComponent } from './input-date/input-date.component';
-// import { ListboxComponent } from './listbox/listbox.component';
-// import { DropdownComponent } from './dropdown/dropdown.component';
-// import { MultiselectComponent } from './multiselect/multiselect.component';
-
-// registerLocaleData(localeHU);
-
-// const BOOTSTRAP_MODULES = [NgbPopoverModule];
 
 const ANGULAR_MODULES = [
   CommonModule,
@@ -126,8 +113,7 @@ const PRIMENG_MODULES = [
   AutoCompleteModule,
   ChartModule,
   TabViewModule,
-  DataViewModule,
-  CaptchaModule
+  DataViewModule
 ];
 
 const EXTRA_MODULES = [
@@ -155,9 +141,8 @@ const ANGULAR_PIPES = [
 const SHARED_PIPES = [
   DropdownPipe,
   TranslocoExDatePipe,
-  ReplaceLineBreaksPipe
-  // EnumPipe,
-  // MinuteSecondsPipe
+  ReplaceLineBreaksPipe,
+  SafeHtmlPipe
 ];
 
 const PRIMENG_SERVICES = [
@@ -166,17 +151,6 @@ const PRIMENG_SERVICES = [
   DialogService, 
   DynamicDialogConfig
 ];
-
-
-const SHARED_SERVICES = [
-  CalendarLocaleService,
-  LoaderService,
-  ModalService
-];
-
-// const DIALOGS = [
-//   JogcimModositasComponent,
-// ];
 
 @NgModule({
   imports: [
@@ -205,21 +179,8 @@ const SHARED_SERVICES = [
     ANGULAR_PIPES,
     SHARED_PIPES,
     PRIMENG_SERVICES
-  ],
-  // entryComponents: [
-  //   DIALOGS,
-  // ],
+  ]
 })
 
-export class SharedModule {/*
-  static forRoot(): ModuleWithProviders<SharedModule> {
-    return {
-        ngModule: SharedModule,
-        providers: [
-          // SHARED_GUARDS,
-          PRIMENG_SERVICES,
-          SHARED_SERVICES
-        ]
-    };
-  }*/
+export class SharedModule {
 }

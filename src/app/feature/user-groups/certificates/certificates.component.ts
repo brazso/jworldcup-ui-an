@@ -4,14 +4,14 @@ import { ApiService, SessionService } from 'src/app/core';
 import { GenericListResponse, GenericResponse, SessionData, UserCertificate, UserCertificateExtended } from 'src/app/core/models';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
-import printJS from 'print-js';
+import printJS from 'print-js-updated';
 
 @Component({
   templateUrl: './certificates.component.html',
   styleUrls: ['./certificates.component.scss']
 })
 export class CertificatesComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData;
   score: number = 0;
 	userCertificates: UserCertificate[] = [];
@@ -24,7 +24,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
         console.log(`certificates.component/ngOnInit/session: ${JSON.stringify(session)}`);
@@ -43,7 +43,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   onRowSelect(event_: any): void {
@@ -65,7 +65,7 @@ export class CertificatesComponent implements OnInit, OnDestroy {
       next: value => {
         const tempBlob = new Blob([value], { type: 'application/pdf' });
         const blobUrl = URL.createObjectURL(tempBlob);
-        // window.open(blobURL, '_blank');
+        // window.open(blobUrl, '_blank');
         printJS({
           printable: blobUrl,
           type: 'pdf',

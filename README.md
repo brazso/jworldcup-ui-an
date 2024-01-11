@@ -4,7 +4,7 @@ JWorldcup soccer bet game frontend developed on HTML5/TypeScript/Angular (depend
 ## Install (Active LTS) Node.js (and npm) on Ubuntu
 
 ```
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install -y nodejs
 node --version
 ```
@@ -16,10 +16,10 @@ sudo npm install -g npm
 npm --version
 ```
 
-## Install Angular CLI
+## Install(/upgrade) Angular CLI globally
+If you want to install a specific version, e.g. #15, use `@angular/cli@15` in the `npm` commands
 
 ```
-sudo npm uninstall -g angular-cli
 sudo npm uninstall -g @angular/cli
 npm cache clean --force
 sudo npm install -g @angular/cli
@@ -32,7 +32,7 @@ ng version
 
 > ? Would you like to add Angular routing? Yes
 
-> ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
+> ? Which stylesheet format would you like to use? SCSS   [https://sass-lang.com/documentation/syntax#scss]
 
 ### Role of package-lock.json
 
@@ -43,7 +43,7 @@ ng version
 ### Additional packages
 
 #### PrimeNG
-Follow install tutorial [ https://primefaces.org/primeng/showcase/#/setup ]
+Follow install tutorial [https://primefaces.org/primeng/showcase/#/setup]
 
 ```
 npm install primeng
@@ -63,6 +63,9 @@ In angular.json file add new css files to styles block:
 
 npm install @angular/flex-layout
 
+Note: Angular team stopped publishing new releases of the experimental @angular/flex-layout library after v15. Layout used in JWorldcup must be replaced soon or later.
+[https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127]
+
 #### Translation
 
 npm install @ngneat/transloco
@@ -75,7 +78,7 @@ npm install ng2-trim-directive
 npm install chart.js
 
 ### PDF viewer
-npm install print-js
+npm install print-js-updated
 
 ### Websocket
 npm install @stomp/rx-stomp
@@ -85,10 +88,13 @@ npm install @stomp/rx-stomp
 ng serve
 ```
 
-## Upgrade application to a newer Angular version, e.g. #14
+## Upgrade application to a newer Angular version, e.g. #17
+Follow guide [https://update.angular.io/]
 
-- `ng update @angular/core@14 @angular/cli@14`
-- upgrade additonal packages in package.json, e.g. primeng, and run `npm install`
+- `ng update @angular/core@17 @angular/cli@17`
+- upgrade additional packages in package.json, e.g. primeng, and run `npm install`
+
+Note: @angular-devkit/build-angular@17.0.9 has still moderate vulnerabiliy in node_modules/axios@0.21.4 dependency, see [https://github.com/angular/angular-cli/issues/26349]
 
 ## Build Angular application for production
 ```

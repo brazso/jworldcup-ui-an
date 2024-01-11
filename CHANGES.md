@@ -1,5 +1,16 @@
 ## Changes
 
+### Version 1.0.7 / 2024-01-11
+
+* Feature: fixed header
+* Feature: added privacy and cookie policies
+* Fix: event change left opened user-group-members form belong to source event
+* Fix: user's local-time-zone was not refreshed after saving it in  "Modify user" form
+
+### Version 1.0.6 / 2022-12-07
+
+* Feature: score gained on favourite team supplemented by asterisk
+
 ### Version 1.0.5 / 2022-12-06
 
 * User activity is displayed on chat page instead of the online status

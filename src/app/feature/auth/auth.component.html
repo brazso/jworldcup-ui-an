@@ -47,11 +47,13 @@
               <a [routerLink]="['/reset-password']" *ngIf="authType == 'login'">{{ t('login.label.reset-password') }}</a>
               <p-button fxLayoutAlign="end" [disabled]="!authForm.valid" type="submit" [label]="title" ></p-button>
             </div>
+            <div *ngIf="authType == 'register'" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start" style="margin-top: 10px;">
+              {{ t('login.label.privacy-policy-1') }}&nbsp;
+              <a href="javascript:void(0)" (click)="isPrivacyPolicyDisplayed = true">{{ t('login.label.privacy-policy-2') }}</a>.
+            </div>
           </fieldset>
         </form>
         <p fxLayoutAlign="center" *ngIf="recaptcha.render">
-          <!-- PrimeNG: [language]="translocoService.getActiveLang()" -> Error: reCAPTCHA has already been rendered in this element" -->
-          <!--<p-captcha #captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></p-captcha>-->
           <z-captcha #captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></z-captcha>
         </p>
 
@@ -59,4 +61,14 @@
 
     </div>
   </div>
+
+  <p-dialog [header]="t('menu.privacyPolicy')" [(visible)]="isPrivacyPolicyDisplayed" (onShow)="onPrivacyPolicyShow()"
+    [modal]="true" [resizable]="true" [closeOnEscape]="true">
+    <div [innerHtml]="privacyPolicyContent"></div>
+    <ng-template pTemplate="footer">
+      <p-button *ngIf="isPrivacyPolicyAcceptable" icon="pi pi-check" (click)="onPrivacyPolicyAccept()" [label]="t('login.dialog.privacyPolicy.accept')"></p-button>
+      <p-button *ngIf="isPrivacyPolicyAcceptable" icon="pi pi-times" (click)="onPrivacyPolicyDecline()" [label]="t('login.dialog.privacyPolicy.decline')" pAutoFocus [autofocus]="true"></p-button>
+    </ng-template>
+  </p-dialog>
+
 </div>

@@ -7,4 +7,5 @@ export interface Bet {
     match?: Match;
     user?: User;
 	score?: number;
+    favouriteTeamIndex?: number;
 }

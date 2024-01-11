@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./group-standings.component.scss']
 })
 export class GroupStandingsComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription = new Subscription();
   session: SessionData;
   groupTeams: GroupTeam[];
   groups: Group[];
@@ -22,19 +22,19 @@ export class GroupStandingsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.sessionService.session.subscribe(
+    this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`favourite-team.component/ngOnInit/session: ${JSON.stringify(session)}`);
+        console.log(`group-standings.component/ngOnInit/session: ${JSON.stringify(session)}`);
 
         this.apiService.get<GenericListResponse<GroupTeam>>(ApiEndpoints.GROUPS.GROUP_TEAMS_BY_EVENT+`?eventId=${this.session.event?.eventId}`).subscribe(
           (response) => {
             this.groupTeams = response.data;
-            console.log(`favourite-team.component/ngOnInit/groupTeams: ${JSON.stringify(this.groupTeams)}`);
+            console.log(`group-standings.component/ngOnInit/groupTeams: ${JSON.stringify(this.groupTeams)}`);
 
             // retrieve groups from loaded groupTeams
             this.groups = distinctArrayByPropertyName<Group>(this.groupTeams.map(e => e.team?.group as Group), 'groupId').sort((a, b) => a.groupId! - b.groupId!);
-            console.log(`favourite-team.component/ngOnInit/groups: ${JSON.stringify(this.groups)}`);
+            console.log(`group-standings.component/ngOnInit/groups: ${JSON.stringify(this.groups)}`);
           }
         );
       }
@@ -42,7 +42,7 @@ export class GroupStandingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscription.unsubscribe();
   }
 
   filterGroupTeamsByGroup(group: Group): GroupTeam[] {
