@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { GenericResponse } from '../models/common';
 import { isObjectEmpty } from 'src/app/shared/utils';
 import equal from 'fast-deep-equal';
-import { IRxStompPublishParams, IWatchParams } from '@stomp/rx-stomp';
+import { IWatchParams } from '@stomp/rx-stomp';
 import { Message } from '@stomp/stompjs';
 
 @Injectable({

@@ -5,6 +5,7 @@ export interface Event {
 	shortDesc?: string;
 	year?: number;
 	organizer?: string;
+	website?: string;
 	startTime?: Date;
 	knockoutStartTime?: Date;
 	endTime?: Date;

@@ -28,7 +28,7 @@
         <a class="nav-link" (click)="logout()"><i class="pi pi-sign-out"></i></a>
       </div>
       <div fxLayout="row">
-        <p-tieredMenu #menu id="menuId" [model]="menuItems" [popup]="true"></p-tieredMenu>
+        <p-tieredMenu #menu id="menuId" [model]="menuItems" [popup]="true" appendTo="body"></p-tieredMenu>
         <button #btn type="button" pButton icon="pi pi-fw pi-list" [label]="t('general.label.menu')" (click)="menu.toggle($event)"></button>
       </div>
       <div fxLayout="row">
@@ -47,6 +47,11 @@
   <p-dialog [header]="t('gameRule.title')" [(visible)]="isGameRuleDisplayed" (onHide)="onGameRuleHide()"
     [modal]="true" [resizable]="true" [closeOnEscape]="true">
     <div [innerHtml]="t('gameRule.info').join('')"></div>
+  </p-dialog>
+
+  <p-dialog [header]="t('menu.privacyPolicy')" [(visible)]="isPrivacyPolicyDisplayed" (onShow)="onPrivacyPolicyShow()"
+    [modal]="true" [resizable]="true" [closeOnEscape]="true">
+    <div [innerHtml]="privacyPolicyContent"></div>
   </p-dialog>
 
 </header>

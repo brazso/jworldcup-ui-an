@@ -146,7 +146,8 @@
 		"gameRule": "Játékszabály",
 		"certificate": "Oklevél",
 		"topUsers": "Legsikeresebb játékosok",
-		"chat": "Csevegés"
+		"chat": "Csevegés",
+		"privacyPolicy": "Személyes adatok védelme"
 	},
 
 	"__Validációs üzenetek__": "",
@@ -281,9 +282,11 @@
 		"Bolivia": "Bolívia",
 		"Bosnia and Herzegovina": "Bosznia-Hercegovina",
 		"Brazil": "Brazília",
+		"Burkina Faso": "Burkina Faso",
 		"Burundi": "Burundi",
 		"Cameroon": "Kamerun",
 		"Canada": "Kanada",
+		"Cape Verde": "Zöld-foki szigetek",
 		"Chile": "Chile",
 		"China": "Kína",
 		"Colombia": "Kolumbia",
@@ -296,8 +299,10 @@
 		"Egypt": "Egyiptom",
 		"England": "Anglia",
 		"England and others": "Anglia és továbbiak",
+		"Equatorial Guinea": "Egyenlítői-Guinea",
 		"Finland": "Finnország",
 		"France": "Franciaország",
+		"Gambia": "Gambia",
 		"Germany": "Németország",
 		"Ghana": "Ghána",
 		"Greece": "Görögország",
@@ -305,9 +310,11 @@
 		"Guinea-Bissau": "Bissau-Guinea",
 		"Haiti": "Haiti",
 		"Honduras": "Honduras",
+		"Hong Kong": "Hong Kong",
 		"Hungary": "Magyarország",
 		"Iceland": "Izland",
 		"India": "India",
+		"Indonesia": "Indonézia",
 		"Iran": "Irán",
 		"Iraq": "Irak",
 		"Italy": "Olaszország",
@@ -319,10 +326,12 @@
 		"Kyrgyzstan": "Kirgizisztán",
 		"Lebanon": "Libanon",
 		"Madagascar": "Madagaszkár",
+		"Malaysia": "Malajzia",
 		"Mali": "Mali",
 		"Mauritania": "Mauritánia",
 		"Mexico": "Mexikó",
 		"Morocco": "Marokkó",
+		"Mozambique": "Mozambik",
 		"Namibia": "Namíbia",
 		"Netherlands": "Hollandia",
 		"Nigeria": "Nigéria",
@@ -353,6 +362,7 @@
 		"Sweden": "Svédország",
 		"Switzerland": "Svájc",
 		"Syria": "Szíria",
+		"Tajikistan": "Tádzsikisztán",
 		"Tanzania": "Tanzánia",
 		"Thailand": "Thaiföld",
 		"Tunisia": "Tunézia",
@@ -368,6 +378,7 @@
 		"Vietnam": "Vietnám",
 		"Wales": "Wales",
 		"Yemen": "Jemen",
+		"Zambia": "Zambia",
 		"Zimbabwe": "Zimbabwe"
 	},
 
@@ -431,7 +442,9 @@
 			"needAccount": "Regisztrálna?",
 			"reset-password": "Jelszó visszaállítás",
 			"login": "Bejelentkezés",
-			"register": "Regisztrálás"
+			"register": "Regisztrálás",
+			"privacy-policy-1": "A regisztrációval elfogadja a Zematix",
+			"privacy-policy-2": "adatvédelmi szabályzatát"
 		},
 		"button": {
 			"login": "Belépés",
@@ -443,6 +456,13 @@
 			"unknownAccount": "Ismeretlen felhasználó vagy rossz jelszó",
 			"lockedAccount": "Kizárt felhasználó",
 			"unknownError": "Ismeretlen hiba: {0}"
+		},
+		"dialog": {
+			"privacyPolicy": {
+				"accept": "Elfogadás",
+				"decline": "Elvetés"
+
+			}
 		}
 	},
 

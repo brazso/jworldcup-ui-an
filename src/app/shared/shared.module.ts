@@ -62,6 +62,7 @@ import { ListErrorsComponent } from './list-errors';
 import { ShowAuthedDirective } from './directives/show-authed.directive';
 import { DropdownPipe } from './pipes/dropdown.pipe';
 import { ReplaceLineBreaksPipe } from './pipes/replace-line-breaks.pipe';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { InputValidationComponent } from './input-validation';
 import { InputTrimDirective } from './directives/input-trim.directive';
 import { CaptchaComponent } from './experimental/captcha/captcha.component';
@@ -140,7 +141,8 @@ const ANGULAR_PIPES = [
 const SHARED_PIPES = [
   DropdownPipe,
   TranslocoExDatePipe,
-  ReplaceLineBreaksPipe
+  ReplaceLineBreaksPipe,
+  SafeHtmlPipe
 ];
 
 const PRIMENG_SERVICES = [

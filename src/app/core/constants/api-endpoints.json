@@ -23,6 +23,12 @@
         "DELETE_USER_BY_LOGIN_NAME": "/users/delete-user-by-login-name"
     },
 
+    "USER_NOTIFICATIONS": {
+        "FIND_BY_USER_AND_KEY": "/user-notifications/find-by-user-and-key",
+        "INSERT": "/user-notifications/insert",
+        "UPDATE": "/user-notifications/update"
+    },
+
     "USER_OF_EVENTS": {
         "FIND-USER-OF-EVENT-BY-EVENT-AND-USER": "/user-of-events/find-user-of-event-by-event-and-user",
         "SAVE_USER_OF_EVENT": "/user-of-events/save-user-of-event"

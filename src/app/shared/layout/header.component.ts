@@ -8,6 +8,8 @@ import { isObjectEmpty } from '../utils';
 
 import RouterUrls from 'src/app/core/constants/router-urls.json';
 import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-layout-header',
@@ -23,11 +25,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   events: Event[] = [];
   isNamecardDisplayed: boolean = false;
   isGameRuleDisplayed: boolean = false;
+  isPrivacyPolicyDisplayed: boolean = false;
+  privacyPolicyContent: SafeHtml;
 
   constructor(
     private translocoService: TranslocoService,
     private sessionService: SessionService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -137,6 +143,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        label: this.translocoService.translate('menu.privacyPolicy'),
+        command: (event) => {
+          this.isPrivacyPolicyDisplayed = true;
+        }
+      },
+      {
         label: this.translocoService.translate('menu.namecard'),
         command: (event) => {
           this.isNamecardDisplayed = true;
@@ -188,6 +200,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return name;
   }
 
+  getPrivacyPolicyFileName(): string {
+    return `assets/i18n/privacy-policy.${this.translocoService.getActiveLang()}.html`
+  }
+
   onNameCardHide() {
     this.isNamecardDisplayed = false;
   }
@@ -195,4 +211,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onGameRuleHide() {
     this.isGameRuleDisplayed = false;
   }
+
+  onPrivacyPolicyShow() {
+    const url = `/assets/i18n/privacy-policy.${this.translocoService.getActiveLang()}.html`;
+    this.http.get(url, {responseType: 'text'}).subscribe(
+      (response: string) => {
+        this.privacyPolicyContent = this.sanitizer.bypassSecurityTrustHtml(response);
+      }
+    );
+  }
+
 }

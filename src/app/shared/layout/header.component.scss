@@ -12,13 +12,13 @@
 	width: 100%;
 }
 
-#yourMenuId
-{
-	background: url('/assets/images/bgFWC2.jpg');
-}
-
+// Opens the submenu left instead of the deault right.
+// Iy works only if p-tieredmenu does not use appendTo="body". 
+// However we need it otherwise the submenu is still displayed right, outside the screen.
+// Dynnamically create dev is outside of both our component and app-root.
+// See similar setting in global styles.scss file.
 :host ::ng-deep
-#menuId .p-submenu-list 
+#menuId .p-submenu-list
 {
 	right: 100%;
 	left: unset;

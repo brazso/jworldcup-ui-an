@@ -1,15 +1,15 @@
-import { Location } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
-import { ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionService, UiError, User, UserExtended } from 'src/app/core';
+import { ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionData, SessionService, UiError, User, UserExtended, UserNotification } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { combineLatest, Subscription } from 'rxjs';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared';
 import { environment } from 'src/environments/environment';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-auth-page',
@@ -27,6 +27,10 @@ export class AuthComponent implements OnInit, OnDestroy {
   availableLangs: LangDefinition[];
   siteKeyCaptcha: string = environment.recaptcha_site_key;
   recaptcha: any;
+  isPrivacyPolicyDisplayed: boolean = false;
+  isPrivacyPolicyAcceptable: boolean = false;
+  privacyPolicyContent: SafeHtml;
+  userNotificationGpdr?: UserNotification;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +40,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     private apiService: ApiService,
     private toastMessageService: ToastMessageService,
     private fb: UntypedFormBuilder,
-    private location: Location
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
   ) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
@@ -183,10 +188,11 @@ export class AuthComponent implements OnInit, OnDestroy {
         }
       });
     }
-    else {
+    else { // login
       this.subscription.add(this.sessionService.attemptAuth(this.authType, credentials).subscribe({
         next: session => {
-          this.router.navigate([RouterUrls.HOME_PAGE]);
+          // this.router.navigate([RouterUrls.HOME_PAGE]);
+          this.checkPrivacyPolicy(session);
         },
         error: (err: HttpErrorResponse) => {
           console.log(`auth.component/submitForm/err: ${JSON.stringify(err)}`);
@@ -296,5 +302,95 @@ export class AuthComponent implements OnInit, OnDestroy {
   captchaExpire(): void {
     console.log(`auth.component/captchaExpire`);
     this.authForm.controls['captcha'].setValue(true); // invalidate captcha
+  }
+
+  private checkPrivacyPolicy(session: SessionData): void {
+    this.apiService.get<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.FIND_BY_USER_AND_KEY+'?userId={0}&key={1}'.format(session.user?.userId, 'GPDR')).subscribe({
+      next: value => {
+        console.log(`auth.component/checkGPDRAfterLogin/next: ${JSON.stringify(value)}`);
+        this.isSubmitting = false;
+        if (value.data?.modificationTime) {
+          // GPDR is accepted at user
+          this.router.navigate([RouterUrls.HOME_PAGE]);
+        }
+        else {
+          this.userNotificationGpdr = value.data;
+          this.isPrivacyPolicyDisplayed = true;
+          this.isPrivacyPolicyAcceptable = true;
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`auth.component/checkGPDRAfterLogin/err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('auth.component/checkGPDRAfterLogin/complete');
+      }
+    });
+  }
+
+  getPrivacyPolicyFileName(): string {
+    return `assets/i18n/privacy-policy.${this.translocoService.getActiveLang()}.html`
+  }
+
+  onPrivacyPolicyShow() {
+    const url = `/assets/i18n/privacy-policy.${this.translocoService.getActiveLang()}.html`;
+    this.http.get(url, {responseType: 'text'}).subscribe(
+      (response: string) => {
+        this.privacyPolicyContent = this.sanitizer.bypassSecurityTrustHtml(response);
+      }
+    );
+  }
+
+  onPrivacyPolicyAccept() {
+    this.isPrivacyPolicyDisplayed = false;
+    if (!this.userNotificationGpdr) {
+      this.insertPrivacyPolicy();
+    }
+    else {
+      this.updatePrivacyPolicy();
+    }
+  }
+
+  private insertPrivacyPolicy() {
+    this.apiService.post<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.INSERT+'?userId={0}&key={1}&value={2}&hasModificationTime={3}'.format(this.sessionService.getUser().userId, 'GPDR', null, true)).subscribe({
+      next: value => {
+        console.log(`auth.component/insertPrivacyPolicy/insertedPrivacyPolicy: ${JSON.stringify(value.data)}`);
+        this.router.navigate([RouterUrls.HOME_PAGE]);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`auth.component/insertPrivacyPolicy/err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+        this.sessionService.logout();
+      },
+      complete: () => {
+        console.log('auth.component/insertPrivacyPolicy/complete');
+      }
+    });
+  }
+
+  private updatePrivacyPolicy() {
+    this.apiService.put<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.UPDATE+'?userNotificationId={0}&value={1}'.format(this.userNotificationGpdr?.userNotificationId, null)).subscribe({
+      next: value => {
+        console.log(`auth.component/updatePrivacyPolicy/updatedUserNotification: ${JSON.stringify(value.data)}`);
+        this.router.navigate([RouterUrls.HOME_PAGE]);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(`auth.component/updatePrivacyPolicy/err: ${JSON.stringify(err)}`);
+        this.errors = new UiError(Object.assign(err));
+        this.isSubmitting = false;
+        this.sessionService.logout();
+      },
+      complete: () => {
+        console.log('auth.component/updatePrivacyPolicy/complete');
+      }
+    });
+  }
+
+  onPrivacyPolicyDecline() {
+    this.isPrivacyPolicyDisplayed = false;
+    this.sessionService.logout();
   }
 }
