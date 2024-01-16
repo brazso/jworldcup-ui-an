@@ -4,6 +4,7 @@ import { GenericListResponse, GenericResponse, SessionData, Team, UiError, UserO
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { forkJoin, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   // selector: 'app-favourite-team',
@@ -23,6 +24,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
   constructor(
     private readonly sessionService: SessionService,
     private readonly apiService: ApiService,
+    private translocoService: TranslocoService
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +41,9 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
           this.apiService.get<GenericListResponse<Team>>(`${ApiEndpoints.TEAMS.FIND_FAVOURITE_KNOCK_OUT_TEAMS_BY_EVENT}?eventId=${session.event?.eventId}`)
           ]).subscribe(([groupTeamsResponse, knockOutTeamsResponse]) => {
             this.groupTeams = groupTeamsResponse.data;
+            this.groupTeams.sort((a, b) => (a.name ?? '-').localeCompare(b.name ?? '-', this.translocoService.getActiveLang()))
             this.knockOutTeams = knockOutTeamsResponse.data;
+            this.knockOutTeams.sort((a, b) => (a.name ?? '-').localeCompare(b.name ?? '-', this.translocoService.getActiveLang()))
           }
         );
       }
