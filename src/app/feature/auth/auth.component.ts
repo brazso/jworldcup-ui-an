@@ -354,7 +354,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   private insertPrivacyPolicy() {
-    this.apiService.post<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.INSERT+'?userId={0}&key={1}&value={2}&hasModificationTime={3}'.format(this.sessionService.getUser().userId, 'GPDR', null, true)).subscribe({
+    this.apiService.post<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.INSERT+'?userId={0}&key={1}&hasModificationTime={2}'.format(this.sessionService.getUser().userId, 'GPDR', true)).subscribe({
       next: value => {
         console.log(`auth.component/insertPrivacyPolicy/insertedPrivacyPolicy: ${JSON.stringify(value.data)}`);
         this.router.navigate([RouterUrls.HOME_PAGE]);
@@ -372,7 +372,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   private updatePrivacyPolicy() {
-    this.apiService.put<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.UPDATE+'?userNotificationId={0}&value={1}'.format(this.userNotificationGpdr?.userNotificationId, null)).subscribe({
+    this.apiService.put<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.UPDATE+'?userNotificationId={0}'.format(this.userNotificationGpdr?.userNotificationId)).subscribe({
       next: value => {
         console.log(`auth.component/updatePrivacyPolicy/updatedUserNotification: ${JSON.stringify(value.data)}`);
         this.router.navigate([RouterUrls.HOME_PAGE]);
