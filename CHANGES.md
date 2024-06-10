@@ -1,5 +1,9 @@
 ## Changes
 
+### Version 1.2.0 / 2024-06-10
+
+* Feature: added EC2024 and CA2024 events
+
 ### Version 1.1.0 / 2024-01-13
 
 * Fix: locale sort on favourite group dropdowns
