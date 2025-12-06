@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule, FooterComponent, HeaderComponent } from './shared';
@@ -32,39 +32,28 @@ declare global {
 }
 
 // app (root) module
-@NgModule({
-  // for Components, Directives & Pipes
-  // Component cannot belong to more than one module
-  declarations: [
-    AppComponent, FooterComponent, HeaderComponent
-  ],
-  // used Modules
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    TranslocoRootModule,
-    BrowserAnimationsModule,
-    CoreModule,
-    SharedModule,
-    AuthModule,
-    MatchModule,
-    BetModule,
-    FavouriteTeamModule,
-    GroupStandingsModule,
-    UserDetailModule,
-    UserGroupsModule,
-    ChatModule
-  ],
-  // for Services (Guards can be considered to Services)
-  providers: [
-    // SessionService
-    // { provide: APP_INITIALIZER, useFactory: initUser, deps: [UserService], multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ 
+    // for Components, Directives & Pipes
+    // Component cannot belong to more than one module
+    declarations: [
+        AppComponent, FooterComponent, HeaderComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        TranslocoRootModule,
+        BrowserAnimationsModule,
+        CoreModule,
+        SharedModule,
+        AuthModule,
+        MatchModule,
+        BetModule,
+        FavouriteTeamModule,
+        GroupStandingsModule,
+        UserDetailModule,
+        UserGroupsModule,
+        ChatModule], providers: [
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { 
   constructor() {
     // this.overrideDate();
