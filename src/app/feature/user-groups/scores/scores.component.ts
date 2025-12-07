@@ -7,8 +7,9 @@ import { TranslocoExDatePipe } from 'src/app/shared';
 import { Translation, TranslocoService } from '@ngneat/transloco';
 
 @Component({
-  templateUrl: './scores.component.html',
-  styleUrls: ['./scores.component.scss']
+    templateUrl: './scores.component.html',
+    styleUrls: ['./scores.component.scss'],
+    standalone: false
 })
 export class ScoresComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();

@@ -6,9 +6,10 @@ import { ApiService, GenericResponse, Match, UiError } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 
 @Component({
-  // no selector here because it is a primeNG dynamic dialog
-  templateUrl: './match.component.html',
-  styleUrls: ['./match.component.scss']
+    // no selector here because it is a primeNG dynamic dialog
+    templateUrl: './match.component.html',
+    styleUrls: ['./match.component.scss'],
+    standalone: false
 })
 export class MatchComponent implements OnInit {
   match: Match = {};

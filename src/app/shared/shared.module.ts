@@ -10,7 +10,7 @@ import { TranslocoDatePipe, TranslocoLocaleModule } from '@ngneat/transloco-loca
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { DynamicDialog } from 'primeng/dynamicdialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { AccordionModule } from 'primeng/accordion';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
@@ -93,7 +93,7 @@ const PRIMENG_MODULES = [
   BreadcrumbModule,
   TreeModule,
   SidebarModule,
-  DynamicDialog,
+  DynamicDialogModule,
   ConfirmDialogModule,
   TooltipModule,
   ListboxModule,

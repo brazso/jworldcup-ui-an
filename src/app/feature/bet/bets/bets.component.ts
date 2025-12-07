@@ -11,9 +11,10 @@ import { forkJoin, Subscription } from 'rxjs';
 import { OtherBetsComponent } from '../other-bets/other-bets.component';
 
 @Component({
-  selector: 'app-bets',
-  templateUrl: './bets.component.html',
-  styleUrls: ['./bets.component.scss']
+    selector: 'app-bets',
+    templateUrl: './bets.component.html',
+    styleUrls: ['./bets.component.scss'],
+    standalone: false
 })
 export class BetsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];

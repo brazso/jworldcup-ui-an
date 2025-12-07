@@ -4,10 +4,11 @@ import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn } from '@angular
 @Directive({
     selector: '[customValidator][ngModel],[customValidator][ngFormControl]',
     providers: [{
-        multi: true,
-        provide: NG_VALIDATORS,
-        useExisting: forwardRef(() => CustomValidator)
-    }]
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => CustomValidator)
+        }],
+    standalone: false
 })
 export class CustomValidator implements Validator {
     @Input() customValidator: ValidatorFn; //same name as the selector

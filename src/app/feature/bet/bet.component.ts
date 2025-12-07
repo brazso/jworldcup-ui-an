@@ -7,9 +7,10 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
 import { isObjectEmpty } from 'src/app/shared/utils';
 
 @Component({
-  // no selector here because it is a primeNG dynamic dialog
-  templateUrl: './bet.component.html',
-  styleUrls: ['./bet.component.scss']
+    // no selector here because it is a primeNG dynamic dialog
+    templateUrl: './bet.component.html',
+    styleUrls: ['./bet.component.scss'],
+    standalone: false
 })
 export class BetComponent implements OnInit {
   bet: Bet = {};

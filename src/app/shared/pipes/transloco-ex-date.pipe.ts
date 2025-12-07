@@ -7,7 +7,10 @@ import { DateFormatOptions, TranslocoDatePipe, ValidDate, Locale } from '@ngneat
  * Similar to DatePipe, however if the locale parameter is not given explicitly
  * then it comes from TranslocoService
  */
-@Pipe({ name: 'translocoExDate', pure: true })
+@Pipe({
+    name: 'translocoExDate', pure: true,
+    standalone: false
+})
 export class TranslocoExDatePipe implements PipeTransform {
 	constructor(
 		private translocoDatePipe: TranslocoDatePipe,

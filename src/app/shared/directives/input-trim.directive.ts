@@ -18,8 +18,9 @@ import {
    */
   @Directive({
     selector: "input[trim], textarea[trim]",
-    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: InputTrimDirective, multi: true }]
-  })
+    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: InputTrimDirective, multi: true }],
+    standalone: false
+})
   export class InputTrimDirective implements ControlValueAccessor {
   
     private get _type(): string {

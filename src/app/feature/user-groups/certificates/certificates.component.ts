@@ -7,8 +7,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import printJS from 'print-js-updated';
 
 @Component({
-  templateUrl: './certificates.component.html',
-  styleUrls: ['./certificates.component.scss']
+    templateUrl: './certificates.component.html',
+    styleUrls: ['./certificates.component.scss'],
+    standalone: false
 })
 export class CertificatesComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();

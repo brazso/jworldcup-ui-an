@@ -7,9 +7,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
-  // selector: 'app-favourite-team',
-  templateUrl: './favourite-team.component.html',
-  styleUrls: ['./favourite-team.component.scss']
+    // selector: 'app-favourite-team',
+    templateUrl: './favourite-team.component.html',
+    styleUrls: ['./favourite-team.component.scss'],
+    standalone: false
 })
 export class FavouriteTeamComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();

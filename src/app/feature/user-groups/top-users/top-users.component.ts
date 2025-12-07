@@ -6,8 +6,9 @@ import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.js
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  templateUrl: './top-users.component.html',
-  styleUrls: ['./top-users.component.scss']
+    templateUrl: './top-users.component.html',
+    styleUrls: ['./top-users.component.scss'],
+    standalone: false
 })
 export class TopUsersComponent implements OnInit, OnDestroy {
 

@@ -10,7 +10,10 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/models';
 import { SessionService } from 'src/app/core/services';
 
-@Directive({ selector: '[appShowAuthed]' })
+@Directive({
+    selector: '[appShowAuthed]',
+    standalone: false
+})
 export class ShowAuthedDirective implements OnInit, OnDestroy {
   constructor(
     private templateRef: TemplateRef<any>,

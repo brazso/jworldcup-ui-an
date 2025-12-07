@@ -10,9 +10,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-user-group-members',
-  templateUrl: './user-group-members.component.html',
-  styleUrls: ['./user-group-members.component.scss']
+    selector: 'app-user-group-members',
+    templateUrl: './user-group-members.component.html',
+    styleUrls: ['./user-group-members.component.scss'],
+    standalone: false
 })
 export class UserGroupMembersComponent implements OnInit, OnDestroy {
   @Input() selectedUserGroup: UserGroup | null;

@@ -16,8 +16,9 @@ export interface ChatRoom {
 }
 
 @Component({
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+    templateUrl: './chat.component.html',
+    styleUrls: ['./chat.component.scss'],
+    standalone: false
 })
 export class ChatComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
