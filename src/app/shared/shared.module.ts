@@ -10,7 +10,7 @@ import { TranslocoDatePipe, TranslocoLocaleModule } from '@ngneat/transloco-loca
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DynamicDialog } from 'primeng/dynamicdialog';
 import { AccordionModule } from 'primeng/accordion';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
@@ -27,11 +27,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { PasswordModule } from 'primeng/password';
 import { MenubarModule } from 'primeng/menubar';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { SlideMenuModule } from 'primeng/slidemenu';
 import { TreeModule } from 'primeng/tree';
 import { SidebarModule } from 'primeng/sidebar';
 import { TooltipModule } from 'primeng/tooltip';
@@ -90,14 +88,12 @@ const PRIMENG_MODULES = [
   DropdownModule,
   OverlayPanelModule,
   InputTextModule,
-  InputTextareaModule,
   PasswordModule,
   MenubarModule,
   BreadcrumbModule,
-  SlideMenuModule,
   TreeModule,
   SidebarModule,
-  DynamicDialogModule,
+  DynamicDialog,
   ConfirmDialogModule,
   TooltipModule,
   ListboxModule,
@@ -181,6 +177,5 @@ const PRIMENG_SERVICES = [
     PRIMENG_SERVICES
   ]
 })
-
 export class SharedModule {
 }

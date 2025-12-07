@@ -6,7 +6,7 @@ import { getBrowserLang, LangDefinition, Translation, TranslocoService } from '@
 import { SessionData } from './core/models';
 import { SessionService } from './core/services';
 import { registerLocaleData } from '@angular/common';
-import { PrimeNGConfig } from 'primeng/api';
+import { PrimeNG } from 'primeng/config';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly sessionService: SessionService,
-    private primeNGConfig: PrimeNGConfig
+    private primeNG: PrimeNG
     // private readonly enumService: EnumService,
     // private readonly toastMessageService: ToastMessageService
     ) {
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.translocoService.selectTranslateObject('primeng').subscribe(res => {
       console.log(`app.component/setupActiveLang/primeng: ${JSON.stringify(res)}`);
-      this.primeNGConfig.setTranslation(res);
+      this.primeNG.setTranslation(res);
     });
   }
 

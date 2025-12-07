@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { SharedModule, FooterComponent, HeaderComponent } from './shared';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
@@ -18,6 +18,8 @@ import { UserDetailModule } from './feature/user-detail/user-detail.module';
 import { UserGroupsModule } from './feature/user-groups/user-groups.module';
 
 import { ChatModule } from './feature/chat/chat.module';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 // export function initUser(userService: UserService) {
 //   return (): Promise<any>  => {
@@ -52,7 +54,14 @@ declare global {
         UserDetailModule,
         UserGroupsModule,
         ChatModule], providers: [
-        provideHttpClient(withInterceptorsFromDi())
+        SharedModule,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideAnimations(),
+        providePrimeNG({
+          theme: {
+            preset: Aura
+          }
+        })
     ] })
 export class AppModule { 
   constructor() {
