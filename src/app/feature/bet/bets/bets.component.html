@@ -2,45 +2,63 @@
   <p-panel [header]="title">
   </p-panel>
 
-  <ng-container *ngFor="let round of rounds">
+  @for (round of rounds; track round) {
     <div fxLayout="row" fxLayoutGap="10px">
-      <p-table [value]="filterBetsByRound(round)" styleClass="p-datatable-gridlines p-datatable-striped" [rowHover]="true"
+      <p-table [value]="filterBetsByRound(round)" class="p-datatable-gridlines p-datatable-striped" [rowHover]="true"
         responsiveLayout="scroll">
-        <ng-template pTemplate="caption">
+        <ng-template #caption>
           {{ t('round.' + round.name) }}
         </ng-template>
-        <ng-template pTemplate="header" let-match>
+        <ng-template #header let-match>
           <tr>
-              <th>#</th>
-              <th>{{ t('matches.label.startTime') }}</th>
-              <th colspan="2">{{ t('matches.label.team') }} #1</th>
-              <th>{{ t('bets.label.goalTip') }} #1</th>
-              <th>{{ t('bets.label.goalTip') }} #2</th>
-              <th colspan="2">{{ t('matches.label.team') }} #2</th>
-              <th>{{ t('bets.label.score') }}</th>
-              <th *ngIf="sessionService.isUserUser()"></th>
+            <th>#</th>
+            <th>{{ t('matches.label.startTime') }}</th>
+            <th colspan="2">{{ t('matches.label.team') }} #1</th>
+            <th>{{ t('bets.label.goalTip') }} #1</th>
+            <th>{{ t('bets.label.goalTip') }} #2</th>
+            <th colspan="2">{{ t('matches.label.team') }} #2</th>
+            <th>{{ t('bets.label.score') }}</th>
+            @if (sessionService.isUserUser()) {
+              <th></th>
+            }
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-bet>
+        <ng-template #body let-bet>
           <tr>
-              <td>{{ bet.match.matchN }}</td>
-              <td>{{ bet.match.startTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
-              <td><span *ngIf="bet.match.team1" [ngClass]="getMatchStyleClass(bet.match, 1)">{{ t('team.' + bet.match.team1.name) }}</span></td>
-              <td><p-image *ngIf="bet.match.team1" src="assets/images/flags/{{bet.match.team1.flag}}.png" alt="Image" [title]="t('team.' + bet.match.team1.name)"></p-image></td>
-              <td>{{ bet.goalNormalByTeam1 }} <sup>{{ bet.match.goalNormalByTeam1 }}</sup></td>
-              <td><sup>{{ bet.match.goalNormalByTeam2 }}</sup> {{ bet.goalNormalByTeam2 }}</td>
-              <td><p-image *ngIf="bet.match.team2" src="assets/images/flags/{{bet.match.team2.flag}}.png" alt="Image" [title]="t('team.' + bet.match.team2.name)"></p-image></td>
-              <td><span *ngIf="bet.match.team2" [ngClass]="getMatchStyleClass(bet.match, 2)">{{ t('team.' + bet.match.team2.name) }}</span></td>
-              <td>{{ bet.score }}<sup *ngIf="bet.favouriteTeamIndex != null">*</sup>
-              </td>
-              <td *ngIf="sessionService.isUserUser()">
-                <p-button *ngIf="isMatchNotStarted(bet.match)" icon="pi pi-pencil" [pTooltip]="t('ENTER_TIP')" (onClick)="editBet(bet)"></p-button>
-                <p-button *ngIf="isMatchStarted(bet.match)" icon="pi pi-list" [pTooltip]="t('VIEW_OTHERS_TIPS')" (onClick)="displayOtherBets(bet)"></p-button>
-              </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-    <br/>
-  </ng-container>
+            <td>{{ bet.match.matchN }}</td>
+            <td>{{ bet.match.startTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
+            <td>@if (bet.match.team1) {
+              <span [ngClass]="getMatchStyleClass(bet.match, 1)">{{ t('team.' + bet.match.team1.name) }}</span>
+            }</td>
+            <td>@if (bet.match.team1) {
+              <p-image src="assets/images/flags/{{bet.match.team1.flag}}.png" alt="Image" [title]="t('team.' + bet.match.team1.name)"></p-image>
+            }</td>
+            <td>{{ bet.goalNormalByTeam1 }} <sup>{{ bet.match.goalNormalByTeam1 }}</sup></td>
+            <td><sup>{{ bet.match.goalNormalByTeam2 }}</sup> {{ bet.goalNormalByTeam2 }}</td>
+            <td>@if (bet.match.team2) {
+              <p-image src="assets/images/flags/{{bet.match.team2.flag}}.png" alt="Image" [title]="t('team.' + bet.match.team2.name)"></p-image>
+            }</td>
+            <td>@if (bet.match.team2) {
+              <span [ngClass]="getMatchStyleClass(bet.match, 2)">{{ t('team.' + bet.match.team2.name) }}</span>
+            }</td>
+            <td>{{ bet.score }}@if (bet.favouriteTeamIndex != null) {
+              <sup>*</sup>
+            }
+          </td>
+          @if (sessionService.isUserUser()) {
+            <td>
+              @if (isMatchNotStarted(bet.match)) {
+                <p-button icon="pi pi-pencil" [pTooltip]="t('ENTER_TIP')" (onClick)="editBet(bet)"></p-button>
+              }
+              @if (isMatchStarted(bet.match)) {
+                <p-button icon="pi pi-list" [pTooltip]="t('VIEW_OTHERS_TIPS')" (onClick)="displayOtherBets(bet)"></p-button>
+              }
+            </td>
+          }
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <br/>
+}
 </ng-container>

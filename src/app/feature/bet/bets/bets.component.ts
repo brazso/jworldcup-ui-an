@@ -126,7 +126,7 @@ export class BetsComponent implements OnInit, OnDestroy {
       // width: '70%'
     });
 
-    ref.onClose.subscribe((bet: Bet) => {
+    ref?.onClose.subscribe((bet: Bet) => {
       console.log(`bets.component/editBet/onClose bet: ${JSON.stringify(bet)}`);
       if (bet) {
         // replace selectedBet inside bets to the incoming updated one
@@ -190,7 +190,7 @@ export class BetsComponent implements OnInit, OnDestroy {
       // width: '70%'
     });
 
-    ref.onClose.subscribe((bet: Bet) => {
+    ref?.onClose.subscribe((bet: Bet) => {
       console.log(`bets.component/onClose bet: ${JSON.stringify(bet)}`);
     });
 

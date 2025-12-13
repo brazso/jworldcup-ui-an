@@ -113,7 +113,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
       // width: '70%'
     });
 
-    ref.onClose.subscribe((match: Match) => {
+    ref?.onClose.subscribe((match: Match) => {
       console.log(`matches.component/onClose match: ${JSON.stringify(match)}`);
       if (match) {
         // replace selectedMatch inside matches to the incoming match

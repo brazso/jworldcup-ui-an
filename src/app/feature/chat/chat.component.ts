@@ -16,6 +16,7 @@ export interface ChatRoom {
 }
 
 @Component({
+    // selector: 'app-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss'],
     standalone: false
@@ -130,15 +131,21 @@ export class ChatComponent implements OnInit, OnDestroy {
     return 'user' in chatRoom;
   }
   
+  /**
+   * Executed when another tab is selected
+   * @param event_ contains selected tab index
+   */
   onChangeTabView(event_: any): void {
     console.log(`chat.component/onChangeTabView/event: ${JSON.stringify(event_)}`);
-    console.log(`chat.component/onChangeTabView/activeIndex: ${this.activeIndex}`);
     this.message == '';
   }
 
+  /**
+   * Executed when a tab is closed
+   * @param event_ contains closed tab index
+   */
   onCloseTabView(event_: any): void {
     console.log(`chat.component/onCloseTabView/event: ${JSON.stringify(event_)}`);
-    console.log(`chat.component/onCloseTabView/activeIndex: ${this.activeIndex}`);
     if (this.isChatRoomUser(this.getSelectedChatRoom()) && this.chatRooms.filter(e => this.isChatRoomUser(e)).length == 1) {
       const destination: string = `/queue/privatechat#${this.sessionService.getUser().userId}`;
       this.subscriptionMap.get(destination)?.unsubscribe();
@@ -146,7 +153,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       console.log(`chat.component/onCloseTabView/removed destination: ${destination}`);
     }
 
-    this.chatRooms.splice(event_.index, 1); // remove closed chatRoom from its array
+    this.chatRooms.splice(event_, 1); // remove closed chatRoom from its array
     this.activeIndex = 0;
   }
 

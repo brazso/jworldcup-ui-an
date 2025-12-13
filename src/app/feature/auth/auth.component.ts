@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-    selector: 'app-auth-page',
+    selector: 'app-auth',
     templateUrl: './auth.component.html',
     styleUrls: ['./auth.component.scss'],
     standalone: false

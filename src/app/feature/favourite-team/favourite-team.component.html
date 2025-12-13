@@ -7,7 +7,7 @@
                         <tr>
                             <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringGroupMatches') }}</td>
                             <td>
-                                <p-dropdown [options]="groupTeams | dropdown" placeholder="-" [autoDisplayFirst]="false" [(ngModel)]="selectedGroupTeam"
+                                <p-select [options]="groupTeams | dropdown" placeholder="-" [(ngModel)]="selectedGroupTeam"
                                     [disabled]="isGroupTeamSelectItemListDisabled()">
                                     <ng-template pTemplate="selectedItem">
                                         {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
@@ -15,13 +15,13 @@
                                     <ng-template let-item pTemplate="item">
                                         {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
                                     </ng-template>
-                                </p-dropdown>
+                                </p-select>
                             </td>
                         </tr>
                         <tr>
                             <td>{{ t('favouriteTeamDetail.label.favouriteTeamDuringKnockoutMatches') }}</td>
                             <td>
-                                <p-dropdown [options]="knockOutTeams | dropdown" placeholder="-" [autoDisplayFirst]="false" [(ngModel)]="selectedKnockOutTeam"
+                                <p-select [options]="knockOutTeams | dropdown" placeholder="-" [(ngModel)]="selectedKnockOutTeam"
                                     [disabled]="isKnockoutTeamSelectItemListDisabled()">
                                     <ng-template pTemplate="selectedItem">
                                         {{ selectedKnockOutTeam?.name ? t('team.' + selectedKnockOutTeam?.name) : '-' }}
@@ -29,7 +29,7 @@
                                     <ng-template let-item pTemplate="item">
                                         {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
                                     </ng-template>
-                                </p-dropdown>
+                                </p-select>
                             </td>
                         </tr>
                     </table>

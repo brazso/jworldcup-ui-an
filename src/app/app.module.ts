@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
-import { SharedModule, FooterComponent, HeaderComponent } from './shared';
+import { SharedModule, HeaderComponent, MainComponent, FooterComponent } from './shared';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
 import { MatchModule } from './feature/match/match.module';
@@ -38,7 +38,7 @@ declare global {
     // for Components, Directives & Pipes
     // Component cannot belong to more than one module
     declarations: [
-        AppComponent, FooterComponent, HeaderComponent
+        AppComponent, HeaderComponent, MainComponent, FooterComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
