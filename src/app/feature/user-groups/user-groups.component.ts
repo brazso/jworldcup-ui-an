@@ -16,8 +16,9 @@ enum DisplayedComponentEnum {
 }
 
 @Component({
-  templateUrl: './user-groups.component.html',
-  styleUrls: ['./user-groups.component.scss']
+    templateUrl: './user-groups.component.html',
+    styleUrls: ['./user-groups.component.scss'],
+    standalone: false
 })
 export class UserGroupsComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();

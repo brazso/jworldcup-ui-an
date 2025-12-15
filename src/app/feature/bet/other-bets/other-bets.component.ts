@@ -6,9 +6,10 @@ import { ApiService, Bet, GenericListResponse, Match, SessionData, SessionServic
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 
 @Component({
-  // no selector here because it is a primeNG dynamic dialog
-  templateUrl: './other-bets.component.html',
-  styleUrls: ['./other-bets.component.scss']
+    // no selector here because it is a primeNG dynamic dialog
+    templateUrl: './other-bets.component.html',
+    styleUrls: ['./other-bets.component.scss'],
+    standalone: false
 })
 export class OtherBetsComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();

@@ -2,58 +2,98 @@
   <p-panel [header]="title">
   </p-panel>
 
-  <p-panel *ngIf="sessionService.isUserAdmin() && eventTriggerStartTimes.length">
+  @if (sessionService.isUserAdmin() && eventTriggerStartTimes.length) {
+    <p-panel>
       <span class="p-float-label">
-        <p-dropdown id="eventTriggerStartTime" [options]="eventTriggerStartTimes" [(ngModel)]="selectedEventTriggerStartTime" 
-          [pTooltip]="t('matches.tooltip.triggerStartTime')" (onChange)='onEventTriggerStartTimeChange($event)'></p-dropdown>
+        <p-select id="eventTriggerStartTime" [options]="eventTriggerStartTimes" [(ngModel)]="selectedEventTriggerStartTime"
+        [pTooltip]="t('matches.tooltip.triggerStartTime')" (onChange)='onEventTriggerStartTimeChange($event)'></p-select>
         <label for="eventTriggerStartTime">{{ t('matches.label.triggerStartTime') }}</label>
       </span>
       <app-list-errors [errors]="errors"></app-list-errors>
-  </p-panel>
+    </p-panel>
+  }
 
-  <ng-container *ngFor="let round of rounds">
+  @for (round of rounds; track round) {
     <div fxLayout="row" fxLayoutGap="10px">
-      <p-table [value]="filterMatchesByRound(round)" styleClass="p-datatable-gridlines p-datatable-striped" [rowHover]="true"
+      <p-table [value]="filterMatchesByRound(round)" class="p-datatable-gridlines p-datatable-striped" [rowHover]="true"
         responsiveLayout="scroll">
         <ng-template pTemplate="caption">
           {{ t('round.' + round.name) }}
         </ng-template>
         <ng-template pTemplate="header" let-match>
           <tr>
-              <th>#</th>
-              <th>{{ t('matches.label.startTime') }}</th>
-              <th colspan="2">{{ t('matches.label.team') }} #1</th>
-              <th *ngIf="!round.isGroupmatch">{{ t('matches.label.scoredPenalties') }} #1</th>
-              <th *ngIf="!round.isGroupmatch && round.isOvertime">{{ t('matches.label.scoredAfterOvertime') }} #1</th>
-              <th *ngIf="round.isGroupmatch">{{ t('matches.label.scoredGoals') }} #1</th>
-              <th *ngIf="!round.isGroupmatch">{{ t('matches.label.scoredAfter90Minutes') }} #1</th>
-              <th *ngIf="round.isGroupmatch">{{ t('matches.label.scoredGoals') }} #2</th>
-              <th *ngIf="!round.isGroupmatch">{{ t('matches.label.scoredAfter90Minutes') }} #2</th>
-              <th *ngIf="!round.isGroupmatch && round.isOvertime">{{ t('matches.label.scoredAfterOvertime') }} #2</th>
-              <th *ngIf="!round.isGroupmatch">{{ t('matches.label.scoredPenalties') }} #2</th>
-              <th colspan="2">{{ t('matches.label.team') }} #2</th>
-              <th *ngIf="sessionService.isUserAdmin()"></th>
+            <th>#</th>
+            <th>{{ t('matches.label.startTime') }}</th>
+            <th colspan="2">{{ t('matches.label.team') }} #1</th>
+            @if (!round.isGroupmatch) {
+              <th>{{ t('matches.label.scoredPenalties') }} #1</th>
+            }
+            @if (!round.isGroupmatch && round.isOvertime) {
+              <th>{{ t('matches.label.scoredAfterOvertime') }} #1</th>
+            }
+            @if (round.isGroupmatch) {
+              <th>{{ t('matches.label.scoredGoals') }} #1</th>
+            }
+            @if (!round.isGroupmatch) {
+              <th>{{ t('matches.label.scoredAfter90Minutes') }} #1</th>
+            }
+            @if (round.isGroupmatch) {
+              <th>{{ t('matches.label.scoredGoals') }} #2</th>
+            }
+            @if (!round.isGroupmatch) {
+              <th>{{ t('matches.label.scoredAfter90Minutes') }} #2</th>
+            }
+            @if (!round.isGroupmatch && round.isOvertime) {
+              <th>{{ t('matches.label.scoredAfterOvertime') }} #2</th>
+            }
+            @if (!round.isGroupmatch) {
+              <th>{{ t('matches.label.scoredPenalties') }} #2</th>
+            }
+            <th colspan="2">{{ t('matches.label.team') }} #2</th>
+            @if (sessionService.isUserAdmin()) {
+              <th></th>
+            }
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-match>
           <tr>
-              <td>{{ match.matchN }}</td>
-              <td>{{ match.startTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
-              <td><span *ngIf="match.team1" [ngClass]="getMatchStyleClass(match, 1)">{{ t('team.' + match.team1.name) }}</span></td>
-              <td><p-image *ngIf="match.team1" src="assets/images/flags/{{match.team1.flag}}.png" alt="Image" [title]="t('team.' + match.team1.name)"></p-image></td>
-              <td *ngIf="!round.isGroupmatch">{{ match.goalPenaltyByTeam1 }}</td>
-              <td *ngIf="!round.isGroupmatch && round.isOvertime">{{ match.goalExtraByTeam1 }}</td>
-              <td>{{ match.goalNormalByTeam1 }}</td>
-              <td>{{ match.goalNormalByTeam2 }}</td>
-              <td *ngIf="!round.isGroupmatch && round.isOvertime">{{ match.goalExtraByTeam2 }}</td>
-              <td *ngIf="!round.isGroupmatch">{{ match.goalPenaltyByTeam2 }}</td>
-              <td><p-image *ngIf="match.team2" src="assets/images/flags/{{match.team2.flag}}.png" alt="Image" [title]="t('team.' + match.team2.name)"></p-image></td>
-              <td><span *ngIf="match.team2" [ngClass]="getMatchStyleClass(match, 2)">{{ t('team.' + match.team2.name) }}</span></td>
-              <td *ngIf="sessionService.isUserAdmin()"><p-button *ngIf="isMatchEditable(match)" icon="pi pi-pencil" [pTooltip]="t('matches.button.enterResult')" (onClick)="editMatch(match)"></p-button></td>
+            <td>{{ match.matchN }}</td>
+            <td>{{ match.startTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}</td>
+            <td>@if (match.team1) {
+              <span [ngClass]="getMatchStyleClass(match, 1)">{{ t('team.' + match.team1.name) }}</span>
+            }</td>
+            <td>@if (match.team1) {
+              <p-image src="assets/images/flags/{{match.team1.flag}}.png" alt="Image" [title]="t('team.' + match.team1.name)"></p-image>
+            }</td>
+            @if (!round.isGroupmatch) {
+              <td>{{ match.goalPenaltyByTeam1 }}</td>
+            }
+            @if (!round.isGroupmatch && round.isOvertime) {
+              <td>{{ match.goalExtraByTeam1 }}</td>
+            }
+            <td>{{ match.goalNormalByTeam1 }}</td>
+            <td>{{ match.goalNormalByTeam2 }}</td>
+            @if (!round.isGroupmatch && round.isOvertime) {
+              <td>{{ match.goalExtraByTeam2 }}</td>
+            }
+            @if (!round.isGroupmatch) {
+              <td>{{ match.goalPenaltyByTeam2 }}</td>
+            }
+            <td>@if (match.team2) {
+              <p-image src="assets/images/flags/{{match.team2.flag}}.png" alt="Image" [title]="t('team.' + match.team2.name)"></p-image>
+            }</td>
+            <td>@if (match.team2) {
+              <span [ngClass]="getMatchStyleClass(match, 2)">{{ t('team.' + match.team2.name) }}</span>
+            }</td>
+            @if (sessionService.isUserAdmin()) {
+              <td>@if (isMatchEditable(match)) {
+                <p-button icon="pi pi-pencil" [pTooltip]="t('matches.button.enterResult')" (onClick)="editMatch(match)"></p-button>
+              }</td>
+            }
           </tr>
         </ng-template>
       </p-table>
     </div>
     <br/>
-  </ng-container>
+  }
 </ng-container>

@@ -11,9 +11,10 @@ import { forkJoin, Subscription } from 'rxjs';
 import { OtherBetsComponent } from '../other-bets/other-bets.component';
 
 @Component({
-  selector: 'app-bets',
-  templateUrl: './bets.component.html',
-  styleUrls: ['./bets.component.scss']
+    selector: 'app-bets',
+    templateUrl: './bets.component.html',
+    styleUrls: ['./bets.component.scss'],
+    standalone: false
 })
 export class BetsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
@@ -125,7 +126,7 @@ export class BetsComponent implements OnInit, OnDestroy {
       // width: '70%'
     });
 
-    ref.onClose.subscribe((bet: Bet) => {
+    ref?.onClose.subscribe((bet: Bet) => {
       console.log(`bets.component/editBet/onClose bet: ${JSON.stringify(bet)}`);
       if (bet) {
         // replace selectedBet inside bets to the incoming updated one
@@ -189,7 +190,7 @@ export class BetsComponent implements OnInit, OnDestroy {
       // width: '70%'
     });
 
-    ref.onClose.subscribe((bet: Bet) => {
+    ref?.onClose.subscribe((bet: Bet) => {
       console.log(`bets.component/onClose bet: ${JSON.stringify(bet)}`);
     });
 

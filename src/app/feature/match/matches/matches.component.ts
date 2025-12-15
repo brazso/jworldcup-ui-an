@@ -11,9 +11,10 @@ import { Subscription } from 'rxjs';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 
 @Component({
-  selector: 'app-matches',
-  templateUrl: './matches.component.html',
-  styleUrls: ['./matches.component.scss']
+    selector: 'app-matches',
+    templateUrl: './matches.component.html',
+    styleUrls: ['./matches.component.scss'],
+    standalone: false
 })
 export class MatchesComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
@@ -112,7 +113,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
       // width: '70%'
     });
 
-    ref.onClose.subscribe((match: Match) => {
+    ref?.onClose.subscribe((match: Match) => {
       console.log(`matches.component/onClose match: ${JSON.stringify(match)}`);
       if (match) {
         // replace selectedMatch inside matches to the incoming match

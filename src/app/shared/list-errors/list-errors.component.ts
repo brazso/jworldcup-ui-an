@@ -3,9 +3,10 @@ import { TranslocoService } from '@ngneat/transloco';
 import { ApiErrorItem, apiErrorItemMsgFormat, isApiError, isApiErrorItem, UiError } from 'src/app/core/models';
 
 @Component({
-  selector: 'app-list-errors',
-  templateUrl: './list-errors.component.html',
-  styleUrls: ['./list-errors.component.scss']
+    selector: 'app-list-errors',
+    templateUrl: './list-errors.component.html',
+    styleUrls: ['./list-errors.component.scss'],
+    standalone: false
 })
 export class ListErrorsComponent {
   formattedErrors: Array<string | ApiErrorItem> = [];

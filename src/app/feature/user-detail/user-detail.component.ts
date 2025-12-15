@@ -12,8 +12,9 @@ import { Subscription } from 'rxjs';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 
 @Component({
-  templateUrl: './user-detail.component.html',
-  styleUrls: ['./user-detail.component.scss']
+    templateUrl: './user-detail.component.html',
+    styleUrls: ['./user-detail.component.scss'],
+    standalone: false
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();

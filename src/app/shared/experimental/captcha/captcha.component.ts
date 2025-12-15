@@ -1,14 +1,15 @@
 import {AfterViewInit,Component,EventEmitter,Input,NgZone,OnDestroy,Output,ElementRef,ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef, OnInit, OnChanges} from '@angular/core';
 
 @Component({
-  selector: 'z-captcha',
-  template: '<div></div>',
-  styleUrls: ['./captcha.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  host: {
-      'class': 'p-element'
-  }
+    selector: 'z-captcha',
+    template: '<div></div>',
+    styleUrls: ['./captcha.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    host: {
+        'class': 'p-element'
+    },
+    standalone: false
 })
 /**
  * Fix for https://github.com/primefaces/primeng/issues/10112 - "Error: reCAPTCHA has already been rendered in this element"

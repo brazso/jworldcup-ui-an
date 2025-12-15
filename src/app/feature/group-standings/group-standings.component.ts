@@ -6,9 +6,10 @@ import { distinctArrayByPropertyName } from 'src/app/shared/utils';
 import { Subscription } from 'rxjs';
 
 @Component({
-  // selector: 'app-group-standings',
-  templateUrl: './group-standings.component.html',
-  styleUrls: ['./group-standings.component.scss']
+    // selector: 'app-group-standings',
+    templateUrl: './group-standings.component.html',
+    styleUrls: ['./group-standings.component.scss'],
+    standalone: false
 })
 export class GroupStandingsComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();

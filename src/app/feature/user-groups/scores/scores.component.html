@@ -6,7 +6,7 @@
                     <tr>
                         <td>{{ t('scores.label.userGroup') }}</td>
                         <td>
-                            <p-dropdown [options]="userGroups" [(ngModel)]="selectedUserGroup" [placeholder]="t('scores.label.userGroup')"
+                            <p-select [options]="userGroups" [(ngModel)]="selectedUserGroup" [placeholder]="t('scores.label.userGroup')"
                                 (onChange)='onUserGroupChange($event)'>
                                 <ng-template pTemplate="selectedItem">
                                     {{ selectedUserGroup?.name }}
@@ -14,7 +14,7 @@
                                 <ng-template let-userGroup pTemplate="item">
                                     {{ userGroup.name }}
                                 </ng-template>
-                          </p-dropdown>
+                          </p-select>
                         </td>
                     </tr>
                 </table>
