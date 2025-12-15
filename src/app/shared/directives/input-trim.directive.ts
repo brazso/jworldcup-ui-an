@@ -45,7 +45,7 @@ import {
     /**
      * Updates the value on the blur event.
      */
-    @HostListener("blur", ["$event.type", "$event.target.value"])
+    @HostListener("blur", ["$event.type", "$any($event.target).value"])
     onBlur(event: string, value: string): void {
       this.updateValue(event, value.trim());
       this.onTouched();
@@ -54,7 +54,7 @@ import {
     /**
      * Updates the value on the input event.
      */
-    @HostListener("input", ["$event.type", "$event.target.value"])
+    @HostListener("input", ["$event.type", "$any($event.target).value"])
     onInput(event: string, value: string): void {
       this.updateValue(event, value);
     }
