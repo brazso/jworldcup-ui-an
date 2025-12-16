@@ -34,35 +34,38 @@ declare global {
 }
 
 // app (root) module
-@NgModule({ 
-    // for Components, Directives & Pipes
-    // Component cannot belong to more than one module
-    declarations: [
-        AppComponent, HeaderComponent, MainComponent, FooterComponent
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        AppRoutingModule,
-        TranslocoRootModule,
-        BrowserAnimationsModule,
-        CoreModule,
-        SharedModule,
-        AuthModule,
-        MatchModule,
-        BetModule,
-        FavouriteTeamModule,
-        GroupStandingsModule,
-        UserDetailModule,
-        UserGroupsModule,
-        ChatModule], providers: [
-        SharedModule,
-        provideHttpClient(withInterceptorsFromDi()),
-        provideAnimations(),
-        providePrimeNG({
-          theme: {
-            preset: Aura
-          }
-        })
-    ] })
+@NgModule({
+  // for Components, Directives & Pipes
+  // Component cannot belong to more than one module
+  declarations: [
+    AppComponent, HeaderComponent, MainComponent, FooterComponent
+  ],
+  bootstrap: [AppComponent],
+  imports: [BrowserModule,
+    AppRoutingModule,
+    TranslocoRootModule,
+    BrowserAnimationsModule,
+    CoreModule,
+    SharedModule,
+    AuthModule,
+    MatchModule,
+    BetModule,
+    FavouriteTeamModule,
+    GroupStandingsModule,
+    UserDetailModule,
+    UserGroupsModule,
+    ChatModule],
+  providers: [
+    SharedModule,
+    provideHttpClient(withInterceptorsFromDi()),
+    provideAnimations(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
+  ]
+})
 export class AppModule { 
   constructor() {
     // this.overrideDate();
