@@ -3,7 +3,7 @@ import { Bet, CommonResponse, Event, GenericListResponse, GenericResponse, getSh
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BetComponent } from '../bet.component';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -28,7 +28,7 @@ export class BetsComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: ApiService,
-    public sessionService: SessionService, // it is public because there is reference to sessionService from html
+    public sessionService: SessionService,
     private translocoService: TranslocoService,
     private dialogService: DialogService
   ) { }

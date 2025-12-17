@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
+import { LangDefinition, Translation, TranslocoService } from '@jsverse/transloco';
 import { ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionData, SessionService, UiError, User, UserExtended, UserNotification } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';

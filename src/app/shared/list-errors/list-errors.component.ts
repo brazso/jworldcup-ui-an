@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ApiErrorItem, apiErrorItemMsgFormat, isApiError, isApiErrorItem, UiError } from 'src/app/core/models';
 
 @Component({

@@ -44,7 +44,7 @@
   <p-dialog [header]="t('about.title')" [(visible)]="isNamecardDisplayed" (onHide)="onNameCardHide()"
     [modal]="true" [resizable]="true" [closeOnEscape]="true">
     <p>{{ session.appShortName }} ({{ t('about.label.corporation') }})</p>
-    <p>{{ t('about.label.version') }} {{ session.appVersionNumber }} ({{ session.appVersionDate! | translocoExDate: {dateStyle: 'short'} }})</p>
+    <p>{{ t('about.label.version') }} {{ session.appVersionNumber }} ({{ session.appVersionDate! | translocoExDate: { dateStyle: 'short' } }})</p>
     <p>{{ t('about.label.contactEmail') }}: {{ session.appEmailAddr }}</p>
   </p-dialog>
 

@@ -2,7 +2,7 @@ import { OnDestroy, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import localeHu from '@angular/common/locales/hu';
-import { getBrowserLang, LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
+import { getBrowserLang, LangDefinition, TranslocoService } from '@jsverse/transloco';
 import { SessionData } from './core/models';
 import { SessionService } from './core/services';
 import { registerLocaleData } from '@angular/common';
@@ -38,7 +38,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
 
   private registerLocales(): void {
     registerLocaleData(localeHu, 'hu');

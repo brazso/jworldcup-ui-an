@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApiService, Bet, GenericResponse, Match, SessionService, UiError } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';

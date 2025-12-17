@@ -3,9 +3,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, CommonModule } from '@angular/common';
 import { FlexLayoutModule } from 'ng-flex-layout';
 
-/* Extra */
-import { TranslocoModule } from '@ngneat/transloco';
-import { TranslocoDatePipe, TranslocoLocaleModule } from '@ngneat/transloco-locale';
+/* Transloco */
+import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoDatePipe, TranslocoLocaleModule } from '@jsverse/transloco-locale';
 
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -110,7 +110,7 @@ const PRIMENG_MODULES = [
   DataViewModule
 ];
 
-const EXTRA_MODULES = [
+const TRANSLOCO_MODULES = [
   TranslocoModule,
   TranslocoLocaleModule
 ];
@@ -129,9 +129,13 @@ const SHARED_DIRECTIVES = [
 ];
 
 const ANGULAR_PIPES = [
-  DatePipe,
+  DatePipe
+];
+
+const TRANSLOCO_PIPES = [
   TranslocoDatePipe
 ];
+
 const SHARED_PIPES = [
   DropdownPipe,
   TranslocoExDatePipe,
@@ -151,26 +155,24 @@ const PRIMENG_SERVICES = [
     CoreModule,
     ANGULAR_MODULES,
     PRIMENG_MODULES,
-    EXTRA_MODULES
-    // BOOTSTRAP_MODULES
+    TRANSLOCO_MODULES
   ],
   exports: [
     ANGULAR_MODULES,
     PRIMENG_MODULES,
-    EXTRA_MODULES,
-    // BOOTSTRAP_MODULES,
+    TRANSLOCO_MODULES,
     SHARED_COMPONENTS,
     SHARED_PIPES,
     SHARED_DIRECTIVES,
   ],
   declarations: [
-    // DIALOGS,
     SHARED_COMPONENTS,
     SHARED_PIPES,
     SHARED_DIRECTIVES,
   ],
   providers: [
     ANGULAR_PIPES,
+    TRANSLOCO_PIPES,
     SHARED_PIPES,
     PRIMENG_SERVICES
   ]

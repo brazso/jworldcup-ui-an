@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { mergeMap, Observable, of, Subscription } from 'rxjs';
 import { ApiService, Bet, GenericListResponse, Match, SessionData, SessionService, UserGroup } from 'src/app/core';
@@ -23,7 +22,6 @@ export class OtherBetsComponent implements OnInit, OnDestroy {
   constructor(
     public ref: DynamicDialogRef, 
     public config: DynamicDialogConfig,
-    private translocoService: TranslocoService,
     private apiService: ApiService,
     private sessionService: SessionService    
   ) { }

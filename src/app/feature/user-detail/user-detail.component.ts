@@ -4,7 +4,7 @@ import { CommonResponse, GenericMapResponse, GenericResponse, SessionData, UiErr
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.pipe';
 import { NgForm, NgModel } from '@angular/forms';
 import { InputValidationComponent } from 'src/app/shared/input-validation';

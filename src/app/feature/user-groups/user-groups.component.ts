@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { apiErrorItemMsgFormat, CommonResponse, GenericListResponse, GenericResponse, getApiErrorOverallType, isApiError, ParameterizedMessageTypeEnum, SessionData, SessionDataModificationFlag, UiError, UserGroup } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';

@@ -5,7 +5,6 @@ import { ApiService, Chat, GenericListResponse, GenericResponse, RxStompService,
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { Message } from '@stomp/stompjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef } from '@angular/core';
 
 // export type ChatRoom = User | UserGroup;
 
@@ -35,13 +34,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   @ViewChild('messageInput') messageInputElement: ElementRef;
 
   constructor(
-    public readonly sessionService: SessionService,
+    private readonly sessionService: SessionService,
     private readonly apiService: ApiService,
-    private rxStompService: RxStompService,
-    private changeDetectorRef: ChangeDetectorRef
-    // private confirmationService: ConfirmationService,
-    // private translocoService: TranslocoService,
-    // private replaceLineBreaksPipe: ReplaceLineBreaksPipe
+    private readonly rxStompService: RxStompService
   ) { }
 
   ngOnInit(): void {
