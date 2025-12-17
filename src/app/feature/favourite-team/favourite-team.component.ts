@@ -25,7 +25,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
   constructor(
     private readonly sessionService: SessionService,
     private readonly apiService: ApiService,
-    private translocoService: TranslocoService
+    private readonly translocoService: TranslocoService
   ) { }
 
   ngOnInit(): void {
@@ -43,10 +43,8 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
           ]).subscribe(([groupTeamsResponse, knockOutTeamsResponse]) => {
             this.groupTeams = groupTeamsResponse.data;
             this.groupTeams.sort((a, b) => (a.name ?? '-').localeCompare(b.name ?? '-', this.translocoService.getActiveLang()))
-            this.selectedGroupTeam = this.groupTeams[0];
             this.knockOutTeams = knockOutTeamsResponse.data;
             this.knockOutTeams.sort((a, b) => (a.name ?? '-').localeCompare(b.name ?? '-', this.translocoService.getActiveLang()))
-            this.selectedKnockOutTeam = this.knockOutTeams[0];
           }
         );
       }
