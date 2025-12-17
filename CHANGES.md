@@ -1,5 +1,10 @@
 ## Changes
 
+### Version 1.3.0 / 2025-12-17
+
+* Feature: added CAF2025 tournament
+* Feature: tournaments displayed in descending order in header
+
 ### Version 1.2.0 / 2024-06-10
 
 * Feature: added EC2024 and CA2024 events
