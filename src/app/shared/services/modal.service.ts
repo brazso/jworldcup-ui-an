@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DialogService, DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 /**
  * Modal service

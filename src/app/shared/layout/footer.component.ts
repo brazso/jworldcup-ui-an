@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { BackendService, SessionService } from 'src/app/core/services';
 import pkg from 'package.json';
 import { GenericResponse, SessionData } from 'src/app/core/models';

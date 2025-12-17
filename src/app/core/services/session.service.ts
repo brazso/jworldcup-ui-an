@@ -3,7 +3,7 @@ import { Event, JwtRequest, JwtResponse, SessionData, SessionDataOperationFlag, 
 import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ApiService, JwtService, RxStompService } from 'src/app/core/services';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { Router } from '@angular/router';

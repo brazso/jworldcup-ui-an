@@ -39,7 +39,7 @@
                         <ng-template let-chats #list>
                           @for (chat of chats; track chat) {
                             <div>
-                              {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
+                              {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}
                               <span class="chat-message-user">{{chat.user.loginName}}</span>
                               {{chat.message}}
                             </div>
@@ -57,7 +57,7 @@
                         <ng-template let-chats #list>
                           @for (chat of chats; track chat) {
                             <div>
-                              {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
+                              {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}
                               <span class="chat-message-user">{{chat.user.loginName}}</span>
                               {{chat.message}}
                             </div>

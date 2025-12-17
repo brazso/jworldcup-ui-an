@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { MenuItem } from 'primeng/api';
 
 import { Event, User, SessionService, ApiService, GenericListResponse, SessionData, SessionDataModificationFlag } from 'src/app/core';
