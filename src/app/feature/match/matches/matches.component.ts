@@ -73,7 +73,6 @@ export class MatchesComponent implements OnInit, OnDestroy {
   }
 
   filterMatchesByRound(round: Round): Match[] {
-    // return this.matches.filter(e => equal(e.round, round));
     return this.matches.filter(e => e.round!.roundId === round.roundId);
   }
 
