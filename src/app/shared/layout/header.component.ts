@@ -176,6 +176,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.apiService.get<GenericListResponse<Event>>(ApiEndpoints.EVENTS.FIND_ALL_EVENTS).subscribe(
       (value: GenericListResponse<Event>) => {
         this.events = value.data;
+        this.events.sort((a, b) => (b.eventId ?? 0) - (a.eventId ?? 0)); // sort by eventId desc
       }
     );
   }

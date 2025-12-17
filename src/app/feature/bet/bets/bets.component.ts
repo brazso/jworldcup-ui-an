@@ -185,7 +185,7 @@ export class BetsComponent implements OnInit, OnDestroy {
         match: bet?.match
       },
       header: this.translocoService.translate('otherBets.title'),
-      // closable: false,
+      closable: true
       // showHeader: false, // header and closeable are ignored
       // width: '70%'
     });
