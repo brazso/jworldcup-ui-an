@@ -17,7 +17,7 @@ RUN ng build
 
 # Copying the dist files onto NGINX
 FROM nginx as runtime
-COPY --from=build /app/dist/jworldcup-ui-an /usr/share/nginx/html
+COPY --from=build /app/dist/jworldcup-ui-an/browser /usr/share/nginx/html
 
 # Overwriting config file to support angular url mapping to index.html
 COPY ./docker/frontend/default.conf /etc/nginx/conf.d/default.conf
