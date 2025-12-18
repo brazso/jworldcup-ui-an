@@ -1,10 +1,10 @@
 # BASE IMAGE with an alias #
-FROM node:18.19.0-alpine3.19 as build
+FROM node:22.21.0-alpine3.22 as build
 WORKDIR /app
 ARG RABBITMQ_JWORLDCUP_PASS
 
 # Install Angular CLI to run Build #
-RUN npm install -g @angular/cli@17.0.9
+RUN npm install -g @angular/cli@20.3.13
 
 # Copying the files, updating worldcup password and running angular build (for production)
 COPY ./package.json .
