@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TranslocoRootModule } from '../transloco/transloco-root.module';
-import { HttpTokenInterceptor } from './interceptors';
+import { DateParserInterceptor, HttpTokenInterceptor } from './interceptors';
 import { ApiService, 
   BackendService,
   AuthorityGuard, 
@@ -19,8 +19,12 @@ import { ApiService,
     TranslocoRootModule
   ],
   providers: [
+    provideHttpClient(
+      // DI-based interceptors must be explicitly enabled.      
+      withInterceptorsFromDi(),    
+    ),
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true },
     ApiService,
     AuthorityGuard,
     BackendService,

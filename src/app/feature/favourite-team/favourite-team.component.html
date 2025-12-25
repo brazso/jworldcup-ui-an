@@ -9,10 +9,10 @@
                             <td>
                                 <p-select [options]="groupTeams | dropdown" placeholder="-" [(ngModel)]="selectedGroupTeam"
                                     [disabled]="isGroupTeamSelectItemListDisabled()">
-                                    <ng-template pTemplate="selectedItem">
+                                    <ng-template #selectedItem>
                                         {{ selectedGroupTeam?.name ? t('team.' + selectedGroupTeam?.name) : '-' }}
                                     </ng-template>
-                                    <ng-template let-item pTemplate="item">
+                                    <ng-template let-item #item>
                                         {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
                                     </ng-template>
                                 </p-select>
@@ -23,10 +23,10 @@
                             <td>
                                 <p-select [options]="knockOutTeams | dropdown" placeholder="-" [(ngModel)]="selectedKnockOutTeam"
                                     [disabled]="isKnockoutTeamSelectItemListDisabled()">
-                                    <ng-template pTemplate="selectedItem">
+                                    <ng-template #selectedItem>
                                         {{ selectedKnockOutTeam?.name ? t('team.' + selectedKnockOutTeam?.name) : '-' }}
                                     </ng-template>
-                                    <ng-template let-item pTemplate="item">
+                                    <ng-template let-item #item>
                                         {{ item.value?.name ? t('team.' + item.value?.name) : '-' }}
                                     </ng-template>
                                 </p-select>

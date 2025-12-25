@@ -8,10 +8,10 @@
         <div fxLayout="row" fxLayoutAlign="center">
           <p-select [options]="events" [(ngModel)]="event" [placeholder]="t('header.label.event')"
             (onChange)='onEventChange($event)'>
-            <ng-template pTemplate="selectedItem">
+            <ng-template #selectedItem>
               {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }}) {{ event.startTime | date: 'yyyy-MM-dd' }} - {{ event.endTime | date: 'yyyy-MM-dd' }}
             </ng-template>
-            <ng-template let-event pTemplate="item">
+            <ng-template let-event #item>
               {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }})
             </ng-template>
           </p-select>
