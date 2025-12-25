@@ -1,5 +1,9 @@
 ## Changes
 
+### Version 1.3.1 / 2025-12-25
+
+* Feature: matches (and bets) sorted by start_time primarily
+
 ### Version 1.3.0 / 2025-12-18
 
 * Feature: added CAF2025 tournament
