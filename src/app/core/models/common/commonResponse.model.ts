@@ -1,16 +1,14 @@
-import { EredmenyEnum } from './enums';
-
 export interface CommonResponse {
     successful: boolean;
     error: string;
 
     /**
-     * true akkor a művelet, amely előállította a választ, módosítást okozott. egyénként false.
+     * true then the operation that produced the response caused a modification, false otherwise
      */
     modified?: boolean;
 
     /**
-     *  true akkor megerősítő kérdésre kell választ adni, az eredmeny mező SIKERES, a kérdés maga a hiba mezőben található
+     *  true then a confirmation question must be answered, the result field is SUCCESSFUL, the question itself is in the error field
      */
     confirmed?: boolean;
 }

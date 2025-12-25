@@ -58,7 +58,6 @@ export class BetsComponent implements OnInit, OnDestroy {
 
             this.bets = [];
             this.matches.forEach((match) => {
-              // this.betByMatchIdMap[match.matchId!] = {};
               this.bets.push({match: match, user: this.sessionService.getUser()} as Bet); // dummy bet only with match and user properties
             });
 
@@ -74,6 +73,9 @@ export class BetsComponent implements OnInit, OnDestroy {
                 this.bets[index] = bet;
               }
             });
+
+            this.bets.sort((a, b) => (a.match?.startTime?.getTime() ?? 0) - (b.match?.startTime?.getTime() ?? 0) || (a.match?.matchId ?? 0) - (b.match?.matchId ?? 0)); // order by startTime, matchId
+            console.log(`bets.component/bets: ${JSON.stringify(this.bets)}`);
           }
         );
 
@@ -167,7 +169,7 @@ export class BetsComponent implements OnInit, OnDestroy {
   }
 
   isMatchNotStarted(match: Match): boolean {
-    // console.log(`bets.component/isMatchNotStarted: actualDateTime=${JSON.stringify(this.sessionService.getSession().actualDateTime)}, match=${JSON.stringify(match)}`);
+    // console.log(`bets.component/isMatchNotStarted: actualDateTime=${JSON.stringify(this.sessionService.getSession().actualDateTime)}, match.startTime=${JSON.stringify(match.startTime)}`);
     return (!!match.team1 && !!match.team2
       && this.sessionService.getSession().actualDateTime! < match.startTime!);
 	}

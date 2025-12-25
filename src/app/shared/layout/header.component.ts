@@ -177,6 +177,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (value: GenericListResponse<Event>) => {
         this.events = value.data;
         this.events.sort((a, b) => (b.eventId ?? 0) - (a.eventId ?? 0)); // sort by eventId desc
+
+        // if there is already a (selected) event, the loaded events must contain it
+        if (this.event) { 
+          const index = this.events.findIndex(e => e.eventId === this.event.eventId);
+          if (index !== -1) {
+            this.events[index] = this.event;
+          }
+        }
       }
     );
   }

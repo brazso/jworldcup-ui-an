@@ -51,10 +51,12 @@ export class MatchesComponent implements OnInit, OnDestroy {
         this.apiService.get<GenericListResponse<Match>>(`${ApiEndpoints.MATCHES.MATCHES_BY_EVENT}?eventByShortDescWithYear=${getShortDescWithYearByEvent(this.event)}`).subscribe(
           (value: GenericListResponse<Match>) => {
             this.matches = value.data;
+            this.matches.sort((a, b) => (a.startTime?.getTime() ?? 0) - (b.startTime?.getTime() ?? 0) || (a.matchId ?? 0) - (b.matchId ?? 0)); // order by startTime, matchId
+            console.log(`matches.component/matches: ${JSON.stringify(this.matches)}`);
 
             // retrieve rounds from loaded matches
             this.rounds = distinctArrayByPropertyName<Round>(this.matches.map(e => e.round as Round), 'roundId').sort((a, b) => a.roundId! - b.roundId!);
-            console.log(`matches.component/rounds: ${JSON.stringify(this.rounds)}`);
+            // console.log(`matches.component/rounds: ${JSON.stringify(this.rounds)}`);
           }
         );
       }

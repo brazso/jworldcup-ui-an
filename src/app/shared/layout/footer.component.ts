@@ -36,7 +36,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`footer.component/ngOnInit/session: ${JSON.stringify(session)}`);
+        // console.log(`footer.component/ngOnInit/session: ${JSON.stringify(session)}`);
       }
     ));
   }
