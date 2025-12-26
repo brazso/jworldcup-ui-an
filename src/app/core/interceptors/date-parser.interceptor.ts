@@ -69,13 +69,7 @@ export class DateParserInterceptor implements HttpInterceptor {
         if (typeof o !== 'object') {
             out = o;
         } else if (o instanceof Date) {
-            out = o.getFullYear() + '-' +
-                this.pad(1 + o.getMonth()) + '-' +
-                this.pad(o.getDate()) + 'T' +
-                this.pad(o.getHours()) + ':' +
-                this.pad(o.getMinutes()) + ':' +
-                this.pad(o.getSeconds()) + '.' +
-                this.pad(o.getMilliseconds(), 3) + 'Z';
+            out = o.toISOString(); // e.g. 2025-12-21T19:00:00.000Z
         } else {
             out = Array.isArray(o) ? [] : {};
             for (key in o) {
