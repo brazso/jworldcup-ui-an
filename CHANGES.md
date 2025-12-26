@@ -1,5 +1,9 @@
 ## Changes
 
+### Version 1.3.2 / 2025-12-26
+
+* Fix: saved match start time in UTC
+
 ### Version 1.3.1 / 2025-12-25
 
 * Feature: matches (and bets) sorted by start_time primarily
