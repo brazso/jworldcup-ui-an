@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { of, forkJoin, combineLatest } from 'rxjs';
 
 export enum ToastMessageSeverity {

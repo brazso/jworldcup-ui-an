@@ -1,30 +1,34 @@
-<header class="header fixed" *transloco="let t;">
+<header class="header fixed-top" *transloco="let t;">
   <div fxLayout="row" fxLayoutGap="10px">
     <div>
       <img [src]="getLogoFileName()" width="85" height="85">
     </div>
-    <div *ngIf="event.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
-      <div fxLayout="row" fxLayoutAlign="center">
-        <p-dropdown [options]="events" [(ngModel)]="event" [placeholder]="t('header.label.event')"
-          (onChange)='onEventChange($event)'>
-          <ng-template pTemplate="selectedItem">
-            {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }}) {{ event.startTime | date: 'yyyy-MM-dd' }} - {{ event.endTime | date: 'yyyy-MM-dd' }}
-          </ng-template>
-          <ng-template let-event pTemplate="item">
-            {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }})
-          </ng-template>
-        </p-dropdown>
+    @if (event.eventId) {
+      <div fxLayout="column" fxLayoutAlign="space-around" fxFlex>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <p-select [options]="events" [(ngModel)]="event" [placeholder]="t('header.label.event')"
+            (onChange)='onEventChange($event)'>
+            <ng-template #selectedItem>
+              {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }}) {{ event.startTime | date: 'yyyy-MM-dd' }} - {{ event.endTime | date: 'yyyy-MM-dd' }}
+            </ng-template>
+            <ng-template let-event #item>
+              {{ event.year }} {{ t('event.description.' + event.description) }} ({{ t('team.' + event.location) }})
+            </ng-template>
+          </p-select>
+        </div>
+        <p-progressBar [value]="session.eventCompletionPercent"></p-progressBar>
+        <div fxLayout="row" fxLayoutAlign="start stretch" class="scroll-left">
+          <p>{{ session.newsLine }}</p>
+        </div>
       </div>
-      <p-progressBar [value]="session.eventCompletionPercent"></p-progressBar>
-      <div fxLayout="row" fxLayoutAlign="start stretch" class="scroll-left">
-			  <p>{{ session.newsLine }}</p>
-      </div>
-    </div>
+    }
     <div *appShowAuthed="true" fxLayout="column" fxLayoutAlign="space-around">
       <div fxLayout="row" fxLayoutAlign="space-around">
-        <div *ngIf="event.eventId" fxLayout="column" fxLayoutAlign="space-around" fxFlex>
-          {{ user.loginName }}
-        </div>
+        @if (event.eventId) {
+          <div fxLayout="column" fxLayoutAlign="space-around" fxFlex>
+            {{ user.loginName }}
+          </div>
+        }
         <a class="nav-link" (click)="logout()"><i class="pi pi-sign-out"></i></a>
       </div>
       <div fxLayout="row">
@@ -40,7 +44,7 @@
   <p-dialog [header]="t('about.title')" [(visible)]="isNamecardDisplayed" (onHide)="onNameCardHide()"
     [modal]="true" [resizable]="true" [closeOnEscape]="true">
     <p>{{ session.appShortName }} ({{ t('about.label.corporation') }})</p>
-    <p>{{ t('about.label.version') }} {{ session.appVersionNumber }} ({{ session.appVersionDate! | translocoExDate: {dateStyle: 'short'} }})</p>
+    <p>{{ t('about.label.version') }} {{ session.appVersionNumber }} ({{ session.appVersionDate! | translocoExDate: { dateStyle: 'short' } }})</p>
     <p>{{ t('about.label.contactEmail') }}: {{ session.appEmailAddr }}</p>
   </p-dialog>
 

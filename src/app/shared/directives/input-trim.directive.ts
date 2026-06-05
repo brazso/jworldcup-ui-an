@@ -18,8 +18,9 @@ import {
    */
   @Directive({
     selector: "input[trim], textarea[trim]",
-    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: InputTrimDirective, multi: true }]
-  })
+    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: InputTrimDirective, multi: true }],
+    standalone: false
+})
   export class InputTrimDirective implements ControlValueAccessor {
   
     private get _type(): string {
@@ -44,7 +45,7 @@ import {
     /**
      * Updates the value on the blur event.
      */
-    @HostListener("blur", ["$event.type", "$event.target.value"])
+    @HostListener("blur", ["$event.type", "$any($event.target).value"])
     onBlur(event: string, value: string): void {
       this.updateValue(event, value.trim());
       this.onTouched();
@@ -53,7 +54,7 @@ import {
     /**
      * Updates the value on the input event.
      */
-    @HostListener("input", ["$event.type", "$event.target.value"])
+    @HostListener("input", ["$event.type", "$any($event.target).value"])
     onInput(event: string, value: string): void {
       this.updateValue(event, value);
     }

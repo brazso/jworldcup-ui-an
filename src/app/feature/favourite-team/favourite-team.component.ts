@@ -4,12 +4,13 @@ import { GenericListResponse, GenericResponse, SessionData, Team, UiError, UserO
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { forkJoin, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
-  // selector: 'app-favourite-team',
-  templateUrl: './favourite-team.component.html',
-  styleUrls: ['./favourite-team.component.scss']
+    // selector: 'app-favourite-team',
+    templateUrl: './favourite-team.component.html',
+    styleUrls: ['./favourite-team.component.scss'],
+    standalone: false
 })
 export class FavouriteTeamComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
@@ -24,7 +25,7 @@ export class FavouriteTeamComponent implements OnInit, OnDestroy {
   constructor(
     private readonly sessionService: SessionService,
     private readonly apiService: ApiService,
-    private translocoService: TranslocoService
+    private readonly translocoService: TranslocoService
   ) { }
 
   ngOnInit(): void {

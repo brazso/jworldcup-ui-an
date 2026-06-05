@@ -1,5 +1,22 @@
 ## Changes
 
+### Version 1.3.2 / 2025-12-26
+
+* Fix: saved match start time in UTC
+
+### Version 1.3.1 / 2025-12-25
+
+* Feature: matches (and bets) sorted by start_time primarily
+
+### Version 1.3.0 / 2025-12-18
+
+* Feature: added CAF2025 tournament
+* Feature: tournaments displayed in descending order in header
+
+### Version 1.2.0 / 2024-06-10
+
+* Feature: added EC2024 and CA2024 events
+
 ### Version 1.1.0 / 2024-01-13
 
 * Fix: locale sort on favourite group dropdowns

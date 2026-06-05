@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
+import { LangDefinition, Translation, TranslocoService } from '@jsverse/transloco';
 import { ApiErrorItem, ApiService, buildApiErrorByApiErrorItem, CommonResponse, GenericResponse, ParameterizedMessageTypeEnum, SessionData, SessionService, UiError, User, UserExtended, UserNotification } from 'src/app/core';
 import { default as RouterUrls} from 'src/app/core/constants/router-urls.json';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
@@ -12,9 +12,10 @@ import { environment } from 'src/environments/environment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-auth-page',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+    selector: 'app-auth',
+    templateUrl: './auth.component.html',
+    styleUrls: ['./auth.component.scss'],
+    standalone: false
 })
 export class AuthComponent implements OnInit, OnDestroy {
   readonly passwordMinLength : number = 8;
@@ -354,7 +355,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   private insertPrivacyPolicy() {
-    this.apiService.post<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.INSERT+'?userId={0}&key={1}&value={2}&hasModificationTime={3}'.format(this.sessionService.getUser().userId, 'GPDR', null, true)).subscribe({
+    this.apiService.post<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.INSERT+'?userId={0}&key={1}&hasModificationTime={2}'.format(this.sessionService.getUser().userId, 'GPDR', true)).subscribe({
       next: value => {
         console.log(`auth.component/insertPrivacyPolicy/insertedPrivacyPolicy: ${JSON.stringify(value.data)}`);
         this.router.navigate([RouterUrls.HOME_PAGE]);
@@ -372,7 +373,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   private updatePrivacyPolicy() {
-    this.apiService.put<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.UPDATE+'?userNotificationId={0}&value={1}'.format(this.userNotificationGpdr?.userNotificationId, null)).subscribe({
+    this.apiService.put<GenericResponse<UserNotification>>(ApiEndpoints.USER_NOTIFICATIONS.UPDATE+'?userNotificationId={0}'.format(this.userNotificationGpdr?.userNotificationId)).subscribe({
       next: value => {
         console.log(`auth.component/updatePrivacyPolicy/updatedUserNotification: ${JSON.stringify(value.data)}`);
         this.router.navigate([RouterUrls.HOME_PAGE]);

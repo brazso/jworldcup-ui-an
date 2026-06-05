@@ -1,56 +1,78 @@
 <ng-container *transloco="let t">
-    <p-panel [header]="t('chat.title')">
-        <div fxLayout="column">
-            <p-tabView (onChange)="onChangeTabView($event)" (onClose)="onCloseTabView($event)" [(activeIndex)]="activeIndex">
-                <!-- leftIcon="pi pi-user" -->
-                <p-tabPanel *ngFor="let chatRoom of chatRooms; let i = index" 
-                    [closable]="isChatRoomUser(chatRoom) || isChatRoomUserGroup(chatRoom) && !!chatRoom.userGroup!.userGroupId" 
-                    leftIcon="pi pi-users">
-                    <!-- [header]="userGroup.name ?? ''" cannot be used, at least it generates error in console.log -->
-                    <ng-template *ngIf="isChatRoomUserGroup(chatRoom)" pTemplate="header"><i class="pi pi-users"></i>&nbsp;{{chatRoom.userGroup!.name ?? ''}}</ng-template>
-                    <div *ngIf="isChatRoomUserGroup(chatRoom)">
-                        <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
-                            <p-dataView [value]="chatRoom.userGroup!.users ?? []">
-                                <ng-template pTemplate="header">{{t('chat.label.users')}}</ng-template>
-                                <ng-template let-users pTemplate="list">
-                                    <div *ngFor="let user of users" (click)="onClickUser(user)">
-                                        <i [class]="'pi ' + (user.isActive ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isActive ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
-                                        <span [class]="user.isActive ? 'user-online' : 'user-offline'" [pTooltip]="user.isActive ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dataView>                    
-                            <p-dataView [value]="chatRoom.chats" [emptyMessage]="t('chat.label.noChatMessages')">
-                                <ng-template pTemplate="header">{{t('chat.label.messages')}}</ng-template>
-                                <ng-template let-chats pTemplate="list">
-                                    <div *ngFor="let chat of chats">
-                                        {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
-                                        <span class="chat-message-user">{{chat.user.loginName}}</span>
-                                        {{chat.message}}
-                                    </div>
-                                </ng-template>
-                            </p-dataView>
-                        </div>
+  <p-panel [header]="t('chat.title')">
+    <div fxLayout="column">
+      <p-tabs [(value)]="activeIndex" (valueChange)="onChangeTabView($event)">
+        <p-tablist>
+          @for (chatRoom of chatRooms; track chatRoom; let i = $index) {
+            <p-tab [value]="$index">
+              @if (isChatRoomUserGroup(chatRoom)) {
+                <i class="pi pi-users"></i>&nbsp;{{chatRoom.userGroup!.name ?? ''}}
+              }
+              @if (isChatRoomUser(chatRoom)) {
+                <i [class]="'pi ' + (chatRoom.user!.isActive ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="chatRoom.user!.isActive ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;{{chatRoom.user!.loginName ?? ''}}
+              }
+              @if (isChatRoomUser(chatRoom) || isChatRoomUserGroup(chatRoom) && !!chatRoom.userGroup!.userGroupId) {
+                <i class="pi pi-times" [pTooltip]="t('general.button.close')" (click)="onCloseTabView($index)"></i>
+              }
+            </p-tab>
+          }  
+        </p-tablist>
+        <p-tabpanels>
+          @for (chatRoom of chatRooms; track chatRoom; let i = $index) {
+            <p-tabpanel [value]="$index">
+                @if (isChatRoomUserGroup(chatRoom)) {
+                  <div>
+                    <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
+                      <p-dataView [value]="chatRoom.userGroup!.users ?? []">
+                        <ng-template #header>{{t('chat.label.users')}}</ng-template>
+                        <ng-template let-users #list>
+                          @for (user of users; track user) {
+                            <div (click)="onClickUser(user)">
+                              <i [class]="'pi ' + (user.isActive ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="user.isActive ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;
+                              <span [class]="user.isActive ? 'user-online' : 'user-offline'" [pTooltip]="user.isActive ? t('chat.label.online') : t('chat.label.offline')">{{user.loginName}}</span>
+                            </div>
+                          }
+                        </ng-template>
+                      </p-dataView>
+                      <p-dataView [value]="chatRoom.chats" [emptyMessage]="t('chat.label.noChatMessages')">
+                        <ng-template #header>{{t('chat.label.messages')}}</ng-template>
+                        <ng-template let-chats #list>
+                          @for (chat of chats; track chat) {
+                            <div>
+                              {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}
+                              <span class="chat-message-user">{{chat.user.loginName}}</span>
+                              {{chat.message}}
+                            </div>
+                          }
+                        </ng-template>
+                      </p-dataView>
                     </div>
-
-                    <ng-template *ngIf="isChatRoomUser(chatRoom)" pTemplate="header"><i [class]="'pi ' + (chatRoom.user!.isActive ? 'pi-user-plus' : 'pi-user-minus')" [pTooltip]="chatRoom.user!.isActive ? t('chat.label.online') : t('chat.label.offline')"></i>&nbsp;{{chatRoom.user!.loginName ?? ''}}</ng-template>
-                    <div *ngIf="isChatRoomUser(chatRoom)">
-                        <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
-                            <p-dataView [value]="chatRoom.chats" [emptyMessage]="t('chat.label.noChatMessages')">
-                                <ng-template pTemplate="header">{{t('chat.label.messages')}}</ng-template>
-                                <ng-template let-chats pTemplate="list">
-                                    <div *ngFor="let chat of chats">
-                                        {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' }  }}
-                                        <span class="chat-message-user">{{chat.user.loginName}}</span>
-                                        {{chat.message}}
-                                    </div>
-                                </ng-template>
-                            </p-dataView>
-                        </div>
+                  </div>
+                }
+                @if (isChatRoomUser(chatRoom)) {
+                  <div>
+                    <div fxLayout="row" fxLayoutAlign="start" fxLayoutAlign.xs="stretch" fxLayoutGap="10px">
+                      <p-dataView [value]="chatRoom.chats" [emptyMessage]="t('chat.label.noChatMessages')">
+                        <ng-template #header>{{t('chat.label.messages')}}</ng-template>
+                        <ng-template let-chats #list>
+                          @for (chat of chats; track chat) {
+                            <div>
+                              {{chat.modificationTime | translocoExDate: { dateStyle: 'short', timeStyle: 'short' } }}
+                              <span class="chat-message-user">{{chat.user.loginName}}</span>
+                              {{chat.message}}
+                            </div>
+                          }
+                        </ng-template>
+                      </p-dataView>
                     </div>
-                </p-tabPanel>
-            </p-tabView>
-            <input name="message" #messageInput [(ngModel)]="message" [disabled]="false" (keydown.enter)="sendChatInit()" pInputText autoFocus/>
-        </div>
-    </p-panel>
+                  </div>
+                }
+            </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+      <input name="message" #messageInput [(ngModel)]="message" [disabled]="false" (keydown.enter)="sendChatInit()" pInputText autoFocus/>
+    </div>
+  </p-panel>
 </ng-container>
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DialogService, DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 /**
  * Modal service
@@ -19,16 +19,18 @@ export class ModalService {
 	/**
 	 * Show modal
 	 */
-	show(content: any, header?: string, data?: any, config?: DynamicDialogConfig): DynamicDialogRef {
+	show(content: any, header?: string, data?: any, config?: DynamicDialogConfig): DynamicDialogRef | null {
 		const c: DynamicDialogConfig = config || {};
 		if (header) c.header = this.translocoService.translate(header);
 		if (data) c.data = data;
 
 		const reference = this.modalService.open(content, c);
-		reference.onClose.subscribe(() => {
+		reference?.onClose.subscribe(() => {
 			this.activeModalRefs.delete(reference);
 		});
-		this.activeModalRefs.add(reference);
+		if (reference) {
+			this.activeModalRefs.add(reference);
+		}
 		return reference;
 	}
 

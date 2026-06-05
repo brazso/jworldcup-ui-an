@@ -1,19 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import {
-  TRANSLOCO_LOADER,
   Translation,
   TranslocoLoader,
-  TRANSLOCO_CONFIG,
-  translocoConfig,
-  TranslocoModule
-} from '@ngneat/transloco';
-import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+  TranslocoModule,
+  provideTransloco
+} from '@jsverse/transloco';
+import { provideTranslocoLocale, TranslocoLocaleModule } from '@jsverse/transloco-locale';
 import { Injectable, NgModule } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getTranslation(lang: string) {
     console.log('transloco-root.module/getTranslation lang='+lang);
@@ -22,27 +20,25 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 }
 
 @NgModule({
-  exports: [ TranslocoModule ],
-  imports: [ 
-    TranslocoLocaleModule.forRoot({
-      langToLocaleMapping: {
-        en: 'en-US',
-        hu: 'hu-HU'      }      
-    })
-  ],
+  exports: [TranslocoModule],
+  imports: [TranslocoLocaleModule],
   providers: [
-    {
-      provide: TRANSLOCO_CONFIG,
-      useValue: translocoConfig({
-        //availableLangs: ['en', 'hu'],
+    provideTransloco({
+      config: {
         availableLangs: [{ id: 'en', label: 'English' }, { id: 'hu', label: 'Magyar' }],
         defaultLang: 'en',
         // Remove this option if your application doesn't support changing language in runtime.
         reRenderOnLangChange: true,
         prodMode: environment.production,
-      })
-    },
-    { provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader }
-  ]
+      },
+      loader: TranslocoHttpLoader,
+    }),
+    provideTranslocoLocale({
+      langToLocaleMapping: {
+        en: 'en-US',
+        hu: 'hu-HU'
+      }
+    })
+  ],
 })
 export class TranslocoRootModule {}

@@ -4,11 +4,13 @@ import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { mergeMap, Observable, of, Subscription } from 'rxjs';
 import { TranslocoExDatePipe } from 'src/app/shared';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 @Component({
-  templateUrl: './scores.component.html',
-  styleUrls: ['./scores.component.scss']
+    templateUrl: './scores.component.html',
+    styleUrls: ['./scores.component.scss'],
+    standalone: false
 })
 export class ScoresComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
@@ -21,10 +23,10 @@ export class ScoresComponent implements OnInit, OnDestroy {
   chartOptions: any;
 
   constructor(
-    public readonly sessionService: SessionService,
+    private readonly sessionService: SessionService,
     private readonly apiService: ApiService,
-    private translocoDatePipe: TranslocoExDatePipe,
-    private translocoService: TranslocoService
+    private readonly translocoExDatePipe: TranslocoExDatePipe,
+    private readonly translocoService: TranslocoService
   ) { }
 
   ngOnInit(): void {
@@ -114,7 +116,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
     this.apiService.get<GenericResponse<LineChartData>>(`${ApiEndpoints.USER_GROUPS.FIND_LINE_CHART_DATA_BY_EVENT_AND_USER_GROUP}?eventId=${this.sessionService.getEvent().eventId}&userGroupId=${this.selectedUserGroup?.userGroupId}`)
     .subscribe((value) => {
       this.chartData = value.data;
-      this.chartData.labels = value.data.matchDates!.map(e => this.translocoDatePipe.transform(e));
+      this.chartData.labels = value.data.matchDates!.map(e => this.translocoExDatePipe.transform(e));
       value.data.datasets?.forEach((e) => { e.borderColor = this.getRandomRgb()});
       delete this.chartData.matchDates;
       console.log(`scores.component/createScoresLineModel/data: ${JSON.stringify(this.chartData)}`);

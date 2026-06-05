@@ -5,57 +5,85 @@
       <div fxLayout="column">
         <h1 fxLayoutAlign="center">{{ title }}</h1>
         <p fxLayoutAlign="center">
-          <a [routerLink]="['/login']" *ngIf="['register', 'reset-password'].includes(authType)">{{ t('login.label.haveAccount') }}</a>
-          <a [routerLink]="['/register']" *ngIf="authType == 'login'">{{ t('login.label.needAccount') }}</a>
+          @if (['register', 'reset-password'].includes(authType)) {
+            <a [routerLink]="['/login']">{{ t('login.label.haveAccount') }}</a>
+          }
+          @if (authType == 'login') {
+            <a [routerLink]="['/register']">{{ t('login.label.needAccount') }}</a>
+          }
         </p>
         <app-list-errors [errors]="errors"></app-list-errors>
         <form fxLayoutAlign="center" [formGroup]="authForm" (ngSubmit)="submitForm()">
           <fieldset [disabled]="isSubmitting">
-            <fieldset *ngIf="['login', 'register'].includes(authType)" class="form-group">
-              <input formControlName="username" [placeholder]="t('login.label.loginName')" pInputText />
-            </fieldset>
-            <fieldset *ngIf="['login', 'register'].includes(authType)" class="form-group">
-              <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [feedback]="authType === 'register'" [toggleMask]="true"></p-password>
-              <div *ngIf="authForm.controls['password'].errors?.minlength && authForm.controls['password'].dirty" class="error-messages">
-                {{ t('validator.constraints.password.minlength').format(passwordMinLength) }}
-              </div>            
-            </fieldset>
-            <fieldset *ngIf="authType == 'register'" class="form-group">
-              <p-password formControlName="passwordAgain" [placeholder]="t('login.label.loginPasswordAgain')" [feedback]="false" [toggleMask]="true"></p-password>
-              <div *ngIf="authForm.controls['passwordAgain'].errors?.minlength && authForm.controls['passwordAgain'].dirty" class="error-messages">
-                {{ t('validator.constraints.password.minlength').format(passwordMinLength) }}
-              </div> 
-              <div *ngIf="authForm.errors?.['passwords'] && authForm.controls['password'].dirty && authForm.controls['passwordAgain'].dirty" class="error-messages"> 
-                {{ t('validator.constraints.password.mismatch') }}
-              </div> 
-            </fieldset>
-            <fieldset *ngIf="authType == 'register'" class="form-group">
-              <input formControlName="fullName" [placeholder]="t('login.label.fullName')" pInputText />
-            </fieldset>
-            <fieldset *ngIf="['register', 'reset-password'].includes(authType)" class="form-group">
-              <input type="email" formControlName="email" [placeholder]="t('login.label.emailAddr')" pInputText />
-              <div *ngIf="authForm.controls['email'].hasError('email')" class="error-messages"> 
-                {{ t('validator.constraints.Email.message') }}
-              </div> 
-            </fieldset>
+            @if (['login', 'register'].includes(authType)) {
+              <fieldset class="form-group">
+                <input formControlName="username" [placeholder]="t('login.label.loginName')" pInputText />
+              </fieldset>
+            }
+            @if (['login', 'register'].includes(authType)) {
+              <fieldset class="form-group">
+                <p-password formControlName="password" [placeholder]="t('login.label.loginPassword')" [feedback]="authType === 'register'" [toggleMask]="true"></p-password>
+                @if (authForm.controls['password'].errors?.minlength && authForm.controls['password'].dirty) {
+                  <div class="error-messages">
+                    {{ t('validator.constraints.password.minlength').format(passwordMinLength) }}
+                  </div>
+                }
+              </fieldset>
+            }
+            @if (authType == 'register') {
+              <fieldset class="form-group">
+                <p-password formControlName="passwordAgain" [placeholder]="t('login.label.loginPasswordAgain')" [feedback]="false" [toggleMask]="true"></p-password>
+                @if (authForm.controls['passwordAgain'].errors?.minlength && authForm.controls['passwordAgain'].dirty) {
+                  <div class="error-messages">
+                    {{ t('validator.constraints.password.minlength').format(passwordMinLength) }}
+                  </div>
+                }
+                @if (authForm.errors?.['passwords'] && authForm.controls['password'].dirty && authForm.controls['passwordAgain'].dirty) {
+                  <div class="error-messages">
+                    {{ t('validator.constraints.password.mismatch') }}
+                  </div>
+                }
+              </fieldset>
+            }
+            @if (authType == 'register') {
+              <fieldset class="form-group">
+                <input formControlName="fullName" [placeholder]="t('login.label.fullName')" pInputText />
+              </fieldset>
+            }
+            @if (['register', 'reset-password'].includes(authType)) {
+              <fieldset class="form-group">
+                <input type="email" formControlName="email" [placeholder]="t('login.label.emailAddr')" pInputText />
+                @if (authForm.controls['email'].hasError('email')) {
+                  <div class="error-messages">
+                    {{ t('validator.constraints.Email.message') }}
+                  </div>
+                }
+              </fieldset>
+            }
             <fieldset class="form-group">
-              <p-dropdown formControlName="language" [placeholder]="t('login.label.language')" [options]="availableLangs" optionLabel="label" optionValue="id"
+              <p-select formControlName="language" [placeholder]="t('login.label.language')" [options]="availableLangs" optionLabel="label" optionValue="id"
                 (onChange)='onLanguageChange($event)'>
-              </p-dropdown>
+              </p-select>
             </fieldset>
             <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start">
-              <a [routerLink]="['/reset-password']" *ngIf="authType == 'login'">{{ t('login.label.reset-password') }}</a>
+              @if (authType == 'login') {
+                <a [routerLink]="['/reset-password']">{{ t('login.label.reset-password') }}</a>
+              }
               <p-button fxLayoutAlign="end" [disabled]="!authForm.valid" type="submit" [label]="title" ></p-button>
             </div>
-            <div *ngIf="authType == 'register'" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start" style="margin-top: 10px;">
-              {{ t('login.label.privacy-policy-1') }}&nbsp;
-              <a href="javascript:void(0)" (click)="isPrivacyPolicyDisplayed = true">{{ t('login.label.privacy-policy-2') }}</a>.
-            </div>
+            @if (authType == 'register') {
+              <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start" style="margin-top: 10px;">
+                {{ t('login.label.privacy-policy-1') }}&nbsp;
+                <a href="javascript:void(0)" (click)="isPrivacyPolicyDisplayed = true">{{ t('login.label.privacy-policy-2') }}</a>.
+              </div>
+            }
           </fieldset>
         </form>
-        <p fxLayoutAlign="center" *ngIf="recaptcha.render">
-          <z-captcha #captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></z-captcha>
-        </p>
+        @if (recaptcha.render) {
+          <p fxLayoutAlign="center">
+            <z-captcha #captcha [siteKey]="siteKeyCaptcha" [language]="translocoService.getActiveLang()" (onResponse)="captchaResponse($event)" (onExpire)="captchaExpire()"></z-captcha>
+          </p>
+        }
 
       </div>
 
@@ -65,9 +93,11 @@
   <p-dialog [header]="t('menu.privacyPolicy')" [(visible)]="isPrivacyPolicyDisplayed" (onShow)="onPrivacyPolicyShow()"
     [modal]="true" [resizable]="true" [closeOnEscape]="true">
     <div [innerHtml]="privacyPolicyContent"></div>
-    <ng-template pTemplate="footer">
-      <p-button *ngIf="isPrivacyPolicyAcceptable" icon="pi pi-check" (click)="onPrivacyPolicyAccept()" [label]="t('login.dialog.privacyPolicy.accept')"></p-button>
-      <p-button *ngIf="isPrivacyPolicyAcceptable" icon="pi pi-times" (click)="onPrivacyPolicyDecline()" [label]="t('login.dialog.privacyPolicy.decline')" pAutoFocus [autofocus]="true"></p-button>
+    <ng-template pTemplate=#footer>
+      @if (isPrivacyPolicyAcceptable) {
+        <p-button icon="pi pi-check" (click)="onPrivacyPolicyAccept()" [label]="t('login.dialog.privacyPolicy.accept')"></p-button>
+        <p-button icon="pi pi-times" (click)="onPrivacyPolicyDecline()" [label]="t('login.dialog.privacyPolicy.decline')" pAutoFocus [autofocus]="true"></p-button>
+      }
     </ng-template>
   </p-dialog>
 

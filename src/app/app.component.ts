@@ -2,17 +2,18 @@ import { OnDestroy, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import localeHu from '@angular/common/locales/hu';
-import { getBrowserLang, LangDefinition, Translation, TranslocoService } from '@ngneat/transloco';
+import { getBrowserLang, LangDefinition, TranslocoService } from '@jsverse/transloco';
 import { SessionData } from './core/models';
 import { SessionService } from './core/services';
 import { registerLocaleData } from '@angular/common';
-import { PrimeNGConfig } from 'primeng/api';
+import { PrimeNG } from 'primeng/config';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly sessionService: SessionService,
-    private primeNGConfig: PrimeNGConfig
+    private primeNG: PrimeNG
     // private readonly enumService: EnumService,
     // private readonly toastMessageService: ToastMessageService
     ) {
@@ -37,7 +38,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
 
   private registerLocales(): void {
     registerLocaleData(localeHu, 'hu');
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.translocoService.selectTranslateObject('primeng').subscribe(res => {
       console.log(`app.component/setupActiveLang/primeng: ${JSON.stringify(res)}`);
-      this.primeNGConfig.setTranslation(res);
+      this.primeNG.setTranslation(res);
     });
   }
 

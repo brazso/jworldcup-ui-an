@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { BackendService, SessionService } from 'src/app/core/services';
 import pkg from 'package.json';
 import { GenericResponse, SessionData } from 'src/app/core/models';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-layout-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+    selector: 'app-layout-footer',
+    templateUrl: './footer.component.html',
+    styleUrls: ['./footer.component.scss'],
+    standalone: false
 })
 export class FooterComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
@@ -35,7 +36,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.subscription.add(this.sessionService.session.subscribe(
       (session: SessionData) => {
         this.session = session;
-        console.log(`footer.component/ngOnInit/session: ${JSON.stringify(session)}`);
+        // console.log(`footer.component/ngOnInit/session: ${JSON.stringify(session)}`);
       }
     ));
   }

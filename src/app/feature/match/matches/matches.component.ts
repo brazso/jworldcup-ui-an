@@ -3,7 +3,7 @@ import { CommonResponse, Event, GenericListResponse, GenericResponse, getApiErro
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MatchComponent } from '../match.component';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -11,9 +11,10 @@ import { Subscription } from 'rxjs';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 
 @Component({
-  selector: 'app-matches',
-  templateUrl: './matches.component.html',
-  styleUrls: ['./matches.component.scss']
+    selector: 'app-matches',
+    templateUrl: './matches.component.html',
+    styleUrls: ['./matches.component.scss'],
+    standalone: false
 })
 export class MatchesComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
@@ -28,7 +29,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: ApiService,
-    public sessionService: SessionService, // it is public because there is reference to sessionService from html
+    public sessionService: SessionService,
     private translocoService: TranslocoService,
     private dialogService: DialogService,
     private toastMessageService: ToastMessageService
@@ -50,10 +51,12 @@ export class MatchesComponent implements OnInit, OnDestroy {
         this.apiService.get<GenericListResponse<Match>>(`${ApiEndpoints.MATCHES.MATCHES_BY_EVENT}?eventByShortDescWithYear=${getShortDescWithYearByEvent(this.event)}`).subscribe(
           (value: GenericListResponse<Match>) => {
             this.matches = value.data;
+            this.matches.sort((a, b) => (a.startTime?.getTime() ?? 0) - (b.startTime?.getTime() ?? 0) || (a.matchId ?? 0) - (b.matchId ?? 0)); // order by startTime, matchId
+            console.log(`matches.component/matches: ${JSON.stringify(this.matches)}`);
 
             // retrieve rounds from loaded matches
             this.rounds = distinctArrayByPropertyName<Round>(this.matches.map(e => e.round as Round), 'roundId').sort((a, b) => a.roundId! - b.roundId!);
-            console.log(`matches.component/rounds: ${JSON.stringify(this.rounds)}`);
+            // console.log(`matches.component/rounds: ${JSON.stringify(this.rounds)}`);
           }
         );
       }
@@ -72,7 +75,6 @@ export class MatchesComponent implements OnInit, OnDestroy {
   }
 
   filterMatchesByRound(round: Round): Match[] {
-    // return this.matches.filter(e => equal(e.round, round));
     return this.matches.filter(e => e.round!.roundId === round.roundId);
   }
 
@@ -112,7 +114,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
       // width: '70%'
     });
 
-    ref.onClose.subscribe((match: Match) => {
+    ref?.onClose.subscribe((match: Match) => {
       console.log(`matches.component/onClose match: ${JSON.stringify(match)}`);
       if (match) {
         // replace selectedMatch inside matches to the incoming match

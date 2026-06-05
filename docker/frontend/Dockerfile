@@ -1,10 +1,10 @@
 # BASE IMAGE with an alias #
-FROM node:18.19.0-alpine3.19 as build
+FROM node:22.21.0-alpine3.22 as build
 WORKDIR /app
 ARG RABBITMQ_JWORLDCUP_PASS
 
 # Install Angular CLI to run Build #
-RUN npm install -g @angular/cli@17.0.9
+RUN npm install -g @angular/cli@20.3.13
 
 # Copying the files, updating worldcup password and running angular build (for production)
 COPY ./package.json .
@@ -17,7 +17,7 @@ RUN ng build
 
 # Copying the dist files onto NGINX
 FROM nginx as runtime
-COPY --from=build /app/dist/jworldcup-ui-an /usr/share/nginx/html
+COPY --from=build /app/dist/jworldcup-ui-an/browser /usr/share/nginx/html
 
 # Overwriting config file to support angular url mapping to index.html
 COPY ./docker/frontend/default.conf /etc/nginx/conf.d/default.conf

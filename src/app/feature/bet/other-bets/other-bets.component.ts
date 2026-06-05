@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { mergeMap, Observable, of, Subscription } from 'rxjs';
 import { ApiService, Bet, GenericListResponse, Match, SessionData, SessionService, UserGroup } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 
 @Component({
-  // no selector here because it is a primeNG dynamic dialog
-  templateUrl: './other-bets.component.html',
-  styleUrls: ['./other-bets.component.scss']
+    // no selector here because it is a primeNG dynamic dialog
+    templateUrl: './other-bets.component.html',
+    styleUrls: ['./other-bets.component.scss'],
+    standalone: false
 })
 export class OtherBetsComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
@@ -22,7 +22,6 @@ export class OtherBetsComponent implements OnInit, OnDestroy {
   constructor(
     public ref: DynamicDialogRef, 
     public config: DynamicDialogConfig,
-    private translocoService: TranslocoService,
     private apiService: ApiService,
     private sessionService: SessionService    
   ) { }

@@ -4,7 +4,7 @@ import { CommonResponse, GenericMapResponse, GenericResponse, SessionData, UiErr
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ReplaceLineBreaksPipe } from 'src/app/shared/pipes/replace-line-breaks.pipe';
 import { NgForm, NgModel } from '@angular/forms';
 import { InputValidationComponent } from 'src/app/shared/input-validation';
@@ -12,8 +12,9 @@ import { Subscription } from 'rxjs';
 import { ToastMessageService, ToastMessageSeverity } from 'src/app/shared/services';
 
 @Component({
-  templateUrl: './user-detail.component.html',
-  styleUrls: ['./user-detail.component.scss']
+    templateUrl: './user-detail.component.html',
+    styleUrls: ['./user-detail.component.scss'],
+    standalone: false
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, SimpleChanges, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { CommonResponse, GenericListResponse, GenericResponse, SessionData, UiError, User, UserGroup } from 'src/app/core/models';
 import { ApiService, SessionService } from 'src/app/core/services';
@@ -10,9 +10,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-user-group-members',
-  templateUrl: './user-group-members.component.html',
-  styleUrls: ['./user-group-members.component.scss']
+    selector: 'app-user-group-members',
+    templateUrl: './user-group-members.component.html',
+    styleUrls: ['./user-group-members.component.scss'],
+    standalone: false
 })
 export class UserGroupMembersComponent implements OnInit, OnDestroy {
   @Input() selectedUserGroup: UserGroup | null;

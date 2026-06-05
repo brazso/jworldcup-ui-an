@@ -4,10 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule, FooterComponent, HeaderComponent } from './shared';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { SharedModule, HeaderComponent, MainComponent, FooterComponent } from './shared';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './feature/auth/auth.module';
 import { MatchModule } from './feature/match/match.module';
@@ -18,6 +18,8 @@ import { UserDetailModule } from './feature/user-detail/user-detail.module';
 import { UserGroupsModule } from './feature/user-groups/user-groups.module';
 
 import { ChatModule } from './feature/chat/chat.module';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 // export function initUser(userService: UserService) {
 //   return (): Promise<any>  => {
@@ -36,13 +38,11 @@ declare global {
   // for Components, Directives & Pipes
   // Component cannot belong to more than one module
   declarations: [
-    AppComponent, FooterComponent, HeaderComponent
+    AppComponent, HeaderComponent, MainComponent, FooterComponent
   ],
-  // used Modules
-  imports: [
-    BrowserModule,
+  bootstrap: [AppComponent],
+  imports: [BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     TranslocoRootModule,
     BrowserAnimationsModule,
     CoreModule,
@@ -54,16 +54,17 @@ declare global {
     GroupStandingsModule,
     UserDetailModule,
     UserGroupsModule,
-    ChatModule
-  ],
-  // for Services (Guards can be considered to Services)
+    ChatModule],
   providers: [
-    // SessionService
-    // { provide: APP_INITIALIZER, useFactory: initUser, deps: [UserService], multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: DateParserInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
+    SharedModule,
+    provideHttpClient(withInterceptorsFromDi()),
+    provideAnimations(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
+  ]
 })
 export class AppModule { 
   constructor() {

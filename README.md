@@ -65,10 +65,11 @@ npm install @angular/flex-layout
 
 Note: Angular team stopped publishing new releases of the experimental @angular/flex-layout library after v15. Layout used in JWorldcup must be replaced soon or later.
 [https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127]
+There are forks as replacement, e.g. ng-flex-layout.
 
 #### Translation
 
-npm install @ngneat/transloco
+npm install @jsverse/transloco
 
 #### Input Trim
 

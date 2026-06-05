@@ -3,7 +3,7 @@ import { Bet, CommonResponse, Event, GenericListResponse, GenericResponse, getSh
 import { ApiService, SessionService } from 'src/app/core/services';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { distinctArrayByPropertyName } from 'src/app/shared/utils';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BetComponent } from '../bet.component';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -11,9 +11,10 @@ import { forkJoin, Subscription } from 'rxjs';
 import { OtherBetsComponent } from '../other-bets/other-bets.component';
 
 @Component({
-  selector: 'app-bets',
-  templateUrl: './bets.component.html',
-  styleUrls: ['./bets.component.scss']
+    selector: 'app-bets',
+    templateUrl: './bets.component.html',
+    styleUrls: ['./bets.component.scss'],
+    standalone: false
 })
 export class BetsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
@@ -27,7 +28,7 @@ export class BetsComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: ApiService,
-    public sessionService: SessionService, // it is public because there is reference to sessionService from html
+    public sessionService: SessionService,
     private translocoService: TranslocoService,
     private dialogService: DialogService
   ) { }
@@ -57,7 +58,6 @@ export class BetsComponent implements OnInit, OnDestroy {
 
             this.bets = [];
             this.matches.forEach((match) => {
-              // this.betByMatchIdMap[match.matchId!] = {};
               this.bets.push({match: match, user: this.sessionService.getUser()} as Bet); // dummy bet only with match and user properties
             });
 
@@ -73,6 +73,9 @@ export class BetsComponent implements OnInit, OnDestroy {
                 this.bets[index] = bet;
               }
             });
+
+            this.bets.sort((a, b) => (a.match?.startTime?.getTime() ?? 0) - (b.match?.startTime?.getTime() ?? 0) || (a.match?.matchId ?? 0) - (b.match?.matchId ?? 0)); // order by startTime, matchId
+            console.log(`bets.component/bets: ${JSON.stringify(this.bets)}`);
           }
         );
 
@@ -125,7 +128,7 @@ export class BetsComponent implements OnInit, OnDestroy {
       // width: '70%'
     });
 
-    ref.onClose.subscribe((bet: Bet) => {
+    ref?.onClose.subscribe((bet: Bet) => {
       console.log(`bets.component/editBet/onClose bet: ${JSON.stringify(bet)}`);
       if (bet) {
         // replace selectedBet inside bets to the incoming updated one
@@ -166,7 +169,7 @@ export class BetsComponent implements OnInit, OnDestroy {
   }
 
   isMatchNotStarted(match: Match): boolean {
-    // console.log(`bets.component/isMatchNotStarted: actualDateTime=${JSON.stringify(this.sessionService.getSession().actualDateTime)}, match=${JSON.stringify(match)}`);
+    // console.log(`bets.component/isMatchNotStarted: actualDateTime=${JSON.stringify(this.sessionService.getSession().actualDateTime)}, match.startTime=${JSON.stringify(match.startTime)}`);
     return (!!match.team1 && !!match.team2
       && this.sessionService.getSession().actualDateTime! < match.startTime!);
 	}
@@ -184,12 +187,12 @@ export class BetsComponent implements OnInit, OnDestroy {
         match: bet?.match
       },
       header: this.translocoService.translate('otherBets.title'),
-      // closable: false,
+      closable: true
       // showHeader: false, // header and closeable are ignored
       // width: '70%'
     });
 
-    ref.onClose.subscribe((bet: Bet) => {
+    ref?.onClose.subscribe((bet: Bet) => {
       console.log(`bets.component/onClose bet: ${JSON.stringify(bet)}`);
     });
 

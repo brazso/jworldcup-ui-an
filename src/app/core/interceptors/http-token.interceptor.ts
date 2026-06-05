@@ -1,12 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {
-	HttpInterceptor,
-	HttpRequest,
-	HttpResponse,
-	HttpHandler,
-	HttpEvent,
-	HttpErrorResponse
-} from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';

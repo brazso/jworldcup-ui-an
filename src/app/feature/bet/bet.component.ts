@@ -1,15 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApiService, Bet, GenericResponse, Match, SessionService, UiError } from 'src/app/core';
 import { default as ApiEndpoints } from 'src/app/core/constants/api-endpoints.json';
 import { isObjectEmpty } from 'src/app/shared/utils';
 
 @Component({
-  // no selector here because it is a primeNG dynamic dialog
-  templateUrl: './bet.component.html',
-  styleUrls: ['./bet.component.scss']
+    // no selector here because it is a primeNG dynamic dialog
+    templateUrl: './bet.component.html',
+    styleUrls: ['./bet.component.scss'],
+    standalone: false
 })
 export class BetComponent implements OnInit {
   bet: Bet = {};

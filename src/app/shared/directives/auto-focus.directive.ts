@@ -5,7 +5,8 @@ import { AfterContentInit, Directive, ElementRef, Input } from '@angular/core';
  * But if isClicked parameter is true, click method is called instead of the focus.
  */
 @Directive({
-	selector: '[autoFocus]'
+    selector: '[autoFocus]',
+    standalone: false
 })
 export class AutoFocusDirective implements AfterContentInit {
 

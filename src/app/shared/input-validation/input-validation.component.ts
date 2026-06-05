@@ -5,9 +5,10 @@ import { NgForm, NgModel } from '@angular/forms';
  * Validation component for template-driven forms
  */
 @Component({
-  selector: 'app-input-validation',
-  templateUrl: './input-validation.component.html',
-  styleUrls: ['./input-validation.component.scss']
+    selector: 'app-input-validation',
+    templateUrl: './input-validation.component.html',
+    styleUrls: ['./input-validation.component.scss'],
+    standalone: false
 })
 export class InputValidationComponent {
 

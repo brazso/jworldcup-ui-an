@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 // összes calendar locale importálandó a könyvtárból
 import calendar_en from 'src/assets/i18n/calendar.en.json';

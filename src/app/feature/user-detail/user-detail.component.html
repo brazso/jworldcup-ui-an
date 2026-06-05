@@ -9,7 +9,7 @@
                                 <tr>
                                     <td>{{ t('userDetail.label.zoneId') }}</td>
                                     <td>
-                                        <p-dropdown name="zoneId" [options]="zoneIds" [(ngModel)]="user.zoneId"></p-dropdown>
+                                        <p-select name="zoneId" [options]="zoneIds" [(ngModel)]="user.zoneId"></p-select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -58,7 +58,7 @@
                                 <tr>
                                     <td>{{ t('userDetail.label.loginPasswordNew') }}</td>
                                     <td>
-                                        <p-password name="loginPasswordNew" [(ngModel)]="user.loginPasswordNew" minlength="8" [toggleMask]="true" [feedback]="true" #loginPasswordNew="ngModel"></p-password>
+                                        <p-password name="loginPasswordNew" [(ngModel)]="user.loginPasswordNew" [minlength]="8" [toggleMask]="true" [feedback]="true" #loginPasswordNew="ngModel"></p-password>
                                         <app-input-validation [control]="loginPasswordNew"
                                             [errDef]="{minlength: t('validator.constraints.password.minlength').format(8)}" ></app-input-validation>
                                     </td>
@@ -66,7 +66,7 @@
                                 <tr>
                                     <td>{{ t('userDetail.label.loginPasswordAgain') }}</td>
                                     <td>
-                                        <p-password name="loginPasswordAgain" [(ngModel)]="user.loginPasswordAgain" minlength="8" [toggleMask]="true" [feedback]="false" #loginPasswordAgain="ngModel"></p-password>
+                                        <p-password name="loginPasswordAgain" [(ngModel)]="user.loginPasswordAgain" [minlength]="8" [toggleMask]="true" [feedback]="false" #loginPasswordAgain="ngModel"></p-password>
                                         <app-input-validation [control]="loginPasswordAgain"
                                             [errDef]="{minlength: t('validator.constraints.password.minlength').format(8)}"></app-input-validation>
                                         <app-input-validation [control]="loginPasswordAgain" [custom]="validatePasswords" [form]="ngForm"

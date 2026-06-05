@@ -1,5 +1,12 @@
 .footer
 { 
 	background: url('/assets/images/bgFWC_login.jpg');
+}
 
+.fixed-bottom
+{
+	position: fixed;
+	bottom: 0;
+	z-index: 2;
+	width: 100%;
 }

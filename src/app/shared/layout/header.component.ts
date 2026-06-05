@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Translation, TranslocoService } from '@ngneat/transloco';
+import { Translation, TranslocoService } from '@jsverse/transloco';
 import { MenuItem } from 'primeng/api';
 
 import { Event, User, SessionService, ApiService, GenericListResponse, SessionData, SessionDataModificationFlag } from 'src/app/core';
@@ -12,9 +12,10 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-layout-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+    selector: 'app-layout-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: false
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
@@ -175,6 +176,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.apiService.get<GenericListResponse<Event>>(ApiEndpoints.EVENTS.FIND_ALL_EVENTS).subscribe(
       (value: GenericListResponse<Event>) => {
         this.events = value.data;
+        this.events.sort((a, b) => (b.eventId ?? 0) - (a.eventId ?? 0)); // sort by eventId desc
+
+        // if there is already a (selected) event, the loaded events must contain it
+        if (this.event) { 
+          const index = this.events.findIndex(e => e.eventId === this.event.eventId);
+          if (index !== -1) {
+            this.events[index] = this.event;
+          }
+        }
       }
     );
   }

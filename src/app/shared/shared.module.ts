@@ -1,11 +1,11 @@
 import { NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from 'ng-flex-layout';
 
-/* Extra */
-import { TranslocoModule } from '@ngneat/transloco';
-import { TranslocoDatePipe, TranslocoLocaleModule } from '@ngneat/transloco-locale';
+/* Transloco */
+import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoDatePipe, TranslocoLocaleModule } from '@jsverse/transloco-locale';
 
 /* Prime NG */
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -17,23 +17,20 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ToastModule } from 'primeng/toast';
-import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
+import { PopoverModule } from 'primeng/popover';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { PasswordModule } from 'primeng/password';
 import { MenubarModule } from 'primeng/menubar';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { SlideMenuModule } from 'primeng/slidemenu';
 import { TreeModule } from 'primeng/tree';
-import { SidebarModule } from 'primeng/sidebar';
+import { DrawerModule } from 'primeng/drawer';
 import { TooltipModule } from 'primeng/tooltip';
 import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -47,7 +44,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ChartModule } from 'primeng/chart';
-import { TabViewModule } from 'primeng/tabview';
+import { TabsModule } from 'primeng/tabs';
 import { DataViewModule } from 'primeng/dataview';
 
 /* Own */
@@ -82,21 +79,18 @@ const PRIMENG_MODULES = [
   RadioButtonModule,
   ToastModule,
   MessageModule,
-  MessagesModule,
   TableModule,
   CheckboxModule,
   ToggleButtonModule,
-  CalendarModule,
-  DropdownModule,
-  OverlayPanelModule,
+  DatePickerModule,
+  SelectModule,
+  PopoverModule,
   InputTextModule,
-  InputTextareaModule,
   PasswordModule,
   MenubarModule,
   BreadcrumbModule,
-  SlideMenuModule,
   TreeModule,
-  SidebarModule,
+  DrawerModule,
   DynamicDialogModule,
   ConfirmDialogModule,
   TooltipModule,
@@ -112,11 +106,11 @@ const PRIMENG_MODULES = [
   DialogModule,
   AutoCompleteModule,
   ChartModule,
-  TabViewModule,
+  TabsModule,
   DataViewModule
 ];
 
-const EXTRA_MODULES = [
+const TRANSLOCO_MODULES = [
   TranslocoModule,
   TranslocoLocaleModule
 ];
@@ -135,9 +129,13 @@ const SHARED_DIRECTIVES = [
 ];
 
 const ANGULAR_PIPES = [
-  DatePipe,
+  DatePipe
+];
+
+const TRANSLOCO_PIPES = [
   TranslocoDatePipe
 ];
+
 const SHARED_PIPES = [
   DropdownPipe,
   TranslocoExDatePipe,
@@ -157,30 +155,27 @@ const PRIMENG_SERVICES = [
     CoreModule,
     ANGULAR_MODULES,
     PRIMENG_MODULES,
-    EXTRA_MODULES
-    // BOOTSTRAP_MODULES
+    TRANSLOCO_MODULES
   ],
   exports: [
     ANGULAR_MODULES,
     PRIMENG_MODULES,
-    EXTRA_MODULES,
-    // BOOTSTRAP_MODULES,
+    TRANSLOCO_MODULES,
     SHARED_COMPONENTS,
     SHARED_PIPES,
     SHARED_DIRECTIVES,
   ],
   declarations: [
-    // DIALOGS,
     SHARED_COMPONENTS,
     SHARED_PIPES,
     SHARED_DIRECTIVES,
   ],
   providers: [
     ANGULAR_PIPES,
+    TRANSLOCO_PIPES,
     SHARED_PIPES,
     PRIMENG_SERVICES
   ]
 })
-
 export class SharedModule {
 }
