@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class DateParserInterceptor implements HttpInterceptor {  // TODO - needed?
-    private dateRegex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)$/;
+export class DateParserInterceptor implements HttpInterceptor {
+    // supported date examples: 2025-12-21T19:00:00Z, 2026-01-10T16:00:00.000Z, 2025-12-24T11:15:00.220396151Z
+    private dateRegex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)(?:Z)$/;
 
     constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
         if (request.body instanceof Object && !(request.body instanceof FormData)) {
             request = request.clone({
                 body: this.cloneAndConvertToStrings(request.body)
@@ -26,7 +26,7 @@ export class DateParserInterceptor implements HttpInterceptor {  // TODO - neede
                 }));
     }
 
-    private convertToDates(object: any) {
+    private convertToDates(object: any): void {
         if (!object || !(object instanceof Object)) {
             return;
         }
@@ -37,7 +37,6 @@ export class DateParserInterceptor implements HttpInterceptor {  // TODO - neede
             }
         }
 
-        // const myObj: {[index: string]:any} = {}
         for (const key of Object.keys(object)) {
             const value = object[key];
 
@@ -65,18 +64,12 @@ export class DateParserInterceptor implements HttpInterceptor {  // TODO - neede
         return value;
     }
 
-    private cloneAndConvertToStrings(o: any) {
+    private cloneAndConvertToStrings(o: any): void {
         var out: any, v, key;
         if (typeof o !== 'object') {
             out = o;
         } else if (o instanceof Date) {
-            out = o.getFullYear() + '-' +
-                this.pad(1 + o.getMonth()) + '-' +
-                this.pad(o.getDate()) + 'T' +
-                this.pad(o.getHours()) + ':' +
-                this.pad(o.getMinutes()) + ':' +
-                this.pad(o.getSeconds()) + '.' +
-                this.pad(o.getMilliseconds(), 3) + 'Z';
+            out = o.toISOString(); // e.g. 2025-12-21T19:00:00.000Z
         } else {
             out = Array.isArray(o) ? [] : {};
             for (key in o) {
