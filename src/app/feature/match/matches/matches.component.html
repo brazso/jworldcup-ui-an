@@ -4,11 +4,11 @@
 
   @if (sessionService.isUserAdmin() && eventTriggerStartTimes.length) {
     <p-panel>
-      <span class="p-float-label">
-        <p-select id="eventTriggerStartTime" [options]="eventTriggerStartTimes" [(ngModel)]="selectedEventTriggerStartTime"
-        [pTooltip]="t('matches.tooltip.triggerStartTime')" (onChange)='onEventTriggerStartTimeChange($event)'></p-select>
+      <p-floatlabel>
+        <p-select inputId="eventTriggerStartTime" [options]="eventTriggerStartTimes" [(ngModel)]="selectedEventTriggerStartTime"
+          [pTooltip]="t('matches.tooltip.triggerStartTime')" (onChange)='onEventTriggerStartTimeChange($event)' fluid></p-select>
         <label for="eventTriggerStartTime">{{ t('matches.label.triggerStartTime') }}</label>
-      </span>
+      </p-floatlabel>
       <app-list-errors [errors]="errors"></app-list-errors>
     </p-panel>
   }
