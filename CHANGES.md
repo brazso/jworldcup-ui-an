@@ -1,5 +1,10 @@
 ## Changes
 
+### Version 1.4.0 / 2026-06-08
+
+* Feature: added WC2026 tournament
+* Fix: float label on matches page
+
 ### Version 1.3.2 / 2025-12-26
 
 * Fix: saved match start time in UTC
