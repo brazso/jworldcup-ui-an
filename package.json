@@ -1,7 +1,7 @@
 {
   "name": "jworldcup-ui-an",
-  "version": "1.3.2",
-  "versionDate": "2025-12-26",
+  "version": "1.4.0",
+  "versionDate": "2026-06-07",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
