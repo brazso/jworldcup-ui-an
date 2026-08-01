@@ -19,13 +19,7 @@ import { UserGroupsModule } from './feature/user-groups/user-groups.module';
 
 import { ChatModule } from './feature/chat/chat.module';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
-
-// export function initUser(userService: UserService) {
-//   return (): Promise<any>  => {
-//     return userService.loadAndStoreUser();
-//   };
-// }
+import Aura from '@primeuix/themes/aura';
 
 declare global {
   interface String {

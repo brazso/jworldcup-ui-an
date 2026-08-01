@@ -4,7 +4,7 @@ WORKDIR /app
 ARG RABBITMQ_JWORLDCUP_PASS
 
 # Install Angular CLI to run Build #
-RUN npm install -g @angular/cli@20.3.13
+RUN npm install -g @angular/cli@21.2.14
 
 # Copying the files, updating worldcup password and running angular build (for production)
 COPY ./package.json .

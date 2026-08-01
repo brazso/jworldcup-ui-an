@@ -14,5 +14,5 @@ if (environment.production) {
   console.warn = ()=>{};
 }
 
-platformBrowser().bootstrapModule(AppModule)
+platformBrowser().bootstrapModule(AppModule, { applicationProviders: [provideZoneChangeDetection()], })
   .catch(err => console.error(err));
